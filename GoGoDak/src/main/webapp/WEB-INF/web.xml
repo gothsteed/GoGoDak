@@ -1,7 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee  https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" 
+         id="WebApp_ID" 
+         version="5.0">
   <display-name>GoGoDak</display-name>
   <welcome-file-list>
+  	<welcome-file>index.dk</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -9,6 +13,39 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+  
+<!--   <servlet>
+    <description></description>
+    <display-name>FrotController</display-name>
+    <servlet-name>FrotController</servlet-name>
+    <servlet-class>common.controller.FrontController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FrontController</servlet-name>
+    <url-pattern>/FrontController</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  <servlet>
+    <description>사용자가 웹에서 *.dk 을 했을 경우 이 서블릿이 응답을 해주도록 한다.</description>
+    <display-name>FrontController</display-name>
+    <servlet-name>FrontController</servlet-name>
+    <servlet-class>common.controller.FrontController</servlet-class>
+    <init-param>
+      <description>*.dk에 대한 클래스 매핑파일</description>
+      <param-name>propertyConfig</param-name>
+      <param-value>C:\ncs\workspace_jsp\GoGoDak\src\main\webapp\WEB-INF\command.properties</param-value>
+    </init-param>
+  </servlet>
+  
+  
+  <servlet-mapping>
+    <servlet-name>FrontController</servlet-name>
+    <url-pattern>*.dk</url-pattern>
+  </servlet-mapping>
+   -->
   
   <!-- ========= SemiDBCP Setting Start  ===========  -->
   <resource-ref>

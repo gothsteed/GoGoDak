@@ -19,12 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-//@WebServlet(
-//	      description = "사용자가 웹에서 *.up 을 했을 경우 이 서블릿이 응답을 해주도록 한다.",
-//	      urlPatterns = {"*.up"},
-//	      initParams = { 
-//	      @WebInitParam(name = "propertyConfig", value = "C:\\NCS\\workspace_jsp\\MyMVC\\src\\main\\webapp\\WEB-INF\\Command.properties", description = "*.up 에 대한 클래스의 매핑파일") 
-//	      })
+@WebServlet(
+	      description = "사용자가 웹에서 *.up 을 했을 경우 이 서블릿이 응답을 해주도록 한다.",
+	      urlPatterns = {"*.dk"},
+	      initParams = { 
+	      @WebInitParam(name = "propertyConfig", value = "C:\\git\\GoGoDak\\GoGoDak\\src\\main\\webapp\\WEB-INF\\command.properties", description = "*.dk 에 대한 클래스의 매핑파일") 
+	      })
+
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -75,6 +76,7 @@ public class FrontController extends HttpServlet {
 			while (keys.hasMoreElements()) {
 
 				String key = (String) keys.nextElement();
+				System.out.println("key : " + key);
 
 				/*
 				 * System.out.println(key); System.out.println(pr.getProperty(key));
