@@ -1,4 +1,4 @@
-package domain.member;
+package domain;
 
 public class ProductVo {
 	

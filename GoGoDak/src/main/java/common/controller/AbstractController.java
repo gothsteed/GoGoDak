@@ -1,7 +1,7 @@
 package common.controller;
 
 
-import domain.member.MemberVo;
+import domain.MemberVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 

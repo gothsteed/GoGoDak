@@ -1,4 +1,4 @@
-package domain.member;
+package domain;
 
 import java.time.LocalDate;
 import java.time.Period;
