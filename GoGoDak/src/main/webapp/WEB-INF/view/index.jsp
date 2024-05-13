@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
-    //    /Ssangdak
+    //    /GoGoDak
 %>
 <jsp:include page="header.jsp" />
 
@@ -13,7 +13,7 @@
 		  		<ul class="navbar-nav col-md-10 h4">
 					<li class="nav-item dropdown">
 						<a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img src="images/index/icon_hamburger.png" width="30" alt="..." />
+							<img src="<%= ctxPath%>/images/index/icon_hamburger.png" width="30" alt="..." />
 						</a>
 						<div class="dropdown-menu mt-3" aria-labelledby="dropdownMenuButton">
 							<ul class="navbar-nav w-100">
@@ -73,10 +73,10 @@
 				
 				<ul class="nav col-md-2">
 					<li class="nav-item justify-content-end">
-	              		<a class="nav-link" href="#"><img src="images/index/icon_myshop.png" width="50" alt="#" /></a>
+	              		<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="#" /></a>
 		           	</li>
 		           	<li class="nav-item">
-	              		<a class="nav-link" href="#"><img src="images/index/icon_cart.png" width="50" alt="#" /></a>
+	              		<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="#" /></a>
 		           	</li>
 				</ul>
 			</nav>
@@ -98,25 +98,25 @@
 		  	</ol>
 		  	<div class="carousel-inner">
 		    	<div class="carousel-item active">
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_1.jpg" alt="...">
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_1.jpg" alt="...">
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_2.jpg" alt="...">  	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_2.jpg" alt="...">  	      
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_3.jpg" alt="...">	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_3.jpg" alt="...">	      
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_4.jpg" alt="...">	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_4.jpg" alt="...">	      
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_5.jpg" alt="...">	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_5.jpg" alt="...">	      
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_6.jpg" alt="...">	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_6.jpg" alt="...">	      
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
-		      		<img class="d-block img-fluid mx-auto rounded" src="images/index/main_img_7.jpg" alt="...">	      
+		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_7.jpg" alt="...">	      
 		    	</div>
 		  	</div>
 		  
@@ -137,16 +137,16 @@
   		<div class="container">
        		<ul class="nav justify-content-center text-center">
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="images/index/side_img_1.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
+					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_1.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="images/index/side_img_2.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
+					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_2.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="images/index/side_img_3.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
+					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_3.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="images/index/side_img_4.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
+					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_4.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
 				</li>
 			</ul>
 		</div>
@@ -157,7 +157,7 @@
   	<section class="inner_page">
 		<div class="container my-5">
 	    	<div class="mb-3">
-	    		<img src="images/index/title_icon_time.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">타임특가</span>
+	    		<img src="<%= ctxPath%>/images/index/title_icon_time.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">타임특가</span>
 	    	</div>
 		    <div class="row mx-auto my-auto">
 		        <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
@@ -165,7 +165,7 @@
 	                	<div class="carousel-item active text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="images/index/time_sale_1.jpg" alt="...">
+		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_1.jpg" alt="...">
 		                            <div class="card-body">
 										<h4 class="card-title text-danger font-weight-bold">[ 고고닭 알뜰마켓 ]</h4>
 								    	<h5 class="card-text font-weight-bold">다시 없을 한정수량 파격 특가!</h5>
@@ -177,7 +177,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="images/index/time_sale_2.jpg" alt="...">
+		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_2.jpg" alt="...">
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닥터리브 곤약젤리 3종</h5>
@@ -189,7 +189,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="images/index/time_sale_3.jpg" alt="...">
+		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_3.jpg" alt="...">
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닭가슴살 에스닉볶음밥 5종 세트</h5>
@@ -201,7 +201,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="images/index/time_sale_4.jpg" alt="...">
+		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_4.jpg" alt="...">
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닭가슴살 사각피자 2종 6팩</h5>
@@ -213,7 +213,7 @@
                         <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="images/index/time_sale_5.jpg" alt="...">
+		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_5.jpg" alt="...">
 		                            <div class="card-body">
 						    	    	<h4 class="card-title text-danger font-weight-bold">[ 주말한정특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">딜리스틱 패키지 (총 10팩)</h5>
@@ -240,7 +240,7 @@
 	<%-- start outer page section --%>
   	<section>
 		<div class="text-center">
-	  		<img class="img-fluid" src="images/index/center_banner.jpg" alt="...">
+	  		<img class="img-fluid" src="<%= ctxPath%>/images/index/center_banner.jpg" alt="...">
 		</div>
 	</section>
 	<%-- end outer page section --%>
@@ -249,11 +249,11 @@
   	<section class="inner_page">
 		<div class="container my-5">
 			<div class="mb-3">
-	    		<img src="images/index/title_icon_present.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">NEW 이달의 신제품</span>
+	    		<img src="<%= ctxPath%>/images/index/title_icon_present.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">NEW 이달의 신제품</span>
 	    	</div>
 			<div class="card-deck mb-5">
 				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="images/index/new_product_1.jpg" alt="...">
+					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_1.jpg" alt="...">
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 text-left font-weight-bold">딜리스틱</div>
@@ -270,7 +270,7 @@
 					</div>
 				</div>
 				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="images/index/new_product_2.jpg" alt="...">
+					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_2.jpg" alt="...">
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 text-left font-weight-bold">고고닭X강강술래</div>
@@ -287,7 +287,7 @@
 					</div>
 				</div>
 				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="images/index/new_product_3.jpg" alt="...">
+					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_3.jpg" alt="...">
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 font-weight-bold">현미떡마리</div>
@@ -314,7 +314,7 @@
 			<div class="row mt-5">
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_1.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_1.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>딜리스틱 소스 닭다리살 양념치킨</h6>
@@ -323,7 +323,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_2.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_2.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>소스 품은 닭가슴살 매콤 숯불구이</h6>
@@ -332,7 +332,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_3.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_3.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>현미 떡마리 치즈 불고기 30팩</h6>
@@ -342,7 +342,7 @@
 			    <div class="w-100 mt-2 mb-2"></div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_4.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_4.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>딜리스틱 크런치 닭다리살 케이준치킨</h6>
@@ -351,7 +351,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_5.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_5.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>소스 품은 닭가슴살 갈비 숯불구이</h6>
@@ -360,7 +360,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="images/index/sale_product_6.jpg" width="120" alt="...">
+			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_6.jpg" width="120" alt="...">
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>현미 떡마리 더블 치즈 30팩</h6>
@@ -379,7 +379,7 @@
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/6_oQCbpTNHk?si=pXz92F3EolNOQNwN" title="YouTube video player" frameborder="0"></iframe>
 		    </div>
 		    <div class="col-md-3 offset-md-1">
-		    	<img class="rounded" src="images/index/event_img.jpg" height="315" alt="...">
+		    	<img class="rounded" src="<%= ctxPath%>/images/index/event_img.jpg" height="315" alt="...">
 		    </div>
 		</div>
 	</section>
@@ -397,43 +397,43 @@
 	    	
 	    	<ul class="nav justify-content-center insta_img">
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/C1B0Rp9r4Zd/" target="_blank"><img class="rounded" src="images/index/instagram_img_1.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/C1B0Rp9r4Zd/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_1.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CzYmUWLvM9T/" target="_blank"><img class="rounded" src="images/index/instagram_img_2.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CzYmUWLvM9T/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_2.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CpUoTxWLanz/" target="_blank"><img class="rounded" src="images/index/instagram_img_3.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CpUoTxWLanz/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_3.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CuyweCerkFu/" target="_blank"><img class="rounded" src="images/index/instagram_img_4.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/CuyweCerkFu/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_4.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/Czvjg_NrNKf/" target="_blank"><img class="rounded" src="images/index/instagram_img_5.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/Czvjg_NrNKf/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_5.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/Cyu_RbhrUDd/%20/" target="_blank"><img class="rounded" src="images/index/instagram_img_6.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1" href="https://www.instagram.com/p/Cyu_RbhrUDd/%20/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_6.jpg" width="175" alt="..."></a>
 				</li>
 			</ul>
 	    	
     		<ul class="nav justify-content-center insta_img">
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cz5ynYMry5b/" target="_blank"><img class="rounded" src="images/index/instagram_img_7.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cz5ynYMry5b/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_7.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cv_7QoTL0Qk/" target="_blank"><img class="rounded" src="images/index/instagram_img_8.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cv_7QoTL0Qk/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_8.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/CuWeo8NrMt6/" target="_blank"><img class="rounded" src="images/index/instagram_img_9.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/CuWeo8NrMt6/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_9.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/C0_KWMSrZ0u/" target="_blank"><img class="rounded" src="images/index/instagram_img_10.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/C0_KWMSrZ0u/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_10.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cvl6N5YrowE/" target="_blank"><img class="rounded" src="images/index/instagram_img_11.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/Cvl6N5YrowE/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_11.jpg" width="175" alt="..."></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/C0Q8dtvr9sw/" target="_blank"><img class="rounded" src="images/index/instagram_img_12.jpg" width="175" alt="..."></a>
+					<a class="nav-link pl-1 pr-1 pt-0" href="https://www.instagram.com/p/C0Q8dtvr9sw/" target="_blank"><img class="rounded" src="<%= ctxPath%>/images/index/instagram_img_12.jpg" width="175" alt="..."></a>
 				</li>
 			</ul>
  		</div>

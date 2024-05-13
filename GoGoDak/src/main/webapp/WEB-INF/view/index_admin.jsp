@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
-    //    /Ssangdak
+    //    /GoGoDak
 %>
 <!DOCTYPE html>
 <html>
@@ -40,7 +40,7 @@
             	<nav class="navbar navbar-expand-lg custom_nav-container row justify-content-around ">
                 	<div class="row col-12 col-md-8 justify-content-start">
                 		<div class="col-4">
-                			<a class="navbar-brand" href="#"><img src="images/logo.png" width="150" alt="#" /></a>
+                			<a class="navbar-brand" href="#"><img src="<%= ctxPath%>images/logo.png" width="150" alt="#" /></a>
                 		</div>
                 	</div>
                   	<div class="collapse navbar-collapse col-6 col-md-4" id="navbarSupportedContent">
@@ -68,7 +68,7 @@
 	<div class="container">
 		<div class="card-group mb-5">
 			<div class="card">
-				<img src="images/main_admin_1.png" class="card-img-top" alt="...">
+				<img src="<%= ctxPath%>images/index_admin/main_admin_1.png" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title">회원정보보기</h5>
 					<p class="card-text"></p>
@@ -77,7 +77,7 @@
 			</div>
 			
 			<div class="card">
-				<img src="images/main_admin_2.png" class="card-img-top" alt="...">
+				<img src="<%= ctxPath%>images/index_admin/main_admin_2.png" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title">상품등록</h5>
 					<p class="card-text"></p>
@@ -85,7 +85,7 @@
 				</div>
 			</div>
 			<div class="card">
-				<img src="images/main_admin_3.png" class="card-img-top" alt="...">
+				<img src="<%= ctxPath%>images/index_admin/main_admin_3.png" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title">주문확인</h5>
 					<p class="card-text"></p>
@@ -93,7 +93,7 @@
 				</div>
 			</div>
 			<div class="card">
-				<img src="images/main_admin_4.png" class="card-img-top" alt="...">
+				<img src="<%= ctxPath%>images/index_admin/main_admin_4.png" class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title">공지사항등록</h5>
 					<p class="card-text"></p>

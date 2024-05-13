@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+    String ctxPath = request.getContextPath();
+    //    /GoGoDak
+%>
 	<%-- start footer section --%>
 	<footer class="footer_section pt-5 pb-5">
     	<div class="container">
@@ -7,7 +11,7 @@
             	<div class="col-md-4 footer-col">
                		<div class="footer_contact">
                    		<div class="col-4">
-                			<a class="navbar-brand" href="#"><img src="images/header/logo.png" width="150" alt="#" /></a>
+                			<a class="navbar-brand" href="#"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="#" /></a>
                 		</div>
                      	<div class="contact_link_box mt-3">
                         	<a href="">
@@ -80,8 +84,8 @@
     
     <%-- start popup section --%>
     <div class="popup clearfix">
-    	<img class="popup-img" src="images/footer/pop_coupon.jpg" alt="popup" />
-      	<img class="popup-btn" src="images/footer/pop_close.png" alt="popup_close" />
+    	<img class="popup-img" src="<%= ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" />
+      	<img class="popup-btn" src="<%= ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
     </div>
     <%-- end popup section --%>
      
