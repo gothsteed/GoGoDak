@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
-    //    /Ssangdak
+    //    /GoGoDak
 %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <%-- favicon --%>
-<link rel="icon" type="image/png" sizes="16x16" href="images/header/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="<%= ctxPath%>/images/header/favicon.ico">
 
 <%-- 직접 만든 CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
@@ -124,11 +124,11 @@
             	<nav class="navbar navbar-expand-lg custom_nav-container row justify-content-around">
                 	<div class="row col-12 col-md-8 justify-content-start">
                 		<div class="col-4">
-                			<a class="navbar-brand" href="#"><img src="images/header/logo.png" width="150" alt="#" /></a>
+                			<a class="navbar-brand" href="#"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="#" /></a>
                 		</div>
                 		<form class="form-inline my-2 my-lg-0 col-4 align-self-center">
 							<input class="form-control mr-sm-2 search_input mb-0" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="images/header/btn_search.png" width="25" alt="#" /></button>
+							<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="#" /></button>
 						</form>
                 	</div>
                   	<div class="collapse navbar-collapse col-6 col-md-4" id="navbarSupportedContent">
