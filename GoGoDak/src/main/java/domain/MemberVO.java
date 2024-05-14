@@ -5,7 +5,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class MemberVo {
+public class MemberVO {
 	
     private String id;
     private String password;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.controller.AbstractController;
-import domain.MemberVo;
+import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

@@ -1,6 +1,6 @@
 package domain;
 
-public class ProductVo {
+public class ProductVO {
 	
     private String productSeq;
     private String productName;
