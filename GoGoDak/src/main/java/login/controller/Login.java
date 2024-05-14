@@ -14,7 +14,16 @@ public class Login extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String method = request.getMethod();
 		
+		if(method.equalsIgnoreCase("get")) {
+			
+			
+		}
+		else {
+			
+			
+		}
 
 	}
 
