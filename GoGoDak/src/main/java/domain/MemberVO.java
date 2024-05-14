@@ -7,118 +7,116 @@ import java.util.Date;
 
 public class MemberVO {
 	
-    private String id;
-    private String password;
-    private String name;
-    private String tel;
-    private String email;
-    private String poscode;
-    private String address;
-    private String addressDetail;
-    private String addressExtra;
-    private String jubun;
-    private String point;
-    private Date registerDate;
-    private int status;
-    private int idleStatus;
-    private Date lastLoginDate;
+	private int member_seq;				//유저고유번호
+    private String id;					//유저아이디
+    private String password;			//유저비밀번호
+    private String name;				//이름
+    private String tel;					//핸드폰번호
+    private String email;				//이메일
+    private String jubun;				//주민등록번호
+    private String point;				//포인트
+    private Date registerDate;			//가입일자
+    private int exist_status;			//회원탈퇴유무
+    private int active_status;			//휴먼유무
+    private Date last_password_change;	//마지막비밀번호 변경일
     
     
     
-	public String getTel() {
-		return tel;
-	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
+    
 	
-	public String getId() {
+    
+    
+    public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPoscode() {
-		return poscode;
-	}
-	public void setPoscode(String poscode) {
-		this.poscode = poscode;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getAddressDetail() {
-		return addressDetail;
-	}
-	public void setAddressDetail(String addressDetail) {
-		this.addressDetail = addressDetail;
-	}
-	public String getAddressExtra() {
-		return addressExtra;
-	}
-	public void setAddressExtra(String addressExtra) {
-		this.addressExtra = addressExtra;
-	}
+
 	public String getJubun() {
 		return jubun;
 	}
+
 	public void setJubun(String jubun) {
 		this.jubun = jubun;
 	}
+
 	public String getPoint() {
 		return point;
 	}
+
 	public void setPoint(String point) {
 		this.point = point;
 	}
+
 	public Date getRegisterDate() {
 		return registerDate;
 	}
+
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
-	public int getStatus() {
-		return status;
+
+	public int getExist_status() {
+		return exist_status;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+
+	public void setExist_status(int exist_status) {
+		this.exist_status = exist_status;
 	}
-	public int getIdleStatus() {
-		return idleStatus;
+
+	public int getActive_status() {
+		return active_status;
 	}
-	public void setIdleStatus(int idleStatus) {
-		this.idleStatus = idleStatus;
+
+	public void setActive_status(int active_status) {
+		this.active_status = active_status;
 	}
-	public Date getLastLoginDate() {
-		return lastLoginDate;
+
+	public Date getLast_password_change() {
+		return last_password_change;
 	}
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
+
+	public void setLast_password_change(Date last_password_change) {
+		this.last_password_change = last_password_change;
 	}
-    
-    
-    public String getGender() {
+
+
+
+	public String getGender() {
         if(jubun.charAt(6) == '1' || jubun.charAt(6) == '3'){
             return "MALE";
         }
@@ -146,6 +144,12 @@ public class MemberVO {
 
         return  agePeriod.getYears();
     }
+	public int getMember_seq() {
+		return member_seq;
+	}
+	public void setMember_seq(int member_seq) {
+		this.member_seq = member_seq;
+	}
 
 
 

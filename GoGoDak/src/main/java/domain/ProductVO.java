@@ -2,43 +2,44 @@ package domain;
 
 public class ProductVO {
 	
-    private String productSeq;
-    private String productName;
-    private String description;
-    private String manufacturerName;
-    private float price;
-    private int stock;
-    private String mainPic;
-    private String descriptionPic;
+    private int product_Seq;			//제품고유번호
+    private int fk_manufacturer_seq;	//제조업체고유번호
+    private String product_name;		//제품이름
+    private String description;			//제품설명
+    private float price;				//가격
+    private int stock;					//재고
+    private String main_pic;			//메인사진
+    private String description_pic;		//상세사진
     
-    
+   
+    private MaufacturerVO madto = new MaufacturerVO();
     //todo 할인 정보 dto 추가
+
     
     
-    
-	public String getProductSeq() {
-		return productSeq;
+	public int getProduct_Seq() {
+		return product_Seq;
 	}
-	public void setProductSeq(String productSeq) {
-		this.productSeq = productSeq;
+	public void setProduct_Seq(int product_Seq) {
+		this.product_Seq = product_Seq;
 	}
-	public String getProductName() {
-		return productName;
+	public int getFk_manufacturer_seq() {
+		return fk_manufacturer_seq;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setFk_manufacturer_seq(int fk_manufacturer_seq) {
+		this.fk_manufacturer_seq = fk_manufacturer_seq;
+	}
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
 	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public String getManufacturerName() {
-		return manufacturerName;
-	}
-	public void setManufacturerName(String manufacturerName) {
-		this.manufacturerName = manufacturerName;
 	}
 	public float getPrice() {
 		return price;
@@ -52,19 +53,31 @@ public class ProductVO {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public String getMainPic() {
-		return mainPic;
+	public String getMain_pic() {
+		return main_pic;
 	}
-	public void setMainPic(String mainPic) {
-		this.mainPic = mainPic;
+	public void setMain_pic(String main_pic) {
+		this.main_pic = main_pic;
 	}
-	public String getDescriptionPic() {
-		return descriptionPic;
+	public String getDescription_pic() {
+		return description_pic;
 	}
-	public void setDescriptionPic(String descriptionPic) {
-		this.descriptionPic = descriptionPic;
+	public void setDescription_pic(String description_pic) {
+		this.description_pic = description_pic;
+	}
+	
+	
+	public MaufacturerVO getMadto() {
+		return madto;
+	}
+	public void setMadto(MaufacturerVO madto) {
+		this.madto = madto;
 	}
     
+    
+        
+    
+   
     
     
 
