@@ -14,11 +14,13 @@ public class MemberVO {
     private String tel;					//핸드폰번호
     private String email;				//이메일
     private String jubun;				//주민등록번호
-    private String point;				//포인트
+    private int point;				//포인트
     private Date registerDate;			//가입일자
     private int exist_status;			//회원탈퇴유무
     private int active_status;			//휴먼유무
     private Date last_password_change;	//마지막비밀번호 변경일
+    private boolean isRequirePasswordChange;
+    
     
     
     
@@ -26,7 +28,15 @@ public class MemberVO {
 	
     
     
-    public String getId() {
+    public boolean isRequirePasswordChange() {
+		return isRequirePasswordChange;
+	}
+
+	public void setRequirePasswordChange(boolean isRequirePasswordChange) {
+		this.isRequirePasswordChange = isRequirePasswordChange;
+	}
+
+	public String getId() {
 		return id;
 	}
 
@@ -74,11 +84,11 @@ public class MemberVO {
 		this.jubun = jubun;
 	}
 
-	public String getPoint() {
+	public int getPoint() {
 		return point;
 	}
 
-	public void setPoint(String point) {
+	public void setPoint(int point) {
 		this.point = point;
 	}
 
