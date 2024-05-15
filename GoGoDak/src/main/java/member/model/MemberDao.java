@@ -11,4 +11,8 @@ public interface MemberDao {
 
 	int register(MemberVO member) throws SQLException;
 
+	String getId(Map<String, String> paraMap) throws SQLException;
+
+	boolean isExist(Map<String, String> paraMap) throws SQLException;
+
 }

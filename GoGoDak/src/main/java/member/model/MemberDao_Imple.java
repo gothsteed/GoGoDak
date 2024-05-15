@@ -2,6 +2,7 @@ package member.model;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -197,6 +198,75 @@ public class MemberDao_Imple implements MemberDao {
 			result = pstmt.executeUpdate();
 
 		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return result;
+	}
+
+	@Override
+	public String getId(Map<String, String> paraMap) throws SQLException {
+		String id = null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select id "
+					+ " from tbl_member "
+					+ " where EXIST_STATUS = 1 and name =? and email=? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("name"));
+			pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				id = rs.getString("id");
+				
+			}
+			
+		} catch (NoSuchAlgorithmException e) {
+
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+
+			e.printStackTrace();
+		} catch (GeneralSecurityException e) {
+
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return id;
+		
+	}
+
+	@Override
+	public boolean isExist(Map<String, String> paraMap) throws SQLException {
+		boolean result = false;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select id "
+					+ " from tbl_member " 
+					+ " where EXIST_STATUS = 1 = 1 and id = ? and email = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("id"));
+			pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+
+			rs = pstmt.executeQuery();
+
+			result = rs.next();
+
+		} catch (GeneralSecurityException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} finally {
 			close();
