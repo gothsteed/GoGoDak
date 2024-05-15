@@ -167,4 +167,42 @@ public class MemberDao_Imple implements MemberDao {
 		return memberVo;
 	}
 
+	@Override
+	public int register(MemberVO member) throws SQLException {
+		int result = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " insert into tbl_member(member_seq, id, password, name, email, tel, postcode, address, address_detail, address_extra, jubun) "
+					+ " values(MEMBER_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPassword());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, aes.encrypt(member.getEmail()));
+
+			pstmt.setString(5, aes.encrypt(member.getTel()));
+
+			pstmt.setString(6, member.getPostcode());
+			pstmt.setString(7, member.getAddress());
+			pstmt.setString(8, member.getAddress_detail());
+			pstmt.setString(9, member.getAddress_extra());
+			pstmt.setString(10, member.getJubun());
+
+			
+			
+			result = pstmt.executeUpdate();
+
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return result;
+	}
+
 }

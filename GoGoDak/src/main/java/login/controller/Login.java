@@ -27,6 +27,8 @@ public class Login extends AbstractController {
 		
 		if(method.equalsIgnoreCase("get")) {
 			super.setRedirect(false);
+			
+			//TODO: 로그인 뷰페이지 설정
 			super.setViewPage("");
 			
 		}

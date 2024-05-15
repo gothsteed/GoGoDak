@@ -14,6 +14,10 @@ public class MemberVO {
     private String tel;					//핸드폰번호
     private String email;				//이메일
     private String jubun;				//주민등록번호
+    private String postcode;
+    private String address;
+    private String address_detail;
+    private String address_extra;
     private int point;				//포인트
     private Date registerDate;			//가입일자
     private int exist_status;			//회원탈퇴유무
@@ -82,6 +86,39 @@ public class MemberVO {
 
 	public void setJubun(String jubun) {
 		this.jubun = jubun;
+	}
+	
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAddress_detail() {
+		return address_detail;
+	}
+
+	public void setAddress_detail(String address_detail) {
+		this.address_detail = address_detail;
+	}
+
+	public String getAddress_extra() {
+		return address_extra;
+	}
+
+	public void setAddress_extra(String address_extra) {
+		this.address_extra = address_extra;
 	}
 
 	public int getPoint() {

@@ -9,4 +9,6 @@ public interface MemberDao {
 
 	MemberVO login(Map<String, String> paraMap) throws SQLException;
 
+	int register(MemberVO member) throws SQLException;
+
 }
