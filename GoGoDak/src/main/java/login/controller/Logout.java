@@ -22,7 +22,7 @@ public class Logout extends AbstractController {
 		
 
 		super.setRedirect(true);
-		super.setViewPage(request.getContextPath() + "/index.up");
+		super.setViewPage(request.getContextPath() + "/index.dk");
 
 	}
 

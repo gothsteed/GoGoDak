@@ -7,6 +7,7 @@ nominvalue
 nocycle
 nocache;
 
+desc tbl_member;
 
 CREATE TABLE tbl_member (
 	member_seq Number NOT NULL, /* 유저고유번호 */
@@ -67,6 +68,9 @@ CREATE TABLE tbl_product (
 	discription_pic VARCHAR2(400) /* 상세 사진 */
 );
 
+ALTER TABLE tbl_product RENAME COLUMN fk_maufacturer_seq TO fk_manufacturer_seq;
+
+
 
 
 ALTER TABLE tbl_product
@@ -75,14 +79,67 @@ ALTER TABLE tbl_product
 		PRIMARY KEY (
 			product_seq
 		);
+        
+SELECT sequence_name, min_value, max_value, increment_by, cycle_flag, order_flag, cache_size, last_number
+FROM user_sequences;
+        
 
-----아직 안했음!!!!!!
-ALTER TABLE MY_SCHEMA.tbl_product
+SELECT *
+FROM tab;
+
+select *
+from TBL_LOGIN_HISTORY;
+
+
+ALTER TABLE tbl_product
 	ADD
-		CONSTRAINT FK_tbl_maufacturer_TO_tbl_product
+		CONSTRAINT FK_tbl_manu_TO_tbl_prodct
 		FOREIGN KEY (
-			fk_maufacturer_seq
+			fk_manufacturer_seq
 		)
-		REFERENCES MY_SCHEMA.tbl_maufacturer (
-			maufacturer_seq
+		REFERENCES tbl_manufacturer (
+			manufacturer_seq
 		);
+        
+        
+        
+        
+        
+        
+create sequence manufacturer_seq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache; 
+        
+drop table tbl_manufacturer;
+        
+        
+CREATE TABLE tbl_manufacturer (
+	manufacturer_seq number NOT NULL, /* 제조업체고유번호 */
+	manufacturer_name VARCHAR(200) not null, /* 제조업체이름 */
+	manufacturer_tel VARCHAR(200), /* 제조업체번호 */
+	location VARCHAR(300) /* 제조업체위치 */
+);
+
+ALTER TABLE tbl_manufacturer
+	ADD
+		CONSTRAINT PK_tbl_manufacturer
+		PRIMARY KEY (
+			manufacturer_seq
+		);
+        
+
+
+
+DROP SEQUENCE LOGIN_MEMBER_SEQ;
+
+create sequence login_history_seq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
