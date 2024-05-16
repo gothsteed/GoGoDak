@@ -14,25 +14,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <%-- Bootstrap CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" >
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" />
 
 <%-- Font Awesome 6 Icons --%>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
 <%-- favicon --%>
-<link rel="icon" type="image/png" sizes="16x16" href="<%= ctxPath%>/images/header/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="<%= ctxPath%>/images/header/favicon.ico" />
+
+<%-- 공통적으로 적용되는 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/main/style.css" />
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
 <style type="text/css">
-	.search_input{
-		border: 3px solid #c4211c;
-		border-radius: 24px;
+	/* autocomplete */
+	.search_form{
 		position: relative;
 	}
 	.search_btn{
 		position: absolute;
 		right: 4%;
+	}
+	.autocomplete{
+		position: relative;
+	 	border: 3px solid #c4211c;
+	 	border-radius: 25px;
+	}
+	.autocomplete:focus{
+		outline: none;
+	}
+	.autocomplete-items {
+		position: absolute;
+	  	width: 100%;
+	  	border: 1px solid #fbc02d;
+	  	border-bottom: none;
+	  	border-top: none;
+	  	z-index: 999;
+	  	top: 100%;
+	  	left: 0;
+	  	right: 0;
+	}
+	.autocomplete-items div {
+		padding: 10px;
+	  	cursor: pointer;
+	  	background-color: #fff; 
+	}
+	.autocomplete-items div:hover {
+	 	background-color: #fbc02d;
+	 	color: #fff 
+	}
+	.autocomplete-active {
+		background-color: #fbc02d !important; 
+	  	color: #fff; 
 	}
 	/* carousel */
 	@media (max-width: 768px){
@@ -50,7 +83,6 @@
 	}
 	/* display 3 */
 	@media (min-width: 768px){
-	    
 	    .carousel-inner .carousel-item-right.active,
 	    .carousel-inner .carousel-item-next{
 	    	transform: translateX(33.333%);
@@ -63,10 +95,6 @@
 	.carousel-inner .carousel-item-right,
 	.carousel-inner .carousel-item-left{ 
 		transform: translateX(0);
-	}
-	.insta_img > li:hover{
-		opacity: 0.5;
-		transition: 0.5s;
 	}
 	/* 기본 설정 초기화 */
 	li.nav-item ul{
@@ -92,13 +120,25 @@
 	.new_product_img:hover{
 	    transform: scale(1.1);
 	}
+	.insta_img > li:hover{
+		opacity: 0.5;
+		transition: 0.5s;
+	}
+	footer{
+		position: relative;
+	}
+	.top_button{
+	    position: absolute;
+	    bottom: 30px;
+	    right: 10%;
+	}
 	/* popup */
 	.popup{
 		position: fixed;
 	  	bottom: 30px;
 	  	left: 30px;
 	  	cursor: pointer;
-	  	z-index: 999;
+	  	z-index: 998;
 	}
 	.popup-img{
 	  	width: 300px;
@@ -114,7 +154,8 @@
 
 <%-- Optional JavaScript --%>
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script> 
+
 </head>
 <body class="sub_page">
 	<%-- start header section --%>
@@ -124,23 +165,23 @@
             	<nav class="navbar navbar-expand-lg custom_nav-container row justify-content-around">
                 	<div class="row col-12 col-md-8 justify-content-start">
                 		<div class="col-4">
-                			<a class="navbar-brand" href="#"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="#" /></a>
+                			<a class="navbar-brand" href="<%= ctxPath%>/index.dk"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="..." /></a>
                 		</div>
-                		<form class="form-inline my-2 my-lg-0 col-4 align-self-center">
-							<input class="form-control mr-sm-2 search_input mb-0" type="search" placeholder="Search" aria-label="Search">
-							<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="#" /></button>
+						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-4 align-self-center search_form" autocomplete="off" action="/action_page.php" data-toggle="tooltip" data-placement="bottom" title="검색어를 입력하세요.">
+					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="myFood" placeholder="Search" aria-label="Search" style="width:300px;">
+						  	<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="..." /></button>
 						</form>
                 	</div>
                   	<div class="collapse navbar-collapse col-6 col-md-4" id="navbarSupportedContent">
                     	<ul class="navbar-nav">
                         	<li class="nav-item">
-                           		<a class="nav-link text-muted" href="#">회원가입</a>
+                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
                         	</li>
                         	<li class="nav-item">
-                        		<a class="nav-link text-muted" href="#">공지사항</a>
+                        		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/notice.dk">공지사항</a>
                         	</li>
                         	<li class="nav-item">
-                           		<a class="nav-link text-muted" href="#">고객센터</a>
+                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/question.dk">문의하기</a>
                         	</li>
                      	</ul>
                   	</div>
@@ -149,3 +190,80 @@
 		</header>
 	</div> 
 	<%-- end header section --%>
+	
+	<%-- start inner page section --%>
+  	<section class="inner_page bg-white sticky-top">
+  		<div class="container">
+  			<nav class="navbar-expand-lg custom_nav-container row mt-3 ml-0">
+		  		<ul class="navbar-nav col-md-10 h4" style="align-items: center;">
+					<li class="nav-item dropdown">
+						<a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<img class="mr-3" src="<%= ctxPath%>/images/index/icon_hamburger.png" width="30" alt="..." />
+						</a>
+						<div class="dropdown-menu mt-3" aria-labelledby="dropdownMenuButton">
+							<ul class="navbar-nav w-100 pt-2 pb-3">
+								<li class="nav-item">
+									<ul>
+										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">소스 닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">크런치 닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">한입 닭가슴살</span></a></li>
+									</ul>
+								</li>
+								<li class="nav-item">
+									<ul>
+										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">간편 한끼</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/friedRice.dk"><span style="font-size:12px;">도시락·볶음밥</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/bakery.dk"><span style="font-size:12px;">베이커리</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/dessert.dk"><span style="font-size:12px;">착한간식</span></a></li>
+									</ul>
+								</li>
+								<li class="nav-item">
+									<ul>
+										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">마이페이지</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/member/memberEdit.dk"><span style="font-size:12px;">나의정보수정</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/member/orderList.dk"><span style="font-size:12px;">주문조회</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/member/question.dk"><span style="font-size:12px;">1:1문의</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/member/notice.dk"><span style="font-size:12px;">공지사항</span></a></li>
+									</ul>
+								</li>
+								<li class="nav-item">
+									<ul>
+										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">브랜드몰</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/delistick.dk"><span style="font-size:12px;">딜리스틱</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/zeroHour.dk"><span style="font-size:12px;">제로아워</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/drLiv.dk"><span style="font-size:12px;">닥터리브</span></a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+		           	</li>
+					<li class="nav-item">
+		        		<a class="nav-link text-danger" href="<%= ctxPath%>/product/chicken.dk">반값도시</a>
+		           	</li>
+		           	<li class="nav-item">
+		           		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">베스트</a>
+		           	</li>
+		           	<li class="nav-item">
+		              	<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">1팩담기</a>
+		           	</li>
+		           	<li class="nav-item">
+	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">브랜드몰</a>
+	          		</li>
+		           	<li class="nav-item">
+	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">이벤트</a>
+		           	</li>          	
+				</ul>
+				
+				<ul class="nav col-md-2">
+					<li class="nav-item justify-content-end">
+	              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+		           	</li>
+		           	<li class="nav-item">
+	              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
+		           	</li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+	<%-- end inner page section --%>

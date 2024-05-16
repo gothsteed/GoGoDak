@@ -23,6 +23,7 @@ public class PwdFind extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String method = request.getMethod();
 		request.setAttribute("method", method);
 		
@@ -104,15 +105,11 @@ public class PwdFind extends AbstractController {
 			
 			
 			super.setRedirect(false);
-			
-			//TODO: change view Location if necessary
-			super.setViewPage("/WEB-INF/login/pwdFind.jsp");
+			super.setViewPage("/WEB-INF/view/member/member_findPw.jsp");
 			
 			
 			
 		}
-		
-		
 		
 		
 
