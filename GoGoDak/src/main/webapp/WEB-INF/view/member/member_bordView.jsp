@@ -38,7 +38,7 @@ String ctxPath = request.getContextPath();
 </style>
 
 
-<jsp:include page="header.jsp" />
+<jsp:include page="../header.jsp" />
 
 	<div class="container" style="padding: 3% 0;" >
 		<h2 class="titleArea ">
@@ -74,7 +74,7 @@ String ctxPath = request.getContextPath();
     </table>
     	
     	<div class="bordPic">
-	 		<img src="./images/barudak_notice2.jpg"> <%--이미지 들어갈수있는 태그만들기 --%>   
+	 		<img src="<%= ctxPath%>/images/board/barudak_notice2.jpg"> <%--이미지 들어갈수있는 태그만들기 --%>   
 	 	</div>   
             
     	
@@ -88,4 +88,4 @@ String ctxPath = request.getContextPath();
 	
 	</div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />

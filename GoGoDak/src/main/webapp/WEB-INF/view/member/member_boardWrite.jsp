@@ -255,103 +255,10 @@
 </style>
       
 
-<!-- <script type="text/javascript">
-
-
-          // 페이지가 로드될 때 실행되는 함수
-          window.onload = function() {
-         // showOrderHistory() 함수 호출
-             showOrderHistory();
-         }
-        
-        
-        function changeDate(date) {
-            document.getElementById("selectedDate").value = date;
-            document.getElementById("selectedDate2").value = date;
-
-         }
-
-         function search() {
-            var selectedDate = document.getElementById("selectedDate").value;
-            alert("선택한 날짜: " + selectedDate);
-            var selectedDate = document.getElementById("selectedDate2").value;
-            alert("선택한 날짜: " + selectedDate2);
-            // 조회 기능 구현
-         }
-
-         function showOrderHistory() {
-            document.getElementById("orderHistory").style.display = "block";
-            document.getElementById("cancellationHistory").style.display = "none";
-            document.getElementById("pastOrders").style.display = "none";
-         }
-
-         function showCancellationHistory() {
-            document.getElementById("orderHistory").style.display = "none";
-            document.getElementById("cancellationHistory").style.display = "block";
-            document.getElementById("pastOrders").style.display = "none";
-         }
-
-         function showPastOrders() {
-            document.getElementById("orderHistory").style.display = "none";
-            document.getElementById("cancellationHistory").style.display = "none";
-            document.getElementById("pastOrders").style.display = "block";
-         }
-      
-      function changeDate(period) {
-        var today = new Date();
-         var selectedDate = "";
-         switch (period) {
-         case '오늘':
-            selectedDate = formatDate(today);
-            break;
-         case '1주일':
-            var oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-            selectedDate = formatDate(oneWeekAgo);
-            break;
-         case '1개월':
-            var oneMonthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-            selectedDate = formatDate(oneMonthAgo);
-            break;
-         case '3개월':
-            var threeMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
-            selectedDate = formatDate(threeMonthsAgo);
-            break;
-         case '6개월':
-            var sixMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
-            selectedDate = formatDate(sixMonthsAgo);
-            break;
-      }
-      document.getElementById("selectedDate").value = selectedDate;
-      document.getElementById("selectedDate2").value = selectedDate;
-   }
-
-   function formatDate(date) {
-      var year = date.getFullYear();
-      var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-      var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-      return year + '-' + month + '-' + day;
-   }
-
- 
-
-   $(function() {
-      $('input[name="datetimes"]').daterangepicker({
-         timePicker: true,
-         startDate: moment().startOf('hour'),
-         endDate: moment().startOf('hour').add(32, 'hour'),
-         locale: {
-         format: 'M/DD hh:mm A'
-         }
-      });
-   });
-         
-   
 
    
-</script> -->
    
-   
-<jsp:include page="./header.jsp" />
+<jsp:include page="../header.jsp" />
 
 
      <div class="board_wrap">
@@ -393,7 +300,7 @@
        </div>
      </div>
  
-<jsp:include page="./footer.jsp" />  
+<jsp:include page="../footer.jsp" />  
 
 
 

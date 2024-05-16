@@ -71,7 +71,7 @@ div#pageBar>nav {
 
 
 
-<jsp:include page="header.jsp" />
+<jsp:include page="../header.jsp" />
 
 
 <div class="container" style="padding: 3% 0;">
@@ -80,7 +80,7 @@ div#pageBar>nav {
 	</h2>
 	<br>
 	<div class="text-center">
-		<img src="images/notice.jpg" class="img-fluid" />
+		<img src="<%= ctxPath%>/images/board/notice.jpg" class="img-fluid" />
 	</div>
 	<br> &nbsp;
 	<%-- if문 사용하여 어드민일때만 보이게하기 --%>
@@ -140,5 +140,5 @@ div#pageBar>nav {
 		<nav></nav>
 	</div>
 </div>
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />
 
