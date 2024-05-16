@@ -30,8 +30,8 @@ public class PwdFind extends AbstractController {
 		if(method.equalsIgnoreCase("get")) {
 			
 			//TODO: 비밀번호 찾기 뷰 설정
-//			super.setRedirect(false);
-//			super.setViewPage("");
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/view/member/member_findPw.jsp");
 			
 			return;
 		}
