@@ -23,7 +23,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="<%= ctxPath%>/images/header/favicon.ico" />
 
 <%-- 공통적으로 적용되는 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/main/style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
 
 <%-- 직접 만든 CSS --%>
 <style type="text/css">
