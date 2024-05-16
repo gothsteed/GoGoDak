@@ -29,7 +29,7 @@ public class Login extends AbstractController {
 			super.setRedirect(false);
 			
 			//TODO: 로그인 뷰페이지 설정
-			super.setViewPage("");
+			super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
 			
 		}
 		else {
