@@ -110,7 +110,7 @@ body > section.why_section.layout_padding > div > div > div > form > div.form-pr
                     <button type="submit" class="btn btn-primary btn-block">로그인</button>
                 </form>
                 <div class="links">
-                    <a href="<%=ctxPath %>/member/register.dk" id="join" class="membership-link">회원가입</a>
+                    <a href="<%=ctxPath %>/member/memberRegister.dk" id="join" class="membership-link">회원가입</a>
                 </div>
             </div>
         </div>

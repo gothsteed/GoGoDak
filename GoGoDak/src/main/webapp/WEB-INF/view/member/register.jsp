@@ -189,7 +189,7 @@ body > div > div > div > div > div.card-header{
                         </div>
 
                         <div class="form-group">
-                            <iframe src="<%= ctxPath %>/agree.html" width="100%" height="150px" class="border border-primary"></iframe>
+                            <iframe src="<%= ctxPath %>/agree/agree.html" width="100%" height="150px" class="border border-primary"></iframe>
                         </div>
 
                         <div class="form-group text-center">
