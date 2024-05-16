@@ -73,6 +73,9 @@ ALTER TABLE tbl_product RENAME COLUMN fk_maufacturer_seq TO fk_manufacturer_seq;
 
 
 
+commit;
+
+
 ALTER TABLE tbl_product
 	ADD
 		CONSTRAINT PK_tbl_product
@@ -143,3 +146,7 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
+
+
+desc tbl_member;
+desc tbl_order

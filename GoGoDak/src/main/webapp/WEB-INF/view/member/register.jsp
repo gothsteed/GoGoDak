@@ -84,7 +84,8 @@ body > div > div > div > div > div.card-header{
    
     <title>회원가입</title>
    
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> 
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script type="text/javascript" src="<%= ctxPath%>/js/member/memberRegister.js"></script>
 </head>
 <body>
 <div class="container mt-5">
