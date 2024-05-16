@@ -178,7 +178,7 @@
                            		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
                         	</li>
                         	<li class="nav-item">
-                        		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/notice.dk">공지사항</a>
+                        		<a class="nav-link text-secondary" href="<%= ctxPath%>/admin/notice.dk">공지사항</a>
                         	</li>
                         	<li class="nav-item">
                            		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/question.dk">문의하기</a>
