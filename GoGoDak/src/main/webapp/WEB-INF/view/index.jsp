@@ -4,85 +4,7 @@
     String ctxPath = request.getContextPath();
     //    /GoGoDak
 %>
-<jsp:include page="header.jsp" />
-
-    <%-- start inner page section --%>
-  	<section class="inner_page bg-white sticky-top">
-  		<div class="container">
-  			<nav class="navbar-expand-lg custom_nav-container row mt-3 ml-0" style="align-items: center;">
-		  		<ul class="navbar-nav col-md-10 h4">
-					<li class="nav-item dropdown">
-						<a type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img src="<%= ctxPath%>/images/index/icon_hamburger.png" width="30" alt="..." />
-						</a>
-						<div class="dropdown-menu mt-3" aria-labelledby="dropdownMenuButton">
-							<ul class="navbar-nav w-100">
-								<li class="nav-item">
-									<ul>
-										<li><a class="dropdown-item" href="#"><span class="h6 font-weight-bold text-muted">닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">소스 닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">크런치 닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">한입 닭가슴살</span></a></li>
-									</ul>
-								</li>
-								<li class="nav-item">
-									<ul>
-										<li><a class="dropdown-item" href="#"><span class="h6 font-weight-bold text-muted">간편 한끼</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">도시락</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">볶음밥</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">베이커리</span></a></li>
-									</ul>
-								</li>
-								<li class="nav-item">
-									<ul>
-										<li><a class="dropdown-item" href="#"><span class="h6 font-weight-bold text-muted">마이페이지</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">주문조회</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">포인트</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">1:1문의</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">공지사항</span></a></li>
-									</ul>
-								</li>
-								<li class="nav-item">
-									<ul>
-										<li><a class="dropdown-item" href="#"><span class="h6 font-weight-bold text-muted">브랜드몰</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">딜리스틱</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">제로아워</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">닥터리브</span></a></li>
-										<li><a class="dropdown-item" href="#"><span style="font-size:12px;">with 고고닭 콜라보</span></a></li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-		           	</li>
-					<li class="nav-item">
-		        		<a class="nav-link text-danger" href="#">반값도시</a>
-		           	</li>
-		           	<li class="nav-item">
-		           		<a class="nav-link" href="#">베스트</a>
-		           	</li>
-		           	<li class="nav-item">
-		              	<a class="nav-link" href="#">1팩담기</a>
-		           	</li>
-		           	<li class="nav-item">
-	              		<a class="nav-link" href="#">브랜드몰</a>
-	          		</li>
-		           	<li class="nav-item">
-	              		<a class="nav-link" href="#">이벤트</a>
-		           	</li>          	
-				</ul>
-				
-				<ul class="nav col-md-2">
-					<li class="nav-item justify-content-end">
-	              		<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="#" /></a>
-		           	</li>
-		           	<li class="nav-item">
-	              		<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="#" /></a>
-		           	</li>
-				</ul>
-			</nav>
-		</div>
-	</section>
-	<%-- end inner page section --%>
+	<jsp:include page="header.jsp" />
 	
 	<%-- start Carousel section --%>
 	<div class="container">
@@ -119,7 +41,6 @@
 		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_7.jpg" alt="...">	      
 		    	</div>
 		  	</div>
-		  
 		  	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 		    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 		    	<span class="sr-only">Previous</span>
@@ -137,16 +58,16 @@
   		<div class="container">
        		<ul class="nav justify-content-center text-center">
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_1.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk"><img src="<%= ctxPath%>/images/index/side_img_1.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_2.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/friedRice.dk"><img src="<%= ctxPath%>/images/index/side_img_2.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_3.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/bakery.dk"><img src="<%= ctxPath%>/images/index/side_img_3.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><img src="<%= ctxPath%>/images/index/side_img_4.png" width="100" alt="#" /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/dessert.dk"><img src="<%= ctxPath%>/images/index/side_img_4.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
 				</li>
 			</ul>
 		</div>
@@ -165,7 +86,7 @@
 	                	<div class="carousel-item active text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_1.jpg" alt="...">
+		                            <a href="<%= ctxPath%>/product/detail.dk"><img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_1.jpg" alt="..."></a>
 		                            <div class="card-body">
 										<h4 class="card-title text-danger font-weight-bold">[ 고고닭 알뜰마켓 ]</h4>
 								    	<h5 class="card-text font-weight-bold">다시 없을 한정수량 파격 특가!</h5>
@@ -177,7 +98,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_2.jpg" alt="...">
+		                            <a href="<%= ctxPath%>/product/detail.dk"><img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_2.jpg" alt="..."></a>
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닥터리브 곤약젤리 3종</h5>
@@ -189,7 +110,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_3.jpg" alt="...">
+		                            <a href="<%= ctxPath%>/product/detail.dk"><img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_3.jpg" alt="..."></a>
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닭가슴살 에스닉볶음밥 5종 세트</h5>
@@ -201,7 +122,7 @@
 		                <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_4.jpg" alt="...">
+		                            <a href="<%= ctxPath%>/product/detail.dk"><img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_4.jpg" alt="..."></a>
 		                            <div class="card-body">
 								    	<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">닭가슴살 사각피자 2종 6팩</h5>
@@ -213,7 +134,7 @@
                         <div class="carousel-item text-center">
 	                    	<div class="col-md-4">
 	                        	<div class="card"> 
-		                            <img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_5.jpg" alt="...">
+		                            <a href="<%= ctxPath%>/product/detail.dk"><img class="img-fluid card-img-top" src="<%= ctxPath%>/images/index/time_sale_5.jpg" alt="..."></a>
 		                            <div class="card-body">
 						    	    	<h4 class="card-title text-danger font-weight-bold">[ 주말한정특가 ]</h4>
 								    	<h5 class="card-text font-weight-bold">딜리스틱 패키지 (총 10팩)</h5>
@@ -252,8 +173,10 @@
 	    		<img src="<%= ctxPath%>/images/index/title_icon_present.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">NEW 이달의 신제품</span>
 	    	</div>
 			<div class="card-deck mb-5">
-				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_1.jpg" alt="...">
+				<div class="card">
+					<div class="new_product">
+						<a href="<%= ctxPath%>/product/detail.dk"><img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_1.jpg" alt="..."></a>
+					</div>
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 text-left font-weight-bold">딜리스틱</div>
@@ -269,8 +192,10 @@
 						<p class="card-text text-left text-secondary">쫄깃한 닭다리살에 소스가 듬뿍!</p>
 					</div>
 				</div>
-				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_2.jpg" alt="...">
+				<div class="card">
+					<div class="new_product">
+						<a href="<%= ctxPath%>/product/detail.dk"><img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_2.jpg" alt="..."></a>
+					</div>
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 text-left font-weight-bold">고고닭X강강술래</div>
@@ -286,8 +211,10 @@
 						<p class="card-text text-left text-secondary">갈비 명가의 노하우가 그대로!</p>
 					</div>
 				</div>
-				<div class="card new_product">
-					<img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_3.jpg" alt="...">
+				<div class="card">
+					<div class="new_product">
+						<a href="<%= ctxPath%>/product/detail.dk"><img class="card-img-top new_product_img" src="<%= ctxPath%>/images/index/new_product_3.jpg" alt="..."></a>
+					</div>
 					<div class="card-body">
 						<div class="row justify-content-around">
 							<div class="col-7 h5 font-weight-bold">현미떡마리</div>
@@ -314,7 +241,7 @@
 			<div class="row mt-5">
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_1.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_1.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>딜리스틱 소스 닭다리살 양념치킨</h6>
@@ -323,7 +250,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_2.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_2.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>소스 품은 닭가슴살 매콤 숯불구이</h6>
@@ -332,7 +259,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_3.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_3.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>현미 떡마리 치즈 불고기 30팩</h6>
@@ -342,7 +269,7 @@
 			    <div class="w-100 mt-2 mb-2"></div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_4.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_4.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>딜리스틱 크런치 닭다리살 케이준치킨</h6>
@@ -351,7 +278,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_5.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_5.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>소스 품은 닭가슴살 갈비 숯불구이</h6>
@@ -360,7 +287,7 @@
 			    </div>
 			    <div class="row col">
 			    	<div class="col-4">
-			    		<img class="rounded" src="<%= ctxPath%>/images/index/sale_product_6.jpg" width="120" alt="...">
+			    		<a href="<%= ctxPath%>/product/detail.dk"><img class="rounded" src="<%= ctxPath%>/images/index/sale_product_6.jpg" width="120" alt="..."></a>
 			    	</div>
 			    	<div class="col-7 offset-md-1 mt-1">
 			    		<h6>현미 떡마리 더블 치즈 30팩</h6>
@@ -375,10 +302,10 @@
 	<%-- start outer page section --%>
   	<section class="pt-5 pb-5" style="background-color: #fff5bd;">
   		<div class="row justify-content-center">
-		    <div class="col-md-4">
+		    <div class="col-md-4 mr-1">
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/6_oQCbpTNHk?si=pXz92F3EolNOQNwN" title="YouTube video player" frameborder="0"></iframe>
 		    </div>
-		    <div class="col-md-3 offset-md-1">
+		    <div class="col-md-2">
 		    	<img class="rounded" src="<%= ctxPath%>/images/index/event_img.jpg" height="315" alt="...">
 		    </div>
 		</div>
@@ -392,7 +319,7 @@
 	    		<span class="col-10 h2">고고닭 인스타그램
 	    			<span class="h6 text-secondary">@gogodak_official&nbsp;&nbsp;#고고닭&nbsp;&nbsp;#소품닭&nbsp;&nbsp;#스테이크&nbsp;&nbsp;#큐브&nbsp;&nbsp;#크런치</span>
 	    		</span>
-	    		<span class="col-2 font-weight-bold text-right" style="align-content: center;"><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp;더보기</span>
+	    		<a class="col-2 font-weight-bold text-right text-secondary" href="https://www.instagram.com/barudak_official/" target="_blank" style="align-content: center;"><i class="fa-solid fa-chevron-right"></i>&nbsp;&nbsp;더보기</a>
 	    	</div>
 	    	
 	    	<ul class="nav justify-content-center insta_img">
