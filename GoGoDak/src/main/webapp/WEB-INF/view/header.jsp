@@ -173,7 +173,7 @@
 						  	<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="..." /></button>
 						</form>
                 	</div>
-                  	<div class="collapse navbar-collapse col-6 col-md-4" id="navbarSupportedContent">
+                  	<div class="collapse navbar-collapse col-8 col-md-7" id="navbarSupportedContent">
                   	
                     	<ul class="navbar-nav">
                     	
@@ -281,9 +281,21 @@
 				</ul>
 				
 				<ul class="nav col-md-2">
-					<li class="nav-item justify-content-end">
-	              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
-		           	</li>
+				
+					<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id != 'admin'}">				
+						<li class="nav-item justify-content-end">
+		              		<a class="nav-link" href="<%= ctxPath%>/member.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+			           	</li>
+					</c:if>
+					
+					<c:if test="${empty sessionScope.loginuser}">				
+						<li class="nav-item justify-content-end">
+		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+			           	</li>
+					</c:if>
+					
+					
+
 		           	<li class="nav-item">
 	              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 		           	</li>
