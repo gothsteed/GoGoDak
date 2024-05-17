@@ -4,48 +4,48 @@ let b_zipcodeSearch_click = false;
 
 $(document).ready(function(){
 	
-	$("span.error").hide();
+	$("small.error").hide();
     $("input#name").focus();
 
+    ///////////////////////////////////////////////////////////////
+    
     $("input#name").blur( (e) => { 
-
+		
         const name = $(e.target).val().trim();
 
         if(name == ""){ 
-            $("table#tblMemberRegister :input").prop("disabled", true); 
+            $("div#tblMemberRegister :input").prop("disabled", true); 
             $(e.target).prop("disabled", false); 
             $(e.target).val("").focus(); 
-            
-            $(e.target).parent().find("span.error").show();
+            $(e.target).parent().find("small.error").show();
         }
         else{ 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
 
-    }); // 아이디가 name 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
     $("input#userid").blur( (e) => { 
 
-        const userid = $(e.target).val().trim();
+        const regExp_userid = new RegExp(/^[a-z0-9_]{5,40}$/);
+        
+        const bool = regExp_userid.test($(e.target).val());
 
-        if(userid == ""){ 
-            $("table#tblMemberRegister :input").prop("disabled", true); 
+        if(!bool){ 
+            $("div#tblMemberRegister :input").prop("disabled", true); 
             $(e.target).prop("disabled", false); 
             $(e.target).val("").focus(); 
-            
-            $(e.target).parent().find("span.error").show();
+            $(e.target).parent().find("small.error").show();
         }
         else{ 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
 
-    }); // 아이디가 userid 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
@@ -56,63 +56,57 @@ $(document).ready(function(){
         const bool = regExp_pwd.test($(e.target).val());
 
         if(!bool){ 
-            $("table#tblMemberRegister :input").prop("disabled", true); 
+            $("div#tblMemberRegister :input").prop("disabled", true); 
             $(e.target).prop("disabled", false); 
             $(e.target).val("").focus(); 
-         
-            $(e.target).parent().find("span.error").show();
+            $(e.target).parent().find("small.error").show();
         }
         else{ 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
 
-    }); // 아이디가 pwd 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
     $("input#pwdcheck").blur( (e) => { 
 
         if( $("input#pwd").val() != $(e.target).val() ){ 
-            $("table#tblMemberRegister :input").prop("disabled", true); 
+            $("div#tblMemberRegister :input").prop("disabled", true); 
             $("input#pwd").prop("disabled", false);  
             $(e.target).prop("disabled", false); 
             $("input#pwd").val("").focus(); 
             $(e.target).val("");
-            
-            $(e.target).parent().find("span.error").show();
+            $(e.target).parent().find("small.error").show();
         }
         else{ 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
 
-    }); // 아이디가 pwdcheck 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
     $("input#email").blur( (e) => { 
 
-        const regExp_email = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);  
+        const regExp_email = new RegExp(/^[0-9a-z]([-_\.]?[0-9a-z])*@[0-9a-z]([-_\.]?[0-9a-z])*\.[a-z]{2,3}$/i);  
 
         const bool = regExp_email.test($(e.target).val());
 
         if(!bool){
-            $("table#tblMemberRegister :input").prop("disabled", true); 
+            $("div#tblMemberRegister :input").prop("disabled", true); 
             $(e.target).prop("disabled", false); 
             $(e.target).val("").focus(); 
-            
-            $(e.target).parent().find("span.error").show();
+            $(e.target).parent().find("small.error").show();
         }
         else{ 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-    
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
 
-    }); // 아이디가 email 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
@@ -123,20 +117,17 @@ $(document).ready(function(){
         const bool = regExp_hp2.test($(e.target).val());   
         
         if(!bool) { 
-            $("table#tblMemberRegister :input").prop("disabled", true);  
+            $("div#tblMemberRegister :input").prop("disabled", true);  
             $(e.target).prop("disabled", false); 
-         
-            $(e.target).parent().find("span.error").show();
-                
+            $(e.target).parent().parent().siblings("small.error").show();
             $(e.target).val("").focus(); 
         }
         else { 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-            
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().parent().siblings("small.error").hide();
         }
         
-    }); // 아이디가 hp2 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
         
     ///////////////////////////////////////////////////////////////
 
@@ -147,20 +138,17 @@ $(document).ready(function(){
         const bool = regExp_hp3.test($(e.target).val());   
         
         if(!bool) { 
-            $("table#tblMemberRegister :input").prop("disabled", true);  
+            $("div#tblMemberRegister :input").prop("disabled", true);  
             $(e.target).prop("disabled", false); 
-            
-            $(e.target).parent().find("span.error").show();
-                
+            $(e.target).parent().parent().siblings("small.error").show();
             $(e.target).val("").focus(); 
         }
         else { 
-            $("table#tblMemberRegister :input").prop("disabled", false);
-   
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().parent().siblings("small.error").hide();
         }
         
-    }); // 아이디가 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
 	///////////////////////////////////////////////////////////////
 
@@ -171,32 +159,26 @@ $(document).ready(function(){
         const bool = regExp_postcode.test($(e.target).val());   
         
         if(!bool) { 
-            $("table#tblMemberRegister :input").prop("disabled", true);  
+            $("div#tblMemberRegister :input").prop("disabled", true);  
             $(e.target).prop("disabled", false); 
-            
-            $(e.target).parent().find("span.error").show();
-                
+            $(e.target).parent().find("small.error").show();
             $(e.target).val("").focus(); 
         }
         else {  
-            $("table#tblMemberRegister :input").prop("disabled", false);
-       
-            $(e.target).parent().find("span.error").hide();
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().find("small.error").hide();
         }
         
-    }); // 아이디가 postcode 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+    });
 
     ///////////////////////////////////////////////////////////////
 
     $("input#postcode").attr("readonly", true);
-
     $("input#address").attr("readonly", true);
-        
     $("input#extraAddress").attr("readonly", true);
 
     ///////////////////////////////////////////////////////////////
 
-    // === "우편번호찾기" 를 클릭했을 때 이벤트 처리하기 === //
     $("img#zipcodeSearch").click(function(){
       
         b_zipcodeSearch_click = true;
@@ -208,7 +190,8 @@ $(document).ready(function(){
             
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                } 
+                else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
                 }
 
@@ -223,7 +206,8 @@ $(document).ready(function(){
                         extraAddr = ' (' + extraAddr + ')';
                     }
                     document.getElementById("extraAddress").value = extraAddr;
-                } else {
+                } 
+                else {
                     document.getElementById("extraAddress").value = '';
                 }
 
@@ -235,80 +219,55 @@ $(document).ready(function(){
         }).open();
 
         $("input#postcode").attr("readonly", true);
-
         $("input#address").attr("readonly", true);
-
         $("input#extraAddress").attr("readonly", true);
 
     }); // end of $("img#zipcodeSearch").click() ----------
 
     ///////////////////////////////////////////////////////////////
-
-    $('input#datepicker').keyup( (e) => { 
+   	
+   	$("input#birthdate").blur( (e) => {
 		
-        $(e.target).val("").next().show();
-        
-    }); // end of $('input#datepicker').keyup((e) => {}) ----------
-
-    ///////////////////////////////////////////////////////////////
-
-    // === jQuery UI 의 datepicker === //
-    $('input#datepicker').datepicker({
-        dateFormat: 'yy-mm-dd'    // Input Display Format 변경
-        ,showOtherMonths: true    // 빈 공간에 현재월의 앞뒤월의 날짜를 표시
-        ,showMonthAfterYear: true // 년도 먼저 나오고, 뒤에 월 표시
-        ,changeYear: true         // 콤보박스에서 년 선택 가능
-        ,changeMonth: true        // 콤보박스에서 월 선택 가능                
-        ,yearSuffix: "년"          // 달력의 년도 부분 뒤에 붙는 텍스트
-        ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] // 달력의 월 부분 텍스트
-        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] // 달력의 월 부분 Tooltip 텍스트
-        ,dayNamesMin: ['일','월','화','수','목','금','토'] // 달력의 요일 부분 텍스트
-        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] // 달력의 요일 부분 Tooltip 텍스트         
-    });
-
-    ///////////////////////////////////////////////////////////////
-
-    // === 전체 datepicker 옵션 일괄 설정하기 === 
-    $(function() {
-        //모든 datepicker 에 대한 공통 옵션 설정
-        $.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd'   // Input Display Format 변경
-            ,showOtherMonths: true   // 빈 공간에 현재월의 앞뒤월의 날짜를 표시
-            ,showMonthAfterYear:true // 년도 먼저 나오고, 뒤에 월 표시
-            ,changeYear: true        // 콤보박스에서 년 선택 가능
-            ,changeMonth: true       // 콤보박스에서 월 선택 가능                        
-            ,yearSuffix: "년"         // 달력의 년도 부분 뒤에 붙는 텍스트
-            ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] // 달력의 월 부분 텍스트
-            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] // 달력의 월 부분 Tooltip 텍스트
-            ,dayNamesMin: ['일','월','화','수','목','금','토'] // 달력의 요일 부분 텍스트
-            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] // 달력의 요일 부분 Tooltip 텍스트                   
-        });
- 
-        // input 을 datepicker 로 선언
-        $("input#fromDate").datepicker();                    
-        $("input#toDate").datepicker();
-        
-        // From 의 초기값을 오늘 날짜로 설정
-        $('input#fromDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-        
-        // To 의 초기값을 3일후로 설정
-        $('input#toDate').datepicker('setDate', '+3D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    });
-   
-    ///////////////////////////////////////////////////////////////
-
-    $('input#datepicker').bind("change", (e) => {
+		const regExp_birthdate = new RegExp(/^[0-9]+$/);
 		
-        if($(e.target).val() != ""){
-            $(e.target).next().hide();
+		const bool = regExp_birthdate.test($(e.target).val()); 
+    
+        if(!bool) { 
+            $("div#tblMemberRegister :input").prop("disabled", true);  
+            $(e.target).prop("disabled", false); 
+            $(e.target).parent().parent().siblings("small.error").show();
+            $(e.target).val("").focus(); 
         }
+        else {  
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().parent().siblings("small.error").hide();
+        }
+    });
 
-    }); // 생년월일에 마우스로 달력에 있는 날짜를 선택한 경우 이벤트 처리 한 것 
+    ///////////////////////////////////////////////////////////////
+    
+   	$("input#gender").blur( (e) => {
+		
+		const regExp_gender = new RegExp(/^[1-4]+$/);
+		
+		const bool = regExp_gender.test($(e.target).val()); 
+    
+        if(!bool) { 
+            $("div#tblMemberRegister :input").prop("disabled", true);  
+            $(e.target).prop("disabled", false); 
+            $(e.target).parent().parent().siblings("small.error").show();
+            $(e.target).val("").focus(); 
+        }
+        else {  
+            $("div#tblMemberRegister :input").prop("disabled", false);
+            $(e.target).parent().parent().siblings("small.error").hide();
+        }
+    });
 
     ///////////////////////////////////////////////////////////////
 
     // "아이디중복확인" 을 클릭했을 때 이벤트 처리하기 시작 //
-    $("img#idcheck").click(function(){
+    $("button#idcheck").click(function(){
         b_idcheck_click = true;
       
         $.ajax({
@@ -326,7 +285,7 @@ $(document).ready(function(){
                     $("span#idcheckResult").html($("input#userid").val() + " 은 사용 가능한 아이디입니다.").css({"color":"navy"});
                 }
             },
-            error: function(request, status, error){ // 이것은 선택사항이다.
+            error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
         });
@@ -336,7 +295,7 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////
 
     // "이메일중복확인" 을 클릭했을 때 이벤트 처리하기 시작 //
-    $("span#emailcheck").click(function(){
+    $("button#emailcheck").click(function(){
         b_emailcheck_click = true;
 
         $.ajax({
@@ -354,7 +313,7 @@ $(document).ready(function(){
                     $("span#emailCheckResult").html($("input#email").val() + " 은 사용 가능한 이메일입니다.").css({"color":"navy"});
                 }
             },
-            error: function(request, status, error){ // 이것은 선택사항이다.
+            error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
         });
@@ -401,21 +360,15 @@ function goRegister(){
         return; 
     }
 
-    ///////////////////////////////////////////////////////////////
-
     if(!b_idcheck_click){ 
         alert("아이디 중복확인을 클릭하셔야 합니다.");
         return; 
     }
 
-    ///////////////////////////////////////////////////////////////
-
     if(!b_emailcheck_click){ 
         alert("이메일 중복확인을 클릭하셔야 합니다.");
         return;
     }
-
-    ///////////////////////////////////////////////////////////////
 
     if(!b_zipcodeSearch_click){ 
         alert("우편번호찾기를 클릭하셔서 우편번호를 입력하셔야 합니다.");
@@ -436,22 +389,20 @@ function goRegister(){
 
     ///////////////////////////////////////////////////////////////
 
-    const radio_checked_length = $("input:radio[name='gender']:checked").length;
+    const birthdate = $('input#birthdate').val().trim();
 
-    if(radio_checked_length == 0){
-        alert("성별을 선택하셔야 합니다.");
-        return;
-    }
-
-    ///////////////////////////////////////////////////////////////
-
-    const birthday = $('input#datepicker').val().trim();
-
-    if(birthday == ""){
-        alert("생년월일을 입력하셔야 합니다.");
+    if(birthdate == ""){
+        alert("주민등록번호를 입력하셔야 합니다.");
         return; 
     }
 
+   	const gender = $('input#gender').val().trim();
+
+    if(gender == ""){
+        alert("주민등록번호를 입력하셔야 합니다.");
+        return; 
+    }
+    
     ///////////////////////////////////////////////////////////////
 
     const checkbox_checked_length = $("input:checkbox[id='agree']:checked").length;
@@ -476,7 +427,7 @@ function goRegister(){
 // "취소하기" 버튼 클릭 시 호출되는 함수
 function goReset(){
 
-    $("span.error").hide();
+    $("small.error").hide();
 
     $("span#idcheckResult").empty();
     $("span#emailCheckResult").empty();

@@ -156,6 +156,10 @@
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js"></script> 
 
+<%-- jQueryUI CSS 및 JS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
+<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
+
 </head>
 <body class="sub_page">
 	<%-- start header section --%>
@@ -178,7 +182,7 @@
                            		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
                         	</li>
                         	<li class="nav-item">
-                        		<a class="nav-link text-secondary" href="<%= ctxPath%>/admin/notice.dk">공지사항</a>
+                        		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/notice.dk">공지사항</a>
                         	</li>
                         	<li class="nav-item">
                            		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/question.dk">문의하기</a>
