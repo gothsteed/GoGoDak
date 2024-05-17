@@ -58,16 +58,16 @@
   		<div class="container">
        		<ul class="nav justify-content-center text-center">
 				<li class="nav-item">
-					<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk"><img src="<%= ctxPath%>/images/index/side_img_1.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product.dk?type=chicken"><img src="<%= ctxPath%>/images/index/side_img_1.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">닭가슴살</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<%= ctxPath%>/product/friedRice.dk"><img src="<%= ctxPath%>/images/index/side_img_2.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product.dk?type=fried_rice"><img src="<%= ctxPath%>/images/index/side_img_2.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">도시락·볶음밥</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<%= ctxPath%>/product/bakery.dk"><img src="<%= ctxPath%>/images/index/side_img_3.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/product.dk?type=bakery"><img src="<%= ctxPath%>/images/index/side_img_3.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">베이커리</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<%= ctxPath%>/product/dessert.dk"><img src="<%= ctxPath%>/images/index/side_img_4.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
+					<a class="nav-link" href="<%= ctxPath%>/product/product.dk?type=dessert"><img src="<%= ctxPath%>/images/index/side_img_4.png" width="100" alt="..." /><br><span class="h4 mt-3 text-body" style="display:block;">착한간식</span></a>
 				</li>
 			</ul>
 		</div>
