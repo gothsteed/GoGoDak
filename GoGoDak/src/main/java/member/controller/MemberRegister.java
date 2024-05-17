@@ -29,7 +29,7 @@ public class MemberRegister extends AbstractController {
 			super.setRedirect(false);
 			
 			//TODO: 뷰페이지 view 폴더에 저장하기
-			super.setViewPage("/WEB-INF/view/member/register.jsp");
+			super.setViewPage("/WEB-INF/view/member/member_register.jsp");
 			return;
 		}
 		
