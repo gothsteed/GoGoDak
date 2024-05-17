@@ -14,58 +14,8 @@
                </h2>
             </div>
             <div class="row">
-               <div class="col-sm-6 col-md-4 col-lg-3">
-                  <div class="box">
-                     <div class="option_container">
-                        <div class="options">
-                           <a href="" class="option1">
-                           Men's Shirt
-                           </a>
-                           <a href="" class="option2">
-                           Buy Now
-                           </a>
-                        </div>
-                     </div>
-                     <div class="img-box">
-                        <img src="./images/chicken/0c21851fc450cbc939f6dd460b7847fd.jpg" alt="" >
-                     </div>
-                     <div class="detail-box">
-                        <h5>
-                           닭가슴살 골라
-                        </h5>
-                        <h6>
-                           100원
-                        </h6>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-sm-6 col-md-4 col-lg-3">
-                  <div class="box">
-                     <div class="option_container">
-                        <div class="options">
-                           <a href="" class="option1">
-                           Add To Cart
-                           </a>
-                           <a href="" class="option2">
-                           Buy Now
-                           </a>
-                        </div>
-                     </div>
-                     <div class="img-box">
-                        <img src="images/chicken/375d866e367b2bc74bad196c16a37aa4.jpg" alt="">
-                     </div>
-                     <div class="detail-box">
-                        <h5>
-                           크런치닭다리살
-                        </h5>
-                        <h6>
-                           100원
-                        </h6>
-                     </div>
-                  </div>
-               </div>
                
-               
+      
                <c:forEach var="product" items="${requestScope.ProductList}">
 	               <div class="col-sm-6 col-md-4 col-lg-3" href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_Seq}">
 	                  <div class="box">

@@ -28,21 +28,21 @@ public class Login extends AbstractController {
 		if(method.equalsIgnoreCase("get")) {
 			super.setRedirect(false);
 			
-			//TODO: 로그인 뷰페이지 설정
 			super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
 			
 		}
 		else {
 			String clientIp = request.getRemoteAddr();
 
-			String userId = request.getParameter("userid");
-			String password = request.getParameter("pwd");
 
-			System.out.println(userId + " " + password + " " + clientIp);
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+
+			System.out.println(id + " " + password + " " + clientIp);
 
 			Map<String, String> paraMap = new HashMap<String, String>();
 			
-			paraMap.put("userId", userId);
+			paraMap.put("id", id);
 			paraMap.put("password", password);
 			paraMap.put("clientIp", clientIp);
 			
@@ -99,7 +99,9 @@ public class Login extends AbstractController {
 			}
 						
 			HttpSession session = request.getSession();
-			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("loginuser", loginUser);
+			
+			System.out.println("login success: " + loginUser.getName());
 
 			
 			super.setRedirect(true);

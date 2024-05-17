@@ -41,7 +41,15 @@ ALTER TABLE tbl_member
 		);
         
         
-        
+insert into tbl_member(member_seq, email, id, password, name, tel, jubun ,point, exist_status, active_status, last_password_change, postcode,address,address_detail,address_extra,registerday)
+values(member_seq.nextval, '7DiCwyc+1dXTTwg5kjvDmHehvJlz/ESJNhef/5DX+YA=','jylee', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','이정연' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'서울시','마포구','서교동','2024-02-01' );
+commit;        
+
+
+delete tbl_member where id='jylee';
+select *
+from tbl_member;
+
         
         
         
@@ -146,6 +154,13 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
+
+
+SELECT *, TRUNC(MONTHS_BETWEEN(SYSDATE, LAST_PASSWORD_CHANGE)) AS PWDCHANGGAP
+FROM tbl_member
+WHERE exist_status = 1;
+
+
 
 
 desc tbl_member;

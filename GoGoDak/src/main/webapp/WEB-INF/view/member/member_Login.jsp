@@ -79,6 +79,10 @@ body > section.why_section.layout_padding > div > div > div > form > div.form-pr
 .membership-link:hover {
   text-decoration: underline;
 }
+
+input.form-control{
+text-transform: none !important;
+}
 </style>
 
 
@@ -89,10 +93,10 @@ body > section.why_section.layout_padding > div > div > div > form > div.form-pr
             <div>
                 <div class="sync-login-tab">
                 </div>
-                <form action="<%=ctxPath %>/login" method="post"> 
+                <form action="<%=ctxPath %>/login/login.dk" method="post"> 
                     <div class="form-group">
-                        <label for="username">아이디</label>
-                        <input type="text" id="username" name="username" class="form-control" required placeholder="아이디를 입력해주세요">
+                        <label for="id">아이디</label>
+                        <input type="text" id="id" name="id" class="form-control" required placeholder="아이디를 입력해주세요">
                     </div>
                     <div class="form-group">
                         <label for="password">비밀번호</label>

@@ -73,13 +73,22 @@ public class MemberDao_Imple implements MemberDao {
 			
 			conn = ds.getConnection();
 			
-	         String sql = " select *, TRUNC(MONTHS_BETWEEN(SYSDATE, LAST_PASSWORD_CHANGE)) AS PWDCHANGGAP "
-	         		+ " from tbl_member"
-	         		+ " where exist_status=1 and id=? and password=? ";
-	         
+			String sql = "SELECT MEMBER_SEQ, EMAIL, ID, PASSWORD, NAME, TEL, JUBUN, POINT, "
+		            + "EXIST_STATUS, ACTIVE_STATUS, LAST_PASSWORD_CHANGE, POSTCODE, ADDRESS, "
+		            + "ADDRESS_DETAIL, ADDRESS_EXTRA, REGISTERDAY, "
+		            + "TRUNC(MONTHS_BETWEEN(SYSDATE, LAST_PASSWORD_CHANGE)) AS PWDCHANGGAP "
+		            + "FROM tbl_member "
+		            + "WHERE exist_status=1 AND id=? AND password=?";
+
+	        
 	         
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("userId"));
+			pstmt.setString(1, paraMap.get("id"));
+			
+//			System.out.println("encrypted password: " + Sha256.encrypt(paraMap.get("password")));
+//			System.out.println("encrypted email: " + aes.encrypt("jyleeturbo123@gmail.com"));
+//			System.out.println("encrypted tel: " +  aes.encrypt("01045377647"));
+			
 			pstmt.setString(2, Sha256.encrypt(paraMap.get("password")));
 			rs = pstmt.executeQuery();
 			
@@ -97,7 +106,7 @@ public class MemberDao_Imple implements MemberDao {
 			memberTemp.setTel(aes.decrypt(rs.getString("TEL")));
 			memberTemp.setJubun(rs.getString("JUBUN"));
 			memberTemp.setPoint(rs.getInt("point"));
-			memberTemp.setRegisterDate(rs.getDate("REGISTER_DATE"));
+			memberTemp.setRegisterDate(rs.getDate("REGISTERDAY"));
 			memberTemp.setExist_status(rs.getInt("EXIST_STATUS"));
 			memberTemp.setActive_status(rs.getInt("ACTIVE_STATUS"));
 			memberTemp.setLast_password_change(rs.getDate("LAST_PASSWORD_CHANGE"));

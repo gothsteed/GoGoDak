@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
     String ctxPath = request.getContextPath();
     //    /GoGoDak
@@ -173,10 +174,34 @@
 						</form>
                 	</div>
                   	<div class="collapse navbar-collapse col-6 col-md-4" id="navbarSupportedContent">
+                  	
                     	<ul class="navbar-nav">
-                        	<li class="nav-item">
-                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
-                        	</li>
+                    	
+                    		<c:if test="${not empty sessionScope.loginuser}">
+                    		
+	                    		<li class="nav-item">
+			                   		<a class="nav-link text-muted"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;[${sessionScope.loginuser.name} ] 님 로그인 중</a>
+			                   	</li>
+			                   	<li class="nav-item">
+			                   		<a class="nav-link text-muted" href="<%= ctxPath%>/login/logout.dk"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;로그아웃</a>
+			                   	</li>
+                    		
+                    		</c:if>
+         
+                    	    <c:if test="${empty sessionScope.loginuser}">
+	                    	    <li class="nav-item">
+	                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
+	                        	</li>
+                    	    </c:if>
+                    	    
+                    	    
+                    	    <c:if test="${sessionScope.loginuser.id == 'admin'}">
+	                    	    <li class="nav-item">
+	                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/admin.dk">관리자 페이지</a>
+	                        	</li>
+                    	    </c:if>
+                    	
+           
                         	<li class="nav-item">
                         		<a class="nav-link text-secondary" href="<%= ctxPath%>/admin/notice.dk">공지사항</a>
                         	</li>
