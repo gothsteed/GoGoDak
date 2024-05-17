@@ -10,6 +10,11 @@ public class ProductVO {
     private int stock;					//재고
     private String main_pic;			//메인사진
     private String description_pic;		//상세사진
+    private int product_type;
+    
+    
+    
+    
     
    
     private MaufacturerVO madto = new MaufacturerVO();
@@ -17,8 +22,17 @@ public class ProductVO {
 
     
     
+    
+    
+    
 	public int getProduct_Seq() {
 		return product_Seq;
+	}
+	public int getProduct_type() {
+		return product_type;
+	}
+	public void setProduct_type(int product_type) {
+		this.product_type = product_type;
 	}
 	public void setProduct_Seq(int product_Seq) {
 		this.product_Seq = product_Seq;

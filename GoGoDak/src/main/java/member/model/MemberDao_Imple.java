@@ -33,7 +33,7 @@ public class MemberDao_Imple implements MemberDao {
 
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:/comp/env");
-			ds = (DataSource) envContext.lookup("jdbc/myoracle");
+			ds = (DataSource) envContext.lookup("jdbc/semioracle");
 			aes = new AES256(SecretMyKey.KEY);
 
 		} catch (NamingException e) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+
+<Resource name="jdbc/semioracle" auth="Container"
+          type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
+          url="jdbc:oracle:thin:@211.238.142.195:1521:xe"
+          username="SEMI_ORAUSER3" password="gclass" maxActive="20" maxIdle="10" maxWait="10000"/>
+</Context>
