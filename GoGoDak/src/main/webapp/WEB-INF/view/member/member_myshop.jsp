@@ -163,7 +163,8 @@ li a{
 
 
 </head>
-<body>
+<jsp:include page="../header.jsp" />
+
 	<div class="container" >
 		<h2 class="text-center ">마이 쇼핑</h2>
 		<br>
@@ -174,16 +175,16 @@ li a{
 			
 			<div class="col w-50" style="display: flex;">
 				<div class="myphoto">
-					<img src="images/mg_img_달걀.jpg" class="img-egg" />
+					<img src="<%= ctxPath%>/images/myshop/my_shop_달걀.jpg" class="img-egg" />
 				</div>
 				
 				<div>
-					<p class="h4"> 김혜선 님</p>
-					<p> 달걀 / 0원 적립</p>
+					<p class="h4"> ${sessionScope.loginuser.name} 님</p>
+					<p> 달걀 / ${sessionScope.loginuser.point} 원 적립</p>
 					<p style="color:gold"> 1원 더 구매시 삐약이로 레벨업!</p>
 				</div>
 				<div>
-					<button type="button" class="btn btn-outline-dark"><a href="#" class="btnMember">멤버십 혜택보기</a></button>
+					
 				</div>
 				
 			</div>
@@ -194,7 +195,7 @@ li a{
 					
 			        <li class="nav-item row">
 			            <strong class="title col-5">총적립금</strong>
-			            <strong class="data col-7 text-right"><span id="total_mileage"> 원</span></strong>
+			            <strong class="data col-7 text-right"><span id="total_mileage"> ${sessionScope.loginuser.point}원</span></strong>
 			        </li>
 			       
 			        
@@ -265,10 +266,10 @@ li a{
 	
 	
 	
-</body>
+
 </html>
 
-
+<jsp:include page="../footer.jsp" />
 
 
 
