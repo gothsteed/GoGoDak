@@ -83,13 +83,7 @@ div#pageBar>nav {
 		<img src="<%= ctxPath%>/images/board/notice.jpg" class="img-fluid" />
 	</div>
 	<br> &nbsp;
-	<%-- if문 사용하여 어드민일때만 보이게하기 --%>
-	<%-- <c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid == 'admin'}"> admin 으로 로그인 했으면 --%>
-	<div style="display:flex;justify-content:flex-end;">
-	<button type="button" class="btn btn-secondary" onclick="location.href='./boardWrite.jsp'" >글쓰기</button>
-	</div>
-	<%--</c:if> --%>
-	<%-- if문 사용하여 어드민일때만 보이게하기 --%>
+	
 		
 	&nbsp;
 	<table class="table table-hover" id="memberTbl">
