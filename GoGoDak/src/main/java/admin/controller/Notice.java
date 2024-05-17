@@ -10,10 +10,11 @@ public class Notice extends AbstractController{
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
+		
+		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/member/member_board.jsp");
-		
-		
+		super.setViewPage("/WEB-INF/view/admin/admin_boardWrite.jsp");
+
 	}
 
 }
