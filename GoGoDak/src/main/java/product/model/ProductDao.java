@@ -7,6 +7,8 @@ import domain.ProductVO;
 
 public interface ProductDao {
 
-	List<ProductVO> getProductByType(int type) throws SQLException;
+	List<ProductVO> getProductByType(int type, int currentPage) throws SQLException;
+
+	int getTotalPage(int productType) throws SQLException;
 
 }

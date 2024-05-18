@@ -17,14 +17,20 @@ public class ProductVO {
     
     
    
-    private MaufacturerVO madto = new MaufacturerVO();
+    private MaufacturerVO madto;
     //todo 할인 정보 dto 추가
+    private DiscountVO discountVO;
+    
+    
+    
 
     
-    
-    
-    
-    
+	public DiscountVO getDiscountVO() {
+		return discountVO;
+	}
+	public void setDiscountVO(DiscountVO discountVO) {
+		this.discountVO = discountVO;
+	}
 	public int getProduct_Seq() {
 		return product_Seq;
 	}

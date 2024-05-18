@@ -16,7 +16,7 @@
             <div class="row">
                
       
-               <c:forEach var="product" items="${requestScope.ProductList}">
+               <c:forEach var="product" items="${requestScope.productList}">
 	               <div class="col-sm-6 col-md-4 col-lg-3" href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_Seq}">
 	                  <div class="box">
 	                     <div class="option_container">
@@ -46,11 +46,13 @@
 			   </c:forEach>
 
             </div>
-            <div class="btn-box">
-               <a href="">
-               View All products
-               </a>
-            </div>
+		     <div id="pageBar">
+		       <nav>
+		           <ul class="pagination">
+		           		${requestScope.pageBar}
+		           </ul>
+		       </nav>
+		    </div>
          </div>
       </section>
       <!-- end product section -->

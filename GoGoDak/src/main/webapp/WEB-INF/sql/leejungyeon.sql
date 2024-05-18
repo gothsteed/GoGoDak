@@ -42,7 +42,7 @@ ALTER TABLE tbl_member
         
         
 insert into tbl_member(member_seq, email, id, password, name, tel, jubun ,point, exist_status, active_status, last_password_change, postcode,address,address_detail,address_extra,registerday)
-values(member_seq.nextval, '7DiCwyc+1dXTTwg5kjvDmHehvJlz/ESJNhef/5DX+YA=','jylee', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','이정연' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'서울시','마포구','서교동','2024-02-01' );
+values(member_seq.nextval, 'Fm3kaU93VWbmQq2wh984EeBMZreWLwAxeQpgkazuLzU=','admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','이정연' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'서울시','마포구','서교동','2024-02-01' );
 commit;        
 
 
@@ -51,7 +51,15 @@ select *
 from tbl_member;
 
         
-        
+delete tbl_member where id='admin';
+
+
+select *
+from tbl_member;
+
+
+select *
+from tbl_member;
         
         
 ---------------------------------------------------------------------prodcut----------------------------------------------------------------
@@ -111,8 +119,16 @@ ALTER TABLE tbl_product
 		REFERENCES tbl_manufacturer (
 			manufacturer_seq
 		);
+
         
-        
+ALTER TABLE tbl_product
+ADD fk_discount_seq NUMBER;    
+
+ALTER TABLE tbl_product
+ADD CONSTRAINT fk_product_discount
+FOREIGN KEY (fk_discount_seq)
+REFERENCES tbl_discount(discount_seq);
+
         
         
         
@@ -161,7 +177,28 @@ FROM tbl_member
 WHERE exist_status = 1;
 
 
+select *
+from tbl_product
+where product_type = 3;
 
+DROP TABLE TBL_DISCOUNT_PRODUCT;
+
+
+select * 
+from tbl_product
+where product_type = 1;
 
 desc tbl_member;
 desc tbl_order
+desc tbl_product;
+
+
+select rownum as rno
+from
+(
+select * 
+from tbl_product
+where product_type = 1
+);
+
+commit;
