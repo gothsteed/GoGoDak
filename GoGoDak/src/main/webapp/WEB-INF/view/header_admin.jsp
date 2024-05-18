@@ -22,12 +22,41 @@
 <%-- favicon --%>
 <link rel="icon" type="image/png" sizes="16x16" href="<%= ctxPath%>/images/header/favicon.ico" />
 
-<%-- 공통적으로 적용되는 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/main/style.css" />
-
 <%-- 직접 만든 CSS --%>
 <style type="text/css">
-
+	.hero_area {
+	  	position: relative;
+	  	min-height: 100vh;
+	  	display: -webkit-box;
+	  	display: -ms-flexbox;
+	  	display: flex;
+	  	-webkit-box-orient: vertical;
+	  	-webkit-box-direction: normal;
+	       -ms-flex-direction: column;
+	           flex-direction: column;
+	}
+	.sub_page .hero_area {
+  		min-height: auto;
+  		-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
+          		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
+	}	
+	.header_section {
+	    padding: 15px 0;
+	}
+	.header_section .container-fluid {
+	  	padding-right: 25px;
+	 	padding-left: 25px;
+	}
+	.custom_nav-container .navbar-nav .nav-item .nav-link {
+	    padding: 5px 20px;
+	    color: #131313;
+	    text-align: center;
+	    text-transform: uppercase;
+	    border-radius: 5px;
+	    -webkit-transition: all 0.3s;
+	    transition: all 0.3s;
+	    font-weight: 700;
+	}
 </style>
 
 <%-- Optional JavaScript --%>
