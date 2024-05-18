@@ -287,6 +287,7 @@ public class MemberDao_Imple implements MemberDao {
 		return result;
 	}
 
+	// ID 중복검사
 	@Override
 	public boolean idDuplicateCheck(String id) throws SQLException {
 		
@@ -314,6 +315,7 @@ public class MemberDao_Imple implements MemberDao {
 		return isExists;
 	}
 
+	// EMAIL 중복검사 
 	@Override
 	public boolean emailDuplicateCheck(String email) throws SQLException {
 
@@ -341,6 +343,169 @@ public class MemberDao_Imple implements MemberDao {
 		}
 		
 		return isExists;
+	}
+
+	// 총 페이지 수 알아오기
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil(count(*)/?) "
+					   + " from tbl_member "
+					   + " where id != 'admin' ";
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			
+			if("email".equals(colname)) { 
+				searchWord = aes.encrypt(searchWord);
+			}
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				sql += " and " + colname + " like '%' || ? || '%' ";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) {
+				pstmt.setString(2, searchWord);
+			}
+						
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	    	e.printStackTrace();
+	    } finally {
+			close();
+		}
+		
+		return totalPage;
+	}
+
+	// 모든 회원 또는 검색한 회원 목록 보여주기
+	@Override
+	public List<MemberVO> select_Member_paging(Map<String, String> paraMap) throws SQLException {
+
+		List<MemberVO> memberList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " SELECT rno, id, name, email, gender "
+					   + " FROM "
+					   + " ( "
+					   + "    select rownum as rno, id, name, email, gender "
+					   + "    from "
+					   + "    ( "
+					   + "        select id, name, email,"
+					   + "               case when substr(jubun, 7, 1) in('1', '3') then '남' else '여' end AS GENDER "
+					   + "        from tbl_member "
+					   + "        where id != 'admin' ";
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			
+			if("email".equals(colname)) { 
+				searchWord = aes.encrypt(searchWord); 
+			}
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				sql += " and " + colname + " like '%' || ? || '%' ";
+			}
+			
+			sql += " order by registerday desc "
+			    + "    ) V "
+			    + " ) T "
+			    + " WHERE T.rno BETWEEN ? AND ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				pstmt.setString(1, searchWord);
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); 
+				pstmt.setInt(3, (currentShowPageNo * sizePerPage)); 
+			}
+			else { 
+				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); 
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+			}
+						
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MemberVO mvo = new MemberVO();
+				mvo.setId(rs.getString("id"));
+				mvo.setName(rs.getString("name"));
+				mvo.setEmail(aes.decrypt(rs.getString("email")));
+				mvo.setJubun(rs.getString("gender"));
+				
+				memberList.add(mvo);
+			} // end of while(rs.next()) ----------
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	    	e.printStackTrace();
+	    } finally {
+			close();
+		}
+		
+		return memberList;
+	}
+
+	// 검색이 있는 또는 검색이 없는 회원의 총개수 알아오기
+	@Override
+	public int getTotalMemberCount(Map<String, String> paraMap) throws SQLException {
+		
+		int totalMemberCount = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(*) "
+					   + " from tbl_member "
+					   + " where id != 'admin' ";
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			
+			if("email".equals(colname)) {
+				searchWord = aes.encrypt(searchWord);
+			}
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				sql += " and " + colname + " like '%' || ? || '%' ";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				pstmt.setString(1, searchWord);
+			}
+						
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalMemberCount = rs.getInt(1); 
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	    	e.printStackTrace();
+	    } finally {
+			close();
+		}
+		
+		return totalMemberCount;
 	}
 
 	

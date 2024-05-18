@@ -47,7 +47,7 @@
 					<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 						<ul class="navbar-nav">
 		                   	<li class="nav-item">
-		                   		<a class="nav-link text-muted" href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;[ 관리자 ] 님 로그인 중</a>
+		                   		<a class="nav-link text-muted" href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;[ ${sessionScope.loginuser.name} ] 님 로그인 중</a>
 		                   	</li>
 		                   	<li class="nav-item">
 		                   		<a class="nav-link text-muted" href="<%= ctxPath%>/login/logout.dk"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;로그아웃</a>

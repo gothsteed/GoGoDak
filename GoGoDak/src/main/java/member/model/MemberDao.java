@@ -20,6 +20,12 @@ public interface MemberDao {
 	boolean idDuplicateCheck(String id) throws SQLException;
 
 	boolean emailDuplicateCheck(String email) throws SQLException;
+
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	List<MemberVO> select_Member_paging(Map<String, String> paraMap) throws SQLException;
+
+	int getTotalMemberCount(Map<String, String> paraMap) throws SQLException;
 	
 	
 	
