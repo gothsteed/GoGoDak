@@ -188,7 +188,7 @@ public class MemberDao_Imple implements MemberDao {
 			conn = ds.getConnection();
 
 			String sql = " insert into tbl_member(member_seq, id, password, name, email, tel, postcode, address, address_detail, address_extra, jubun) "
-					+ " values(MEMBER_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+					   + " values(MEMBER_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -312,7 +312,35 @@ public class MemberDao_Imple implements MemberDao {
 		}
 		
 		return isExists;
+	}
+
+	@Override
+	public boolean emailDuplicateCheck(String email) throws SQLException {
+
+		boolean isExists = false;
 		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select email "
+					   + " from tbl_member "
+					   + " where email = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, aes.encrypt(email));
+			
+			rs = pstmt.executeQuery();
+			
+			isExists = rs.next();
+			
+		} catch (UnsupportedEncodingException | GeneralSecurityException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return isExists;
 	}
 
 	

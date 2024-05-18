@@ -276,15 +276,13 @@ $(document).ready(function(){
             type : "post", 
             async : true,  
             dataType : "json",
-            success : function(json){  
-                console.log("json =>", json);
-                
+            success : function(json){
                 if(json.isExists){ 
-                    $("span#idcheckResult").html($("input#id").val() + " 은 이미 사용 중 이므로 다른 아이디를 입력하세요").css({"color":"red"});
+                    $("span#idcheckResult").html($("input#id").val() + " 은 이미 사용 중 이므로 다른 아이디를 입력하세요").css({"color":"red", "font-weight":"bold"});
                     $("input#id").val(""); 
                 }
                 else{ 
-                    $("span#idcheckResult").html($("input#id").val() + " 은 사용 가능한 아이디입니다.").css({"color":"navy"});
+                    $("span#idcheckResult").html($("input#id").val() + " 은 사용 가능한 아이디입니다.").css({"color":"navy", "font-weight":"bold"});
                 }
             },
             error: function(request, status, error){
@@ -308,11 +306,11 @@ $(document).ready(function(){
             dataType : "json", 
             success : function(json){ 
                 if(json.isExists){ 
-                    $("span#emailCheckResult").html($("input#email").val() + " 은 이미 사용 중 이므로 다른 이메일을 입력하세요").css({"color":"red"});
+                    $("span#emailCheckResult").html($("input#email").val() + " 은 이미 사용 중 이므로 다른 이메일을 입력하세요").css({"color":"red", "font-weight":"bold"});
                     $("input#email").val(""); 
                 }
                 else{ 
-                    $("span#emailCheckResult").html($("input#email").val() + " 은 사용 가능한 이메일입니다.").css({"color":"navy"});
+                    $("span#emailCheckResult").html($("input#email").val() + " 은 사용 가능한 이메일입니다.").css({"color":"navy", "font-weight":"bold"});
                 }
             },
             error: function(request, status, error){
@@ -417,7 +415,7 @@ function goRegister(){
     ///////////////////////////////////////////////////////////////
 
     const frm = document.registerFrm;
-    frm.action = "memberRegister.up";
+    frm.action = "memberRegister.dk";
     frm.method = "post";
     frm.submit();
 

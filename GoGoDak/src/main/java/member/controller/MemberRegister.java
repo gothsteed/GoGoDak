@@ -22,7 +22,6 @@ public class MemberRegister extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
 		String method = request.getMethod();
 		
 		if(method.equalsIgnoreCase("get")) {
@@ -39,10 +38,14 @@ public class MemberRegister extends AbstractController {
 
 		String tel = hp1 + hp2 + hp3;
 		
+		String birthdate = request.getParameter("birthdate");
+		String gender = request.getParameter("gender");
+		
+		String jubun = birthdate + gender;
 		
 		MemberVO member = new MemberVO();
 		member.setName(request.getParameter("name"));
-		member.setId(request.getParameter("userid"));
+		member.setId(request.getParameter("id"));
 		member.setPassword(Sha256.encrypt(request.getParameter("pwd")));
 		member.setEmail(request.getParameter("email"));
 		member.setTel(tel);
@@ -50,21 +53,19 @@ public class MemberRegister extends AbstractController {
 		member.setAddress(request.getParameter("address"));
 		member.setAddress_detail(request.getParameter("detailaddress"));
 		member.setAddress_extra(request.getParameter("extraaddress"));
-		member.setJubun(request.getParameter("jubun"));
+		member.setJubun(jubun);
 
 		String message = "";
 		String loc = "";
-	
 	
 		//자동 로그인
 		try {
 
 			int result = memberDao.register(member);
 			
-//			request.setAttribute("userid", loc)
-			request.setAttribute("userid", request.getParameter("userid")); 
+//			request.setAttribute("id", loc)
+			request.setAttribute("id", request.getParameter("id")); 
 			request.setAttribute("pwd", request.getParameter("pwd"));
-			
 			
 			super.setViewPage("/WEB-INF/view/member/memberRegister_after_autoLogin.jsp");
 
@@ -73,15 +74,12 @@ public class MemberRegister extends AbstractController {
 			loc = "javascript:history.back()";
 			e.printStackTrace();
 			
-			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-			
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
-	
 		
 	}
 

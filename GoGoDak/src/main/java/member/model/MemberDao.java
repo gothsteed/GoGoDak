@@ -18,6 +18,8 @@ public interface MemberDao {
 	boolean isExist(Map<String, String> paraMap) throws SQLException;
 
 	boolean idDuplicateCheck(String id) throws SQLException;
+
+	boolean emailDuplicateCheck(String email) throws SQLException;
 	
 	
 	

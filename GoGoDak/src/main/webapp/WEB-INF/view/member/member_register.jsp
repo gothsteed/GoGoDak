@@ -107,7 +107,7 @@ small.error{
                         <div class="form-group">
                             <label for="id">아이디 <span class="text-danger">*</span></label>
                             <input type="text" name="id" id="id" class="form-control requiredInfo" maxlength="40">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="idcheck">아이디 중복확인</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="idcheck">아이디 중복확인</button>&nbsp;&nbsp;
                             <small class="form-text text-danger error">아이디는 영문자, 숫자가 혼합된 5 ~ 40 글자로 입력하세요.</small>
                             <span id="idcheckResult"></span>
                         </div>
@@ -127,7 +127,7 @@ small.error{
                         <div class="form-group">
                             <label for="email">이메일 <span class="text-danger">*</span></label>
                             <input type="text" name="email" id="email" class="form-control requiredInfo" maxlength="60">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="emailcheck">이메일 중복확인</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="emailcheck">이메일 중복확인</button>&nbsp;&nbsp;
                             <small class="form-text text-danger error">이메일 형식에 맞지 않습니다.</small>
                             <span id="emailCheckResult"></span>
                         </div>
