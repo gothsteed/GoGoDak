@@ -95,7 +95,7 @@ public class ProductDao_Imple implements ProductDao {
 	 */
 
 	@Override
-	public List<ProductVO> getProductByType(int type, int currentPage) throws SQLException {
+	public List<ProductVO> getProductByType(int type, int currentPage, int blockSize) throws SQLException {
 		
 		List<ProductVO> productList = new ArrayList<>();
 
@@ -117,11 +117,10 @@ public class ProductDao_Imple implements ProductDao {
 
 			pstmt = conn.prepareStatement(sql);
 
-			
-			int sizePerPage = 10;
+	
 			pstmt.setInt(1, type);
-			pstmt.setLong(2, (currentPage * sizePerPage) - (sizePerPage - 1)); // 페이징처리 공식
-			pstmt.setLong(3, (currentPage * sizePerPage));
+			pstmt.setLong(2, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
+			pstmt.setLong(3, (currentPage * blockSize));
 
 
 			rs = pstmt.executeQuery();
@@ -141,20 +140,21 @@ public class ProductDao_Imple implements ProductDao {
 	}
 
 	@Override
-	public int getTotalPage(int productType) throws SQLException {
+	public int getTotalPage(int productType, int blockSize) throws SQLException {
 		int totalPage = 0;
 
 		try {
 			conn = ds.getConnection();
 
-			String sql = " select count(*)/10 "
+			String sql = " select count(*)/? "
 					+ "            from tbl_product "
 					+ "            where product_type= ?";
 
 
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, productType);
+			pstmt.setInt(1, blockSize);
+			pstmt.setInt(2, productType);
 			
 			rs = pstmt.executeQuery();
 

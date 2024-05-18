@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <jsp:include page="../header.jsp" />
       <!-- inner page section -->
       <!-- end inner page section -->
@@ -9,12 +10,13 @@
          <div class="container">
             <div class="heading_container heading_center">
                <h2>
-                   <span>🥯빵🥯</span>
+                   <span>${requestScope.title}</span>
                </h2>
             </div>
             <div class="row">
-              
-                <c:forEach var="product" items="${requestScope.ProductList}">
+               
+      
+               <c:forEach var="product" items="${requestScope.productList}">
 	               <div class="col-sm-6 col-md-4 col-lg-3" href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_Seq}">
 	                  <div class="box">
 	                     <div class="option_container">
@@ -28,7 +30,7 @@
 	                        </div>
 	                     </div>
 	                     <div class="img-box">
-	                        <img src="${pageContext.request.contextPath}/images/bakery/${product.product_name}.jpg" alt="">
+	                        <img src="${pageContext.request.contextPath}/images/chicken/${product.product_name}.jpg" alt="">
 	                     </div>
 	                     <div class="detail-box">
 	                        <h5>
@@ -42,26 +44,28 @@
 	               </div>
 					
 			   </c:forEach>
-               
+
             </div>
-            <div class="btn-box">
-               <a href="">
-               View All products
-               </a>
-            </div>
+		     <div id="pageBar">
+		       <nav>
+		           <ul class="pagination">
+		           		${requestScope.pageBar}
+		           </ul>
+		       </nav>
+		    </div>
          </div>
       </section>
       <!-- end product section -->
       <!-- footer section -->
-		<jsp:include page="../footer.jsp"></jsp:include>
+	<jsp:include page="../footer.jsp"></jsp:include>
       <!-- footer section -->
       <!-- jQery -->
-      <script src="js/jquery-3.4.1.min.js"></script>
-      <!-- popper js -->
+<!--       <script src="js/jquery-3.4.1.min.js"></script>
+      popper js
       <script src="js/popper.min.js"></script>
-      <!-- bootstrap js -->
+      bootstrap js
       <script src="js/bootstrap.js"></script>
-      <!-- custom js -->
-      <script src="js/custom.js"></script>
+      custom js
+      <script src="js/custom.js"></script> -->
    </body>
 </html>

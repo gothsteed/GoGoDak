@@ -26,25 +26,29 @@ public class ProductController extends AbstractController {
 		
 		
 		int productType;
+		String title;
 		
 		if(productTypeString.equalsIgnoreCase("fried_rice")) {
 			
 			productType = 2;
+			title = "🍱볶음밥🍱";
 		} 
 		else if(productTypeString.equalsIgnoreCase("bakery")) {
 			
 			productType = 3;
+			title = "🥯빵🥯";
 		} 
 		else if(productTypeString.equalsIgnoreCase("dessert")) {
 			productType = 4;
+			title = "🧁디저트🧁";
 		}
 		else {
 			productType = 1;
 			productTypeString = "chicken";
+			title="🍗닭가슴살🍗";
 		}
 		
-		
-		
+		int blockSize = 8;
 		int currentPage;
 		
 		try {
@@ -54,17 +58,17 @@ public class ProductController extends AbstractController {
 		}
 		
 		
-		int totalPageNum = productDao.getTotalPage(productType);
+		int totalPageNum = productDao.getTotalPage(productType, blockSize);
 		if(currentPage > totalPageNum) {
 			currentPage = 1;
 		}
 		
 		
-		List<ProductVO> productList = productDao.getProductByType(productType, currentPage);
+		List<ProductVO> productList = productDao.getProductByType(productType, currentPage, blockSize);
 		
 		
 		//pageBar
-		int blockSize = 10;
+		
 		
 		int loop = 1;
 		int pageNo = ((currentPage - 1)/blockSize) * blockSize + 1;
@@ -108,12 +112,12 @@ public class ProductController extends AbstractController {
 		}
 
 		
-		
+		request.setAttribute("title", title);
 		request.setAttribute("productList", productList);
 		request.setAttribute("pageBar", pageBar);
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/product/product_"+ productTypeString.toLowerCase() +".jsp");
+		super.setViewPage("/WEB-INF/view/product/product_category.jsp");
 
 	}
 
