@@ -9,7 +9,6 @@ import domain.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import member.domain.MemberVO;
 import member.model.MemberDao;
 import member.model.MemberDao_Imple;
 import my.util.MyUtil;
