@@ -287,6 +287,34 @@ public class MemberDao_Imple implements MemberDao {
 		return result;
 	}
 
+	@Override
+	public boolean idDuplicateCheck(String id) throws SQLException {
+		
+		boolean isExists = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select id "
+					   + " from tbl_member "
+					   + " where id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			
+			isExists = rs.next(); 
+			
+		} finally {
+			close();
+		}
+		
+		return isExists;
+		
+	}
+
 	
 
 	

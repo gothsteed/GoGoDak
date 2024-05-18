@@ -105,8 +105,8 @@ small.error{
                         </div>
 
                         <div class="form-group">
-                            <label for="userid">아이디 <span class="text-danger">*</span></label>
-                            <input type="text" name="userid" id="userid" class="form-control requiredInfo" maxlength="40">
+                            <label for="id">아이디 <span class="text-danger">*</span></label>
+                            <input type="text" name="id" id="id" class="form-control requiredInfo" maxlength="40">
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="idcheck">아이디 중복확인</button>
                             <small class="form-text text-danger error">아이디는 영문자, 숫자가 혼합된 5 ~ 40 글자로 입력하세요.</small>
                             <span id="idcheckResult"></span>
@@ -204,7 +204,6 @@ small.error{
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

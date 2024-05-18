@@ -16,6 +16,8 @@ public interface MemberDao {
 	String getId(Map<String, String> paraMap) throws SQLException;
 
 	boolean isExist(Map<String, String> paraMap) throws SQLException;
+
+	boolean idDuplicateCheck(String id) throws SQLException;
 	
 	
 	

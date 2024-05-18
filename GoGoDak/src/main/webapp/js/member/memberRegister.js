@@ -28,11 +28,11 @@ $(document).ready(function(){
 
     ///////////////////////////////////////////////////////////////
 
-    $("input#userid").blur( (e) => { 
+    $("input#id").blur( (e) => { 
 
-        const regExp_userid = new RegExp(/^[a-z0-9_]{5,40}$/);
+        const regExp_id = new RegExp(/^[a-z0-9_]{5,40}$/);
         
-        const bool = regExp_userid.test($(e.target).val());
+        const bool = regExp_id.test($(e.target).val());
 
         if(!bool){ 
             $("div#tblMemberRegister :input").prop("disabled", true); 
@@ -271,18 +271,20 @@ $(document).ready(function(){
         b_idcheck_click = true;
       
         $.ajax({
-            url : "idDuplicateCheck.up", 
-            data : {"userid":$("input#userid").val()}, 
+            url : "idDuplicateCheck.dk", 
+            data : {"id":$("input#id").val()}, 
             type : "post", 
             async : true,  
             dataType : "json",
             success : function(json){  
+                console.log("json =>", json);
+                
                 if(json.isExists){ 
-                    $("span#idcheckResult").html($("input#userid").val() + " 은 이미 사용 중 이므로 다른 아이디를 입력하세요").css({"color":"red"});
-                    $("input#userid").val(""); 
+                    $("span#idcheckResult").html($("input#id").val() + " 은 이미 사용 중 이므로 다른 아이디를 입력하세요").css({"color":"red"});
+                    $("input#id").val(""); 
                 }
                 else{ 
-                    $("span#idcheckResult").html($("input#userid").val() + " 은 사용 가능한 아이디입니다.").css({"color":"navy"});
+                    $("span#idcheckResult").html($("input#id").val() + " 은 사용 가능한 아이디입니다.").css({"color":"navy"});
                 }
             },
             error: function(request, status, error){
@@ -299,7 +301,7 @@ $(document).ready(function(){
         b_emailcheck_click = true;
 
         $.ajax({
-            url : "emailDuplicateCheck.up", 
+            url : "emailDuplicateCheck.dk", 
             data : {"email":$("input#email").val()}, 
             type : "post", 
             async : true,  
@@ -323,7 +325,7 @@ $(document).ready(function(){
     ///////////////////////////////////////////////////////////////
 
     // 아이디값이 변경되면 가입하기 버튼을 클릭 시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기 위한 용도 초기화 시키기 
-    $("input#userid").bind("change", function(){
+    $("input#id").bind("change", function(){
         b_idcheck_click = false;
     });
   
