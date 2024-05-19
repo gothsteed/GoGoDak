@@ -44,7 +44,7 @@
 		  
 	    if( reservedate == "" || reservetime == "" ) {
 		  // 문자를 바로 보내기인 경우 
-		  dataObj = {"mobile":"${requestScope.mvo.mobile}",
+		  dataObj = {"mobile":"${requestScope.mvo.tel}",
 				     "smsContent":$("textarea#smsContent").val()};
 	    }
 	    else {
@@ -92,14 +92,14 @@
 	
 	<c:if test="${not empty requestScope.mvo}">
 	   
-	   <c:set var="mobile" value="${requestScope.mvo.mobile}" />   
+	   <c:set var="mobile" value="${requestScope.mvo.tel}" />   
 	      
 	   <p class="h3 text-center mt-5 mb-4">::: ${requestScope.mvo.name} 님의 회원 상세정보 :::</p>    
 	   
 	   <table class="table table-bordered" style="width: 60%; margin: 0 auto;">
 		   <tr>
 		      <td>아이디&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.userid}</td>
+		      <td>${requestScope.mvo.id}</td>
 		   </tr>
 		   <tr>
 		      <td>회원명&nbsp;:&nbsp;</td>
@@ -111,7 +111,7 @@
 		   </tr>
 		   <tr>
 		      <td>휴대폰&nbsp;:&nbsp;</td>
-		      <td>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</td> 
+		      <td>${fn:substring(tel, 0, 3)}-${fn:substring(tel, 3, 7)}-${fn:substring(tel, 7, 11)}</td> 
 		   </tr>
 		   <tr>
 		      <td>우편번호&nbsp;:&nbsp;</td>
@@ -120,34 +120,28 @@
 		   <tr>
 		      <td>주소&nbsp;:&nbsp;</td>
 		      <td>${requestScope.mvo.address}&nbsp;
-		          ${requestScope.mvo.detailaddress}&nbsp;
-		          ${requestScope.mvo.extraaddress}
+		          ${requestScope.mvo.address_detail}&nbsp;
+		          ${requestScope.mvo.address_extra}
 		      </td>
 		   </tr>
 		   <tr>
 		      <td>성별&nbsp;:&nbsp;</td>
 		      <td>
 		         <c:choose>
-		            <c:when test="${requestScope.mvo.gender == '1'}">남</c:when> 
+		            <c:when test="${fn:substring(requestScope.mvo.jubun, 6, 7) == '1' || fn:substring(requestScope.mvo.jubun, 6, 7) == '3'  }">남</c:when> 
 		            <c:otherwise>여</c:otherwise>
 		         </c:choose>
 		      </td>
 		   </tr>
 		   <tr>
 		      <td>생년월일&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.birthday}</td>
+		      <td>${requestScope.mvo.birthDateString}</td>
 		   </tr>
 		   <tr>
 		      <td>만나이&nbsp;:&nbsp;</td>
 		      <td>${requestScope.mvo.age}&nbsp;세</td>
 		   </tr>
-		   <tr>
-		      <td>코인액&nbsp;:&nbsp;</td>
-		      <td>
-		         <fmt:formatNumber value="${requestScope.mvo.coin}" pattern="###,###" />&nbsp;원
-		      </td>
-		   </tr>
-		   <tr>
+		  <tr>
 		      <td>포인트&nbsp;:&nbsp;</td>
 		      <td>
 		         <fmt:formatNumber value="${requestScope.mvo.point}" pattern="###,###" />&nbsp;POINT 
@@ -155,7 +149,7 @@
 		   </tr>
 		   <tr>
 		      <td>가입일자&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.registerday}</td>
+		      <td>${requestScope.mvo.registerDate}</td>
 		   </tr>
 	    </table>
 	    
