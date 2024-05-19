@@ -508,6 +508,8 @@ public class MemberDao_Imple implements MemberDao {
 		return totalMemberCount;
 	}
 
+
+
 	
 
 	
@@ -520,4 +522,47 @@ public class MemberDao_Imple implements MemberDao {
 	
 	
 	
+	
+	// 입력받은 userid 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
+	@Override
+	public MemberVO selectOneMember(String id) throws SQLException {
+		MemberVO member = null;
+		try {
+			conn = ds.getConnection();
+			String sql = " select id, name, email, tel, postcode, address, address_detail, address_extra,  "
+						+ " , jubun, point, to_char(registerDate, 'yyyy-mm-dd') AS registerday "
+						+ " from tbl_member "
+						+ " where exist_status = 1 and id = ? ";
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, id);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			member = new MemberVO();
+			
+			member.setId(rs.getString(1));
+			member.setName(rs.getString(2));
+			member.setEmail(aes.decrypt(rs.getString(3)));
+			member.setTel(aes.decrypt(rs.getString(4)));
+			member.setPostcode(rs.getString(5));
+			member.setAddress(rs.getString(6));
+			member.setAddress_detail(rs.getString(7));
+			member.setAddress_extra(rs.getNString(8));
+			member.setJubun(rs.getString(9));
+			member.setPoint(rs.getInt(10));
+			member.setRegisterDate(rs.getDate(11));
+			
+		}// end if(rs.next())
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return member;		
+		
+	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
+	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 }
