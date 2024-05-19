@@ -198,6 +198,9 @@ public class MemberVO {
 		this.member_seq = member_seq;
 	}
 
+	
+
+
 
 
 }
