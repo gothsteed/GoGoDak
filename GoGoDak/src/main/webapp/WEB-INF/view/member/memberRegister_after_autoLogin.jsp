@@ -29,8 +29,8 @@ window.onload = function() {
 </head>
 <body>
 <form name="login">
-	<input type="hidden" name="userid" value="${requestScope.userid}">
-	<input type="hidden" name="pwd" value="${requestScope.pwd}">
+	<input type="hidden" name="id" value="${requestScope.userid}">
+	<input type="hidden" name="password" value="${requestScope.pwd}">
 </form>
 	
 </body>

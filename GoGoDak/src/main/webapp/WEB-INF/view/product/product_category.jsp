@@ -124,9 +124,9 @@
 		   }
 		   
 		   .pagination .active a {
-		       background-color: white; /* Background color for active page */
-		       color: black; /* Text color for active page */
-		       border: 1px solid black; /* Border color for active page */
+			    color: white;
+			    background-color: #fbc02d !Important;
+			    border: solid 1px #fbc02d !Important;
 		   }
 	   </style>
       
