@@ -508,6 +508,8 @@ public class MemberDao_Imple implements MemberDao {
 		return totalMemberCount;
 	}
 
+
+
 	
 
 	
@@ -518,6 +520,10 @@ public class MemberDao_Imple implements MemberDao {
 	
 //	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업끝■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 	
-	
+	@Override
+	public MemberVO selectOneMember(String userid) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -37,4 +37,10 @@ public interface MemberDao {
 //	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업끝■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
+	
+	
+	// 입력받은 userid 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
+		MemberVO selectOneMember(String userid) throws SQLException;
+		
+		
 }
