@@ -101,7 +101,21 @@ ALTER TABLE tbl_product
         
 SELECT sequence_name, min_value, max_value, increment_by, cycle_flag, order_flag, cache_size, last_number
 FROM user_sequences;
-        
+
+
+ALTER TABLE tbl_product ADD  fk_discount_event_seq NUMBER;
+
+ALTER TABLE tbl_product
+ADD CONSTRAINT fk_discount_event
+FOREIGN KEY (fk_discount_event_seq)
+REFERENCES tbl_discount_event (discount_event_seq);
+
+
+ALTER TABLE tbl_product ADD  discount_type VARCHAR2(200);
+ALTER TABLE tbl_product ADD  discount_number FLOAT;
+ALTER TABLE tbl_product RENAME COLUMN price TO base_price;
+
+
 
 SELECT *
 FROM tab;
@@ -121,15 +135,37 @@ ALTER TABLE tbl_product
 		);
 
         
-ALTER TABLE tbl_product
-ADD fk_discount_seq NUMBER;    
+ALTER TABLE tbl_product;
+ALTER TABLE tbl_product DROP COLUMN FK_DISCOUNT_SEQ;
+
 
 ALTER TABLE tbl_product
 ADD CONSTRAINT fk_product_discount
 FOREIGN KEY (fk_discount_seq)
 REFERENCES tbl_discount(discount_seq);
 
-        
+
+drop table tbl_discount_event;
+CREATE TABLE tbl_discount_event (
+	discount_event_seq NUMBER NOT NULL, /* 할인고유번호 */
+	discount_name VARCHAR2(200) NOT NULL, /* 할인타입 */
+    pic VARCHAR2(200) 
+);
+
+ALTER TABLE tbl_discount_event
+	ADD
+		CONSTRAINT PK_tbl_discount_event
+		PRIMARY KEY (
+			discount_event_seq
+		);
+
+create sequence discount_event_seq
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;       
         
         
         
@@ -201,4 +237,19 @@ from tbl_product
 where product_type = 1
 );
 
+UPDATE tbl_product
+SET discount_type = 'percent',
+    discount_number = 15.0
+WHERE product_seq = 1;
+
+select *
+from tbl_product
+where product_seq = 1;
+
+UPDATE tbl_product
+SET discount_type = 'amount',
+    discount_number = 1000.0
+WHERE product_seq = 2;
+
 commit;
+

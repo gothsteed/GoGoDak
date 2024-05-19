@@ -6,24 +6,38 @@ public class ProductVO {
     private int fk_manufacturer_seq;	//제조업체고유번호
     private String product_name;		//제품이름
     private String description;			//제품설명
-    private float price;				//가격
+    private float base_price;				//가격
     private int stock;					//재고
     private String main_pic;			//메인사진
     private String description_pic;		//상세사진
     private int product_type;
+    private String discount_type;
+    private float discount_amount;
     
     
     
     
     
    
-    private MaufacturerVO madto;
+
+	private MaufacturerVO madto;
     //todo 할인 정보 dto 추가
     private DiscountVO discountVO;
     
     
     
-
+    public String getDiscount_type() {
+		return discount_type;
+	}
+	public void setDiscount_type(String discount_type) {
+		this.discount_type = discount_type;
+	}
+	public float getDiscount_amount() {
+		return discount_amount;
+	}
+	public void setDiscount_amount(float discount_amount) {
+		this.discount_amount = discount_amount;
+	}
     
 	public DiscountVO getDiscountVO() {
 		return discountVO;
@@ -61,11 +75,11 @@ public class ProductVO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public float getPrice() {
-		return price;
+	public float getBase_price() {
+		return base_price;
 	}
-	public void setPrice(float price) {
-		this.price = price;
+	public void setBase_price(float base_price) {
+		this.base_price = base_price;
 	}
 	public int getStock() {
 		return stock;

@@ -37,7 +37,28 @@
 	                           ${product.product_name}
 	                        </h5>
 	                        <h6>
-	                           ${product.price}
+	                           <c:choose>
+	                              <c:when test="${not empty product.discount_type}">
+	                                 <c:choose>
+	                                    <c:when test="${product.discount_type == 'percent'}">
+	                                       <span style="text-decoration: line-through;">${product.base_price}</span>
+	                                       <span>
+	                                          ${product.base_price - (product.base_price * product.discount_amount / 100)}
+	                                       </span>
+	                                    </c:when>
+	                                    <c:when test="${product.discount_type == 'amount'}">
+	                                       <span style="text-decoration: line-through;">${product.base_price}</span>
+	                                       <span>
+	                              
+	                                          ${product.base_price - product.discount_amount}
+	                                       </span>
+	                                    </c:when>
+	                                 </c:choose>
+	                              </c:when>
+	                              <c:otherwise>
+	                                 ${product.base_price}
+	                              </c:otherwise>
+	                           </c:choose>
 	                        </h6>
 	                     </div>
 	                  </div>
@@ -46,7 +67,7 @@
 			   </c:forEach>
 
             </div>
-		     <div id="pageBar">
+		     <div id="pageBar" class="center">
 		       <nav>
 		           <ul class="pagination">
 		           		${requestScope.pageBar}
@@ -67,5 +88,47 @@
       <script src="js/bootstrap.js"></script>
       custom js
       <script src="js/custom.js"></script> -->
+      
+      
+       <style>
+		   .center {
+		       text-align: center; /* Center the text inside the div */
+		       margin-top: 50px; /* Add top margin */
+		   }
+		   .center nav {
+		       display: inline-block; /* Ensure the nav is treated as an inline-block element */
+		   }
+		   	
+		   .pagination {
+		       padding: 10px; /* Padding around the pagination */
+		       border-radius: 5px; /* Rounded corners */
+		   }
+		   
+		   .pagination li {
+		       display: inline; /* Display list items inline */
+		   }
+		   
+		   .pagination li a {
+		       color: white; /* Text color */
+		       padding: 8px 12px; /* Padding for the links */
+		       text-decoration: none; /* Remove underline from links */
+		       margin: 0 5px; /* Margin between links */
+		       border-radius: 5px; /* Rounded corners for links */
+		       background-color: black; /* Background color of links */
+		       border: 1px solid white; /* Border color */
+		   }
+		   
+		   .pagination li a:hover {
+		       background-color: white; /* Background color on hover */
+		       color: black; /* Text color on hover */
+		   }
+		   
+		   .pagination .active a {
+		       background-color: white; /* Background color for active page */
+		       color: black; /* Text color for active page */
+		       border: 1px solid black; /* Border color for active page */
+		   }
+	   </style>
+      
    </body>
 </html>
