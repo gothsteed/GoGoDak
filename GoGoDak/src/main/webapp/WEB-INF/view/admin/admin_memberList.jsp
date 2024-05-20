@@ -179,7 +179,7 @@
 	</div>
 	
 	<form name="memberOneDetail_frm">
-		<input type="hidden" name="userid" />
+		<input type="hidden" name="id" />
 		<input type="hidden" name="goBackURL" value="${requestScope.currentURL}" />
 	</form>
 
