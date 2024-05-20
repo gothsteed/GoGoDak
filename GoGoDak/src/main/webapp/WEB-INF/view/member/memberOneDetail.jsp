@@ -49,7 +49,7 @@
 	    }
 	    else {
 		  // 예약문자 보내기인 경우
-		  dataObj = {"mobile":"${requestScope.mvo.mobile}",
+		  dataObj = {"mobile":"${requestScope.mvo.tel}",
 				     "smsContent":$("textarea#smsContent").val(),
 				     "datetime":datetime};
 	    }
@@ -92,7 +92,7 @@
 	
 	<c:if test="${not empty requestScope.mvo}">
 	   
-	   <c:set var="mobile" value="${requestScope.mvo.tel}" />   
+	   <c:set var="tel" value="${requestScope.mvo.tel}" />   
 	      
 	   <p class="h3 text-center mt-5 mb-4">::: ${requestScope.mvo.name} 님의 회원 상세정보 :::</p>    
 	   
@@ -128,14 +128,14 @@
 		      <td>성별&nbsp;:&nbsp;</td>
 		      <td>
 		         <c:choose>
-		            <c:when test="${fn:substring(requestScope.mvo.jubun, 6, 7) == '1' || fn:substring(requestScope.mvo.jubun, 6, 7) == '3'  }">남</c:when> 
+		            <c:when test="${fn:substring(requestScope.mvo.jubun, 7, 1) == '1' || fn:substring(requestScope.mvo.jubun, 7, 1) == '3'  }">남</c:when> 
 		            <c:otherwise>여</c:otherwise>
 		         </c:choose>
 		      </td>
 		   </tr>
 		   <tr>
 		      <td>생년월일&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.birthDateString}</td>
+		      <td>${fn:substring(requestScope.mvo.jubun, 0, 6)}</td>
 		   </tr>
 		   <tr>
 		      <td>만나이&nbsp;:&nbsp;</td>
@@ -177,9 +177,8 @@
 	</c:if>
 	
 	<div class="text-center mb-5">
-       <button type="button" class="btn btn-secondary" onclick="javascript:location.href='memberList.up'">회원목록[처음으로]</button> 
-       <button type="button" class="btn btn-success mx-5" onclick="javascript:history.back()">회원목록[history.back()]</button>
-       <button type="button" class="btn btn-primary" onclick="javascript:location.href='${pageContext.request.contextPath}${requestScope.goBackURL}'">회원목록[검색된결과]</button>
+		<button type="button" class="btn btn-outline-warning" onclick="javascript:history.back()">회원목록</button>
+       <button type="button" class="btn btn-outline-dark" onclick="javascript:location.href='${pageContext.request.contextPath}${requestScope.goBackURL}'">회원목록[검색된결과]</button>
     </div>   
 
 </div>
