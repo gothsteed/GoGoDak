@@ -740,5 +740,61 @@ public class MemberDao_Imple implements MemberDao {
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 
+
+	
+	
+	//공지사항 수정하기 혜선
+	@Override
+	public int updateBoard(BoardVO board) throws SQLException {
+		  int result = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_board set title = ? , content = ? , pic = ? "
+	                  + " where board_seq = ? ";
+	                  
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, board.getTitle());
+	         pstmt.setString(2, board.getContent());
+	         pstmt.setString(3, board.getPic());
+	         pstmt.setInt(4, board.getBoard_seq());
+	                  
+	         result = pstmt.executeUpdate();
+	         
+	      }
+	       finally {
+	         close();
+	      }
+	      
+	      return result;      
+	}//end of public int updateBoard(BoardVO board) throws SQLException {}------
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }
 

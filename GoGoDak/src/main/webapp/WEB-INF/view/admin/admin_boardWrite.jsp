@@ -65,7 +65,7 @@ function goRegister() {
 		<div class="col-md-8">
 			<div class="card">
 				<div class="card-header">
-         			<strong>공지사항</strong><p>작성하실 공지사항을 입력해주세요.</p>
+         			<strong style="font-size: 20pt;">공지사항</strong><p>작성하실 공지사항을 입력해주세요.</p>
        			</div>
        			<div class="card-body" id="tblBoardWrite">
 					<form name="boardFrm" method="post">
