@@ -26,15 +26,41 @@ public interface MemberDao {
 	List<MemberVO> select_Member_paging(Map<String, String> paraMap) throws SQLException;
 
 	int getTotalMemberCount(Map<String, String> paraMap) throws SQLException;
+
 	
 	
 	
 	
-//	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업시작■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//공지사항 페이징처리 혜선 
+	List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException ;
+	
+	//공지사항 총 페이지수 알아오기  혜선
+	int getBoardTotalPage(int blockSize)throws SQLException ;
+	
+	//공지사항 디테일 페이지 혜선
+	BoardVO selectOneBoard(String board_seq)throws SQLException ;
 
 		
 		
-//	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업끝■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 
 	
@@ -44,3 +70,4 @@ public interface MemberDao {
 		
 		
 }
+

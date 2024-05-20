@@ -61,20 +61,20 @@ String ctxPath = request.getContextPath();
 		<thead>
 			<tr>
 				<th class="boardView">제목</th>
-	            <th>[배송안내] 2024년 부처님 오신 날 배송 안내</th>
+	            <th>${requestScope.bvo.title}</th>
 	        </tr>
 	        <tr>
 				<th class="boardView">작성자</th>
 	            <th>고고닭</th>
 	        </tr>
 	    </thead>
-	   
-	 	
-		
     </table>
     	
+    	<div>
+    		<span>${requestScope.bvo.content}</span>
+    	</div>
     	<div class="bordPic">
-	 		<img src="<%= ctxPath%>/images/board/barudak_notice2.jpg"> <%--이미지 들어갈수있는 태그만들기 --%>   
+	 		<img src="<%= ctxPath%>/images/board/${requestScope.bvo.pic}"> <%--이미지 들어갈수있는 태그만들기 --%>   
 	 	</div>   
             
     	

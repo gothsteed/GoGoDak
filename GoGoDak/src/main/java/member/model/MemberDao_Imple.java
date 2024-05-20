@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 
 import domain.BoardVO;
 import domain.MemberVO;
+import domain.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -511,14 +512,184 @@ public class MemberDao_Imple implements MemberDao {
 
 
 	
+	
 
 	
-//	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업시작■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 	
-	   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//공지사항 페이징처리 혜선 
+	@Override
+	public List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException  {
+		List<BoardVO> boardList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " SELECT * "
+					   + "FROM (  "
+					   + "    SELECT rownum as rno, board_Seq , title , content , pic "
+					   + "    FROM(  "
+					   + "        select *  "
+					   + "        from tbl_board) V "
+					   + "        )T WHERE T.rno between ? and ?";
+
+
+
+			pstmt = conn.prepareStatement(sql);
 
 	
-//	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■혜선작업끝■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+			pstmt.setLong(1, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
+			pstmt.setLong(2, (currentPage * blockSize));
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				BoardVO bvo = new BoardVO();
+				bvo.setBoard_seq(rs.getInt("board_seq"));
+				bvo.setTitle(rs.getString("title"));
+				bvo.setContent(rs.getString("content"));
+				bvo.setPic(rs.getString("pic"));
+				
+		
+				boardList.add(bvo);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return boardList;
+	}
+
+	
+	//공지사항 총 페이지수 알아오기  혜선
+	@Override
+	public int getBoardTotalPage(int blockSize) throws SQLException {
+		
+		int boardTotalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select count(*)/? "
+					   + " from tbl_board ";
+
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, blockSize);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				boardTotalPage = rs.getInt(1);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return boardTotalPage;
+	}
+
+	
+	//공지사항 디테일 페이지 혜선
+	@Override
+	public BoardVO selectOneBoard(String board_seq) throws SQLException {
+		
+		
+		BoardVO boardView = null;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql =  " select title , content , pic "
+	         			+  " from tbl_board "
+	         			+  " where board_seq = ? ";
+	                     
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, board_seq);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         if(rs.next()) {
+	        	 boardView = new BoardVO();
+	            
+	        	 boardView.setTitle(rs.getString("title"));
+	        	 boardView.setContent(rs.getString("content"));
+	        	 boardView.setPic(rs.getString("pic"));
+	           
+	         } // end of if(rs.next())-------------------
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return boardView;
+	}
+
+
+
+	
 	
 	
 	
@@ -566,3 +737,4 @@ public class MemberDao_Imple implements MemberDao {
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 }
+

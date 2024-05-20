@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String ctxPath = request.getContextPath();
 //    /GoGoDak
@@ -73,9 +74,7 @@ div#pageBar>nav {
 <script type="text/javascript">
 	
 	
-		
-	}//end of function goSearch()-----------------	
-			
+
 			
 	
 </script>	
@@ -95,7 +94,6 @@ div#pageBar>nav {
 	<br> 
 	&nbsp;
 	&nbsp;
-	
 	<table class="table table-hover" id="boardTbl">
 		<thead>
 			<tr>
@@ -106,11 +104,19 @@ div#pageBar>nav {
 		</thead>
 
 		<tbody>
-			<tr class="boardInfo">
-       			<td>1</td><%--순서--%>    
-				<td>고고닭</td> <%--제목 --%>
-				<td>고고닭</td> <%-- 글쓴이 --%>
-			</tr>
+			<c:if test="${not empty requestScope.boardList}">
+				<c:forEach var="board" items="${requestScope.boardList}">
+					<tr class="boardInfo">
+		       			<td>${board.board_seq}</td><%--순서--%>    
+						<td>${board.title}</td> <%--제목 --%>
+						<td>고고닭</td> <%-- 글쓴이 --%>
+					</tr>
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${empty requestScope.boardList}">
+          		<td colspan="5">데이터가 존재하지 않습니다</td>
+         	</c:if>
 		</tbody>
 	</table>
 
@@ -118,7 +124,8 @@ div#pageBar>nav {
 	<form class="text-center mb-5 " name="member_search_frm" style="align-items: baseline;">
 
 		<select name="searchType" style="height: 41px;">
-			<option value="">제목</option>
+			<option value="">번호</option>
+			<option value="title">제목</option>
 		</select> &nbsp; 
 		
 		<input type="text" name="searchWord" style="height: 40px;" />
@@ -132,7 +139,9 @@ div#pageBar>nav {
 
 
 	<div id="pageBar">
-		<nav></nav>
-	</div>
+       <nav>
+          <ul class="pagination">${requestScope.pageBar}</ul>
+       </nav>
+    </div>
 </div>
 <jsp:include page="../footer.jsp" />

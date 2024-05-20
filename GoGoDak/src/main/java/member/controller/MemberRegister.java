@@ -84,3 +84,4 @@ public class MemberRegister extends AbstractController {
 	}
 
 }
+
