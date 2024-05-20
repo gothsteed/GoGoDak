@@ -64,7 +64,7 @@ public class MemberRegister extends AbstractController {
 			int result = memberDao.register(member);
 			
 //			request.setAttribute("id", loc)
-			request.setAttribute("id", request.getParameter("id")); 
+			request.setAttribute("userid", request.getParameter("id")); 
 			request.setAttribute("pwd", request.getParameter("pwd"));
 			
 			super.setViewPage("/WEB-INF/view/member/memberRegister_after_autoLogin.jsp");

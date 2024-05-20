@@ -72,11 +72,17 @@ public class ProductDao_Imple implements ProductDao {
     	prodcut.setFk_manufacturer_seq(rs.getInt("FK_MANUFACTURER_SEQ"));
 		prodcut.setProduct_name(rs.getString("PRODUCT_NAME"));
 		prodcut.setDescription(rs.getString("DESCRIPTION"));
-		prodcut.setPrice(rs.getFloat("PRICE"));
+		prodcut.setBase_price(rs.getFloat("BASE_PRICE"));
 		prodcut.setStock(rs.getInt("STOCK"));
 		prodcut.setMain_pic(rs.getString("MAIN_PIC"));
 		prodcut.setDescription_pic(rs.getString("DISCRIPTION_PIC"));
 		prodcut.setProduct_type(rs.getInt("PRODUCT_TYPE"));
+		prodcut.setDiscount_type(rs.getString("DISCOUNT_TYPE"));
+		prodcut.setDiscount_amount(rs.getFloat("DISCOUNT_NUMBER"));
+		
+		System.out.println(rs.getString("DISCOUNT_TYPE"));
+		System.out.println(prodcut.getDiscount_type());
+		System.out.println(prodcut.getDiscount_amount());
 		
 		return prodcut;
 		
@@ -105,7 +111,8 @@ public class ProductDao_Imple implements ProductDao {
 			String sql = "    SELECT * "
 					+ "    FROM " + "    ( "
 					+ "        SELECT rownum as rno, PRODUCT_SEQ, FK_MANUFACTURER_SEQ,"
-					+ "   PRODUCT_NAME, DESCRIPTION, PRICE,  STOCK, MAIN_PIC, DISCRIPTION_PIC, PRODUCT_TYPE, FK_DISCOUNT_SEQ"
+					+ "   PRODUCT_NAME, DESCRIPTION, BASE_PRICE,  STOCK, MAIN_PIC, DISCRIPTION_PIC, PRODUCT_TYPE, FK_DISCOUNT_EVENT_SEQ,  "
+					+ "    DISCOUNT_TYPE,  DISCOUNT_NUMBER "
 					+ "        FROM " + "        ( "
 					+ "            select * "
 					+ "            from tbl_product "
