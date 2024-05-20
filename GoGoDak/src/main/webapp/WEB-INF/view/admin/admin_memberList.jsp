@@ -67,7 +67,7 @@
 		
 		$("select[name='sizePerPage']").bind("change", function(){ 
 			const frm = document.member_search_frm;
-			frm.action = "memberList.up";
+			frm.action = "member.dk";
 			frm.post = "get";
 			frm.submit();
 		});
@@ -77,7 +77,7 @@
 		 	
 		 	const frm = document.memberOneDetail_frm;
 		 	frm.id.value = id;
-		 	frm.action = "${pageContext.request.contextPath}/member/memberOneDetail.up";
+		 	frm.action = "${pageContext.request.contextPath}/member/memberOneDetail.dk";
 		 	frm.method = "post";
 			frm.submit();
 		});
@@ -96,7 +96,7 @@
 		}
 		
 		const frm = document.member_search_frm;
-		frm.action = "memberList.up";
+		frm.action = "member.dk";
 		frm.post = "get";
 		frm.submit();
 		
@@ -179,7 +179,7 @@
 	</div>
 	
 	<form name="memberOneDetail_frm">
-		<input type="hidden" name="userid" />
+		<input type="hidden" name="id" />
 		<input type="hidden" name="goBackURL" value="${requestScope.currentURL}" />
 	</form>
 
