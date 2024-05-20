@@ -697,44 +697,48 @@ public class MemberDao_Imple implements MemberDao {
 	// 입력받은 id 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
 	@Override
 	public MemberVO selectOneMember(String id) throws SQLException {
-		MemberVO member = null;
+		MemberVO mvo = null;
 		try {
 			conn = ds.getConnection();
-			String sql = " select id, name, email, tel, postcode, address, address_detail, address_extra,  "
-						+ " , jubun, point, to_char(registerDate, 'yyyy-mm-dd') AS registerday "
-						+ " from tbl_member "
-						+ " where exist_status = 1 and id = ? ";
+			String sql = " select id, name, email, tel, postcode, address, address_detail, address_extra, "
+					   + "       jubun, point, to_char(registerday, 'yyyy-mm-dd') AS registerday "
+					   + " from tbl_member "
+					   + " where exist_status = 1 and id = ? ";
 		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, id);
-		
-		rs = pstmt.executeQuery();
-		
-		if(rs.next()) {
-			member = new MemberVO();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
 			
-			member.setId(rs.getString(1));
-			member.setName(rs.getString(2));
-			member.setEmail(aes.decrypt(rs.getString(3)));
-			member.setTel(aes.decrypt(rs.getString(4)));
-			member.setPostcode(rs.getString(5));
-			member.setAddress(rs.getString(6));
-			member.setAddress_detail(rs.getString(7));
-			member.setAddress_extra(rs.getNString(8));
-			member.setJubun(rs.getString(9));
-			member.setPoint(rs.getInt(10));
-			member.setRegisterDate(rs.getDate(11));
+			rs = pstmt.executeQuery();
 			
-		}// end if(rs.next())
+			if(rs.next()) {
+				mvo = new MemberVO();
+				
+				mvo.setId(rs.getString(1));
+				mvo.setName(rs.getString(2));
+				mvo.setEmail(aes.decrypt(rs.getString(3)));
+				mvo.setTel(aes.decrypt(rs.getString(4)));
+				mvo.setPostcode(rs.getString(5));
+				mvo.setAddress(rs.getString(6));
+				mvo.setAddress_detail(rs.getString(7));
+				mvo.setAddress_extra(rs.getString(8));
+				mvo.setJubun(rs.getString(9));
+				mvo.setPoint(rs.getInt(10));
+				mvo.setRegisterDate(rs.getDate(11));
+				
+			}// end if(rs.next())
+			else {
+				System.out.println("데이터가 없습니다.");
+			}
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
 		
-		return member;		
+		return mvo;		
 		
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
+
 }
 
