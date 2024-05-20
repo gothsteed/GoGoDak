@@ -76,10 +76,10 @@ public class Member extends AbstractController{
 			
 			int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
 			
-			pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
 			
 			if(pageNo != 1) {
-				pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 			}
 			while( !(loop > blockSize || pageNo > totalPage) ){
 				
@@ -87,7 +87,7 @@ public class Member extends AbstractController{
 					pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
 				}
 				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
 				}
 				
 				loop++;
@@ -97,9 +97,9 @@ public class Member extends AbstractController{
 			} // end of while() ----------
 			
 			if(pageNo <= totalPage) { 
-				pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
 			}
-			pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";		
+			pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";		
 			
 			String currentURL = MyUtil.getCurrentURL(request);
 			

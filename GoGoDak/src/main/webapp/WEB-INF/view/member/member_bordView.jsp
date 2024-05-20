@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+	
+	
 <%
 String ctxPath = request.getContextPath();
 //    /GoGoDak
 %>
 
-
+<jsp:include page="../header.jsp" />
 <style type="text/css">
 
 .onlyLog{
@@ -38,7 +42,7 @@ String ctxPath = request.getContextPath();
 </style>
 
 
-<jsp:include page="../header.jsp" />
+
 
 	<div class="container" style="padding: 3% 0;" >
 		<h2 class="titleArea ">
@@ -48,10 +52,10 @@ String ctxPath = request.getContextPath();
 	
 	<!-- 작성자가 아닌 경우 글에 대한 수정, 삭제 권한 부여 x -->
 	<div align="right" class="onlyLog">
-		<c:if test="">	
-				<button type="button" class="btn btn-light" onclick="location.href='./boardEdit.jsp'">수정</button>
+		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
+				<button type="button" class="btn btn-light" onclick="location.href='<%= ctxPath%>/admin/noticeEdit.dk'">수정</button>
 		</c:if>
-		<c:if test="">		
+		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">		
 				<button type="button" class="btn btn-light" onclick="goDelete()">삭제</button> <%--삭제하는 이벤트만들기 --%>
 		</c:if>
 	</div>
@@ -80,7 +84,7 @@ String ctxPath = request.getContextPath();
     	
                 
                 
-    	<button type="button" class="btn btn-outline-dark" onclick="location.href='./board.jsp'">목록</button>
+    	<button type="button" class="btn btn-outline-dark" onclick="location.href='<%= ctxPath%>/member/notice.dk'">목록</button>
             
     
 	

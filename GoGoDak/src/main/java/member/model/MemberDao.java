@@ -66,7 +66,11 @@ public interface MemberDao {
 	
 	
 	// 입력받은 id 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
-		MemberVO selectOneMember(String id) throws SQLException;
+	MemberVO selectOneMember(String id) throws SQLException;
+		
+		
+		//공지사항 수정하기 혜선
+		int updateBoard(BoardVO board)throws SQLException;
 		
 		
 }

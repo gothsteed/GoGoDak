@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+
 <%
 String ctxPath = request.getContextPath();
 //    /GoGoDak
 %>
 
-
+<jsp:include page="../header.jsp" />
 
 <style type="text/css">
 
@@ -72,15 +74,34 @@ div#pageBar>nav {
 
 
 <script type="text/javascript">
-	
-	
 
+
+$(document).ready(function() {
+
+
+
+
+	$("table#boardTbl tr.boardInfo").click(e=>{
+		
+		const board_seq = $(e.target).parent().children(".board_seq").text();
+	
+		const frm = document.NoticeDetail_frm;
+		frm.board_seq.value = board_seq;
+		
+		<%-- frm.action = "<%= ctxPath%>/member/memberOneDetail.up" --%>
+		frm.action = "<%= ctxPath%>/member/noticeDetail.dk";
+		frm.method = "post";
+		frm.submit();
+	});	
+
+
+});//end of ------------------------
 			
 	
 </script>	
 
 
-<jsp:include page="../header.jsp" />
+
 
 
 <div class="container" style="padding: 3% 0;">
@@ -107,7 +128,7 @@ div#pageBar>nav {
 			<c:if test="${not empty requestScope.boardList}">
 				<c:forEach var="board" items="${requestScope.boardList}">
 					<tr class="boardInfo">
-		       			<td>${board.board_seq}</td><%--순서--%>    
+		       			<td class="board_seq">${board.board_seq}</td><%--순서--%>    
 						<td>${board.title}</td> <%--제목 --%>
 						<td>고고닭</td> <%-- 글쓴이 --%>
 					</tr>
@@ -144,4 +165,31 @@ div#pageBar>nav {
        </nav>
     </div>
 </div>
+
+<form name="NoticeDetail_frm">
+	<input type="hidden" name="board_seq" /> <%--한명의 회원을 넘겨주기위해--%>
+	<input type="hidden" name="goBackURL" value="${requestScope.currentURL}" /> <%--한명의 회원을 넘겨주기위해--%>
+</form>
+
 <jsp:include page="../footer.jsp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
