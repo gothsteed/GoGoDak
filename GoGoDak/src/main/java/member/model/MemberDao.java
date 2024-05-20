@@ -69,8 +69,7 @@ public interface MemberDao {
 	MemberVO selectOneMember(String id) throws SQLException;
 		
 		
-		//공지사항 수정하기 혜선
-		int updateBoard(BoardVO board)throws SQLException;
+		
 		
 		
 }

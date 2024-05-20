@@ -45,6 +45,8 @@ $(document).ready(function() {
 
 function goEdit() {
 	
+	
+	console.log("input:hidden[name='seq']").val());
 	const frm = document.boardEditFrm;
     frm.action = "<%=ctxPath%>/admin/noticeEdit.dk";
     frm.method = "post";
@@ -77,6 +79,7 @@ function goEdit() {
 				            <label for="content">내용</label>
 				            <textarea name="content" id="content"  value = "${requestScope.content}"></textarea>
 			            </div>
+			            <input type="hidden" name="seq" value = "${requestScope.board_seq}"/>
 						<div class="board-group">
 							<label for="pic">이미지</label>
 							<div>
