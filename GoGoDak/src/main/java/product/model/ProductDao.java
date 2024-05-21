@@ -11,4 +11,6 @@ public interface ProductDao {
 
 	int getTotalPage(int productType, int blockSize) throws SQLException;
 
+	ProductVO getProductBySeq(int product_seq) throws SQLException;
+
 }

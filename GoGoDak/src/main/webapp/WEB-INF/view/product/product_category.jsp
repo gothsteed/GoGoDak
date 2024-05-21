@@ -17,15 +17,12 @@
                
       
                <c:forEach var="product" items="${requestScope.productList}">
-	               <div class="col-sm-6 col-md-4 col-lg-3" href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_Seq}">
+               	  <div class="col-sm-6 col-md-4 col-lg-3" >
 	                  <div class="box">
 	                     <div class="option_container">
 	                        <div class="options">
-	                           <a href="" class="option1">
-	                           Add To Cart
-	                           </a>
-	                           <a href="" class="option2">
-	                           Buy Now
+	                           <a href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_seq}" class="option2">
+	                           	보기
 	                           </a>
 	                        </div>
 	                     </div>
@@ -63,6 +60,7 @@
 	                     </div>
 	                  </div>
 	               </div>
+
 					
 			   </c:forEach>
 

@@ -2,8 +2,11 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="../header.jsp" />
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%
     String contextPath = request.getContextPath();
+
 %>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -176,6 +179,13 @@
         display: flex;
         justify-content: center;
     }
+    
+    .product_review {
+        font-size: 18px; /* Increase the font size */
+    }
+    .product_review p {
+        color: #ffa500;
+    }
 </style>
 </head>
 <body>
@@ -191,43 +201,85 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="product_image">
-                    <img src="<%= contextPath %>/images/product/chicken/0c21851fc450cbc939f6dd460b7847fd.jpg" alt="Product Name" style="width:100%;">
+                    <img src="<%= contextPath %>/images/product/${requestScope.product.main_pic}.jpg" alt="Product Name" style="width:100%;">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="product_detail">
-                    <h2><p class="ttt"><b>[고고닭 업고 튀어]</b></p><p class="eee"> 식단은 내가 딱 붙어서 지켜줄게!</p></h2>
-                    <p class="product_price">72% 2,500원 <span style="text-decoration:line-through; color:#999;">6,800원</span></p>
+                    <h2><p class="ttt"></p><p class="eee"> ${requestScope.product.product_name}</p></h2>
+                    <br>
+                    		 <p class="product_price">
+                              <c:choose>
+	                              <c:when test="${not empty product.discount_type}">
+	                                 <c:choose>
+	                                    <c:when test="${product.discount_type == 'percent'}">
+	                                    	<span>${ product.discount_amount}%</span>
+	                                       <span>
+	                                          ${product.base_price - (product.base_price * product.discount_amount / 100)}원
+	                                       </span>
+	                                       <span style="text-decoration:line-through; color:#999;">   ${product.base_price}원</span>
+	               
+	                                    </c:when>
+	                                    <c:when test="${product.discount_type == 'amount'}">
+	                                       <span style="text-decoration: line-through;">${product.base_price}</span>
+	                                       <span>
+	                              
+	                                          ${product.base_price - product.discount_amount}
+	                                       </span>
+	                                    </c:when>
+	                                 </c:choose>
+	                              </c:when>
+	                              <c:otherwise>
+	                                 ${product.base_price}
+	                              </c:otherwise>
+	                           </c:choose>
+                    		</p>
+                    
                     <div class="detail">
-                        <th scope="row">
-                            <span style="font-size:13px;color:#555555;font-weight:bold;">배송비</span>
-                        </th>
+
                         <td class="m_item">
                             <span style="font-size:13px;color:#555555;font-weight:bold;">
                                 <span class="delv_price_B">
                                     <input id="delivery_cost_prepaid" name="delivery_cost_prepaid" value="P" type="hidden">
-                                    <strong>3,000원</strong> (39,000원 이상 구매 시 무료)
+                                    <strong>전상품 배송비 무료</strong> 
                                 </span>
                             </span>
                         </td>
                         <br>
+                        <br>
                         <tr rel="상품 설명" class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">상품 설명</span></th>
-                            <td class="m_item"><span style="font-size:12px;color:#555555;"><font color="#1c95fd">[고고닭 업고 튀어]</font> 식단은 내가 딱 붙어서 지켜줄게! <font color="#ff77b7">[최대 72% 할인]</font><br>
-                            <font color="#FF0000">2024.05.13 ~ 2024.05.26</font></span></td>
+                            <th scope="row"><span style="font-size:18px;color:#555555;">상품 설명: </span></th>
+                            <br>
+                            <td class="m_item"><span style="font-size:18px;color:#555555;"><font color="#1c95fd">${product.description}</font><br>
+
                         </tr>
                         <br>
-                        <tr rel="배송 안내" class=" xans-record-">
-                            <th scope="row"><span style="font-size:12px;color:#555555;">배송 안내</span></th>
-                            <td class="m_item"><span style="font-size:12px;color:#555555;">[특가상품으로, <b><font color="#FF0000">적립금/쿠폰 사용이 불가</font></b>하며, 주문량에 따라 <b><font color="#FF0000">순차발송</font></b>될 수 있습니다.]</span></td>
-                        </tr>
+             
+                      
                         <div class="product_review">
-                            <p>Customer Reviews: ★★★★☆</p>
+                            
+                            <p>Customer Reviews: 
+                            	
+                            	<c:if test="${not empty requestScope.scoreAvg}">
+	                            	<c:forEach var="i" begin="0" end="${requestScope.scoreAvg-1}">
+									    ★
+									</c:forEach>
+									<c:forEach var="i" begin="0" end="${5 - requestScope.scoreAvg - 1}">
+									    ☆
+									</c:forEach>
+                            	</c:if>
+                            	
+                            	<c:if test="${empty requestScope.scoreAvg}">
+									평가없음
+                            	</c:if>
+	
+							</p>
                         </div>
                     </div>
+                     <br>
                     <div class="purchase_info">
-                        <button class="btn btn-dark" onclick="">바로 구매하기</button>
-                        <button class="btn btn-secondary" onclick="window.location.href='<%= contextPath %>/member/cart.dk'">장바구니 넣기</button>
+                        <button class="btn btn-dark" onclick="goToCart(${requestScope.product.product_seq})">바로 구매하기</button>
+                        <button class="btn btn-secondary" onclick="addToCart(${requestScope.product.product_seq})">장바구니 넣기</button>
                     </div>
                 </div>
             </div>
@@ -246,20 +298,53 @@
         <div class="tab-content" id="productTabContent">
             <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
                 <!-- Detailed information about the product -->
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas interdum, massa nec vulputate sagittis, 
-                dolor massa aliquet velit, in fermentum velit dolor sit amet quam. Sed id justo finibus, gravida lectus ac, 
-                viverra elit. Nullam viverra lorem eu augue tincidunt gravida.</p>
+                <p>${requestScope.product.description}</p>
                 <div>
                     <!-- Inserted Image -->
-                    <img src="/mnt/data/image.png" alt="Additional Product Image" style="width:100%; margin-top:20px;">
+                    <img src="<%= contextPath %>/images/product/${requestScope.product.description_pic}.jpg" style="width:100%; margin-top:20px;">
                 </div>
             </div>
             <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰 등록하기</button>
                 <hr>
                 <!-- Customer reviews content -->
-                <p>Customer Review 1: "Great product, really happy with the purchase!" - John Doe</p>
-                <p>Customer Review 2: "The product could be improved. It worked fine but I had some issues with the delivery." - Jane Smith</p>
+            
+                <section class="reviews">
+
+					
+		         	<c:forEach var="review" items="${requestScope.reviewList}">
+						<div class="review">
+			                <div class="review-header">
+			                    <h2>${review.id}</h2>
+			                    <span class="review-date">${review.ragisterdate}</span>
+			                </div>
+			                <p class="review-content">${review.content}</p>
+			                <div class="review-rating">
+
+				                <c:if test="${not empty review.star}">
+	                            	<c:forEach var="i" begin="0" end="${review.star-1}">
+									    ★
+									</c:forEach>
+									<c:forEach var="i" begin="0" end="${5 - review.star - 1}">
+									    ☆
+									</c:forEach>
+                            	</c:if>
+                            	
+                            	<c:if test="${empty review.star}">
+									평가없음
+                            	</c:if>
+							</div>
+			            </div>
+					</c:forEach>
+					
+		            <!-- 추가 리뷰 -->
+        		</section>
+                
+                
+                
+                
+                
+                
                 <!-- Modal -->
                 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -311,6 +396,54 @@
     function submitReview() {
         alert('리뷰가 제출되었습니다.');
     }
+    
+    
+    function addToCart(productSeq) {
+    	console.log('<%= contextPath %>/member/cart.dk')
+    	
+        $.ajax({
+            url: '<%= contextPath %>/member/cart.dk',
+            type: 'post',
+            data: {
+                product_seq: productSeq // include the productSeq in the data
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('카트에 담김');
+                } else {
+                    alert('카트 담기 실패: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('카트 담기 실패: ' + error);
+            }
+        });
+    }
+    
+    function goToCart(productSeq) {
+        $.ajax({
+            url: '<%= contextPath %>/member/cart.dk',
+            type: 'post',
+            data: {
+                product_seq: productSeq // include the productSeq in the data
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('카트에 담김');
+                    window.location.href = '${contextPath}/member/cartPage.dk';
+                } else {
+                    alert('카트 담기 실패: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('카트 담기 실패: ' + error);
+            }
+        });
+    }
+
+
+
+    
 </script>
 </body>
 </html>

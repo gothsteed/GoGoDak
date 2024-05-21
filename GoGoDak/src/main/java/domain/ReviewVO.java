@@ -8,7 +8,7 @@ public class ReviewVO {
 	private int fk_product_seq;	  //제품고유번호
 	private int fk_order_seq;	  //주문고유번호
 	private String id;			  //아이디	
-	private String star;		  //별점
+	private int star;		  //별점
 	private Date ragisterdate;	  //작성날짜
 	private String content;		  //내용
 	private String pic;			  //첨부사진
@@ -51,10 +51,10 @@ public class ReviewVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getStar() {
+	public int getStar() {
 		return star;
 	}
-	public void setStar(String star) {
+	public void setStar(int star) {
 		this.star = star;
 	}
 	public Date getRagisterdate() {

@@ -2,7 +2,7 @@ package domain;
 
 public class ProductVO {
 	
-    private int product_Seq;			//제품고유번호
+    private int product_seq;			//제품고유번호
     private int fk_manufacturer_seq;	//제조업체고유번호
     private String product_name;		//제품이름
     private String description;			//제품설명
@@ -45,8 +45,8 @@ public class ProductVO {
 	public void setDiscountVO(DiscountVO discountVO) {
 		this.discountVO = discountVO;
 	}
-	public int getProduct_Seq() {
-		return product_Seq;
+	public int getProduct_seq() {
+		return product_seq;
 	}
 	public int getProduct_type() {
 		return product_type;
@@ -54,8 +54,8 @@ public class ProductVO {
 	public void setProduct_type(int product_type) {
 		this.product_type = product_type;
 	}
-	public void setProduct_Seq(int product_Seq) {
-		this.product_Seq = product_Seq;
+	public void setProduct_seq(int product_Seq) {
+		this.product_seq = product_Seq;
 	}
 	public int getFk_manufacturer_seq() {
 		return fk_manufacturer_seq;

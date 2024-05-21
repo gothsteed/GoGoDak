@@ -68,7 +68,7 @@ public class ProductDao_Imple implements ProductDao {
 	private ProductVO createProductVO(ResultSet rs) throws SQLException {
     	ProductVO prodcut = new ProductVO();
     	
-    	prodcut.setProduct_Seq(rs.getInt("PRODUCT_SEQ"));
+    	prodcut.setProduct_seq(rs.getInt("PRODUCT_SEQ"));
     	prodcut.setFk_manufacturer_seq(rs.getInt("FK_MANUFACTURER_SEQ"));
 		prodcut.setProduct_name(rs.getString("PRODUCT_NAME"));
 		prodcut.setDescription(rs.getString("DESCRIPTION"));
@@ -175,6 +175,38 @@ public class ProductDao_Imple implements ProductDao {
 		}
 
 		return totalPage;
+	}
+
+	@Override
+	public ProductVO getProductBySeq(int product_seq) throws SQLException {
+		ProductVO productVO = null;
+		
+		
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ " from tbl_product "
+					+ " where product_seq = ? ";
+
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, product_seq);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				productVO = createProductVO(rs);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+		
+		return productVO;
+
 	}
 	
 	

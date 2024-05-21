@@ -1,7 +1,10 @@
 package member.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import domain.MemberVO;
@@ -11,21 +14,80 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.model.MemberDao;
 import member.model.MemberDao_Imple;
+import product.model.ProductDao;
+import product.model.ProductDao_Imple;
 
 public class Cart extends AbstractController {
 
-	private MemberDao mdao = null;
+	private ProductDao productDao;
 
 	public Cart() {
-		mdao = new MemberDao_Imple();
+		productDao = new ProductDao_Imple();
 	}
 	
 	
 	
+	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println("====Cart Post====");
+		String product_seqString = request.getParameter("product_seq");
+		
+		JSONObject jsonResponse = new JSONObject();
+		
+		int product_seq = -1;
+		try {
+			product_seq = Integer.parseInt(product_seqString);
+			
+		}catch (NumberFormatException e) {
+	        jsonResponse.put("success", false);
+	        jsonResponse.put("message", "Invalid product sequence.");
+	        response.setContentType("application/json");
+	        response.getWriter().write(jsonResponse.toString());
+			return;
+		}
+		
+		
+		ProductVO product = productDao.getProductBySeq(product_seq);
+		
+		if(product == null) {
+	        jsonResponse.put("success", false);
+	        jsonResponse.put("message", "Invalid product sequence.");
+	        response.setContentType("application/json");
+	        response.getWriter().write(jsonResponse.toString());
+			return;
+		}
+		
+		
+		HttpSession session =request.getSession();
+		
+		if(session.getAttribute("cart") == null) {
+			session.setAttribute("cart", new ArrayList<ProductVO>());
+			
+		}
+		
+		
+		List<ProductVO> productList =  (List<ProductVO>)session.getAttribute("cart");
+
+		productList.add(product);
+		
+        jsonResponse.put("success", true);
+        jsonResponse.put("message", "added to cart");
+        response.setContentType("application/json");
+        response.getWriter().write(jsonResponse.toString());
+	}
+
+	
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	HttpSession session =request.getSession();
+		HttpSession session =request.getSession();
 		
+		String method = request.getMethod();
+		if(method.equalsIgnoreCase("post")) {
+			postMethod(request, response);
+			return;
+		}
+	
 		MemberVO loginuser =(MemberVO)session.getAttribute("loginuser");
 		
 		
