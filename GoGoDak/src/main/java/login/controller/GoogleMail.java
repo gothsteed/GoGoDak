@@ -55,7 +55,7 @@ public class GoogleMail {
 		MimeMessage msg = new MimeMessage(ses);
 
 		// 제목 설정
-		String subject = "localhost:9090/MyMVC/index.up 회원님의 비밀번호를 찾기위한 인증코드 발송";
+		String subject = "고고닭 회원님의 비밀번호를 찾기위한 인증코드가 발송되었습니다.";
 		msg.setSubject(subject);
 
 		// 보내는 사람의 메일주소
@@ -68,13 +68,11 @@ public class GoogleMail {
 		msg.addRecipient(Message.RecipientType.TO, toAddr);
 
 		// 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-		msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>" + certification_code + "</span>",
-				"text/html;charset=UTF-8");
+		msg.setContent("발송된 인증코드 : <span style='font-size:14pt; color:red;'>" + certification_code + "</span>", "text/html;charset=UTF-8");
 
 		// 메일 발송하기
 		Transport.send(msg);
 
-	}// end of public void send_certification_code(String recipient, String
-		// certification_code) throws Exception--------
+	} // end of public void send_certification_code(String recipient, String certification_code) throws Exception --------
 
 }

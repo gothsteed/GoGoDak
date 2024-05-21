@@ -41,6 +41,28 @@ String ctxPath = request.getContextPath();
 
 </style>
 
+<script type="text/javascript">
+
+function goEdit() {
+		
+	const frm = document.boardEditinfoFrm;
+    frm.action = "<%=ctxPath%>/admin/noticeEdit.dk";
+    frm.method = "post";
+    frm.submit();
+
+}
+
+function goDelete() {
+    if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
+        const frm = document.boardEditinfoFrm;
+        frm.action = "<%=ctxPath%>/admin/noticeDelete.dk";
+        frm.method = "post";
+        frm.submit();
+	}
+}
+
+
+</script>
 
 
 
@@ -53,14 +75,15 @@ String ctxPath = request.getContextPath();
 	<!-- 작성자가 아닌 경우 글에 대한 수정, 삭제 권한 부여 x -->
 	<div align="right" class="onlyLog">
 		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
-				<button type="button" class="btn btn-light" onclick="location.href='<%= ctxPath%>/admin/noticeEdit.dk'">수정</button>
+				<button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
 		</c:if>
 		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">		
 				<button type="button" class="btn btn-light" onclick="goDelete()">삭제</button> <%--삭제하는 이벤트만들기 --%>
 		</c:if>
 	</div>
-	<!-- 작성자가 아닌 경우 글에 대한 수정, 삭제 권한 부여 x -->
 	
+	<!-- 작성자가 아닌 경우 글에 대한 수정, 삭제 권한 부여 x -->
+	<input type="hidden" name="board_seq" value="${requestScope.bvo.board_seq}">
 	<table class="table">
 		<thead>
 			<tr>
@@ -75,7 +98,9 @@ String ctxPath = request.getContextPath();
     </table>
     	
     	<div>
-    		<span>${requestScope.bvo.content}</span>
+    	<br><br><br>
+    		<span style="display: flex; justify-content: center;">${requestScope.bvo.content}</span>
+   		<br><br>
     	</div>
     	<div class="bordPic">
 	 		<img src="<%= ctxPath%>/images/board/${requestScope.bvo.pic}"> <%--이미지 들어갈수있는 태그만들기 --%>   
@@ -91,5 +116,11 @@ String ctxPath = request.getContextPath();
 	
 	
 	</div>
+	
+	<form name="boardEditinfoFrm" method="post" style="display: none;">
+		<input type="text" name="board_seq" value="${requestScope.bvo.board_seq}">
+		<input type="text" name="title" value="${requestScope.bvo.title}">
+		<input type="text" name="content" value="${requestScope.bvo.content}">
+	</form>
 
 <jsp:include page="../footer.jsp" />

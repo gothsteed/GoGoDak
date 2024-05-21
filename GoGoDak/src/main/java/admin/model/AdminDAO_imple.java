@@ -96,5 +96,104 @@ public class AdminDAO_imple implements AdminDAO {
 	
 
 	}
+	
+	
+	
+	//공지사항 수정하기 혜선
+		@Override
+		public int updateBoard(BoardVO board) throws SQLException {
+			  int result = 0;
+		      
+		      try {
+		         conn = ds.getConnection();
+		         
+		         String sql = " update tbl_board set title = ? , content = ? , pic = ? "
+		                    + " where board_seq = ? ";
+		                  
+		         pstmt = conn.prepareStatement(sql);
+		         
+		         pstmt.setString(1, board.getTitle());
+		         pstmt.setString(2, board.getContent());
+		         pstmt.setString(3, board.getPic());
+		         pstmt.setInt(4, board.getBoard_seq());
+		                  
+		         result = pstmt.executeUpdate();
+		         
+		      }
+		       finally {
+		         close();
+		      }
+		      
+		      return result;      
+		}//end of public int updateBoard(BoardVO board) throws SQLException {}------
+
+		
+		
+		
+		//수정해야할 board select board_seq
+		@Override
+		public int boardSelectBySeq(int board_seq) throws Exception {
+			
+			int boardSelectBySeq = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select board_seq "
+						   + " from tbl_board "
+						   + " where board_seq = ? " ;
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, board_seq);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					boardSelectBySeq = rs.getInt(1);
+					
+				}
+				 
+				
+			} finally {
+				close();
+			}
+			
+			return boardSelectBySeq;
+		}
+
+		
+		
+		//공지사항 게시글 삭제하기
+		@Override
+		public int deletedBoard(BoardVO boardDelete) throws Exception {
+			
+			int result = 0;
+			try {
+				conn = ds.getConnection();
+				String sql = " DELETE FROM tbl_board WHERE board_seq = ? " ;
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, boardDelete.getBoard_seq());
+				
+				
+				//오류확인용 시작//
+				System.out.println("SQL: " + sql);
+				System.out.println("Seq: " + boardDelete.getBoard_seq());
+				//오류확인용 끝//
+				
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception("Database error: " + e.getMessage(), e);
+			} finally {
+				close();
+			}
+			
+			return result;
+			
+		}
+		
+	
 
 }

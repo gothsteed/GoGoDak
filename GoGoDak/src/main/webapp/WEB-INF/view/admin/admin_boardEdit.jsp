@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>     
 <%
     String ctxPath = request.getContextPath();
     //    /GoGoDak
@@ -45,14 +47,17 @@ $(document).ready(function() {
 
 function goEdit() {
 	
+	
 	const frm = document.boardEditFrm;
-    frm.action = "<%=ctxPath%>/admin/noticeEdit.dk";
+    frm.action = "<%=ctxPath%>/admin/noticeEditEnd.dk";
     frm.method = "post";
     frm.submit();
 }
 
 
-
+function goReset() {
+    history.back(); // 이전 페이지로 이동
+}
 
 
 </script>
@@ -69,13 +74,14 @@ function goEdit() {
        			<div class="card-body" id="tblBoardWrite" style="text-align: left;">
 					<form name="boardEditFrm" method="post">
 		         		<div class="board-group">
+		         			<input type="hidden" name="board_seq" value="${requestScope.board_seq}">
 		               		<label for="title">제목</label>
 		               		<input type="text" name="title" id="title" value = "${requestScope.title}" />
 		           		</div>
 	         
 			            <div class="board-group">
 				            <label for="content">내용</label>
-				            <textarea name="content" id="content"  value = "${requestScope.content}"></textarea>
+				            <textarea name="content" id="content" >${requestScope.content}</textarea>
 			            </div>
 						<div class="board-group">
 							<label for="pic">이미지</label>

@@ -26,7 +26,7 @@ public class Notice extends AbstractController {
 		
 		String boardseq = request.getParameter("board_seq");
 		
-		int blockSize = 3;  //한번에 보여주는 페이지 수
+		int blockSize = 8;  //한번에 보여주는 페이지 수
 		int currentPage;    
 
 		try {
@@ -79,14 +79,15 @@ public class Notice extends AbstractController {
 			pageNo++;
 
 		}
-
 		pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq + "&page="
 				+ (totalPageNum) + "'>[맨마지막]</a></li>";
+		
 		// 다음 마지막 만들기
 		if (pageNo <= totalPageNum) {
 			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq
 					+ "&page=" + (currentPage + 1) + "'>[다음]</a></li>";
 		}
+		
 
 		request.setAttribute("boardList", boardList);
 		request.setAttribute("pageBar", pageBar);
