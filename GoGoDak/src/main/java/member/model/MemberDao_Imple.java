@@ -608,8 +608,10 @@ public class MemberDao_Imple implements MemberDao {
 					   + "    FROM(  "
 					   + "        select *  "
 					   + "        from tbl_board) V "
+					   + "		  ORDER BY board_Seq desc"
 					   + "        )T WHERE T.rno between ? and ?";
-
+					   
+					
 
 
 			pstmt = conn.prepareStatement(sql);
@@ -650,9 +652,9 @@ public class MemberDao_Imple implements MemberDao {
 		try {
 			conn = ds.getConnection();
 
-			String sql = " select count(*)/? "
+			String sql = " select ceil(count(*)/?) as pgn "
 					   + " from tbl_board ";
-
+					   
 
 
 			pstmt = conn.prepareStatement(sql);

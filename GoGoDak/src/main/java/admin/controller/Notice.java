@@ -37,7 +37,7 @@ public class Notice extends AbstractController {
             board.setPic(pic);
 
             int result = adao.boardWrite(board);
-
+            System.out.println("result : "+result);
             if (result == 1) {
 //                System.out.println("DB Insert 성공");
                 
@@ -49,6 +49,9 @@ public class Notice extends AbstractController {
 
                 request.setAttribute("message", message);
                 request.setAttribute("loc", loc);
+                
+                super.setViewPage("/WEB-INF/view/msg.jsp");
+                
             } 
         } else {
 //            System.out.println("GET 요청 처리");

@@ -52,6 +52,16 @@ function goEdit() {
 
 }
 
+function goDelete() {
+    if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
+        const frm = document.boardEditinfoFrm;
+        frm.action = "<%=ctxPath%>/admin/noticeDelete.dk";
+        frm.method = "post";
+        frm.submit();
+	}
+}
+
+
 </script>
 
 
@@ -88,7 +98,9 @@ function goEdit() {
     </table>
     	
     	<div>
-    		<span>${requestScope.bvo.content}</span>
+    	<br><br><br>
+    		<span style="display: flex; justify-content: center;">${requestScope.bvo.content}</span>
+   		<br><br>
     	</div>
     	<div class="bordPic">
 	 		<img src="<%= ctxPath%>/images/board/${requestScope.bvo.pic}"> <%--이미지 들어갈수있는 태그만들기 --%>   

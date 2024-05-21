@@ -162,6 +162,37 @@ public class AdminDAO_imple implements AdminDAO {
 			
 			return boardSelectBySeq;
 		}
+
+		
+		
+		//공지사항 게시글 삭제하기
+		@Override
+		public int deletedBoard(BoardVO boardDelete) throws Exception {
+			
+			int result = 0;
+			try {
+				conn = ds.getConnection();
+				String sql = " DELETE FROM tbl_board WHERE board_seq = ? " ;
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, boardDelete.getBoard_seq());
+				
+				
+				//오류확인용 시작//
+				System.out.println("SQL: " + sql);
+				System.out.println("Seq: " + boardDelete.getBoard_seq());
+				//오류확인용 끝//
+				
+				result = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new Exception("Database error: " + e.getMessage(), e);
+			} finally {
+				close();
+			}
+			
+			return result;
+			
+		}
 		
 	
 
