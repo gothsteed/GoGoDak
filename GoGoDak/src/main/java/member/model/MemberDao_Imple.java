@@ -661,7 +661,7 @@ public class MemberDao_Imple implements MemberDao {
 	      try {
 	         conn = ds.getConnection();
 	         
-	         String sql =  " select title , content , pic "
+	         String sql =  " select title , content , pic ,board_seq"
 	         			+  " from tbl_board "
 	         			+  " where board_seq = ? ";
 	                     
@@ -677,7 +677,7 @@ public class MemberDao_Imple implements MemberDao {
 	        	 boardView.setTitle(rs.getString("title"));
 	        	 boardView.setContent(rs.getString("content"));
 	        	 boardView.setPic(rs.getString("pic"));
-	           
+	        	 boardView.setBoard_seq(rs.getInt("board_seq"));
 	         } // end of if(rs.next())-------------------
 	         
 	      } finally {

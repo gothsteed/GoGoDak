@@ -22,25 +22,21 @@ public class NoticeEdit extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		if(super.checkLogin(request)) {
-			 String id = request.getParameter("id");
 			 
 	         HttpSession session = request.getSession();
 	         MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 	         
 	         if(loginuser.getId().equalsIgnoreCase("admin")) {
 	        	
-	        	int board_seq = Integer.parseInt(request.getParameter("board_seq"));
+	        	String board_seq = request.getParameter("board_seq");
+	 			String title = request.getParameter("title");
+	 			String content = request.getParameter("content");
 	        	
-	        	System.out.println("board_seq:" + board_seq);
-	        	
-	        	int board_select = adao.boardSelectBySeq(board_seq);
-	        	BoardVO board_seq1 = new BoardVO();
-	        	board_seq1.setBoard_seq(board_select);
-	        	
-	        	System.out.println("test"+board_select);
-	        	
-	        	
+	 			
+	 			request.setAttribute("board_seq", board_seq);
+	 			request.setAttribute("title", title);
+	 			request.setAttribute("content", content);
+	        	 
 	            super.setRedirect(false);
 	            super.setViewPage("/WEB-INF/view/admin/admin_boardEdit.jsp");
 	         }
@@ -55,24 +51,6 @@ public class NoticeEdit extends AbstractController {
 	            super.setRedirect(false);
 	            super.setViewPage("/WEB-INF/view/msg.jsp");
 	         }
-	         
-	      
-		}
-	      else {
-	         // 로그인을 안했으면 
-	         String message = "관리자 외 접근 불가능 합니다.";
-	         String loc = "javascript:history.back()";
-	         
-	         request.setAttribute("message", message);
-	         request.setAttribute("loc", loc);
-	         
-	      //   super.setRedirect(false);
-	         super.setViewPage("/WEB-INF/view/msg.jsp");
-	      }
-	      
-
-		
-		
 
 	}
 

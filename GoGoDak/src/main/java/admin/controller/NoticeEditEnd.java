@@ -29,13 +29,13 @@ public class NoticeEditEnd extends AbstractController {
 			String board_seq = request.getParameter("board_seq");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			String pic = request.getParameter("pic");
+//			String pic = request.getParameter("pic");
 
 			BoardVO board = new BoardVO();
 			board.setBoard_seq(Integer.parseInt(board_seq));
 			board.setTitle(title);
 			board.setContent(content);
-			board.setPic(pic);
+//			board.setPic(pic);
 			
 
 			// === 회원수정이 성공되어지면 "회원정보 수정 성공!!" 이라는 alert 를 띄우고 시작페이지로 이동한다. === //
@@ -48,7 +48,7 @@ public class NoticeEditEnd extends AbstractController {
 				if (boardEdit == 1) {
 
 					message = "공지사항 수정 완료";
-					loc = request.getContextPath() + "/index.up"; // 시작페이지로 이동한다.
+					loc = request.getContextPath() + "/member/notice.dk"; // 시작페이지로 이동한다.
 				}
 			} catch (SQLException e) {
 				message = "SQL구문 에러발생";
