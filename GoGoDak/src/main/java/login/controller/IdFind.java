@@ -48,44 +48,6 @@ public class IdFind extends AbstractController {
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/member/member_findId.jsp");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/////////////////////////////////////////////////////////////////////
-	/*	
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/member/member_findId.jsp");
-
-		String method = request.getMethod();
-
-		if (method.equalsIgnoreCase("get")) {
-//			super.setRedirect(false);
-//			super.setViewPage("");
-			
-			return;
-			
-		}
-		
-		
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-
-		Map<String, String> paraMap = new HashMap<String, String>();
-
-		paraMap.put("name", name);
-		paraMap.put("email", email);
-
-		String id = memberDao.getId(paraMap);
-
-		//TODO: 뷰 세팅하기
-*/
 	}
 
 }
