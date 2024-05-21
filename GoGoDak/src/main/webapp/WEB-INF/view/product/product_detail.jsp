@@ -277,8 +277,8 @@
                     </div>
                      <br>
                     <div class="purchase_info">
-                        <button class="btn btn-dark" onclick="">바로 구매하기</button>
-                        <button class="btn btn-secondary" onclick="">장바구니 넣기</button>
+                        <button class="btn btn-dark" onclick="goToCart(${requestScope.product.product_seq})">바로 구매하기</button>
+                        <button class="btn btn-secondary" onclick="addToCart(${requestScope.product.product_seq})">장바구니 넣기</button>
                     </div>
                 </div>
             </div>
@@ -395,6 +395,37 @@
     function submitReview() {
         alert('리뷰가 제출되었습니다.');
     }
+    
+    
+    function addToCart(productSeq) {
+        $.ajax({
+            url: '${contextPath}/member/cart.dk',
+            type: 'POST',
+            data: { "product_seq": "${requestScope.product.product_seq}" },
+            success: function(response) {
+                alert('카드에 담김');
+            },
+            error: function(xhr, status, error) {
+                alert('카트 담기 실패: ' + error);
+            }
+        });
+    }
+    
+    function goToCart(productSeq) {
+        $.ajax({
+            url: '${contextPath}/member/cart.dk',
+            type: 'POST',
+            data: { "product_seq": "${requestScope.product.product_seq}" },
+            success: function(response) {
+                alert('카드에 담김');
+                window.location.href = '${contextPath}/member/cart.dk';
+            },
+            error: function(xhr, status, error) {
+                alert('카트 담기 실패: ' + error);
+            }
+        });
+    }
+    
 </script>
 </body>
 </html>
