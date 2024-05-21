@@ -68,7 +68,7 @@ public class ProductDao_Imple implements ProductDao {
 	private ProductVO createProductVO(ResultSet rs) throws SQLException {
     	ProductVO prodcut = new ProductVO();
     	
-    	prodcut.setProduct_Seq(rs.getInt("PRODUCT_SEQ"));
+    	prodcut.setProduct_seq(rs.getInt("PRODUCT_SEQ"));
     	prodcut.setFk_manufacturer_seq(rs.getInt("FK_MANUFACTURER_SEQ"));
 		prodcut.setProduct_name(rs.getString("PRODUCT_NAME"));
 		prodcut.setDescription(rs.getString("DESCRIPTION"));

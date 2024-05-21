@@ -6,6 +6,7 @@
 
 <%
     String contextPath = request.getContextPath();
+
 %>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -398,12 +399,20 @@
     
     
     function addToCart(productSeq) {
+    	console.log('<%= contextPath %>/member/cart.dk')
+    	
         $.ajax({
-            url: '${contextPath}/member/cart.dk',
-            type: 'POST',
-            data: { "product_seq": "${requestScope.product.product_seq}" },
+            url: '<%= contextPath %>/member/cart.dk',
+            type: 'post',
+            data: {
+                product_seq: productSeq // include the productSeq in the data
+            },
             success: function(response) {
-                alert('카드에 담김');
+                if (response.success) {
+                    alert('카트에 담김');
+                } else {
+                    alert('카트 담기 실패: ' + response.message);
+                }
             },
             error: function(xhr, status, error) {
                 alert('카트 담기 실패: ' + error);
@@ -413,18 +422,27 @@
     
     function goToCart(productSeq) {
         $.ajax({
-            url: '${contextPath}/member/cart.dk',
-            type: 'POST',
-            data: { "product_seq": "${requestScope.product.product_seq}" },
+            url: '<%= contextPath %>/member/cart.dk',
+            type: 'post',
+            data: {
+                product_seq: productSeq // include the productSeq in the data
+            },
             success: function(response) {
-                alert('카드에 담김');
-                window.location.href = '${contextPath}/member/cart.dk';
+                if (response.success) {
+                    alert('카트에 담김');
+                    window.location.href = '${contextPath}/member/cartPage.dk';
+                } else {
+                    alert('카트 담기 실패: ' + response.message);
+                }
             },
             error: function(xhr, status, error) {
                 alert('카트 담기 실패: ' + error);
             }
         });
     }
+
+
+
     
 </script>
 </body>

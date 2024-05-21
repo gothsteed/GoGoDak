@@ -29,6 +29,7 @@ public class Cart extends AbstractController {
 	
 	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		System.out.println("====Cart Post====");
 		String product_seqString = request.getParameter("product_seq");
 		
 		JSONObject jsonResponse = new JSONObject();
@@ -58,8 +59,15 @@ public class Cart extends AbstractController {
 		
 		
 		HttpSession session =request.getSession();
-		List<ProductVO> productList =  (List<ProductVO>)session.getAttribute("cart");
 		
+		if(session.getAttribute("cart") == null) {
+			session.setAttribute("cart", new ArrayList<ProductVO>());
+			
+		}
+		
+		
+		List<ProductVO> productList =  (List<ProductVO>)session.getAttribute("cart");
+
 		productList.add(product);
 		
         jsonResponse.put("success", true);

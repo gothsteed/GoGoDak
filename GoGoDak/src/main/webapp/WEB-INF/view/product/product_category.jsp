@@ -21,7 +21,7 @@
 	                  <div class="box">
 	                     <div class="option_container">
 	                        <div class="options">
-	                           <a href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_Seq}" class="option2">
+	                           <a href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_seq}" class="option2">
 	                           	보기
 	                           </a>
 	                        </div>
