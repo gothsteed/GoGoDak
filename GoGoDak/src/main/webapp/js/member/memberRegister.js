@@ -1,4 +1,4 @@
-let b_idcheck_click = false; 
+let b_idcheck_click = false;
 let b_emailcheck_click = false; 
 let b_zipcodeSearch_click = false;
 
@@ -380,9 +380,8 @@ function goRegister(){
     const postcode = $("input#postcode").val().trim();
     const address = $("input#address").val().trim();
     const detailAddress = $("input#detailAddress").val().trim();
-    const extraAddress = $("input#extraAddress").val().trim();
    
-    if(postcode == "" || address == "" || detailAddress == "" || extraAddress == "") { 
+    if(postcode == "" || address == "" || detailAddress == "") { 
         alert("우편번호 및 주소를 입력하셔야 합니다.");
         return; 
     }
