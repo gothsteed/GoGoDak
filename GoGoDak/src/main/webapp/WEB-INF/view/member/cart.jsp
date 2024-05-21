@@ -1,7 +1,11 @@
+<%@page import="domain.ProductVO"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
-    String ctxPath = request.getContextPath();
+String ctxPath = request.getContextPath();
 %>
 
 <jsp:include page="../header.jsp" />
@@ -42,366 +46,263 @@
             }
         }).open();
     }
-</script>
 
-
-<style>
-     body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /*장바구니 목록 */
-        body > section.why_section.layout_padding > div > h2 {
-    		text-align:center;
-    		
-        }
-        
-        
-        .cart-list {
-        max-width: 1090px; /* 원하는 가로 크기로 설정하세요 */
-        margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-    }
-        
-        .cart-list, .form-group, .points-use, .total-cost, .submit-btn {
-            margin-bottom: 20px;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-        .cart-item img {
-            width: 100px;
-            height: 100px;
-        }
-  		 body > section.why_section.layout_padding > div > div {
-  		 text-align:center;
-   			}
-	
-        .quantity {
-            display: flex;
-            align-items: center;
-        }
-        .quantity button {
-            width: 30px;
-            height: 30px;
-        }
-        .quantity input {
-            width: 50px;
-            text-align: center;
-            margin: 0 10px;
-        }
-        .btn-danger {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: calc(100% - 130px);
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ddd;
-        }
-        .form-group button {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .points-use input {
-            width: 100px;
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-       
-        /* 우편번호 찾기 버튼 */
-        body > section.why_section.layout_padding > div > form > div.container > div:nth-child(2) > button {
-       	   display: inline-block;
-	    padding: 10px 20px;
-	    background-color: #ffc107; /* 노란색 배경 */
-	    color: #fff; /* 흰색 텍스트 */
-	    border: none;
-	    border-radius: 5px; /* 둥근 테두리 */
-	    font-size: 16px;
-	    font-weight: bold;
-	    text-transform: uppercase;
-	    letter-spacing: 1px;
-	    cursor: pointer;
-	    transition: background-color 0.3s;
-        }
-       
-       
-       
-       
-        /* 결제 버튼*/
-        .submit-btn {
-        display: inline-block;
-	    padding: 10px 20px;
-	    background-color: #ffc107; /* 노란색 배경 */
-	    color: #fff; /* 흰색 텍스트 */
-	    border: none;
-	    border-radius: 5px; /* 둥근 테두리 */
-	    font-size: 16px;
-	    font-weight: bold;
-	    text-transform: uppercase;
-	    letter-spacing: 1px;
-	    cursor: pointer;
-	    transition: background-color 0.3s;
-        }  
-    
-       
-        
-        
- </style>
-
-  <script>
-	  $(document).ready(function () {
-	      updateTotal();
-	   });
-
-        document.getElementById('availablePointsSpan').innerText = '${sessionScope.loginuser.point}'.toLocaleString() + '원';
+    $(document).ready(function () {
+        updateTotal();
 		
+        let currentPoint = 
+
+        // Event listeners for points input and buttons
+        $('#points').on('input', function () {
+            checkPoints(${sessionScope.loginuser.point});
+        });
+        
+        $("input#postcode").attr("readonly", true);
+        $("input#address").attr("readonly", true);
+        $("input#extraAddress").attr("readonly", true);
+    });
+
+    function decreaseQuantity(productId) {
+        var quantityInput = document.getElementById('quantity-' + productId);
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+            updateTotal();
+        }
+    }
+
+    function increaseQuantity(productId) {
+        var quantityInput = document.getElementById('quantity-' + productId);
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        var cartItems = document.querySelectorAll('.cart-item');
+        var totalCost = 0;
+        cartItems.forEach(function(item) {
+            var price = parseFloat(item.getAttribute('data-price'));
+            var quantity = parseInt(item.querySelector('input[type="text"]').value);
+            totalCost += price * quantity;
+        });
+
+        var points = parseInt(document.getElementById('points').value) || 0;
+        totalCost -= points;
+        document.getElementById('totalCost').innerText = totalCost.toLocaleString() + '원';
+    }
+
+    function checkPoints(availablePoints) {
+        var points = parseInt(document.getElementById('points').value) || 0;
+        if (points > availablePoints) {
+            alert('사용 가능한 포인트를 초과했습니다.');
+            document.getElementById('points').value = availablePoints;
+        }
+        updateTotal();
+    }
+
+    function applyPoints(availablePoints) {
+        checkPoints(availablePoints);
+    }
+
+    function goPurchase() {
+        alert('결제가 완료되었습니다!');
+    }
+
+    function removeItem(itemId) {
+        var itemElement = document.getElementById('cart-item-' + itemId);
+        if (itemElement) {
+            itemElement.remove();
+            updateTotal();
+        }
+    }
+
+    function formatPrice(price) {
+        return price.toLocaleString();
+    }
     
-        function decreaseQuantity(productId) {
-            var quantityInput = document.getElementById('quantity-' + productId);
-            var currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;W
-            }
+    
+    function goPurchase() {
+    	
+        const postcode = $("input#postcode").val().trim();
+        const address = $("input#address").val().trim();
+        const detailAddress = $("input#detailAddress").val().trim();
+        const extraAddress = $("input#extraAddress").val().trim();
+       
+        if(postcode == "" || address == "" || detailAddress == "") { 
+            alert("우편번호 및 주소를 입력하셔야 합니다.");
+            return; 
         }
 
-        function increaseQuantity(productId) {
-            var quantityInput = document.getElementById('quantity-' + productId);
-            var currentValue = parseInt(quantityInput.value);
-            quantityInput.value = currentValue + 1;
-            updateTotal();
-        }
+        // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
+        const width = 1000;
+        const height = 600;
+        //todo: !!!purchase url 추가!!!!!
+        const url = ``
 
-        function updateTotal() { 
-            var cartItems = document.querySelectorAll('.cart-item');
-            var totalCost = 0;
-            cartItems.forEach(function(item) {
-                var price = parseInt(item.getAttribute('data-price'));
-                var quantity = parseInt(item.querySelector('input[type="text"]').value);
-                totalCost += price * quantity;
-            });
-            
-            var points = parseInt(document.getElementById('points').value);
-            totalCost -= points;
-            document.getElementById('totalCost').innerText = totalCost.toLocaleString();
-        }
+        const left = Math.ceil((window.screen.width - width)/2);
+        const top = Math.ceil((window.screen.height - height)/2);
 
-        function checkPoints(availablePoints) {
-            var points = parseInt(document.getElementById('points').value);
-            if (Number(points) > availablePoints) {
-                alert('사용 가능한 포인트를 초과했습니다.');
-                document.getElementById('points').value = availablePoints;
-            }
-            updateTotal();
-        }
-
-        function applyPoints(availablePoints) {
-            checkPoints(availablePoints);
-        }
-
-        function goPurchase() {
-            alert('결제가 완료되었습니다!');
-        }
-
-   function removeItem(itemId) {
-      var itemElement = document.getElementById('cart-item-' + itemId);
-      if (itemElement) {
-         itemElement.remove();
-         updateTotal(); // 장바구니의 총 금액을 다시 계산
-      }
-   }
+        window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`);
 
 
-
-   function increaseQuantity(itemId) {
-      var quantityInput = document.getElementById('quantity-' + itemId);
-      var currentQuantity = parseInt(quantityInput.value);
-      quantityInput.value = currentQuantity + 1;
-      updateTotal();
-   }
-
-   function decreaseQuantity(itemId) {
-      var quantityInput = document.getElementById('quantity-' + itemId);
-      var currentQuantity = parseInt(quantityInput.value);
-      if (currentQuantity > 1) {
-         quantityInput.value = currentQuantity - 1;
-         updateTotal();
-      }
-   }
-
-   function updateTotal() {
-      var items = document.querySelectorAll('.cart-item');
-      totalCost = 0;
-      items.forEach(item => {
-         var price = parseInt(item.getAttribute('data-price'));
-         var quantity = parseInt(item.querySelector('.quantity input[type="text"]').value);
-         totalCost += price * quantity;
-      });
-
-      var points = parseInt(document.getElementById('points').value);
-
-      totalCost -= points
-
-      document.getElementById('totalCost').innerText = formatPrice(totalCost);
-   }
-
-   function applyPoints() {
-      var points = parseInt(document.getElementById('points').value);
-      var currentTotal = totalCost;
-      if (points > currentTotal) {
-         alert("포인트가 총 금액보다 많습니다!");
-         document.getElementById('points').value = currentTotal;
-         points = currentTotal;
-      }
-      var newTotal = currentTotal - points;
-      document.getElementById('totalCost').innerText = formatPrice(newTotal);
-   }
-
-   function formatPrice(price) {
-      return price.toLocaleString();
-   }
-
-   function goPurchase() {
-
-      // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
-      const width = 1000;
-      const height = 600;
-      //todo: !!!purchase url 추가!!!!!
-      const url = ``
-
-      const left = Math.ceil((window.screen.width - width)/2);
-      const top = Math.ceil((window.screen.height - height)/2);
-
-      window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`);
-
-      /* === 팝업창에서 부모창 함수 호출 방법 3가지 ===
-            1-1. 일반적인 방법
-            opener.location.href = "javascript:부모창스크립트 함수명();";
-                           
-            1-2. 일반적인 방법
-            window.opener.부모창스크립트 함수명();
-
-            2. jQuery를 이용한 방법
-            $(opener.location).attr("href", "javascript:부모창스크립트 함수명();");
-      */
-   }
-
+     }
+    
+    
 
 </script>
- 
+
 
 
 <section class="why_section layout_padding">
-        <div class="cart">
-            <h2>장바구니 목록</h2>
-            <form action="">
-                <div class="cart-list">
-                    <div class="cart-item" data-price="10000" id="cart-item-1">
-                        <img src="https://via.placeholder.com/100" alt="상품 1">
-                        <p>상품 1 - 10,000원</p>
-                        <div class="quantity">
-                            <button type="button" onclick="decreaseQuantity(1)">-</button>
-                            <input type="text" value="1" id="quantity-1" name="quantity-1">
-                            <button type="button" onclick="increaseQuantity(1)">+</button>
-                        </div>
-                        <button class="btn-danger" onclick="removeItem(1)">삭제</button>
+    <div class="cart">
+        <h2>장바구니 목록</h2>
+        <br>
+        <form action="">
+            <div class="cart-list">
+           		<%
+                    Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
+                    if (cart != null) {
+                        for (Map.Entry<ProductVO, Integer> entry : cart.entrySet()) {
+                            ProductVO product = entry.getKey();
+                            Integer quantity = entry.getValue();
+                            System.out.println(product.getDiscountPrice());
+                %>
+                            <div class="cart-item" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
+                                <img src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>.jpg" alt="<%= product.getProduct_seq() %>">
+                                <p><%= product.getProduct_name()%> - <fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원</p>
+                                <div class="quantity">
+                                    <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
+                                    <input type="text" value="<%= quantity %>" id="quantity-<%= product.getProduct_seq() %>" name="quantity-<%= product.getProduct_seq() %>">
+                                    <button type="button" onclick="increaseQuantity(<%= product.getProduct_seq() %>)">+</button>
+                                </div>
+                                <button type="button" class="btn-danger" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
+                            </div>
+                <%
+                        }
+                    }
+                %>
+            </div>
+            <div class="container">
+            	<br>
+                <h2 >배송지 정보 입력</h2>
+                <br>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="postcode">우편번호</label>
+                        <input type="text" id="postcode" name="postcode" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.postcode}">
+                        <button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
                     </div>
-                    <div class="cart-item" data-price="10000" id="cart-item-2">
-                        <img src="https://via.placeholder.com/100" alt="상품 2">
-                        <p>상품 2 - 10,000원</p>
-                        <div class="quantity">
-                            <button type="button" onclick="decreaseQuantity(2)">-</button>
-                            <input type="text" value="1" id="quantity-2">
-                            <button type="button" onclick="increaseQuantity(2)">+</button>
-                        </div>
-                        <button class="btn-danger" onclick="removeItem(2)">삭제</button>
+                    <div class="form-group">
+                        <label for="address">주소</label>
+                        <input type="text" id="address" name="address" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address}">
                     </div>
-                    <div class="cart-item" data-price="10000" id="cart-item-3">
-                        <img src="https://via.placeholder.com/100" alt="상품 3">
-                        <p>상품 3 - 10,000원</p>
-                        <div class="quantity">
-                            <button type="button" onclick="decreaseQuantity(3)">-</button>
-                            <input type="text" value="1" id="quantity-3">
-                            <button type="button" onclick="increaseQuantity(3)">+</button>
-                        </div>
-                        <button class="btn-danger" onclick="removeItem(3)">삭제</button>
+                    <div class="form-group">
+                        <label for="detailAddress">상세주소</label>
+                        <input type="text" id="detailAddress" name="address_detail" placeholder="상세주소를 입력하세요" value="${sessionScope.loginuser.address_detail}">
                     </div>
-                    <div class="cart-item" data-price="10000" id="cart-item-4">
-                        <img src="https://via.placeholder.com/100" alt="상품 4">
-                        <p>상품 4 - 10,000원</p>
-                        <div class="quantity">
-                            <button type="button" onclick="decreaseQuantity(4)">-</button>
-                            <input type="text" value="1" id="quantity-4">
-                            <button type="button" onclick="increaseQuantity(4)">+</button>
-                        </div>
-                        <button class="btn-danger" onclick="removeItem(4)">삭제</button>
+                    <div class="form-group">
+                        <label for="extraAddress">참고사항</label>
+                        <input type="text" id="extraAddress" name="address_extra" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address_extra}">
                     </div>
-                    <div class="cart-item" data-price="10000" id="cart-item-5">
-                        <img src="https://via.placeholder.com/100" alt="상품 5">
-                        <p>상품 5 - 10,000원</p>
-                        <div class="quantity">
-                            <button type="button" onclick="decreaseQuantity(5)">-</button>
-                            <input type="text" value="1" id="quantity-5">
-                            <button type="button" onclick="increaseQuantity(5)">+</button>
-                        </div>
-                        <button class="btn-danger" onclick="removeItem(5)">삭제</button>
-                    </div>
+                </form>
+            </div>
+            <div class="text-position">
+                <div class="points-use">
+                    <c:if test="${empty sessionScope.loginuser}">
+                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">0</span>):
+	                        <input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(0)">
+                        </label>
+
+                    </c:if>
+                    <c:if test="${not empty sessionScope.loginuser}">
+                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">${sessionScope.loginuser.point}</span>):
+                    		<input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(${sessionScope.loginuser.point})">
+                    	</label>
+             
+                    </c:if>
+
                 </div>
-                <div class="container">
-                  <h2>배송지 정보 입력</h2>
-                  <form action="/submit-order" method="POST">
-                      <div class="form-group">
-                          <label for="postcode">우편번호</label>
-                          <input type="text" id="postcode" name="postcode" placeholder="우편번호를 입력하세요" >
-                          <button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
-                      </div>
-                      <div class="form-group">
-                          <label for="address">주소</label>
-                          <input type="text" id="address" name="address" placeholder="주소를 입력하세요" >
-                      </div>
-                      <div class="form-group">
-                          <label for="detailAddress">상세주소</label>
-                          <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소를 입력하세요" >
-                      </div>
-                      <div class="form-group">
-                          <label for="extraAddress">참고사항</label>
-                          <input type="text" id="extraAddress" name="extraAddress" placeholder="참고사항을 입력하세요">
-                      </div>
-                      
-                  </form>
-              </div>
-              <div class="text-position">
-                <div class="points-use"> 
-                    <label for="points">포인트 사용(최대: <span id="availablePointsSpan">${sessionScope.loginuser.point}</span>):</label>
-                    <input type="number" id="points" name="points" value="0" min="0" onchange="checkPoints(${sessionScope.loginuser.point})">
-                    <button type="button" onclick="applyPoints(${sessionScope.loginuser.point})">적용</button>
-                </div>
-                <div class="total-cost">
-                    총 금액 : <span id="totalCost">0</span>원
-                </div>
-                <button type="button" class="submit-btn" onclick="goPurchase()">결제</button>
-               </div>  
-                
-            </form>
-        </div>
-        
-    </section>
+            </div>
+            <div class="total">
+                <p>총 가격: <span id="totalCost"></span></p>
+                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다</p>
+            </div>
+            <button type="submit" onclick="goPurchase()">구매하기</button>
+        </form>
+    </div>
+</section>
+
+
+<style>
+ .cart {
+    max-width: 80%;
+    margin: auto;
+}
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.quantity button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+}
+
+.quantity input[type="text"] {
+    width: 40px;
+    text-align: center;
+}
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.cart-item p {
+    margin: 0;
+    font-size: 16px;
+}
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: black;
+    color: #fff;
+}
+
+button {
+    background: #fbc02d;
+    color: black;
+    border: none;
+    top: 0px;
+    font-size: 14px;
+    height: 48px;
+    font-weight: 600;
+    padding: 0 15px;
+}
+
+
+</style>
+
 <jsp:include page="../footer.jsp" />

@@ -1,12 +1,20 @@
 package member.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import domain.DiscountVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,56 +33,100 @@ public class Cart extends AbstractController {
 		productDao = new ProductDao_Imple();
 	}
 	
+    private String getJsonStringFromRequest(HttpServletRequest request) throws IOException {
+        StringBuilder jsonString = new StringBuilder();
+        String line;
+        
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                jsonString.append(line);
+            }
+        }
+        
+        return jsonString.toString();
+    }
+    
+    private void addToCart(JSONObject productJson, HttpServletRequest request) throws SQLException {
+	    int product_seq = -1;
+	    try {
+	        product_seq = productJson.getInt("product_seq");
+	    } catch (NumberFormatException e) {
+	        System.out.println("not a number");
+	        JSONObject jsonResponse = new JSONObject();
+	        jsonResponse.put("success", false);
+	        jsonResponse.put("message", "Invalid product sequence.");
+
+	        System.out.println(jsonResponse.toString());
+	        setRedirect(false);
+	        request.setAttribute("json", jsonResponse.toString());
+	        setViewPage("/WEB-INF/jsonview.jsp");
+	        return;
+	    }
+
+	    ProductVO product = productDao.getProductBySeq(product_seq);
+
+	    if (product == null) {
+	        System.out.println("does not exist");
+	        JSONObject jsonResponse = new JSONObject();
+	        jsonResponse.put("success", false);
+	        jsonResponse.put("message", "Invalid product sequence.");
+	
+	        System.out.println(jsonResponse.toString());
+	        setRedirect(false);
+	        request.setAttribute("json", jsonResponse.toString());
+	        setViewPage("/WEB-INF/jsonview.jsp");
+	        return;
+	    }
+
+	    HttpSession session = request.getSession();
+
+	    if (session.getAttribute("cart") == null) {
+	        session.setAttribute("cart", new HashMap<ProductVO, Integer>());
+	    }
+
+	    Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
+	    
+	    
+	 
+	    if (cart.containsKey(product)) {
+	        cart.put(product, cart.get(product) + productJson.getInt("quantity"));
+	        System.out.println("plus 1 to cart item");
+	        JSONObject jsonResponse = new JSONObject();
+	        jsonResponse.put("success", true);
+	        jsonResponse.put("message", "added to cart");
+
+	        setRedirect(false);
+	        request.setAttribute("json", jsonResponse.toString());
+	        setViewPage("/WEB-INF/jsonview.jsp");
+	        return;
+	    }
+
+	    cart.put(product, productJson.getInt("quantity"));
+	    JSONObject jsonResponse = new JSONObject();
+	    jsonResponse.put("success", true);
+	    jsonResponse.put("message", "added to cart");
+	    setRedirect(false);
+        request.setAttribute("json", jsonResponse.toString());
+        setViewPage("/WEB-INF/jsonview.jsp");
+    }
 	
 	
 	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		System.out.println("====Cart Post====");
-		String product_seqString = request.getParameter("product_seq");
-		
-		JSONObject jsonResponse = new JSONObject();
-		
-		int product_seq = -1;
-		try {
-			product_seq = Integer.parseInt(product_seqString);
-			
-		}catch (NumberFormatException e) {
-	        jsonResponse.put("success", false);
-	        jsonResponse.put("message", "Invalid product sequence.");
-	        response.setContentType("application/json");
-	        response.getWriter().write(jsonResponse.toString());
-			return;
-		}
-		
-		
-		ProductVO product = productDao.getProductBySeq(product_seq);
-		
-		if(product == null) {
-	        jsonResponse.put("success", false);
-	        jsonResponse.put("message", "Invalid product sequence.");
-	        response.setContentType("application/json");
-	        response.getWriter().write(jsonResponse.toString());
-			return;
-		}
-		
-		
-		HttpSession session =request.getSession();
-		
-		if(session.getAttribute("cart") == null) {
-			session.setAttribute("cart", new ArrayList<ProductVO>());
-			
-		}
-		
-		
-		List<ProductVO> productList =  (List<ProductVO>)session.getAttribute("cart");
-
-		productList.add(product);
-		
-        jsonResponse.put("success", true);
-        jsonResponse.put("message", "added to cart");
-        response.setContentType("application/json");
-        response.getWriter().write(jsonResponse.toString());
+	    System.out.println("====Cart Post====");
+	    String product_json = getJsonStringFromRequest(request);
+	    JSONObject jsonObject = new JSONObject(product_json);
+	    JSONArray productArr = jsonObject.getJSONArray("cart");
+	    
+	    
+	    for(int i=0; i<productArr.length(); i++) {
+	    	
+	    	JSONObject product = productArr.getJSONObject(i);
+	    	
+	    	addToCart(product, request);
+	    	
+	    }
 	}
+
 
 	
 	
@@ -88,27 +140,13 @@ public class Cart extends AbstractController {
 			return;
 		}
 	
-		MemberVO loginuser =(MemberVO)session.getAttribute("loginuser");
+//		MemberVO loginuser =(MemberVO)session.getAttribute("loginuser");
 		
 		
-		// 사용자가 로그인했는지 확인
-        if (loginuser == null) {
-            super.setRedirect(true);
-            super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
-            return;
-        }
 		
-		 // 세션에서 장바구니 정보 가져오기
-		List<ProductVO> productList = (List<ProductVO>)session.getAttribute("cart");
-        
-        // 장바구니가 없을 경우 빈 장바구니 생성
-        if (productList == null) {
-        	productList = new ArrayList<>();
-        }
-        
-        // 장바구니 정보를 JSP로 전달
-        request.setAttribute("cart", productList);
-     
+		if(session.getAttribute("cart") == null) {
+			session.setAttribute("cart", new HashMap<ProductVO, Integer>());
+		}
         
     	super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/member/cart.jsp");

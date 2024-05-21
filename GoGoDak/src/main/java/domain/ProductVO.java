@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class ProductVO {
 	
     private int product_seq;			//제품고유번호
@@ -23,6 +25,21 @@ public class ProductVO {
 	private MaufacturerVO madto;
     //todo 할인 정보 dto 추가
     private DiscountVO discountVO;
+    
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductVO productVO = (ProductVO) o;
+        return product_seq == productVO.product_seq;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product_seq);
+    }
     
     
     
@@ -106,6 +123,18 @@ public class ProductVO {
 	}
 	public void setMadto(MaufacturerVO madto) {
 		this.madto = madto;
+	}
+	public float getDiscountPrice() {
+		if(discount_type == null) {
+			return base_price;
+		}
+		
+		
+		if(discount_type.equalsIgnoreCase("percent")) {
+			return base_price - base_price * (discount_amount/100);
+		}
+
+		return base_price  - discount_amount;
 	}
     
     
