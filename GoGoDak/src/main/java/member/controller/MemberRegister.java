@@ -60,7 +60,6 @@ public class MemberRegister extends AbstractController {
 	
 		//자동 로그인
 		try {
-
 			int result = memberDao.register(member);
 			
 //			request.setAttribute("id", loc)
@@ -84,4 +83,3 @@ public class MemberRegister extends AbstractController {
 	}
 
 }
-
