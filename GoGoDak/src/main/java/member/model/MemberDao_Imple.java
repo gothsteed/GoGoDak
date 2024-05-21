@@ -257,18 +257,21 @@ public class MemberDao_Imple implements MemberDao {
 
 	@Override
 	public boolean isExist(Map<String, String> paraMap) throws SQLException {
+		
 		boolean result = false;
 
 		try {
 			conn = ds.getConnection();
 
 			String sql = " select id "
-					+ " from tbl_member " 
-					+ " where EXIST_STATUS = 1 = 1 and id = ? and email = ? ";
+					   + " from tbl_member "
+					   + " where EXIST_STATUS = 1 and id = ? and name = ? and email = ? ";
 
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, paraMap.get("id"));
-			pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+			pstmt.setString(2, paraMap.get("name"));
+			pstmt.setString(3, aes.encrypt(paraMap.get("email")));
 
 			rs = pstmt.executeQuery();
 
@@ -504,7 +507,31 @@ public class MemberDao_Imple implements MemberDao {
 		return totalMemberCount;
 	}
 
+	// 비밀번호 변경하기
+	@Override
+	public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
 
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member set password = ?, last_password_change = sysdate " 
+	                   + " where id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, Sha256.encrypt(paraMap.get("new_pwd")));
+			pstmt.setString(2, paraMap.get("id"));
+	        
+	        result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+
+		return result;
+	}
 
 	
 	
@@ -734,6 +761,8 @@ public class MemberDao_Imple implements MemberDao {
 		
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
+
+
 
 
 	
