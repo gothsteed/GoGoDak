@@ -54,7 +54,9 @@ function goRegister() {
 
 
 
-
+function goReset() {
+    history.back(); // 이전 페이지로 이동
+  }
 
 </script>
     

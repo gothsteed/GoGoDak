@@ -31,11 +31,13 @@ public class NoticeEdit extends AbstractController {
 	        	String board_seq = request.getParameter("board_seq");
 	 			String title = request.getParameter("title");
 	 			String content = request.getParameter("content");
+	 			String pic = request.getParameter("pic");
 	        	
 	 			
 	 			request.setAttribute("board_seq", board_seq);
 	 			request.setAttribute("title", title);
 	 			request.setAttribute("content", content);
+	 			request.setAttribute("pic", pic);
 	        	 
 	            super.setRedirect(false);
 	            super.setViewPage("/WEB-INF/view/admin/admin_boardEdit.jsp");

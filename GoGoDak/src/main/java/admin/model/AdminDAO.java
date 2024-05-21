@@ -13,4 +13,8 @@ public interface AdminDAO {
 	//select
 	int boardSelectBySeq(int board_seq)throws Exception;
 
+	
+	//delete
+	int deletedBoard(BoardVO boardDelete)throws Exception;
+
 }
