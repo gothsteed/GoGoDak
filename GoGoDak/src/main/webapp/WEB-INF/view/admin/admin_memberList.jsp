@@ -77,7 +77,7 @@
 		 	
 		 	const frm = document.memberOneDetail_frm;
 		 	frm.id.value = id;
-		 	frm.action = "${pageContext.request.contextPath}/member/memberOneDetail.dk";
+		 	frm.action = "${pageContext.request.contextPath}/admin/memberOneDetail.dk";
 		 	frm.method = "post";
 			frm.submit();
 		});

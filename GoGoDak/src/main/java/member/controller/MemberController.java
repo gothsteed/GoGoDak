@@ -22,6 +22,6 @@ public class MemberController extends AbstractController {
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/member/member_myshop.jsp");
 		
-	}
+	} 
 
 }

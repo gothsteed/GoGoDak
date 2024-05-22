@@ -51,10 +51,9 @@ public class MemberOneDetail extends AbstractController {
 				super.setViewPage("/WEB-INF/view/member/memberOneDetail.jsp");
 			}
 			
-		}
-		else if(loginuser != null && loginuser.getMember_seq()== Integer.parseInt(request.getParameter("id"))) {
+		}else if(loginuser != null) {
 			// 로그인을 안하거나 또는 관리자(admin)가 아닌 사용자로 로그인 했을 경우
-			 
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/member/member_profile.jsp");
 		
