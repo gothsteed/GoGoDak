@@ -11,6 +11,6 @@ where exist_status = 1 and id = 'kpy102';
                        
                        commit;
                        
-                       update tbl_member set jubun = '9601102'
-                       where id = 'jylee123123'
+                       update tbl_member set jubun = '9105291'
+                       where id = 'erqwr'
                        
