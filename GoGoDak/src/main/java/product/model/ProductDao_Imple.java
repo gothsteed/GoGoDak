@@ -80,9 +80,11 @@ public class ProductDao_Imple implements ProductDao {
 		prodcut.setDiscount_type(rs.getString("DISCOUNT_TYPE"));
 		prodcut.setDiscount_amount(rs.getFloat("DISCOUNT_NUMBER"));
 		
-		System.out.println(rs.getString("DISCOUNT_TYPE"));
-		System.out.println(prodcut.getDiscount_type());
-		System.out.println(prodcut.getDiscount_amount());
+		/*
+		 * System.out.println(rs.getString("DISCOUNT_TYPE"));
+		 * System.out.println(prodcut.getDiscount_type());
+		 * System.out.println(prodcut.getDiscount_amount());
+		 */
 		
 		return prodcut;
 		
