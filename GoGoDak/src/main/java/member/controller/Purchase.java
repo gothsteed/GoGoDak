@@ -98,7 +98,7 @@ public class Purchase extends AbstractController {
 		Map<ProductVO, Integer> cart =  (Map<ProductVO, Integer>) session.getAttribute("cart");
 		int totalAmount = getFlooredTotalAmount(cart);
 		request.setAttribute("totalAmount", totalAmount - point);
-		int result =memberDao.minusPoint(loginuser.getPoint() - point, loginuser.getMember_seq());
+		int result =memberDao.updatePoint(loginuser.getPoint() - point, loginuser.getMember_seq());
 		
 		
 		if(result != 1) {

@@ -1,22 +1,28 @@
 package member.controller;
 
+import java.util.Map;
+
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import domain.MemberVO;
+import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import member.model.MemberDao;
+import member.model.MemberDao_Imple;
 import order.model.OrderDao;
 import order.model.OrderDao_imple;
 
 public class Order extends AbstractController {
 	
-	
+	private MemberDao memberDao;
 	private OrderDao orderDao;
 	
 	public Order() {
 		this.orderDao = new OrderDao_imple();
+		this.memberDao = new MemberDao_Imple();
 		
 	}
 
@@ -58,9 +64,10 @@ public class Order extends AbstractController {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
 		
-		int result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra, totalAmount);
-		
+		int result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra, totalAmount, cart );
+		int pointResult = memberDao.updatePoint(loginuser.getPoint() + (int)Math.round(totalAmount * 0.05), loginuser.getMember_seq());
 		
 		if(result != 1) {
 		    JSONObject jsonResponse = new JSONObject();
