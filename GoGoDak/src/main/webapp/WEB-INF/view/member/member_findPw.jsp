@@ -76,7 +76,7 @@
 		const method = "${requestScope.method}";
 		
 		if(method == "GET"){
-//			$("div#div_findResult").hide();
+			$("div#div_findResult").hide();
 		}
 		
 		if(method == "POST"){
@@ -99,7 +99,7 @@
 			}
 		});
 		
-		$("button.btn-info").click(function(){
+		$("button.btn-warning").click(function(){
 			const input_confirmCode = $("input:text[name='input_confirmCode']").val().trim();
 			
 			if(input_confirmCode == ""){
@@ -174,18 +174,17 @@
             
             <div class="my-3 text-center" id="div_findResult">
 			   <c:if test="${requestScope.isExist == false}">
-				   <span style="color: red;">존재하지 않는 사용자 정보입니다.</span>
+				   <span style="color: red;">입력하신 정보로 가입된 회원은 존재하지 않습니다.</span>
 			   </c:if>
 			   
 			   <c:if test="${requestScope.isExist == true && requestScope.sendMailSuccess == true}">
 				   <span style="font-size: 10pt; color: navy; font-weight: bold;">
-				       인증코드가 ${requestScope.email} 로 발송되었습니다.<br>
-				       인증코드를 입력해주세요.
+				       인증번호가 ${requestScope.email} 로 발송되었습니다.<br>전송된 인증번호를 입력해주세요.
 				   </span>
 				   <br><br>
 				   <input type="text" name="input_confirmCode" style="border-radius: 5px; outline: none; text-align: center;" />
 				   <br>
-				   <button type="button" class="btn btn-info">인증하기</button>
+				   <button type="button" class="btn btn-warning">인증하기</button>
 			   </c:if>
 			   
 			   <c:if test="${requestScope.isExist == true && requestScope.sendMailSuccess == false}">
@@ -195,7 +194,6 @@
         </form>
     </div>
 </div>
-
 
 <form name="verifyCertificationFrm">
 	<input type="hidden" name="userCertificationCode" />

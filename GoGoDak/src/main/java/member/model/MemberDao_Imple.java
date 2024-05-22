@@ -520,8 +520,8 @@ public class MemberDao_Imple implements MemberDao {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_member set password = ?, last_password_change = sysdate " 
-	                   + " where id = ? ";
+			String sql = " update tbl_member set password = ?, last_password_change = sysdate "
+					   + " where id = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
