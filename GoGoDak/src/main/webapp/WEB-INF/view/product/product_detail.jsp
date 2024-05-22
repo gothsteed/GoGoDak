@@ -3,6 +3,7 @@
 <jsp:include page="../header.jsp" />
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%
 String contextPath = request.getContextPath();
@@ -257,22 +258,23 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 								<c:when test="${not empty product.discount_type}">
 									<c:choose>
 										<c:when test="${product.discount_type == 'percent'}">
-											<span>${ product.discount_amount}%</span>
-											<span> ${product.base_price - (product.base_price * product.discount_amount / 100)}원
-											</span>
-											<span style="text-decoration: line-through; color: #999;">
-												${product.base_price}원</span>
+                                          <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+                                          <span style="color: red">
+                                          	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
+                                          </span>
 
 										</c:when>
 										<c:when test="${product.discount_type == 'amount'}">
-											<span style="text-decoration: line-through;">${product.base_price}</span>
-											<span> ${product.base_price - product.discount_amount}
-											</span>
+                            			  <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+                                          <span style="color: red">
+                                          	<fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
+                
+                                          </span>
 										</c:when>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-	                                 ${product.base_price}
+	                                  <fmt:formatNumber value="${product.base_price }" type="currency" currencySymbol="" groupingUsed="true" />원
 	                              </c:otherwise>
 							</c:choose>
 						</p>
@@ -300,7 +302,6 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 							<div class="product_review">
 
 								<p>
-									Customer Reviews:
 
 									<c:if test="${not empty requestScope.scoreAvg}">
 										<c:forEach var="i" begin="0" end="${requestScope.scoreAvg-1}">
