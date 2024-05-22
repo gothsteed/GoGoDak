@@ -186,6 +186,7 @@
 		}
 		
 		const frm = document.productFindFrm;
+		frm.myFood.value = productName;
         frm.action = "<%= ctxPath%>/product/productFind.dk";
         frm.method = "get";
         frm.submit();
