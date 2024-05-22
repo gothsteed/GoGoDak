@@ -23,7 +23,7 @@ public class VerifyCertification extends AbstractController {
 			String id = request.getParameter("id");
 			
 			if(user_certification_code.equals(certification_code)) {
-				message = "인증 성공!!";
+				message = "인증이 성공되었습니다!!";
 				loc = request.getContextPath() + "/login/pwdUpdateEnd.dk?id=" + id;	
 			}
 			else {

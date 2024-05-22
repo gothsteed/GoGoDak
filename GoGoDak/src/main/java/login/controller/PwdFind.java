@@ -67,9 +67,6 @@ public class PwdFind extends AbstractController {
 				randnum = rnd.nextInt(9 - 0 + 1) + 0;
 				certification_code += randnum;
 			} // end of for ---------- 
-
-			System.out.println("~~~~ 확인용 certification_code : " + certification_code);
-//			 ~~~~ 확인용 certification_code : nexrw2738979
 			
 			GoogleMail googleMail = new GoogleMail();
 			
