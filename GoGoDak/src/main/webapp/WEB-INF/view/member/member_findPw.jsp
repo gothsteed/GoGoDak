@@ -134,13 +134,6 @@
 			alert("이름을 입력하세요!!");
 			return; 
 		}
-		
-		const email = $("input:text[name='email']").val().trim();
-		
-		if(email == ""){
-			alert("이메일을 입력하세요!!");
-			return; 
-		}
 		 
 		const email = $("input:text[name='email']").val();
         const regExp_email = new RegExp(/^[0-9a-z]([-_\.]?[0-9a-z])*@[0-9a-z]([-_\.]?[0-9a-z])*\.[a-z]{2,3}$/i);

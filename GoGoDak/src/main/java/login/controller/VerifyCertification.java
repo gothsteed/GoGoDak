@@ -27,7 +27,7 @@ public class VerifyCertification extends AbstractController {
 				loc = request.getContextPath() + "/login/pwdUpdateEnd.dk?id=" + id;	
 			}
 			else {
-				message = "발급된 인증코드가 아닙니다.\\\\n인증코드를 다시 발급받으세요!!";
+				message = "발급된 인증코드가 아닙니다.\\n인증코드를 다시 발급받으세요!!";
 				loc = request.getContextPath() + "/login/pwdFind.dk";	
 			}
 			

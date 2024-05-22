@@ -71,7 +71,7 @@ public class PwdFind extends AbstractController {
 			GoogleMail googleMail = new GoogleMail();
 			
 			try {
-				googleMail.send_certification_code(email, certification_code);
+				googleMail.send_certification_code(email, certification_code, id, name);
 				isSendMailSuccess = true;
 				request.setAttribute("sendMailSuccess", isSendMailSuccess);
 				
