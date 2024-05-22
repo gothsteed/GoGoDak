@@ -43,6 +43,17 @@ String ctxPath = request.getContextPath();
 
 <script type="text/javascript">
 
+
+$(document).ready(function(){
+	const pic = $(".bordPic").val();
+	if(pic == ""){
+		$(".bordPic").hide();
+	}
+	
+	
+});
+
+
 function goEdit() {
 		
 	const frm = document.boardEditinfoFrm;

@@ -96,7 +96,8 @@ $(document).ready(function() {
 
 
 });//end of ------------------------
-			
+
+
 	
 </script>	
 
@@ -112,7 +113,13 @@ $(document).ready(function() {
 	<div class="text-center">
 		<img src="<%= ctxPath%>/images/board/notice.jpg" class="img-fluid" />
 	</div>
-	<br> 
+	<br>
+	<div align="right" class="onlyLog">
+		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
+			<button type="button" class="btn btn-light" onclick="location.href='<%= ctxPath%>/admin/notice.dk'">공지사항 작성</button>
+		</c:if>
+	</div> 
+	<br>
 	&nbsp;
 	&nbsp;
 	<table class="table table-hover" id="boardTbl">
