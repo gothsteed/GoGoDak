@@ -97,7 +97,7 @@ public class GoogleMail {
 					 + "			<p>다시 한번 저희 쇼핑몰을 이용해주신 <span style=\"font-weight: bold;\"> "+ name + "(" + id + ")</span> 고객님께 진심으로 감사드립니다.</p>"
 					 + "			<p>앞으로도 많은 관심 부탁드립니다&nbsp;:)</p>"
 					 + "		</div>"
-				 + "			<br>"
+				     + "		<br>"
 					 + "		<div style=\"background: #ddd; color: #fff; padding: 10px 20px;\">"
 					 + "			<p>TEL: 1566-3197&nbsp;｜&nbsp;서울특별시 마포구 월드컵북로 21 풍성빌딩 2,3,4층</p>"
 					 + "			<p>&copy;&nbsp;2024 All Rights Reserved By GOGODAK</p>"
