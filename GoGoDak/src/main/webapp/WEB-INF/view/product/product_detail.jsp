@@ -241,7 +241,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 				<div class="col-md-6">
 					<div class="product_image">
 						<img
-							src="<%= contextPath %>/images/product/${requestScope.product.main_pic}.jpg"
+							src="<%= contextPath %>/images/product/${requestScope.product.main_pic}"
 							alt="Product Name" style="width: 100%;">
 					</div>
 				</div>
@@ -323,7 +323,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 						<div class="purchase_info">
 							<div class="quantity">
 								<button type="button" onclick="decreaseQuantity()">-</button>
-								<input type="text" value="0" id="quantity" name="quantity">
+								<input type="text" value="1" id="quantity" name="quantity">
 								<button type="button" onclick="increaseQuantity()">+</button>
 							</div>
 
@@ -360,7 +360,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 					<div>
 						<!-- Inserted Image -->
 						<img
-							src="<%= contextPath %>/images/product/${requestScope.product.description_pic}.jpg"
+							src="<%= contextPath %>/images/product/${requestScope.product.description_pic}"
 							style="width: 100%; margin-top: 20px;">
 					</div>
 				</div>

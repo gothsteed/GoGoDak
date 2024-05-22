@@ -27,7 +27,7 @@
 	                        </div>
 	                     </div>
 	                     <div class="img-box">
-	                        <img src="${pageContext.request.contextPath}/images/chicken/${product.product_name}.jpg" alt="">
+	                        <img src="${pageContext.request.contextPath}/images/product/${product.main_pic}" alt="">
 	                     </div>
 	                     <div class="detail-box">
 	                        <h5>

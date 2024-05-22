@@ -88,19 +88,15 @@ public class Cart extends AbstractController {
 	    
 	    
 	 
-	    if (cart.containsKey(product)) {
-	        cart.put(product, cart.get(product) + productJson.getInt("quantity"));
-	        System.out.println("plus 1 to cart item");
-	        JSONObject jsonResponse = new JSONObject();
-	        jsonResponse.put("success", true);
-	        jsonResponse.put("message", "added to cart");
-
-	        setRedirect(false);
-	        request.setAttribute("json", jsonResponse.toString());
-	        setViewPage("/WEB-INF/jsonview.jsp");
-	        return;
-	    }
-
+		/*
+		 * if (cart.containsKey(product)) { cart.put(product, cart.get(product) +
+		 * productJson.getInt("quantity")); System.out.println("plus 1 to cart item");
+		 * JSONObject jsonResponse = new JSONObject(); jsonResponse.put("success",
+		 * true); jsonResponse.put("message", "added to cart");
+		 * 
+		 * setRedirect(false); request.setAttribute("json", jsonResponse.toString());
+		 * setViewPage("/WEB-INF/jsonview.jsp"); return; }
+		 */
 	    cart.put(product, productJson.getInt("quantity"));
 	    JSONObject jsonResponse = new JSONObject();
 	    jsonResponse.put("success", true);

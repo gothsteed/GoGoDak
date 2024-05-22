@@ -60,6 +60,9 @@ String ctxPath = request.getContextPath();
         $("input#postcode").attr("readonly", true);
         $("input#address").attr("readonly", true);
         $("input#extraAddress").attr("readonly", true);
+        
+        let jsonData = collectCartData();
+        console.log(jsonData)
     });
 
     function decreaseQuantity(productId) {
@@ -122,6 +125,23 @@ String ctxPath = request.getContextPath();
     }
     
     
+    function collectCartData() {
+        let cartData = [];
+
+        document.querySelectorAll('.cart-item').forEach(function(cartItem) {
+            let productSeq = cartItem.id.split('-')[2];  // Extract product_seq from the id attribute
+            let quantity = document.getElementById('quantity-' + productSeq).value;
+
+            cartData.push({
+                "product_seq": parseInt(productSeq, 10),
+                "quantity": parseInt(quantity, 10)
+            });
+        });
+
+        return JSON.stringify({"cart": cartData});
+    }
+    
+    
     function goPurchase() {
     	
         const postcode = $("input#postcode").val().trim();
@@ -133,7 +153,42 @@ String ctxPath = request.getContextPath();
             alert("우편번호 및 주소를 입력하셔야 합니다.");
             return; 
         }
+        
+        
+        let cartJson = collectCartData();
+        
+        $.ajax({
+            url: '<%=ctxPath%>/member/cart.dk',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',   
+            data: cartJson,
+            success: function(response) {
+                if (response.success) {
+<%--                     alert('카트에 담김');
+                    window.location.href = '<%=ctxPath%>/member/cart.dk'; --%>
+                    const width = 1000;
+                    const height = 600;
+                    //todo: !!!purchase url 추가!!!!!
+                    const url = ``
 
+                    const left = Math.ceil((window.screen.width - width)/2);
+                    const top = Math.ceil((window.screen.height - height)/2);
+
+                    window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`);
+                    
+                } else {
+                	console.log(response.message)
+                    alert('카트 담기 실패: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+            	console.log(error)
+                alert('카트 담기 실패: ' + error);
+            }
+        });
+/*         
+		
         // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
         const width = 1000;
         const height = 600;
@@ -143,7 +198,7 @@ String ctxPath = request.getContextPath();
         const left = Math.ceil((window.screen.width - width)/2);
         const top = Math.ceil((window.screen.height - height)/2);
 
-        window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`);
+        window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`); */
 
 
      }
@@ -169,7 +224,7 @@ String ctxPath = request.getContextPath();
                             System.out.println(product.getDiscountPrice());
                 %>
                             <div class="cart-item" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
-                                <img src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>.jpg" alt="<%= product.getProduct_seq() %>">
+                                <img src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq() %>">
                                 <p><%= product.getProduct_name()%> - <fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원</p>
                                 <div class="quantity">
                                     <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
