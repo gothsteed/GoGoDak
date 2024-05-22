@@ -769,7 +769,7 @@ public class MemberDao_Imple implements MemberDao {
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 
 	@Override
-	public int minusPoint(int point, int member_seq) throws SQLException {
+	public int updatePoint(int point, int member_seq) throws SQLException {
 		int result = 0;
 		
 		try {
