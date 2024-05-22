@@ -40,12 +40,9 @@ public class Notice extends AbstractController {
             System.out.println("result : "+result);
             if (result == 1) {
 //                System.out.println("DB Insert 성공");
-                
-                super.setRedirect(false);
-                super.setViewPage("/WEB-INF/view/admin/admin_boardWrite.jsp");
 
                 String message = "공지사항이 등록 되었습니다.";
-                String loc = "javascript:history.back()";
+                String loc = request.getContextPath()+"/member/notice.dk";
 
                 request.setAttribute("message", message);
                 request.setAttribute("loc", loc);

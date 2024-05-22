@@ -39,7 +39,7 @@
 					<div class="card-body">
 						<h5 class="card-title">공지사항등록</h5>
 						<p class="card-text"></p>
-						<a href="<%= ctxPath%>/admin/notice.dk" class="btn btn-outline-warning">View Details &raquo;</a>
+						<a href="<%= ctxPath%>/member/notice.dk" class="btn btn-outline-warning">View Details &raquo;</a>
 					</div>
 				</div>
 			</div>
