@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+	
+	
 <%
 String ctxPath = request.getContextPath();
 //    /GoGoDak
 %>
 
 
+<jsp:include page="../header.jsp" />
 
 <style type="text/css">
 
@@ -70,8 +75,40 @@ div#pageBar>nav {
 </style>
 
 
+<script type="text/javascript">
 
-<jsp:include page="../header.jsp" />
+
+$(document).ready(function() {
+
+
+
+
+	$("table#questioTbl tr.questioninfo").click(e=>{
+		
+		const question_seq = $(e.target).parent().children(".question_seq").text();
+	
+		const frm = document.QuestionDetail_frm;
+		frm.question_seq.value = question_seq;
+		
+		<%-- frm.action = "<%= ctxPath%>/member/memberOneDetail.up" --%>
+		frm.action = "<%= ctxPath%>/member/questionView.dk";
+		frm.method = "post";
+		frm.submit();
+	});	
+
+	
+
+});//end of ------------------------
+
+
+
+
+
+	
+</script>
+
+
+
 
 
 <div class="container" style="padding: 3% 0;">
@@ -83,43 +120,44 @@ div#pageBar>nav {
 		<img src="<%= ctxPath%>/images/board/member_inquiry.jpg" class="img-fluid" />
 	</div>
 	<br> &nbsp;
-	<%-- if문 사용하여 어드민일때만 보이게하기 --%>
-	<%-- <c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid == 'admin'}"> admin 으로 로그인 했으면 --%>
+	
 	<div style="display:flex;justify-content:flex-end;">
-	<button type="button" class="btn btn-secondary" onclick="location.href='./boardWrite.jsp'" >문의</button>
+		<button type="button" class="btn btn-secondary" onclick="location.href='<%= ctxPath %>/member/questionWrite.dk'" >고고닭에게 문의</button>
 	</div>
-	<%--</c:if> --%>
-	<%-- if문 사용하여 어드민일때만 보이게하기 --%>
 		
 	&nbsp;
-	<table class="table table-hover" id="memberTbl">
+	<table class="table table-hover" id="questioTbl">
 		<thead>
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
-				<th>작성자</th>
 				<th>작성일</th>
+				<th>작성자</th>
 				<th>답변</th>
 			</tr>
 		</thead>
 
-		<tbody>
-			<tr>
-				<td>1번</td>
-				<td><a href="./bordView.jsp">고고닭을 이용해주시는 분들 너무 감사합니당</a></td>
-				<td>고고닭</td>
-				<td></td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>2번</td>
-				<td><a href="./bordView.jsp">고고닭을 이용해주시는 분들 행복하세요</a></td>
-				<td>고고닭</td>
-				<td></td>
-				<td></td>
-			</tr>
-
+			<tbody>
+				<c:if test="${not empty requestScope.questionList}">
+					<c:forEach var="question" items="${requestScope.questionList}">
+						<c:if test="${sessionScope.loginuser.id == question.id || sessionScope.loginuser.id == 'admin'}">
+							<tr class="questioninfo">
+				       			<td class="question_seq">${question.question_seq}</td>  <%--번호--%>    
+								<td>${question.title}</td> 							    <%--제목 --%>
+								<td>${question.ragisterdate}</td>                       <%--작성일 --%>
+								<td>${question.id}</td> 								<%--작성자 --%>
+								<td>안함</td>                        						<%--답변상황 --%>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</c:if>
+				
+				<c:if test="${empty requestScope.questionList}">
+	          		<td colspan="5">검색 결과가 없습니다.</td>
+	         	</c:if>
 		</tbody>
+			
+
 	</table>
 
 	&nbsp;
@@ -160,8 +198,19 @@ div#pageBar>nav {
 
 
 	<div id="pageBar">
-		<nav></nav>
-	</div>
+       <nav>
+          <ul class="pagination">${requestScope.pageBar}</ul>
+       </nav>
+    </div>
 </div>
+
+<form name="QuestionDetail_frm">
+	<input type="hidden" name="question_seq"/> <%--한명의 회원을 넘겨주기위해--%>
+	<input type="hidden" name="goBackURL" value="${requestScope.currentURL}" /> <%--한명의 회원을 넘겨주기위해--%>
+</form>
+
+
+
+
 <jsp:include page="../footer.jsp" />
 
