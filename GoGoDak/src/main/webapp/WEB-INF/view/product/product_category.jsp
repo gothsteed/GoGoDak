@@ -8,65 +8,59 @@
       <!-- end inner page section -->
       <!-- product section -->
       <section class="product_section layout_padding">
+     
+      
          <div class="container">
             <div class="heading_container heading_center">
                <h2>
                    <span>${requestScope.title}</span>
                </h2>
             </div>
-            <div class="row">
+            <div class="event-container">
                <c:forEach var="product" items="${requestScope.productList}">
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                     <div class="box">
-                        <div class="option_container">
-                           <div class="options">
-                              <a href="${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_seq}" class="option2">
-                                 보기
-                              </a>
-                           </div>
-                        </div>
-                        <div class="img-div">
-                           <c:if test="${product.discount_type == 'percent'}">
-                              <span class="discount-label">${product.discount_amount}% 할인</span>
-                           </c:if>
-                           <c:if test="${product.discount_type == 'amount'}">
-                              <span class="discount-label"><fmt:formatNumber value="${product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원 할인</span>
-                           </c:if>
-                           <div class="product-img-container">
-                              <img src="${pageContext.request.contextPath}/images/product/${product.main_pic}" alt="" class="product-img">
-                           </div>
-                        </div>
-                        <div class="detail-box">
-                           <h5>
-                              ${product.product_name}
-                           </h5>
-                           <h6>
-                              <c:choose>
-                                 <c:when test="${not empty product.discount_type}">
-                                    <c:choose>
-                                       <c:when test="${product.discount_type == 'percent'}">
-                                          <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
-                                          <span style="color: red">
-                                          	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
-                                          </span>
-                                       </c:when>
-                                       <c:when test="${product.discount_type == 'amount'}">
-                                          <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
-                                          <span style="color: red">
-                                          	<fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
-                
-                                          </span>
-                                       </c:when>
-                                    </c:choose>
-                                 </c:when>
-                                 <c:otherwise>
-                                    <fmt:formatNumber value="${product.base_price }" type="currency" currencySymbol="" groupingUsed="true" />원
-                                 </c:otherwise>
-                              </c:choose>
-                           </h6>
-                        </div>
-                     </div>
-                  </div>
+
+                  <div class="event-card" onclick="location.href='${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_seq}'">
+			        <img src="${pageContext.request.contextPath}/images/product/${product.main_pic}" alt="Event 1">
+			        <div class="event-content">
+			            <h2 class="event-title" style="font-weight: bold;">${product.product_name}</h2>
+			
+			            <c:choose>
+	                      <c:when test="${not empty product.discount_type}">
+	                         <c:choose>
+	                            <c:when test="${product.discount_type == 'percent'}">
+	                            <p class="event-description">
+	                               <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+	                               <span style="color: red; font-weight: bold;">
+	                               	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
+	                               </span>
+	                             </p>
+	                            </c:when>
+	                            <c:when test="${product.discount_type == 'amount'}">
+	                           	  <p class="event-description">
+	                               <span style="text-decoration: line-through; "><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+	                               <span style="color: red; font-weight: bold;">
+	                               	<fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
+	     
+	                               </span>
+	                              </p>
+	                            </c:when>
+	                         </c:choose>
+	                      </c:when>
+	                      <c:otherwise>
+	                         <fmt:formatNumber value="${product.base_price }" type="currency" currencySymbol="" groupingUsed="true" />원
+	                      </c:otherwise>
+	                   </c:choose>
+			            
+			            
+			            
+	              		<c:if test="${product.discount_type == 'percent'}">
+	                       <p class="event-discount">${product.discount_amount}% 할인</p>
+	                    </c:if>
+	                    <c:if test="${product.discount_type == 'amount'}">
+	                       <p class="event-discount" ><fmt:formatNumber value="${product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원 할인</p>
+	                    </c:if>
+			        </div>
+			    </div>
                </c:forEach>
             </div>
             <div id="pageBar" class="center">
@@ -92,6 +86,76 @@
       <!-- <script src="js/custom.js"></script> -->
 
       <style>
+		body {
+            font-family: Arial, sans-serif;
+
+        }
+      
+      	.event-container {
+           	display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 60px;
+        }
+		.event-card {
+
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .event-card img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .event-card img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover img {
+            transform: scale(1.1);
+        }
+        .event-content {
+            padding: 15px;
+        }
+        .event-content {
+            padding: 15px;
+        }
+        .event-title {
+            font-size: 18px;
+            margin: 0;
+        }
+        .event-description {
+            color: #555;
+            margin: 10px 0;
+        }
+        .event-discount {
+            font-size: 16px;
+            color: #E53935;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1200px) {
+            .event-card {
+                width: calc(33.33% - 20px); /* 3 cards in one row for medium screens */
+            }
+        }
+
+        @media (max-width: 900px) {
+            .event-card {
+                width: calc(50% - 20px); /* 2 cards in one row for small screens */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .event-card {
+                width: calc(100% - 20px); /* 1 card in one row for extra small screens */
+            }
+        }
+      
+      
          .center {
             text-align: center; /* Center the text inside the div */
             margin-top: 50px; /* Add top margin */
@@ -130,38 +194,7 @@
             border: solid 1px #fbc02d !important;
          }
 
-         .detail-box {
-            display: block !important;
-         }
-
-         .product-img-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 200px; /* Adjust as necessary to fit your layout */
-         }
-
-         .product-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-         }
-
-         .discount-label {
-            color: red;
-            font-size: 15px;
-            font-weight: bold;
-            display: block;
-            text-align: center;
-         }
-         
-         .box {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-         }
+ 
       </style>
 </body>
 </html>

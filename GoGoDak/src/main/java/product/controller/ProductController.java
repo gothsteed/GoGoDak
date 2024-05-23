@@ -59,6 +59,7 @@ public class ProductController extends AbstractController {
 		
 		
 		int totalPageNum = productDao.getTotalPage(productType, blockSize);
+		System.out.println("total page num: " + totalPageNum);
 		if(currentPage > totalPageNum) {
 			currentPage = 1;
 		}
