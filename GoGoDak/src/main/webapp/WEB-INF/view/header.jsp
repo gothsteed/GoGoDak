@@ -309,7 +309,7 @@
 	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">브랜드몰</a>
 	          		</li>
 		           	<li class="nav-item">
-	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">이벤트</a>
+	              		<a class="nav-link" href="<%= ctxPath%>/product/event.dk">이벤트</a>
 		           	</li>          	
 				</ul>
 				

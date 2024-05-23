@@ -155,7 +155,7 @@ public class ProductDao_Imple implements ProductDao {
 		try {
 			conn = ds.getConnection();
 
-			String sql = " select count(*)/? "
+			String sql = " select ceil(count(*)/?) "
 					+ "            from tbl_product "
 					+ "            where product_type= ?";
 
@@ -209,6 +209,34 @@ public class ProductDao_Imple implements ProductDao {
 		
 		return productVO;
 
+	}
+
+	@Override
+	public List<ProductVO> getAllProduct() throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ " from tbl_product ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
 	}
 	
 	
