@@ -1,6 +1,7 @@
 package product.controller;
 
 import common.controller.AbstractController;
+import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import product.model.ProductDao;
@@ -17,8 +18,26 @@ public class ProductFind extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String productName = request.getParameter("myFood");
-		System.out.println(productName);
+		String searchWord = request.getParameter("searchWord");
+		
+		if(searchWord == null || searchWord != null && searchWord.trim().isEmpty()) {
+			searchWord = "";
+		}
+		
+		ProductVO pvo = pdao.getProductList(searchWord);
+		
+		if(pvo == null) {
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/index.jsp");
+			
+			return;
+		}
+		
+		request.setAttribute("productList", pvo);
+		request.setAttribute("title", "검색어 : " + searchWord);
+		
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/view/product/product_category.jsp");
 
 	}
 

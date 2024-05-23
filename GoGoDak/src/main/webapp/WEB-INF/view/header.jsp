@@ -186,7 +186,6 @@
 		}
 		
 		const frm = document.productFindFrm;
-		frm.myFood.value = productName;
         frm.action = "<%= ctxPath%>/product/productFind.dk";
         frm.method = "get";
         frm.submit();
@@ -206,7 +205,7 @@
                 			<a class="navbar-brand" href="<%= ctxPath%>/index.dk"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="..." /></a>
                 		</div>
 						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-4 align-self-center search_form" autocomplete="off" name="productFindFrm">
-					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="myFood" placeholder="Search" aria-label="Search" style="width:300px;">
+					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="searchWord" placeholder="Search" aria-label="Search" style="width:300px;">
 						  	<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="..." /></button>
 						</form>
                 	</div>

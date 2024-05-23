@@ -52,3 +52,19 @@ where id = '9195yerin'
 
 commit;
 -- 커밋 완료.
+
+-----------------------------------------------------------------------
+
+desc tbl_product;
+
+select *
+from tbl_product;
+
+select PRODUCT_NAME, DESCRIPTION, BASE_PRICE, STOCK, MAIN_PIC, DISCRIPTION_PIC
+from tbl_product
+where product_name like '%' || '닭' || '%';
+
+
+
+
+

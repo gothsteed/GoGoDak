@@ -210,6 +210,53 @@ public class ProductDao_Imple implements ProductDao {
 		return productVO;
 
 	}
+
+	@Override
+	public ProductVO getProductList(String searchWord) throws SQLException {
+		
+		ProductVO pvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_number "
+					   + " from tbl_product "
+					   + " where product_name like '%' || ? || '%' ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchWord);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				pvo = new ProductVO();
+				
+				pvo.setProduct_seq(rs.getInt("product_seq"));
+				pvo.setFk_manufacturer_seq(rs.getInt("fk_manufacturer_seq"));
+				pvo.setProduct_name(rs.getString("product_name"));
+				pvo.setDescription(rs.getString("description"));
+				pvo.setBase_price(rs.getFloat("base_price"));
+				pvo.setStock(rs.getInt("stock"));
+				pvo.setMain_pic(rs.getString("main_pic"));
+				pvo.setDescription_pic(rs.getString("discription_pic"));
+				pvo.setDiscount_type(rs.getString("product_type"));
+				
+				DiscountVO dvo = new DiscountVO();
+				dvo.setDiscount_number(rs.getFloat("discount_number"));
+				pvo.setDiscountVO(dvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return pvo;
+	}
+
+	
+
+
+	
 	
 	
 	
