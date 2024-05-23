@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import domain.BoardVO;
 import domain.MemberVO;
 import domain.ProductVO;
+import domain.QuestionVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -768,6 +769,7 @@ public class MemberDao_Imple implements MemberDao {
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 
+
 	@Override
 	public int updatePoint(int point, int member_seq) throws SQLException {
 		int result = 0;
@@ -793,6 +795,154 @@ public class MemberDao_Imple implements MemberDao {
 		}
 		
 		return result;
+	}
+
+	
+	
+	//1:1문의 페이징처리
+	@Override
+	public List<QuestionVO> getQuestionBoard(int currentPage, int blockSize) throws SQLException {
+		List<QuestionVO> questionList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT * "
+					   + "From( "
+					   + "    select rownum as rno, question_seq ,id , title ,  registerday as ragisterdate "
+					   + "    from tbl_question) "
+					   + "WHERE rno between ? and ? ";
+					
+
+
+			pstmt = conn.prepareStatement(sql);
+
+	
+			pstmt.setLong(1, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
+			pstmt.setLong(2, (currentPage * blockSize));
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				QuestionVO qvo = new QuestionVO();
+				qvo.setQuestion_seq(rs.getInt("question_seq"));
+				qvo.setTitle(rs.getString("title"));
+				qvo.setRagisterdate(rs.getDate("ragisterdate"));
+				qvo.setId(rs.getString("id"));
+				
+		
+				questionList.add(qvo);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return questionList;
+	}
+
+	@Override
+	public int getQuestionTotalPage(int blockSize)throws SQLException {
+
+		int getQuestionTotalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select ceil(count(*)/?) as pgn "
+					   + " from tbl_question ";
+					   
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, blockSize);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				getQuestionTotalPage = rs.getInt(1);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return getQuestionTotalPage;
+	}
+
+	
+	
+	//1:1문의사항 작성하기
+	@Override
+	public int questionWrite(QuestionVO question) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " insert into tbl_question(QUESTION_SEQ , fk_member_seq ,title, id ,EMAIL, CONTENT ) "
+					   + " values(QUESTION_SEQ.nextval, ? , ? , ? , ? , ? ) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, question.getFk_member_seq());
+			pstmt.setString(2, question.getTitle());
+			pstmt.setString(3, question.getId());
+			pstmt.setString(4, question.getEmail());
+			pstmt.setString(5, question.getContent());
+			
+			
+			//오류확인용 시작//
+			System.out.println("SQL: " + sql);
+			//오류확인용 끝//
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	//1:1문의사항 디테일보기
+	@Override
+	public QuestionVO selectOneQuestion(String question_seq) throws SQLException {
+		
+		  QuestionVO questionView = null;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql =  " select title , content ,question_seq ,id "
+	         			+  " from tbl_question "
+	         			+  " where question_seq = ? ";
+	                     
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, question_seq);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         if(rs.next()) {
+	        	 questionView = new QuestionVO();
+	            
+	        	 questionView.setQuestion_seq(rs.getInt("question_seq"));
+	        	 questionView.setTitle(rs.getString("title"));
+	        	 questionView.setContent(rs.getString("content"));
+	        	 questionView.setId(rs.getString("id"));
+	         } // end of if(rs.next())-------------------
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return questionView;
 	}
 
 
