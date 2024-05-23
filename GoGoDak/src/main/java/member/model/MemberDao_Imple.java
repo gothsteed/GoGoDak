@@ -114,6 +114,10 @@ public class MemberDao_Imple implements MemberDao {
 			memberTemp.setExist_status(rs.getInt("EXIST_STATUS"));
 			memberTemp.setActive_status(rs.getInt("ACTIVE_STATUS"));
 			memberTemp.setLast_password_change(rs.getDate("LAST_PASSWORD_CHANGE"));
+			memberTemp.setPostcode(rs.getString("postcode"));
+			memberTemp.setAddress(rs.getString("address"));
+			memberTemp.setAddress_detail(rs.getString("address_detail"));
+			memberTemp.setAddress_extra(rs.getString("address_extra"));
 			int passwordChangeGap = rs.getInt("PWDCHANGGAP");
 			
 			
@@ -516,8 +520,8 @@ public class MemberDao_Imple implements MemberDao {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_member set password = ?, last_password_change = sysdate " 
-	                   + " where id = ? ";
+			String sql = " update tbl_member set password = ?, last_password_change = sysdate "
+					   + " where id = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -763,6 +767,33 @@ public class MemberDao_Imple implements MemberDao {
 		
 	}// end of public MemberVO selectOneMember(String id) throws SQLException {}
 	//,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
+
+	@Override
+	public int updatePoint(int point, int member_seq) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " UPDATE tbl_member "
+					+ " SET point = ? "
+					+ " WHERE member_seq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, point);
+			pstmt.setInt(2, member_seq);
+			
+			result = pstmt.executeUpdate();
+			
+	
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
 
 
 

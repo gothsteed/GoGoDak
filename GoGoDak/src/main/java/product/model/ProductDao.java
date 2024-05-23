@@ -13,4 +13,13 @@ public interface ProductDao {
 
 	ProductVO getProductBySeq(int product_seq) throws SQLException;
 
+
+	List<ProductVO> getProductList(String searchWord) throws SQLException;
+
+
+
+
+	List<ProductVO> getAllProduct()throws SQLException;
+
+
 }
