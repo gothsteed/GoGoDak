@@ -1,5 +1,7 @@
 package product.controller;
 
+import java.util.List;
+
 import common.controller.AbstractController;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,16 +26,17 @@ public class ProductFind extends AbstractController {
 			searchWord = "";
 		}
 		
-		ProductVO pvo = pdao.getProductList(searchWord);
-		
+		List<ProductVO> productList = pdao.getProductList(searchWord);
+		/*
 		if(pvo == null) {
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/index.jsp");
-			
-			return;
+			String message = "검색하신 상품이 존재하지 않습니다.";
+	        String loc = "javascript:history.back()";
+	         
+	        request.setAttribute("message", message);
+	        request.setAttribute("loc", loc);
 		}
-		
-		request.setAttribute("productList", pvo);
+		*/
+		request.setAttribute("productList", productList);
 		request.setAttribute("title", "검색어 : " + searchWord);
 		
 		super.setRedirect(false);

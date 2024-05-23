@@ -212,14 +212,14 @@ public class ProductDao_Imple implements ProductDao {
 	}
 
 	@Override
-	public ProductVO getProductList(String searchWord) throws SQLException {
+	public List<ProductVO> getProductList(String searchWord) throws SQLException {
 		
-		ProductVO pvo = null;
+		List<ProductVO> productList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_number "
+			String sql = " select product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number "
 					   + " from tbl_product "
 					   + " where product_name like '%' || ? || '%' ";
 			
@@ -228,8 +228,8 @@ public class ProductDao_Imple implements ProductDao {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
-				pvo = new ProductVO();
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
 				
 				pvo.setProduct_seq(rs.getInt("product_seq"));
 				pvo.setFk_manufacturer_seq(rs.getInt("fk_manufacturer_seq"));
@@ -240,17 +240,17 @@ public class ProductDao_Imple implements ProductDao {
 				pvo.setMain_pic(rs.getString("main_pic"));
 				pvo.setDescription_pic(rs.getString("discription_pic"));
 				pvo.setDiscount_type(rs.getString("product_type"));
+				pvo.setDiscount_type(rs.getString("discount_type"));
+				pvo.setDiscount_amount(rs.getFloat("discount_number"));
 				
-				DiscountVO dvo = new DiscountVO();
-				dvo.setDiscount_number(rs.getFloat("discount_number"));
-				pvo.setDiscountVO(dvo);
+				productList.add(pvo);
 			}
 			
 		} finally {
 			close();
 		}
 		
-		return pvo;
+		return productList;
 	}
 
 	
