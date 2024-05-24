@@ -45,3 +45,26 @@ where EXIST_STATUS = 1 and id = 'iyou99' and name = '이지은' and email = 'JuM
 
 select *
 from tbl_board;
+
+update tbl_member set password = '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382', last_password_change = sysdate
+where id = '9195yerin'
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.
+
+-----------------------------------------------------------------------
+
+desc tbl_product;
+
+select *
+from tbl_product;
+
+select PRODUCT_NAME, DESCRIPTION, BASE_PRICE, STOCK, MAIN_PIC, DISCRIPTION_PIC
+from tbl_product
+where product_name like '%' || '닭' || '%';
+
+
+
+
+

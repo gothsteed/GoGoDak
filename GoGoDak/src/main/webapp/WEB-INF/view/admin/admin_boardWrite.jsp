@@ -52,15 +52,10 @@ function goRegister() {
     console.log("goRegister 함수 호출됨");
 }
 
-
-
 function goReset() {
     history.back(); // 이전 페이지로 이동
-  }
-
+}
 </script>
-    
-      
 
 <div class="boardWrite_container">
 	<div class="row justify-content-center">
@@ -70,7 +65,7 @@ function goReset() {
          			<strong style="font-size: 20pt;">공지사항</strong><p>작성하실 공지사항을 입력해주세요.</p>
        			</div>
        			<div class="card-body" id="tblBoardWrite">
-					<form name="boardFrm" method="post">
+					<form name="boardFrm" method="post" enctype="multipart/form-data">
 		         		<div class="board-group">
 		               		<label for="title">제목</label>
 		               		<input type="text" name="title" id="title" placeholder="제목 입력" />

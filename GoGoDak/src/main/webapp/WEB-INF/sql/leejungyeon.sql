@@ -103,7 +103,7 @@ SELECT sequence_name, min_value, max_value, increment_by, cycle_flag, order_flag
 FROM user_sequences;
 
 
-ALTER TABLE tbl_product ADD  fk_discount_event_seq NUMBER;
+ALTER TABLE tbl_product_list ADD  quantity NUMBER NOT NULL;
 
 ALTER TABLE tbl_product
 ADD CONSTRAINT fk_discount_event
@@ -227,6 +227,8 @@ where product_type = 1;
 desc tbl_member;
 desc tbl_order
 desc tbl_product;
+desc tbl_order;
+desc tbl_product_list;
 
 
 select rownum as rno
@@ -253,3 +255,9 @@ WHERE product_seq = 2;
 
 commit;
 
+select 
+*
+from tbl_order;
+
+select *
+from tbl_product_list;

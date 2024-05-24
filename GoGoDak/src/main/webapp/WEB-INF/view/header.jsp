@@ -161,6 +161,38 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("button.search_btn").click(function(){
+			goFind();
+		});
+		
+		$("input#myInput").bind("keyup", function(e){
+			if(e.keyCode == 13){
+				goFind();
+			}
+		});
+		
+	}); // end of $(document).ready(function(){}) ----------
+	
+	function goFind(){
+		
+		const productName = $("input#myInput").val().trim();
+
+		if(productName == ""){
+			alert("검색어를 입력하세요!!");
+			return;
+		}
+		
+		const frm = document.productFindFrm;
+        frm.action = "<%= ctxPath%>/product/productFind.dk";
+        frm.method = "get";
+        frm.submit();
+		
+	} // end of function goFind() ----------
+</script>
+
 </head>
 <body class="sub_page">
 	<%-- start header section --%>
@@ -172,8 +204,8 @@
                 		<div class="col-2 col-md-4">
                 			<a class="navbar-brand" href="<%= ctxPath%>/index.dk"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="..." /></a>
                 		</div>
-						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-4 align-self-center search_form" autocomplete="off" action="/action_page.php">
-					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="myFood" placeholder="Search" aria-label="Search" style="width:300px;">
+						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-4 align-self-center search_form" autocomplete="off" name="productFindFrm">
+					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="searchWord" placeholder="Search" aria-label="Search" style="width:300px;">
 						  	<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="..." /></button>
 						</form>
                 	</div>
@@ -277,7 +309,7 @@
 	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">브랜드몰</a>
 	          		</li>
 		           	<li class="nav-item">
-	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">이벤트</a>
+	              		<a class="nav-link" href="<%= ctxPath%>/product/event.dk">이벤트</a>
 		           	</li>          	
 				</ul>
 				

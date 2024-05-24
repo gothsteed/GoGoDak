@@ -6,6 +6,7 @@ import java.util.Map;
 
 import domain.BoardVO;
 import domain.MemberVO;
+import domain.QuestionVO;
 
 public interface MemberDao {
 
@@ -67,6 +68,18 @@ public interface MemberDao {
 	
 	// 입력받은 id 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
 	MemberVO selectOneMember(String id) throws SQLException;
+	//1:1문의 페이징처리
+	List<QuestionVO> getQuestionBoard(int currentPage, int blockSize)throws SQLException;
+	//1:1문의 총 페이지수 알아오기  혜선
+	int getQuestionTotalPage(int blockSize)throws SQLException;
+	//1:1문의사항 작성하기
+	int questionWrite(QuestionVO question)throws SQLException;
+	//1:1문의사항 디테일보기
+	QuestionVO selectOneQuestion(String question_seq)throws SQLException;
+
+	int updatePoint(int point, int member_seq) throws SQLException;
+
+
 
 	
 		

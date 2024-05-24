@@ -157,6 +157,8 @@ String ctxPath = request.getContextPath();
         
         let cartJson = collectCartData();
         
+        
+        let point = parseInt(document.getElementById('points').value) || 0;
         $.ajax({
             url: '<%=ctxPath%>/member/cart.dk',
             type: 'post',
@@ -170,12 +172,12 @@ String ctxPath = request.getContextPath();
                     const width = 1000;
                     const height = 600;
                     //todo: !!!purchase url 추가!!!!!
-                    const url = ``
+                    const url = "<%=ctxPath%>/member/purchase.dk?point=" + point;
 
                     const left = Math.ceil((window.screen.width - width)/2);
                     const top = Math.ceil((window.screen.height - height)/2);
 
-                    window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`);
+                    window.open(url, "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}`);
                     
                 } else {
                 	console.log(response.message)
@@ -203,6 +205,52 @@ String ctxPath = request.getContextPath();
 
      }
     
+    
+    
+    function goOrder(totalAmount) {
+        const postcode = $("input#postcode").val().trim();
+        const address = $("input#address").val().trim();
+        const detailAddress = $("input#detailAddress").val().trim();
+        const extraAddress = $("input#extraAddress").val().trim();
+    	
+    	
+        /* console.log(`~~ 확인용 userid : ${userid }, coinmoney : ${totalAmount}원`); */
+        $.ajax({
+            url : "<%=ctxPath%>/member/order.dk",
+            data : {
+                    "totalAmount": totalAmount,
+                    "postcode" : postcode,
+                    "address" : address,
+                    "address_detail" : detailAddress,
+                    "address_extra" : extraAddress}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
+            
+            type : "post",  // type 을 생략하면 type : "get" 이다.
+
+            async : true,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
+                           // async:false 가 동기 방식이다. 지도를 할때는 반드시 동기방식인 async:false 을 사용해야만 지도가 올바르게 나온다.
+            
+            dataType : "json",  // Javascript Standard Object Notation.  dataType은 /MyMVC/member/idDuplicateCheck.up 로 부터 실행되어진 결과물을 받아오는 데이터타입을 말한다. 
+                                // 만약에 dataType:"xml" 으로 해주면 /MyMVC/member/idDuplicateCheck.up 로 부터 받아오는 결과물은 xml 형식이어야 한다. 
+                                // 만약에 dataType:"json" 으로 해주면 /MyMVC/member/idDuplicateCheck.up 로 부터 받아오는 결과물은 json 형식이어야 한다.              
+
+            success : function(json){
+
+
+                alert(json.message);
+                location.href = json.loc;
+                
+                //새로고침
+                //location.href = history.go(0);
+                console.log("====json: " + json);
+            },
+            
+            error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+
+        });
+
+    }
     
 
 </script>

@@ -10,6 +10,8 @@ public class QuestionVO {
 	private String id;				//작성자아이디
 	private String email;			//작성자이메일
 	private String pic;				//첨부사진
+	private int fk_answer_seq;
+	private String content; //내용
 	
 	private MemberVO mdto = new MemberVO();
 	
@@ -61,6 +63,18 @@ public class QuestionVO {
 	}
 	public void setMdto(MemberVO mdto) {
 		this.mdto = mdto;
+	}
+	public int getFk_answer_seq() {
+		return fk_answer_seq;
+	}
+	public void setFk_answer_seq(int fk_answer_seq) {
+		this.fk_answer_seq = fk_answer_seq;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	

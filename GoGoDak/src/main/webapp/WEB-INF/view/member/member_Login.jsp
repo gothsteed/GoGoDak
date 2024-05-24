@@ -85,8 +85,6 @@ text-transform: none !important;
 }
 </style>
 
-
-
 <section class="why_section layout_padding">
     <div class="sync-login-area">
         <div class="sync-login-form">

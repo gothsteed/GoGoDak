@@ -175,7 +175,7 @@
 	  		});
 		}
 	
-		var foodes = ["닭가슴살","소스 닭가슴살","크런치 닭가슴살","한입 닭가슴살","도시락","볶음밥","베이커리","착한간식","딜리스틱","제로아워","닥터리브"];
+		var foodes = ["닭가슴살","도시락","볶음밥","베이커리","착한간식","딜리스틱","제로아워","닥터리브"];
 		autocomplete(document.getElementById("myInput"), foodes);
 		// autocomplete end
 		
