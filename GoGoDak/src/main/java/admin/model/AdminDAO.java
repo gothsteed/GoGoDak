@@ -1,6 +1,7 @@
 package admin.model;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import domain.BoardVO;
 
@@ -16,5 +17,7 @@ public interface AdminDAO {
 	
 	//delete
 	int deletedBoard(BoardVO boardDelete)throws Exception;
+
+	List<String> updateAnswer(String question_seq)throws Exception;
 
 }

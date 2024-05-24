@@ -43,7 +43,19 @@ String ctxPath = request.getContextPath();
 
 <script type="text/javascript">
 
-
+$(document).ready(function(){
+	
+	document.getElementById('replyButton').addEventListener('click', function() {
+        var textareaContainer = document.getElementById('textareaContainer');
+        if (textareaContainer.style.display === 'none') {
+            textareaContainer.style.display = 'block';
+        } else {
+            textareaContainer.style.display = 'none';
+        }
+    });
+	
+	
+});
 
 function goEdit() {
 		
@@ -104,10 +116,45 @@ function goDelete() {
     		<span style="display: flex; justify-content: center;">${requestScope.qvo.content}</span>
    		<br><br>
     	</div>
-    	 
-            
     	
-                
+    	<%-- 답변이 있을때 요기에 나타내기 시작 --%>
+    	
+    	<c:if test="${empty requserScope.AnswerList}">
+    		<span>아직 작성된 답변이 없습니다</span>
+    	</c:if>
+    	
+    	<c:if test="${not empty requserScope.AnswerList}">
+    		<tr>
+    			<td>${requestScope.avo.answer_seq}</td>
+    		</tr>
+    		<tr>
+    			<td>${requestScope.avo.content}</td>
+    		</tr>
+    	</c:if>
+    	<%-- 답변이 있을때 요기에 나타내기 끝 --%>
+    	
+       	<hr>
+    	<div class="form-group"> 
+	        <c:if test="${sessionScope.loginuser.id == 'admin'}">
+	        	<div align="right">
+	        		 <button type="button" class="btn btn-light" id="replyButton" >관리자 답변달기</button>
+	        		 <br><br>
+	        	</div>
+	        	
+	        	<form class="adminAnswerFrm">
+		        	<div id="textareaContainer" style="display: none;">
+	            		 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+	            		 <br>
+	            		 <button type="button" class="btn btn-light" onclick="goadminAnswer()"  style="float: right;">저장</button>
+	            		 <%--이거 함수만들어야함 --%>
+		        	</div>
+		        	<br>
+		        </form>	
+	        	
+	        </c:if>	    
+    	</div>
+    	
+         
                 
     	<button type="button" class="btn btn-outline-dark" onclick="location.href='<%= ctxPath%>/member/notice.dk'">목록</button>
             

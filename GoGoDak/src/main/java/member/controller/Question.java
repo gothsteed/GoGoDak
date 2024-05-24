@@ -26,7 +26,6 @@ public class Question extends AbstractController {
 		if (super.checkLogin(request)) {
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			String id = loginuser.getId();
-			System.out.println("id" + id);
 
 			String question = request.getParameter("question_seq");
 
@@ -51,11 +50,11 @@ public class Question extends AbstractController {
 			int loop = 1;
 			int pageNo = ((currentPage - 1) / blockSize) * blockSize + 1;
 
-			String pageBar = "<li class='page-item'><a class='page-link' href='notice.dk?seq=" + question
+			String pageBar = "<li class='page-item'><a class='page-link' href='question.dk?seq=" + question
 					+ "&page=1'>[맨처음]</a></li>";
 
 			if (pageNo != 1) {
-				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+				pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question + "&page="
 						+ (pageNo - 1) + "'>[이전]</a></li>";
 			}
 
@@ -72,7 +71,7 @@ public class Question extends AbstractController {
 					pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 				} else {
 
-					pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+					pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question + "&page="
 							+ pageNo + "'>" + pageNo + "</a></li>";
 				}
 
@@ -83,12 +82,12 @@ public class Question extends AbstractController {
 				pageNo++;
 
 			}
-			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+			pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question + "&page="
 					+ (totalPageNum) + "'>[맨마지막]</a></li>";
 
 			// 다음 마지막 만들기
 			if (pageNo <= totalPageNum) {
-				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+				pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question + "&page="
 						+ (currentPage + 1) + "'>[다음]</a></li>";
 			}
 			request.setAttribute("id", id);
