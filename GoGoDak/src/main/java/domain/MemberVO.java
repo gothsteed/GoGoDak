@@ -24,6 +24,7 @@ public class MemberVO {
     private int active_status;			//휴먼유무
     private Date last_password_change;	//마지막비밀번호 변경일
     private boolean isRequirePasswordChange;
+  
     
     
     
@@ -197,6 +198,9 @@ public class MemberVO {
 	public void setMember_seq(int member_seq) {
 		this.member_seq = member_seq;
 	}
+
+
+	
 
 	
 

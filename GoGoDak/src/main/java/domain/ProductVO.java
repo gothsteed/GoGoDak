@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ProductVO {
@@ -136,6 +138,12 @@ public class ProductVO {
 
 		return base_price  - discount_amount;
 	}
+
+
+
+
+
+
     
     
         
