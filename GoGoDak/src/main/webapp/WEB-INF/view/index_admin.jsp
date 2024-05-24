@@ -23,7 +23,7 @@
 					<div class="card-body">
 						<h5 class="card-title">상품등록</h5>
 						<p class="card-text"></p>
-						<a href="<%= ctxPath%>/admin/product.dk" class="btn btn-outline-warning">View Details &raquo;</a>
+						<a href="<%= ctxPath%>/admin/productRegister.dk" class="btn btn-outline-warning">View Details &raquo;</a>
 					</div>
 				</div>
 				<div class="card">

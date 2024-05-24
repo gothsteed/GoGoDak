@@ -285,6 +285,43 @@ public class ProductDao_Imple implements ProductDao {
 		return productList;
 	}
 
+	
+	//상품등록
+	@Override
+	public int productregister(ProductVO pvo) throws SQLException {
+		
+		int result = 0;
+         
+         try {
+            conn = ds.getConnection();
+            
+            String sql = " insert into tbl_product(product_seq , product_name , description ,base_price , stock , main_pic , discription_pic , product_type , discount_type , discount_number ) "
+                     + " values(product_seq.nextval,?,?,?,?,?,?,?,?,?) " ;
+            
+            pstmt = conn.prepareStatement(sql);
+            
+            //pstmt.setInt(1, pvo.getFk_manufacturer_seq());
+            pstmt.setString(1, pvo.getProduct_name());
+            pstmt.setString(2, pvo.getDescription());
+            pstmt.setFloat(3, pvo.getBase_price());    
+            pstmt.setInt(4, pvo.getStock()); 
+            pstmt.setString(5, pvo.getMain_pic());    
+            pstmt.setString(6, pvo.getDescription_pic()); 
+            pstmt.setInt(7, pvo.getProduct_type());
+            pstmt.setString(8, pvo.getDiscount_type());
+            pstmt.setFloat(9, pvo.getDiscount_amount());
+           
+            result = pstmt.executeUpdate();
+         }catch (SQLException e) {
+    			e.printStackTrace();
+    			//throw new Exception("Database error: " + e.getMessage(), e);
+         } finally {
+            close();
+         }
+         
+         return result;
+
+	}//end of 	public int productregister(ProductVO pvo) throws SQLException--------------
 
 
 	public Product_listVO memberOrderDetail(String id) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
