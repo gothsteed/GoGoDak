@@ -21,5 +21,9 @@ public interface ProductDao {
 
 	List<ProductVO> getAllProduct()throws SQLException;
 
+	
+	//상품등록
+	int productregister(ProductVO pvo) throws SQLException;
+
 
 }
