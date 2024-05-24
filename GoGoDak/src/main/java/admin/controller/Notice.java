@@ -1,11 +1,17 @@
 package admin.controller;
 
+import java.io.File;
+import java.util.Calendar;
+import java.util.Collection;
+
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
 import domain.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 public class Notice extends AbstractController {
     
@@ -22,25 +28,76 @@ public class Notice extends AbstractController {
         System.out.println("HTTP Method: " + method);
         
         if ("POST".equalsIgnoreCase(method)) {
-            
-            String title = request.getParameter("title");
+        	
+        	String title = request.getParameter("title");
             String content = request.getParameter("content");
-            String pic = request.getParameter("pic");
 
-//            System.out.println("Title: " + title);
-//            System.out.println("Content: " + content);
-//            System.out.println("Pic: " + pic);
+            ///////////////////////////////////////////////////////////////
+    	
+    		HttpSession session = request.getSession();
+    		String savePath = session.getServletContext().getRealPath("/images/board");
+    		
+    		Collection<Part> parts = request.getParts();
+    		
+    		String savedFileName = null;
+    		
+    		for(Part part : parts) {
+    			
+    			if (!part.getHeader("Content-Disposition").contains("filename=")) {
+    				continue;
+    			}
+    			
+    			String fileName = extractFileName(part.getHeader("Content-Disposition"));
+    			if (part.getSize() <= 0) {
+    				continue;
+    			}
+    			
+    			String newFilename = fileName.substring(0, fileName.lastIndexOf(".")); // 확장자를 뺀 파일명 알아오기
 
-            BoardVO board = new BoardVO();
-            board.setTitle(title);
-            board.setContent(content);
-            board.setPic(pic);
+    			newFilename += "_" + String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance());
+    			newFilename += System.nanoTime();
+    			newFilename += fileName.substring(fileName.lastIndexOf(".")); // 확장자 붙이기
+    			
+    			System.out.println("new File upload: " + newFilename);
+    			savedFileName = newFilename;
+    			
+    			part.write(savePath + File.separator + newFilename);
+    		
+    			part.delete();
+    		}
+    		
+    		if(title == null || savedFileName == null) {
+    			String loc = request.getContextPath() + "/member/notice.dk";
+    			String message = "공지사항 등록 실패";
+    			
+    			request.setAttribute("loc", loc);
+    			request.setAttribute("message", message);
+    			
+    			setRedirect(false);
+    			setViewPage("/WEB-INF/view/msg.jsp");
+    			return;
+    		}
+    		
+			BoardVO board = new BoardVO();
+	        board.setTitle(title);
+	        board.setContent(content);
+	        board.setPic(savedFileName);
+              
+    		int result = adao.boardWrite(board);
+    		
+    		if(result != 1) {
+    			String loc = request.getContextPath() + "/member/notice.dk";
+    			String message = "공지사항 등록 실패";
+    			
+    			request.setAttribute("loc", loc);
+    			request.setAttribute("message", message);
+    			
+    			setRedirect(false);
+    			setViewPage("/WEB-INF/view/msg.jsp");
+    			return;
+    		}
 
-            int result = adao.boardWrite(board);
-            System.out.println("result : "+result);
-            if (result == 1) {
-//                System.out.println("DB Insert 성공");
-
+            if(result == 1) {
                 String message = "공지사항이 등록 되었습니다.";
                 String loc = request.getContextPath()+"/member/notice.dk";
 
@@ -48,12 +105,22 @@ public class Notice extends AbstractController {
                 request.setAttribute("loc", loc);
                 
                 super.setViewPage("/WEB-INF/view/msg.jsp");
-                
             } 
+            
         } else {
-//            System.out.println("GET 요청 처리");
             super.setRedirect(false);
             super.setViewPage("/WEB-INF/view/admin/admin_boardWrite.jsp");
         }
     }
+    
+    private String extractFileName(String partHeader) {
+		for (String cd : partHeader.split("\\;")) {
+			if (cd.trim().startsWith("filename")) {
+				String fileName = cd.substring(cd.indexOf("=") + 1).trim().replace("\"", "");
+				int index = fileName.lastIndexOf(File.separator);
+				return fileName.substring(index + 1);
+			}
+		}
+		return null;
+	}
 }

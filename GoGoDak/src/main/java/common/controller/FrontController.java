@@ -20,6 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+	    maxFileSize = 1024 * 1024 * 10,      // 10 MB
+	    maxRequestSize = 1024 * 1024 * 100   // 100 MB
+	)
+
 @WebServlet(
 	      description = "사용자가 웹에서 *.up 을 했을 경우 이 서블릿이 응답을 해주도록 한다.",
 	      urlPatterns = {"*.dk"},
@@ -27,11 +33,6 @@ import java.util.Properties;
 	      @WebInitParam(name = "propertyConfig", value = "C:\\git\\GoGoDak\\GoGoDak\\src\\main\\webapp\\WEB-INF\\command.properties", description = "*.dk 에 대한 클래스의 매핑파일") 
 	      })
 
-@MultipartConfig(
-	    fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-	    maxFileSize = 1024 * 1024 * 10,      // 10 MB
-	    maxRequestSize = 1024 * 1024 * 100   // 100 MB
-	)
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
