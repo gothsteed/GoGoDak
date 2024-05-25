@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     String ctxPath = request.getContextPath();
     //    /GoGoDak
@@ -150,6 +150,38 @@
 	  	top: 10px;
 	  	right: 10px; 
 	  	width: 20px;
+	}
+	/* tooltip */
+	.tooltipbottom {
+  		position: relative;
+	}
+	.tooltiptext {
+  		width: 100px;
+  		background-color: #fbc02d;
+  		color: #fff;
+  		text-align: center;
+  		border-radius: 5px;
+  		padding: 5px 0;
+  		position: absolute;
+  		z-index: 1;
+  		bottom: -30%;
+  		left: 50%;
+ 	 	margin-left: -49px;
+  		opacity: 0;
+  		transition: opacity 0.3s;
+	}
+	.tooltiptext::after {
+  		content: "";
+  		position: absolute;
+  		top: -28%;
+  		left: 50%;
+  		margin-left: -5px;
+  		border-width: 5px;
+  		border-style: solid;
+  		border-color: transparent transparent #fbc02d transparent;
+	}
+	.tooltipbottom:hover .tooltiptext {
+  		opacity: 1;
 	}
 </style>
 
@@ -314,21 +346,29 @@
 				</ul>
 				
 				<ul class="nav col-md-2">
-					<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id != 'admin'}">				
-						<li class="nav-item justify-content-end">
-		              		<a class="nav-link" href="<%= ctxPath%>/member.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+					<c:if test="${empty sessionScope.loginuser}">				
+						<li class="nav-item justify-content-end tooltipbottom">
+							<span class="tooltiptext">로그인</span>
+		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+			           	</li>
+			           	
+			           	<li class="nav-item tooltipbottom">
+			           		<span class="tooltiptext">장바구니</span>
+		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
 					</c:if>
 					
-					<c:if test="${empty sessionScope.loginuser}">				
-						<li class="nav-item justify-content-end">
-		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+					<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id != 'admin'}">				
+						<li class="nav-item justify-content-end tooltipbottom">
+							<span class="tooltiptext">마이 쇼핑</span>
+		              		<a class="nav-link" href="<%= ctxPath%>/member.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
+			           	</li>
+			           	
+			           	<li class="nav-item tooltipbottom">
+			           		<span class="tooltiptext">장바구니</span>
+		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
 					</c:if>
-
-		           	<li class="nav-item">
-	              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
-		           	</li>
 				</ul>
 			</nav>
 		</div>
