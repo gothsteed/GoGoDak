@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
-import domain.DiscountVO;
+import domain.Discount_eventVO;
 import domain.ProductVO;
 import domain.Product_listVO;
 import util.security.AES256;
@@ -285,6 +285,7 @@ public class ProductDao_Imple implements ProductDao {
 		return productList;
 	}
 
+
 	
 	//상품등록
 	@Override
@@ -396,6 +397,117 @@ public class ProductDao_Imple implements ProductDao {
 
 	    return pvo;
 	}
+
+	@Override
+	public int getEventProductTotalPage(int discount_event_Seq, int blockSize) throws SQLException {
+		int totalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select ceil(count(*)/?) "
+					+ "            from tbl_product "
+					+ "            where fk_discount_event_seq= ?";
+
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, blockSize);
+			pstmt.setInt(2, discount_event_Seq);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				totalPage = rs.getInt(1);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return totalPage;
+	}
+
+	@Override
+	public List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "    SELECT * "
+					+ "    FROM " + "    ( "
+					+ "        SELECT rownum as rno, PRODUCT_SEQ, FK_MANUFACTURER_SEQ,"
+					+ "   PRODUCT_NAME, DESCRIPTION, BASE_PRICE,  STOCK, MAIN_PIC, DISCRIPTION_PIC, PRODUCT_TYPE, FK_DISCOUNT_EVENT_SEQ,  "
+					+ "    DISCOUNT_TYPE,  DISCOUNT_NUMBER "
+					+ "        FROM " + "        ( "
+					+ "            select * "
+					+ "            from tbl_product "
+					+ "            where fk_discount_event_seq = ? ) V ";
+
+
+
+			sql += " )T " + " WHERE T.rno between ? and ? ";
+
+			pstmt = conn.prepareStatement(sql);
+
+	
+			pstmt.setInt(1, discount_event_Seq);
+			pstmt.setLong(2, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
+			pstmt.setLong(3, (currentPage * blockSize));
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
+	@Override
+	public List<ProductVO> getProductByDiscountEvent(int discount_event_Seq) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ "  from tbl_product "
+					+ "  where fk_discount_event_seq = ? ";
+
+
+			pstmt = conn.prepareStatement(sql);
+
+	
+			pstmt.setInt(1, discount_event_Seq);
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
 
 	
 

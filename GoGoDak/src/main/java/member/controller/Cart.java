@@ -14,7 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import domain.DiscountVO;
+import domain.Discount_eventVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
