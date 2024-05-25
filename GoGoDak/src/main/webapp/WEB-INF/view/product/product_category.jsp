@@ -12,7 +12,7 @@
       
          <div class="container">
             <div class="heading_container heading_center">
-               <h2>
+               <h2 style="font-family: 'Arial', sans-serif; font-weight: normal;">
                    <span>${requestScope.title}</span>
                </h2>
             </div>
@@ -194,6 +194,15 @@
             background-color: #fbc02d !important;
             border: solid 1px #fbc02d !important;
          }
+         .heading_container h2::after {
+		    content: "";
+		    display: block;
+		    width: 100%;
+		    height: 5px;
+		    background: #fbc02d;
+		    margin: 20px auto;
+		    border-radius: 10px;
+		}
 
  
       </style>

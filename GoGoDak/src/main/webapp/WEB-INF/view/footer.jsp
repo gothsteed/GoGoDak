@@ -86,13 +86,6 @@
 		</div>
 	</footer>
     <%-- end footer section --%>
-    
-    <%-- start popup section --%>
-    <div class="popup clearfix">
-    	<img class="popup-img" src="<%= ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" />
-      	<img class="popup-btn" src="<%= ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
-    </div>
-    <%-- end popup section --%>
      
     <%-- 직접 만든 JS --%>    
     <script type="text/javascript">
@@ -174,8 +167,8 @@
 	      		closeAllLists(e.target);
 	  		});
 		}
-	
-		var foodes = ["닭가슴살","도시락","볶음밥","베이커리","착한간식","딜리스틱","제로아워","닥터리브"];
+
+		var foodes = ["고고단","곤약볶음밥","그래놀라","닭가슴살","닭가슴살 곤약볶음밥","닭가슴살 치밥","닭가슴살 치킨","떡마리","만두","볶음밥","붕어빵","피자","사각피자","샤오롱바오","왕만두","쫄깃만두","치밥","치킨","포테이토스틱","프로틴","현미"];
 		autocomplete(document.getElementById("myInput"), foodes);
 		// autocomplete end
 		

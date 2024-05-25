@@ -34,7 +34,7 @@
 	}
 	.search_btn{
 		position: absolute;
-		right: 4%;
+		right: 2%;
 	}
 	.autocomplete{
 		position: relative;
@@ -58,7 +58,7 @@
 	.autocomplete-items div {
 		padding: 10px;
 	  	cursor: pointer;
-	  	background-color: #fff; 
+	  	background-color: #fff;
 	}
 	.autocomplete-items div:hover {
 	 	background-color: #fbc02d;
@@ -196,20 +196,20 @@
 </head>
 <body class="sub_page">
 	<%-- start header section --%>
-	<div class="hero_area">
+	<div class="hero_area inner_page">
         <header class="header_section">
         	<div class="container">
             	<nav class="navbar navbar-expand-lg custom_nav-container row justify-content-around">
-                	<div class="row col-12 col-md-8 justify-content-start">
-                		<div class="col-2 col-md-4">
+                	<div class="col-4 row justify-content-start pl-0 pr-0">
+                		<div class="col-6">
                 			<a class="navbar-brand" href="<%= ctxPath%>/index.dk"><img src="<%= ctxPath%>/images/header/logo.png" width="150" alt="..." /></a>
                 		</div>
-						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-4 align-self-center search_form" autocomplete="off" name="productFindFrm">
-					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="searchWord" placeholder="Search" aria-label="Search" style="width:300px;">
+						<form class="form-inline my-2 my-lg-0 pl-0 pr-0 col-6 align-self-center search_form" autocomplete="off" name="productFindFrm">
+					    	<input class="autocomplete search_input mb-0" id="myInput" type="text" name="searchWord" placeholder="Search" aria-label="Search" style="width:100%;">
 						  	<button class="btn my-2 my-sm-0 search_btn" type="submit"><img src="<%= ctxPath%>/images/header/btn_search.png" width="25" alt="..." /></button>
 						</form>
                 	</div>
-                  	<div class="collapse navbar-collapse col-8 col-md-6" id="navbarSupportedContent">
+                  	<div class="collapse navbar-collapse col-8" id="navbarSupportedContent">
                     	<ul class="navbar-nav">
                     	
                     		<c:if test="${not empty sessionScope.loginuser}">
@@ -250,7 +250,7 @@
 	<%-- end header section --%>
 	
 	<%-- start inner page section --%>
-  	<section class="inner_page bg-white sticky-top">
+  	<section class="inner_page bg-white sticky-top" style="z-index: 998;">
   		<div class="container">
   			<nav class="navbar-expand-lg custom_nav-container row mt-3 ml-0">
 		  		<ul class="navbar-nav col-md-10 h4" style="align-items: center;">
@@ -263,17 +263,17 @@
 								<li class="nav-item">
 									<ul>
 										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">소스 닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">크런치 닭가슴살</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/detail.dk"><span style="font-size:12px;">한입 닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=chicken"><span style="font-size:12px;">소스 닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=chicken"><span style="font-size:12px;">크런치 닭가슴살</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=chicken"><span style="font-size:12px;">한입 닭가슴살</span></a></li>
 									</ul>
 								</li>
 								<li class="nav-item">
 									<ul>
 										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">간편 한끼</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/friedRice.dk"><span style="font-size:12px;">도시락·볶음밥</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/bakery.dk"><span style="font-size:12px;">베이커리</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/product/dessert.dk"><span style="font-size:12px;">착한간식</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=fried_rice"><span style="font-size:12px;">도시락·볶음밥</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=bakery"><span style="font-size:12px;">베이커리</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product.dk?type=dessert"><span style="font-size:12px;">착한간식</span></a></li>
 									</ul>
 								</li>
 								<li class="nav-item">
@@ -297,16 +297,16 @@
 						</div>
 		           	</li>
 					<li class="nav-item">
-		        		<a class="nav-link text-danger" href="<%= ctxPath%>/product/chicken.dk">반값도시</a>
+		        		<a class="nav-link text-danger" href="<%= ctxPath%>/product/event.dk">반값도시</a>
 		           	</li>
 		           	<li class="nav-item">
-		           		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">베스트</a>
+		           		<a class="nav-link" href="<%= ctxPath%>/product/event.dk">베스트</a>
 		           	</li>
 		           	<li class="nav-item">
-		              	<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">1팩담기</a>
+		              	<a class="nav-link" href="<%= ctxPath%>/product/event.dk">1팩담기</a>
 		           	</li>
 		           	<li class="nav-item">
-	              		<a class="nav-link" href="<%= ctxPath%>/product/chicken.dk">브랜드몰</a>
+	              		<a class="nav-link" href="<%= ctxPath%>/product/event.dk">브랜드몰</a>
 	          		</li>
 		           	<li class="nav-item">
 	              		<a class="nav-link" href="<%= ctxPath%>/product/event.dk">이벤트</a>
