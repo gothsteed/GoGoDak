@@ -21,5 +21,11 @@ public interface ProductDao {
 
 	List<ProductVO> getAllProduct()throws SQLException;
 
+	int getEventProductTotalPage(int discount_event_Seq, int blockSize) throws SQLException;
+
+	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize)throws SQLException;
+	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
+
+
 
 }

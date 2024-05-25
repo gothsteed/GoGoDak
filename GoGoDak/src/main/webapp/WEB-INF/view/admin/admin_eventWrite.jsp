@@ -49,6 +49,17 @@ $(document).ready(function() {
 		
 	const imageInput = document.getElementById('pic');
 	const imagePreview = document.getElementById('imagePreview');
+    const currentImage = "${requestScope.discount_eventVO.pic}";
+    if (currentImage) {
+        const imageUrl = '${pageContext.request.contextPath}/images/special/' + currentImage;
+        const imageElement = document.createElement('img');
+        imageElement.src = imageUrl;
+        imageElement.style.maxWidth = '500px';
+        imageElement.style.maxHeight = '500px';
+        imagePreview.innerHTML = '';
+        imagePreview.appendChild(imageElement);
+    }
+	
 	
 	imageInput.addEventListener('change', function(event) {
 	    const file = event.target.files[0];
@@ -71,14 +82,19 @@ $(document).ready(function() {
 
 
 function goRegister() {
-	
-	const frm = document.boardFrm;
-    frm.action = "<%=ctxPath%>/admin/event.dk";
+    const frm = document.boardFrm;
+    const discountEventVO = "${requestScope.discount_eventVO}";
+    
+    if (discountEventVO) {
+        frm.action = "<%=ctxPath%>/admin/updateEvent.dk";
+    } else {
+        frm.action = "<%=ctxPath%>/admin/event.dk";
+    }
+    
     frm.method = "post";
     frm.submit();
-    console.log("goRegister 함수 호출됨");
+    console.log("goRegister function called");
 }
-
 
 
 function goReset() {
@@ -98,9 +114,10 @@ function goReset() {
        			</div>
        			<div class="card-body" id="tblBoardWrite">
 					<form name="boardFrm" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="discount_event_seq" value="${requestScope.discount_eventVO.discount_event_seq}"/>
 		         		<div class="board-group">
 		               		<label for="name">제목</label>
-		               		<input type="text" name="name" id="name" placeholder="제목 입력" />
+		               		<input type="text" name="name" id="name" placeholder="제목 입력" value="${requestScope.discount_eventVO.discount_name}"/>
 		           		</div>
 						<div class="board-group">
 							<label for="pic">이미지</label>
@@ -116,7 +133,17 @@ function goReset() {
 						    <label for="products">할인 대상 상품</label>
 						    <div id="productList">
 						        <c:forEach var="product" items="${productList}">
-						            <label><input type="checkbox" name="product" id="product" value="${product.product_seq}"> ${product.product_name}</label>
+					                <c:set var="checked" value="false"/>
+                                    <c:forEach var="currentProduct" items="${requestScope.currentEventProductList}">
+                                        <c:if test="${product.product_seq == currentProduct.product_seq}">
+                                            <c:set var="checked" value="true"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <label>
+                                        <input type="checkbox" name="product" id="product" value="${product.product_seq}" 
+                                            <c:if test="${checked}">checked</c:if>> 
+                                        ${product.product_name}
+                                    </label>
 						        </c:forEach>
 						        <br>
 						    </div>
