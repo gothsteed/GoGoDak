@@ -372,12 +372,41 @@ public class DiscountEventDao_imple implements DiscountEventDao {
 			
 			
 		} catch (SQLException e) {
-			e.getStackTrace();
+			e.printStackTrace();
 			conn.rollback();
 		}
 		
 		finally {
 			conn.setAutoCommit(true);
+			close();
+		}
+		
+		return result;
+	}
+
+
+	@Override
+	public int deleteDiscountEvent(int discount_event_seq) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " DELETE FROM tbl_discount_event "
+					+  " WHERE discount_event_seq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, discount_event_seq);
+
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result = 0;
+		}
+		
+		finally {
 			close();
 		}
 		

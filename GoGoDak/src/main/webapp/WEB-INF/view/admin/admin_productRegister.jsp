@@ -151,7 +151,7 @@ function goReset() {
                             <div class="row mx-0">
                                 <div class="col-sm-6">
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percentage" checked>
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" checked>
                                         <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
                                       
                                     </div>

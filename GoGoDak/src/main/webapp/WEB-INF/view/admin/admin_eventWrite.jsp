@@ -83,7 +83,25 @@ $(document).ready(function() {
 
 function goRegister() {
     const frm = document.boardFrm;
-    const discountEventVO = "${requestScope.discount_eventVO}";
+    const name = frm.name.value.trim();
+    const pic = frm.pic.value.trim();
+	const discountEventVO = "${requestScope.discount_eventVO}";
+    // Validate that name is not empty
+    if (name === "") {
+        alert("제목을 입력해주세요.");
+        frm.name.focus();
+        return false;
+    }
+
+    // Validate that pic is not empty
+    if (pic === "" && !discountEventVO) {
+        alert("이미지를 선택해주세요.");
+        frm.pic.focus();
+        return false;
+    }
+    
+    
+    
     
     if (discountEventVO) {
         frm.action = "<%=ctxPath%>/admin/updateEvent.dk";

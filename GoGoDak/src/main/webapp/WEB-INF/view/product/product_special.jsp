@@ -134,11 +134,41 @@
 		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
 			<button type="button" class="btn btn-light" onclick="location.href='<%= ctxPath%>/admin/event.dk'">할인행사 등록</button>
 			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#updateEventModal">할인행사 업데이트</button>
+			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#deleteEventModal">할인행사 삭제</button>
 		</c:if>
 	</div>
+	
+	<div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteEventModalLabel">이벤트 삭제</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="deleteEventForm" action="<%=ctxPath%>/admin/deleteEvent.dk" method="post">
+						<div class="form-group">
+							<label for="eventSelect">이벤트 선택</label> <select
+								class="form-control" id="eventSelect" name="discount_event_seq">
+								<c:forEach var="event" items="${requestScope.discount_event_list}">
+									<option value="${event.discount_event_seq}">${event.discount_name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" form="deleteEventForm" class="btn btn-primary">Update Event</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<div class="modal fade" id="updateEventModal" tabindex="-1"
-		role="dialog" aria-labelledby="updateEventModalLabel"
+	<div class="modal fade" id="updateEventModal" tabindex="-1" role="dialog" aria-labelledby="updateEventModalLabel"
 		aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">

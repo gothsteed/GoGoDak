@@ -19,5 +19,7 @@ public interface DiscountEventDao {
 
 	int updateDiscountEvent(int discount_event_seq, String name, String savedFileName, int[] selectedProducts) throws SQLException;
 
+	int deleteDiscountEvent(int discount_event_seq) throws SQLException;
+
 
 }

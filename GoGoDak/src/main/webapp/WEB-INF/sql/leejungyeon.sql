@@ -274,3 +274,20 @@ SELECT *
   
   
 select * from tbl_discount_event;
+
+SELECT constraint_name
+FROM user_constraints
+WHERE table_name = 'TBL_PRODUCT'
+AND constraint_type = 'R';
+
+ALTER TABLE tbl_product
+DROP CONSTRAINT FK_DISCOUNT_EVENT;
+
+
+ALTER TABLE tbl_product
+ADD CONSTRAINT fk_discount_event
+FOREIGN KEY (fk_discount_event_seq)
+REFERENCES tbl_discount_event (discount_event_seq)
+ON DELETE SET NULL;
+commit;
+
