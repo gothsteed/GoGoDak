@@ -42,7 +42,7 @@ public class PwdUpdateEnd extends AbstractController {
 			
 			if(n == 1) {
 				String message = id + "님의 비밀번호가 변경되었습니다. 다시 로그인 해주세요!!";
-                String loc = request.getContextPath() + "/index.dk";
+                String loc = request.getContextPath() + "/login/login.dk";
 
                 request.setAttribute("message", message);
                 request.setAttribute("loc", loc);

@@ -67,22 +67,19 @@ where product_name like '%' || '닭' || '%';
 -----------------------------------------------------------------------
 
 desc tbl_member;
-
 desc tbl_login_history;
 
 select *
 from tbl_member
 order by member_seq desc;
 
-SELECT * 
-FROM    ALL_CONSTRAINTSWHERE    
-where  TABLE_NAME = '테이블명';
-
-alter table 테이블명 drop foreign key 포린키이름;
-alter table 테이블명 add constraint 포린키이름 foreign key 자식속성 references 부모테이블명(자식속성이 참고할 부모속성) on delete cascade;
-
 delete from tbl_member
 where id = 'qwerwqer' and password = '86fdff24aec78a01391e48e30b29bfdc0c47abdbbc6a0b9b833c5bc464a4cdbe';
 
+update tbl_member set exist_status = 0
+where exist_status = 1 and id = 'qwerwqer' and password = '86fdff24aec78a01391e48e30b29bfdc0c47abdbbc6a0b9b833c5bc464a4cdbe';
+-- 1 행 이(가) 업데이트되었습니다.
 
+commit;
+-- 커밋 완료.
 

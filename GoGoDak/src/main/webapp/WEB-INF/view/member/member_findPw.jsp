@@ -178,8 +178,8 @@
 			   </c:if>
 			   
 			   <c:if test="${requestScope.isExist == true && requestScope.sendMailSuccess == true}">
-				   <span style="font-size: 10pt; color: navy; font-weight: bold;">
-				       인증번호가 ${requestScope.email} 로 발송되었습니다.<br>전송된 인증번호를 입력해주세요.
+				   <span>
+				       인증번호가 <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">${requestScope.email}</span> 로 발송되었습니다.<br>전송된 인증번호를 입력해주세요.
 				   </span>
 				   <br><br>
 				   <input type="text" name="input_confirmCode" style="border-radius: 5px; outline: none; text-align: center;" />
