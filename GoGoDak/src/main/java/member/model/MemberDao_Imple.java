@@ -538,7 +538,31 @@ public class MemberDao_Imple implements MemberDao {
 		return result;
 	}
 
-	
+	// 회원탈퇴하기
+	@Override
+	public int deleteMember(MemberVO member) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member set exist_status = 0 "
+					   + " where exist_status = 1 and id = ? and password = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, Sha256.encrypt(member.getPassword()));
+	        
+	        result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
 	
 
 	
@@ -944,6 +968,8 @@ public class MemberDao_Imple implements MemberDao {
 	      
 	      return questionView;
 	}
+
+
 
 
 

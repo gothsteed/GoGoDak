@@ -92,11 +92,11 @@ input.form-control{
 	    }); 
 		
 		if(${empty sessionScope.loginuser}){
-			const loginUserid = localStorage.getItem('saveid');
+			const loginid = localStorage.getItem('idSave');
 	  		
-  			if(loginUserid != null){
-  				$("input#id").val(loginUserid);
-  				$("input:checkbox[id='saveid']").prop("checked", true);
+  			if(loginid != null){
+  				$("input#id").val(loginid);
+  				$("input:checkbox[id='idSave']").prop("checked", true);
   			}
 		}
 	}); // end of $(document).ready(function(){}) ----------
@@ -115,11 +115,11 @@ input.form-control{
 	        return; 
 	    }
 	    
-		if($("input:checkbox[id='saveid']").prop("checked")){ 
-	        localStorage.setItem('saveid', $("input#id").val());
+		if($("input:checkbox[id='idSave']").prop("checked")){ 
+	        localStorage.setItem('idSave', $("input#id").val());
 	    }
 	    else{
-	        localStorage.removeItem('saveid');
+	        localStorage.removeItem('idSave');
 	    }
 	}
 </script>
@@ -149,7 +149,7 @@ input.form-control{
                         </div>
                     </div>
                     <div>
-                    	<input type="checkbox" id="saveid" style="width: 2%" />&nbsp;<label for="saveid">아이디 저장하기</label>
+                    	<input type="checkbox" id="idSave" style="width: 2%" />&nbsp;<label for="idSave">아이디 저장하기</label>
                     </div>
                     <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">로그인</button>
                 </form>
