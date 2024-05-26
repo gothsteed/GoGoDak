@@ -64,7 +64,22 @@ select PRODUCT_NAME, DESCRIPTION, BASE_PRICE, STOCK, MAIN_PIC, DISCRIPTION_PIC
 from tbl_product
 where product_name like '%' || '닭' || '%';
 
+-----------------------------------------------------------------------
 
+desc tbl_member;
+desc tbl_login_history;
 
+select *
+from tbl_member
+order by member_seq desc;
 
+delete from tbl_member
+where id = 'qwerwqer' and password = '86fdff24aec78a01391e48e30b29bfdc0c47abdbbc6a0b9b833c5bc464a4cdbe';
+
+update tbl_member set exist_status = 0
+where exist_status = 1 and id = 'qwerwqer' and password = '86fdff24aec78a01391e48e30b29bfdc0c47abdbbc6a0b9b833c5bc464a4cdbe';
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.
 

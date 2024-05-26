@@ -367,4 +367,11 @@
 	</section>
 	<%-- end inner page section --%>
 	
+    <%-- start popup section --%>
+    <div class="popup clearfix">
+    	<img class="popup-img" src="<%= ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" />
+      	<img class="popup-btn" src="<%= ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
+    </div>
+    <%-- end popup section --%>
+	
 	<jsp:include page="footer.jsp" />

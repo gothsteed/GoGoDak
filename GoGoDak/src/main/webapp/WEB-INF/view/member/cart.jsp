@@ -115,11 +115,14 @@ String ctxPath = request.getContextPath();
     function removeItem(itemId) {
         var itemElement = document.getElementById('cart-item-' + itemId);
         if (itemElement) {
-            itemElement.remove();
+            var quantityInput = document.getElementById('quantity-' + itemId);
+            if (quantityInput) {
+                quantityInput.value = 0;
+            }
+            itemElement.style.display = 'none';
             updateTotal();
         }
     }
-
     function formatPrice(price) {
         return price.toLocaleString();
     }
@@ -143,6 +146,22 @@ String ctxPath = request.getContextPath();
     
     
     function goPurchase() {
+    	
+        var cartItems = document.querySelectorAll('.cart-item');
+        var hasVisibleItems = false;
+
+        cartItems.forEach(function(item) {
+            if (item.style.display !== 'none') {
+            	console.log("something is visable")
+                hasVisibleItems = true;
+            }
+        });
+
+        if (!hasVisibleItems) {
+            alert('장바구니에 상품이 없습니다.');
+            return;
+        }
+    	
     	
         const postcode = $("input#postcode").val().trim();
         const address = $("input#address").val().trim();
@@ -208,6 +227,23 @@ String ctxPath = request.getContextPath();
     
     
     function goOrder(totalAmount) {
+        var cartItems = document.querySelectorAll('.cart-item');
+        var hasVisibleItems = false;
+
+        cartItems.forEach(function(item) {
+            if (item.style.display !== 'none') {
+            	console.log("something is visable")
+                hasVisibleItems = true;
+            }
+        });
+
+        if (!hasVisibleItems) {
+            alert('장바구니에 상품이 없습니다.');
+            return;
+        }
+    	
+    	
+    	
         const postcode = $("input#postcode").val().trim();
         const address = $("input#address").val().trim();
         const detailAddress = $("input#detailAddress").val().trim();

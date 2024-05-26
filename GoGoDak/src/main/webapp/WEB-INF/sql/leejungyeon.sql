@@ -116,6 +116,8 @@ ALTER TABLE tbl_product ADD  discount_number FLOAT;
 ALTER TABLE tbl_product RENAME COLUMN price TO base_price;
 
 
+select *
+from tbl_member;
 
 SELECT *
 FROM tab;
@@ -228,6 +230,7 @@ desc tbl_member;
 desc tbl_order
 desc tbl_product;
 desc tbl_order;
+desc tbl_discount_event;
 desc tbl_product_list;
 
 
@@ -261,3 +264,30 @@ from tbl_order;
 
 select *
 from tbl_product_list;
+
+select count(*)
+from tbl_product
+where product_type=1;
+
+SELECT *
+  FROM user_sequences;
+  
+  
+select * from tbl_discount_event;
+
+SELECT constraint_name
+FROM user_constraints
+WHERE table_name = 'TBL_PRODUCT'
+AND constraint_type = 'R';
+
+ALTER TABLE tbl_product
+DROP CONSTRAINT FK_DISCOUNT_EVENT;
+
+
+ALTER TABLE tbl_product
+ADD CONSTRAINT fk_discount_event
+FOREIGN KEY (fk_discount_event_seq)
+REFERENCES tbl_discount_event (discount_event_seq)
+ON DELETE SET NULL;
+commit;
+

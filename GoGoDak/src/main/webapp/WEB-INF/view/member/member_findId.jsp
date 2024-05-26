@@ -127,7 +127,7 @@
             <button type="button" class="btn btn-primary btn-block">확인</button>
             
             <div class="my-3 text-center" id="div_findResult">
-			   ID : <span style="color: red; font-size: 16pt; font-weight: bold;">${requestScope.id}</span>
+			   ${requestScope.name}님의 아이디는 <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">${requestScope.id}</span> 입니다.
 			</div>
         </form>
     </div>

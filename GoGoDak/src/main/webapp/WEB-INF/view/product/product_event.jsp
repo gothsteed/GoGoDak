@@ -12,14 +12,14 @@
       
          <div class="container">
             <div class="heading_container heading_center">
-               <h2 style="font-family: 'Arial', sans-serif; font-weight: normal;">
+               <h2>
                    <span>${requestScope.title}</span>
                </h2>
             </div>
             <div class="event-container">
                <c:forEach var="product" items="${requestScope.productList}">
 
-                  <div class="event-card" onclick="location.href='${pageContext.request.contextPath}/product/detail.dk?product_seq=${product.product_seq}'">
+                  <div class="event-card" onclick="location.href='${pageContext.request.contextPath}/product/event/detail.dk?product_seq=${product.product_seq}'">
 			        <img src="${pageContext.request.contextPath}/images/product/${product.main_pic}" alt="Event 1">
 			        <div class="event-content">
 			            <h2 class="event-title" style="font-weight: bold;">${product.product_name}</h2>
@@ -31,7 +31,7 @@
 	                            <p class="event-description">
 	                               <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
 	                               <span style="color: red; font-weight: bold;">
-	                               	 <fmt:formatNumber value="${product.discountPrice}" type="currency" currencySymbol="" groupingUsed="true" />원
+	                               	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
 	                               </span>
 	                             </p>
 	                            </c:when>
@@ -39,7 +39,7 @@
 	                           	  <p class="event-description">
 	                               <span style="text-decoration: line-through; "><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
 	                               <span style="color: red; font-weight: bold;">
-	                               	<fmt:formatNumber value="${product.discountPrice}" type="currency" currencySymbol="" groupingUsed="true" />원
+	                               	<fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
 	     
 	                               </span>
 	                              </p>
@@ -119,7 +119,6 @@
         }
         .event-content {
             padding: 15px;
-            text-align: center;
         }
         .event-content {
             padding: 15px;
@@ -194,15 +193,6 @@
             background-color: #fbc02d !important;
             border: solid 1px #fbc02d !important;
          }
-         .heading_container h2::after {
-		    content: "";
-		    display: block;
-		    width: 100%;
-		    height: 5px;
-		    background: #fbc02d;
-		    margin: 20px auto;
-		    border-radius: 10px;
-		}
 
  
       </style>

@@ -30,7 +30,7 @@ public interface MemberDao {
 
 	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
 	
-	
+	int deleteMember(MemberVO member) throws SQLException;
 	
 	
 	
@@ -78,6 +78,8 @@ public interface MemberDao {
 	QuestionVO selectOneQuestion(String question_seq)throws SQLException;
 
 	int updatePoint(int point, int member_seq) throws SQLException;
+
+	
 
 
 
