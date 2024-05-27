@@ -232,6 +232,7 @@ desc tbl_product;
 desc tbl_order;
 desc tbl_discount_event;
 desc tbl_product_list;
+desc tbl_review;
 
 
 select rownum as rno
@@ -290,4 +291,34 @@ FOREIGN KEY (fk_discount_event_seq)
 REFERENCES tbl_discount_event (discount_event_seq)
 ON DELETE SET NULL;
 commit;
+
+SELECT 
+    o.order_seq,
+    o.fk_member_seq,
+    o.postcode,
+    o.address,
+    o.address_detail,
+    o.address_extra,
+    o.total_pay,
+    p.fk_product_seq,
+    p.product_name,
+    p.quantity
+FROM 
+    tbl_order o
+JOIN 
+    tbl_product_list p
+ON 
+    o.order_seq = p.FK_ORDER_SEQ;
+
+select *
+from tbl_order;
+ALTER TABLE tbl_order
+DROP COLUMN delivery_status;
+
+ALTER TABLE tbl_order
+ADD delivery_status NUMBER DEFAULT 0;
+
+
+
+
 
