@@ -111,7 +111,7 @@ $(document).ready(function() {
 	</h2>
 	<br>
 	<div class="text-center">
-		<img src="<%= ctxPath%>/images/board/notice.jpg" class="img-fluid" />
+		<img src="<%= ctxPath%>/images/board/GoGodaknotice.jpg" class="img-fluid" />
 	</div>
 	<br>
 	<div align="right" class="onlyLog">

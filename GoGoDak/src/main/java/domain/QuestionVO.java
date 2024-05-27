@@ -13,6 +13,9 @@ public class QuestionVO {
 	private int fk_answer_seq;
 	private String content; //내용
 	
+	private boolean hasAnswer;       // 답변 여부
+	
+	
 	private MemberVO mdto = new MemberVO();
 	
 	
@@ -77,5 +80,12 @@ public class QuestionVO {
 		this.content = content;
 	}
 	
+	
+	public boolean isHasAnswer() {
+		return hasAnswer;
+	}
+	public void setHasAnswer(boolean hasAnswer) {
+		this.hasAnswer = hasAnswer;
+	}
 	
 }

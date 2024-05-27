@@ -16,4 +16,7 @@ public interface OrderDao {
 	List<ProductVO> getProductList(int order_seq)  throws SQLException;
 	
 	OrderVO getOrderWithMember(int order_seq)  throws SQLException;
+
+	int updateDelivery_status(int order_seq) throws SQLException;
+
 }

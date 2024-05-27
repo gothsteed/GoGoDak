@@ -373,7 +373,7 @@ String ctxPath = request.getContextPath();
             </div>
             <div class="total">
                 <p>총 가격: <span id="totalCost"></span></p>
-                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다</p>
+                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다 (*단, 포인트 사용시 적립X*)</p>
             </div>
             <button type="submit" onclick="goPurchase()">구매하기</button>
         </form>

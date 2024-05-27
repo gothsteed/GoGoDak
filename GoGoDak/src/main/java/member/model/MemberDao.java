@@ -81,6 +81,8 @@ public interface MemberDao {
 
 	//1:1 문의사항 삭제하기 05-26 추가
     int questionDelete(QuestionVO questionDelete)throws SQLException;
+    //답변확인
+	boolean isAnswer(int question)throws SQLException;
 
 
 

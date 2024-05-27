@@ -87,9 +87,6 @@ function goadminAnswer(){ // 05-26 추가
    
    <!-- 작성자가 아닌 경우 글에 대한 수정, 삭제 권한 부여 x -->
    <div align="right" class="onlyLog">
-   <%--     <c:if test="${sessionScope.loginuser.id == qvo.id}">   
-            <button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
-       </c:if>  --%>
        <c:if test="${sessionScope.loginuser.id == 'admin' ||sessionScope.loginuser.id == qvo.id}">      
             <button type="button" class="btn btn-light" onclick="goDelete()">삭제</button> 
        </c:if> 
@@ -131,7 +128,7 @@ function goadminAnswer(){ // 05-26 추가
             <table class="table">
                <thead>
                   <tr>
-                     <th class="answerView">제목</th>
+                     <th class="answerView">답변 : </th>
                         <th>${requestScope.avo.title}</th>
                     </tr>
                 </thead>
@@ -177,7 +174,7 @@ function goadminAnswer(){ // 05-26 추가
 
 
 
-       <button type="button" class="btn btn-outline-dark" onclick="location.href='<%= ctxPath%>/member/notice.dk'">목록</button>
+       <button type="button" class="btn btn-outline-dark" onclick="location.href='<%= ctxPath%>/member/question.dk'">목록</button>
 
     
    

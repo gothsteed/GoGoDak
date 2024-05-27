@@ -117,7 +117,7 @@ $(document).ready(function() {
    </h2>
    <br>
    <div class="text-center">
-      <img src="<%= ctxPath%>/images/board/member_inquiry.jpg" class="img-fluid" />
+      <img src="<%= ctxPath%>/images/board/Q&A.jpg" class="img-fluid" />
    </div>
    <br> &nbsp;
    
@@ -139,16 +139,23 @@ $(document).ready(function() {
 
          <tbody>
             <c:if test="${not empty requestScope.questionList}">
-               <c:forEach var="question" items="${requestScope.questionList}">
+               <c:forEach var="question" items="${requestScope.questionList}" >
                   <c:if test="${sessionScope.loginuser.id == question.id || sessionScope.loginuser.id == 'admin'}">
                      <tr class="questioninfo">
-                            <td class="question_seq">${question.question_seq}</td>  <%--번호--%>    
-                        <td>${question.title}</td>                          <%--제목 --%>
-                        <td>${question.ragisterdate}</td>                       <%--작성일 --%>
-                        <td>${question.id}</td>                         <%--작성자 --%>
-                        <td><td>                                    <%--답변상황 --%>
-                                                            
-                                                               
+                        <td class="question_seq">${question.question_seq}</td>  <%--번호--%>    
+                        <td>${question.title}</td>                          		<%--제목 --%>
+                        <td>${question.ragisterdate}</td>                   		<%--작성일 --%>
+                        <td>${question.id}</td>                        				<%--작성자 --%>
+                       <td>
+                           <c:choose>
+                               <c:when test="${question.hasAnswer}">
+                                   답변완료
+                               </c:when>
+                               <c:otherwise>
+                                   미답변
+                               </c:otherwise>
+                           </c:choose>
+                       </td>
                      </tr>
                   </c:if>
                </c:forEach>
@@ -163,28 +170,19 @@ $(document).ready(function() {
    </table>
 
    &nbsp;
+   <%--
    <form class="text-center mb-5 " name="member_search_frm" style="align-items: baseline;">
 
 
-      <select name="searchType" style="height: 41px;">
+      <select name="searchType1" style="height: 41px;">
          <option value="">전체</option>
          <option value="name">미답변</option>
          <option value="userid">답변완료</option>
       </select> &nbsp;
 
-
-      <select name="searchType" style="height: 41px;">
-         <option value="">일주일</option>
-         <option value="name">한달</option>
-         <option value="userid">세달</option>
-         <option value="userid">전체</option>
-      </select> &nbsp;
-
-
-      <select name="searchType" style="height: 41px;">
+      <select name="searchType2" style="height: 41px;">
          <option value="">제목</option>
          <option value="name">내용</option>
-         <option value="userid">글쓴이</option>
          <option value="userid">아이디</option>
          <option value="email">이메일</option>
       </select> &nbsp; 
@@ -196,7 +194,7 @@ $(document).ready(function() {
       <button type="button" class="btn btn-secondary" onclick="goSearch()">찾기</button>
 
    </form>
-
+ --%>
 
 
    <div id="pageBar">
