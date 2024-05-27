@@ -636,8 +636,8 @@ public class MemberDao_Imple implements MemberDao {
 					   + "    SELECT rownum as rno, board_Seq , title , content , pic "
 					   + "    FROM(  "
 					   + "        select *  "
-					   + "        from tbl_board) V "
-					   + "		  ORDER BY board_Seq desc"
+					   + "        from tbl_board"
+					   + "        ORDER BY board_Seq desc) V "
 					   + "        )T WHERE T.rno between ? and ?";
 					   
 					
@@ -834,7 +834,8 @@ public class MemberDao_Imple implements MemberDao {
 			String sql = "SELECT * "
 					   + "From( "
 					   + "    select rownum as rno, question_seq ,id , title ,  registerday as ragisterdate "
-					   + "    from tbl_question) "
+					   + "    from tbl_question"
+					   + "	  ORDER BY question_seq desc) "
 					   + "WHERE rno between ? and ? ";
 					
 
@@ -997,6 +998,38 @@ public class MemberDao_Imple implements MemberDao {
 	      return result;
 	      
 	   }
+	   
+	   //답변확인
+	@Override
+	public boolean isAnswer(int question) throws SQLException {
+		boolean result = false;
+		 try {
+	         conn = ds.getConnection();
+	         
+	         String sql =  " select * "
+	         			+  " from tbl_answer "
+	         			+  " where fk_question_seq = ? ";
+	                     
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setInt(1, question);
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         if(rs.next()) {
+	        	 result = true;
+	        	 
+	         } // end of if(rs.next())-------------------
+	         
+	      } finally {
+	         close();
+	      }
+		
+		
+		
+		
+		return result;
+	}
 
 
 

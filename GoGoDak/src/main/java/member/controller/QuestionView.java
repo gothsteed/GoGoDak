@@ -33,7 +33,7 @@ public class QuestionView extends AbstractController {
 		// 돌아갈페이지
 
 		QuestionVO qvo = mdao.selectOneQuestion(question_seq);
-
+		
 
 		
 		AnswerVO avo = adao.selectAnswer(question_seq); //05-26추가
