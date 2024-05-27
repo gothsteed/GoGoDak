@@ -20,6 +20,7 @@ import com.oracle.wls.shaded.org.apache.regexp.recompile;
 import domain.MemberVO;
 import domain.OrderVO;
 import domain.ProductVO;
+import domain.Product_listVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -31,6 +32,7 @@ public class OrderDao_imple implements OrderDao {
 	private ResultSet rs;
 
 	private AES256 aes;
+
 	
 	public OrderDao_imple() {
 		try {
@@ -96,6 +98,7 @@ public class OrderDao_imple implements OrderDao {
 		order.setAddress_detail(rs.getString("address_detail"));
 		order.setAddress_extra(rs.getString("address_extra"));
 		order.setTotal_pay(rs.getInt("total_pay"));
+		order.setRegisterday(rs.getDate("registerday"));
 		
 		return order;
 	}
@@ -399,6 +402,71 @@ public class OrderDao_imple implements OrderDao {
 		return productList;
 	}
 
+	
+	
+	
 
+	@Override
+	public List<OrderVO> getLoginuserList(int fk_member_seq) throws SQLException {
+	    List<OrderVO> orderList = new ArrayList<>();
 
+	    try {
+	        conn = ds.getConnection();
+
+	        // 첫 번째 쿼리: 주문 정보 가져오기
+	        String orderSql = "SELECT * FROM tbl_order WHERE fk_member_seq = ?";
+	        pstmt = conn.prepareStatement(orderSql);
+	        pstmt.setInt(1, fk_member_seq);
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            OrderVO order = new OrderVO();
+	            order.setOrder_seq(rs.getInt("order_seq"));
+	            order.setFk_member_seq(rs.getInt("fk_member_seq"));
+	            order.setTotal_pay(rs.getFloat("total_pay"));
+	            order.setPostcode(rs.getString("postcode"));
+	            order.setAddress(rs.getString("address"));
+	            order.setAddress_detail(rs.getString("address_detail"));
+	            order.setAddress_extra(rs.getString("address_extra"));
+	            order.setDeliverystatus(rs.getInt("delivery_status"));
+	            order.setRegisterday(rs.getDate("registerday"));
+	            order.setDelivery_message(rs.getString("delivery_message"));
+
+	            // 주문별 상품 목록 설정
+	            List<Product_listVO> productList = new ArrayList<>();
+	            String productSql = "SELECT p.product_seq, p.product_name, p.description, p.base_price, pl.fk_order_seq, pl.fk_product_seq " +
+	                                "FROM tbl_product p " +
+	                                "JOIN tbl_product_list pl ON p.product_seq = pl.fk_product_seq " +
+	                                "WHERE pl.fk_order_seq = ?";
+	            PreparedStatement pstmt2 = conn.prepareStatement(productSql);
+	            pstmt2.setInt(1, order.getOrder_seq());
+	            ResultSet rs2 = pstmt2.executeQuery();
+
+	            while (rs2.next()) {
+	                Product_listVO product = new Product_listVO();
+	                product.setOrder_seq(rs2.getInt("fk_order_seq"));
+	                product.setProduct_seq(rs2.getInt("fk_product_seq"));
+	                product.setProduct_name(rs2.getString("product_name"));
+	                product.setDescription(rs2.getString("description"));
+	                product.setBase_price(rs2.getFloat("base_price"));
+	                // 필요한 다른 필드도 설정
+	                productList.add(product);
+	            }
+	            rs2.close();
+	            pstmt2.close();
+
+	            order.setProductList(productList);  // 주문에 상품 목록 추가
+	            orderList.add(order);
+	        }
+
+	    } finally {
+	        if (rs != null) rs.close();
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+
+	    return orderList;
+	}
+
+	
 }
