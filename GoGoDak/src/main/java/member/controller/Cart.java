@@ -14,7 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
-import domain.DiscountVO;
+import domain.Discount_eventVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,7 +97,16 @@ public class Cart extends AbstractController {
 		 * setRedirect(false); request.setAttribute("json", jsonResponse.toString());
 		 * setViewPage("/WEB-INF/jsonview.jsp"); return; }
 		 */
-	    cart.put(product, productJson.getInt("quantity"));
+	    
+	    if( productJson.getInt("quantity") > 0) {
+	    	cart.put(product, productJson.getInt("quantity"));
+	    }
+	    else {
+	    	cart.remove(product);
+	    }
+	    
+	    
+	    
 	    JSONObject jsonResponse = new JSONObject();
 	    jsonResponse.put("success", true);
 	    jsonResponse.put("message", "added to cart");
@@ -113,6 +122,8 @@ public class Cart extends AbstractController {
 	    JSONObject jsonObject = new JSONObject(product_json);
 	    JSONArray productArr = jsonObject.getJSONArray("cart");
 	    
+	    System.out.println(product_json);
+	    
 	    
 	    for(int i=0; i<productArr.length(); i++) {
 	    	
@@ -121,6 +132,8 @@ public class Cart extends AbstractController {
 	    	addToCart(product, request);
 	    	
 	    }
+	    
+	    
 	}
 
 

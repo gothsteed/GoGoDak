@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    height: 50vh; /* Full viewport height */
 }
 
 .sync-login-form {
@@ -22,7 +22,7 @@
 
 .form-group {
     margin-bottom: 15px;
-     font-weight: 600;
+    font-weight: 600;
     color: #555;
 }
 
@@ -35,55 +35,94 @@ body > section.why_section.layout_padding > div > div > div > form > div.form-pr
 }
 
 .btn-primary {
-  width: 100%;
-  background-color: #333;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  	width: 100%;
+  	background-color: #333;
+  	border: none;
+  	padding: 10px;
+  	font-size: 16px;
+  	font-weight: 600;
+ 	border-radius: 5px;
+  	transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #555;
+  	background-color: #555;
 }
 
 .sync-login-tab {
-  text-align: center;
-  margin-bottom: 20px;
+  	text-align: center;
+  	margin-bottom: 20px;
 }
 
 .form-privacy-box {
-  margin-bottom: 15px;
-  text-align: center;
+  	margin-bottom: 15px;
+  	text-align: center;
 }
 
 .btn-block {
-  width: 100%;
+  	width: 100%;
 }
 
 .links {
-  text-align: center;
-  margin-top: 10px;
+  	text-align: center;
+  	margin-top: 10px;
 }
 
 .membership-link {
-  color: gray;
-  text-decoration: none;
-  font-size: 14px;
-  display: block;
-  margin-top: 10px;
+  	color: gray;
+  	text-decoration: none;
+  	font-size: 14px;
+  	display: block;
+	margin-top: 10px;
 }
 
 .membership-link:hover {
-  text-decoration: underline;
+  	text-decoration: underline;
 }
 
 input.form-control{
-text-transform: none !important;
+	text-transform: none !important;
 }
 </style>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  	$("button#btnSubmit").click(function(){
+	    	goLogin(); 
+	    }); 
+		
+		if(${empty sessionScope.loginuser}){
+			const loginid = localStorage.getItem('idSave');
+	  		
+  			if(loginid != null){
+  				$("input#id").val(loginid);
+  				$("input:checkbox[id='idSave']").prop("checked", true);
+  			}
+		}
+	}); // end of $(document).ready(function(){}) ----------
+	
+	function goLogin(){
+		
+		if($("input#id").val().trim() == ""){
+	        alert("아이디를 입력하세요!!");
+	        $("input#id").val("").focus();
+	        return; 
+	    }
+
+	    if($("input#password").val().trim() == ""){
+	        alert("비밀번호를 입력하세요!!");
+	        $("input#password").val("").focus();
+	        return; 
+	    }
+	    
+		if($("input:checkbox[id='idSave']").prop("checked")){ 
+	        localStorage.setItem('idSave', $("input#id").val());
+	    }
+	    else{
+	        localStorage.removeItem('idSave');
+	    }
+	}
+</script>
 
 <section class="why_section layout_padding">
     <div class="sync-login-area">
@@ -109,7 +148,10 @@ text-transform: none !important;
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">로그인</button>
+                    <div>
+                    	<input type="checkbox" id="idSave" style="width: 2%" />&nbsp;<label for="idSave">아이디 저장하기</label>
+                    </div>
+                    <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">로그인</button>
                 </form>
                 <div class="links">
                     <a href="<%=ctxPath %>/member/memberRegister.dk" id="join" class="membership-link">회원가입</a>

@@ -87,77 +87,136 @@
         }
         .event-content {
             padding: 15px;
+            text-align: center;
         }
+        
+                 .center {
+            text-align: center; /* Center the text inside the div */
+            margin-top: 50px; /* Add top margin */
+         }
+         .center nav {
+            display: inline-block; /* Ensure the nav is treated as an inline-block element */
+         }
+
+         .pagination {
+            padding: 10px; /* Padding around the pagination */
+            border-radius: 5px; /* Rounded corners */
+         }
+
+         .pagination li {
+            display: inline; /* Display list items inline */
+         }
+
+         .pagination li a {
+            color: white; /* Text color */
+            padding: 8px 12px; /* Padding for the links */
+            text-decoration: none; /* Remove underline from links */
+            margin: 0 5px; /* Margin between links */
+            border-radius: 5px; /* Rounded corners for links */
+            background-color: black; /* Background color of links */
+            border: 1px solid white; /* Border color */
+         }
+
+         .pagination li a:hover {
+            background-color: white; /* Background color on hover */
+            color: black; /* Text color on hover */
+         }
+
+         .pagination .active a {
+            color: white;
+            background-color: #fbc02d !important;
+            border: solid 1px #fbc02d !important;
+         }
     </style>
   <section class="product_section layout_padding">
   
   	<div align="right" class="onlyLog">
 		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
 			<button type="button" class="btn btn-light" onclick="location.href='<%= ctxPath%>/admin/event.dk'">할인행사 등록</button>
+			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#updateEventModal">할인행사 업데이트</button>
+			<button type="button" class="btn btn-light" data-toggle="modal" data-target="#deleteEventModal">할인행사 삭제</button>
 		</c:if>
-	</div> 
-  	<div class="container">
-         <div class="event-container">
-		    <div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 1">
-		        <div class="event-content">
-		            <h2 class="event-title">Summer Sale</h2>
-		            <p class="event-description">Enjoy up to 50% off on summer collections. Limited time offer!</p>
-		            <p class="event-discount">Up to 50% off</p>
-		        </div>
-		    </div>
-		
-		    <div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 2">
-		        <div class="event-content">
-		            <h2 class="event-title">Back to School</h2>
-		            <p class="event-description">Get your school supplies at amazing discounts. Don't miss out!</p>
-		            <p class="event-discount">Up to 30% off</p>
-		        </div>
-		    </div>
-		
-		    <div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 3">
-		        <div class="event-content">
-		            <h2 class="event-title">Black Friday Deals</h2>
-		            <p class="event-description">Exclusive Black Friday deals on electronics, fashion, and more.</p>
-		            <p class="event-discount">Up to 70% off</p>
-		        </div>
-		    </div>
-		
-		    <div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 4">
-		        <div class="event-content">
-		            <h2 class="event-title">Holiday Specials</h2>
-		            <p class="event-description">Celebrate the holidays with special discounts on gifts and decorations.</p>
-		            <p class="event-discount">Up to 40% off</p>
-		        </div>
-		    </div>
-		    
-		    		    <div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 4">
-		        <div class="event-content">
-		            <h2 class="event-title">Holiday Specials</h2>
-		            <p class="event-description">Celebrate the holidays with special discounts on gifts and decorations.</p>
-		            <p class="event-discount">Up to 40% off</p>
-		        </div>
-		    </div>
-		    
-		   	<div class="event-card">
-		        <img src="<%=ctxPath %>/images/special/p1.png" alt="Event 4">
-		        <div class="event-content">
-		            <h2 class="event-title">Holiday Specials</h2>
-		            <p class="event-description">Celebrate the holidays with special discounts on gifts and decorations.</p>
-		            <p class="event-discount">Up to 40% off</p>
-		        </div>
-		    </div>
+	</div>
+	
+	<div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="deleteEventModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteEventModalLabel">이벤트 삭제</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="deleteEventForm" action="<%=ctxPath%>/admin/deleteEvent.dk" method="post">
+						<div class="form-group">
+							<label for="eventSelect">이벤트 선택</label> <select
+								class="form-control" id="eventSelect" name="discount_event_seq">
+								<c:forEach var="event" items="${requestScope.discount_event_list}">
+									<option value="${event.discount_event_seq}">${event.discount_name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" form="deleteEventForm" class="btn btn-primary">Update Event</button>
+				</div>
 			</div>
-            <div class="btn-box">
-               <a href="">
-               View All products
-               </a>
+		</div>
+	</div>
+
+	<div class="modal fade" id="updateEventModal" tabindex="-1" role="dialog" aria-labelledby="updateEventModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="updateEventModalLabel">이벤트 수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="updateEventForm" action="<%=ctxPath%>/admin/updateEvent.dk" method="get">
+						<div class="form-group">
+							<label for="eventSelect">이벤트 선택</label> <select
+								class="form-control" id="eventSelect" name="discount_event_seq">
+								<c:forEach var="event" items="${requestScope.discount_event_list}">
+									<option value="${event.discount_event_seq}">${event.discount_name}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" form="updateEventForm" class="btn btn-primary">Update Event</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+         <div class="event-container">
+          <c:forEach var="event" items="${requestScope.discount_event_list}">
+
+                  <div class="event-card" onclick="location.href='${pageContext.request.contextPath}/product/event/detail.dk?discount_event_seq=${event.discount_event_seq}'">
+			        <img src="${pageContext.request.contextPath}/images/special/${event.pic}" alt="">
+			        <div class="event-content">
+			            <h2 class="event-title" style="font-weight: bold;">${event.discount_name}</h2>
+			        </div>
+			    </div>
+          </c:forEach>
+			</div>
+              <div id="pageBar" class="center">
+               <nav>
+                  <ul class="pagination">
+                     ${requestScope.pageBar}
+                  </ul>
+               </nav>
             </div>
          </div>
-        </div>
       </section>
 <jsp:include page="../footer.jsp"/>  

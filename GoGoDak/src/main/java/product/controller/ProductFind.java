@@ -20,6 +20,14 @@ public class ProductFind extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String referer = request.getHeader("referer");
+		
+		if(referer == null) { 
+			super.setRedirect(true);
+			super.setViewPage(request.getContextPath() + "/index.dk");
+			return;
+		}
+		
 		String searchWord = request.getParameter("searchWord");
 		
 		if(searchWord == null || searchWord != null && searchWord.trim().isEmpty()) {
@@ -27,21 +35,25 @@ public class ProductFind extends AbstractController {
 		}
 		
 		List<ProductVO> productList = pdao.getProductList(searchWord);
-		/*
-		if(pvo == null) {
+	
+		if(productList == null) {
 			String message = "검색하신 상품이 존재하지 않습니다.";
 	        String loc = "javascript:history.back()";
 	         
 	        request.setAttribute("message", message);
 	        request.setAttribute("loc", loc);
+	        
+	        super.setRedirect(false);
+	        super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
-		*/
-		request.setAttribute("productList", productList);
-		request.setAttribute("title", "검색어 : " + searchWord);
+		else {
+			request.setAttribute("productList", productList);
+			request.setAttribute("title", "🔎 검색어 >> " + searchWord);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/view/product/product_category.jsp");
+		}
 		
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/product/product_category.jsp");
-
 	}
 
 }

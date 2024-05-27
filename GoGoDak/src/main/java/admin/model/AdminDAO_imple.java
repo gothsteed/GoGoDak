@@ -1,18 +1,22 @@
 package admin.model;
 
 import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import domain.AnswerVO;
 import domain.BoardVO;
+import domain.OrderVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -193,7 +197,215 @@ public class AdminDAO_imple implements AdminDAO {
 			return result;
 			
 		}
-		
-	
 
-}
+		 // 총 페이지 수 알아오기
+	    @Override
+	    public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+	        int totalPage = 0;
+	        Connection conn = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+
+	        try {
+	            conn = ds.getConnection();
+
+	            String sql = "SELECT CEIL(COUNT(*) / ?) FROM tbl_order";
+	            
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
+	            
+	            rs = pstmt.executeQuery();
+
+	            if (rs.next()) {
+	                totalPage = rs.getInt(1);
+	            }
+
+	        } finally {
+	            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        }
+
+	        return totalPage;
+	    }
+
+	    // 주문한 회원 조회 메서드
+	    @Override
+	    public List<OrderVO> select_Order_paging(Map<String, String> paraMap) {
+	        List<OrderVO> OrderList = new ArrayList<>();
+	        Connection conn = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+
+	        try {
+	            conn = ds.getConnection();
+
+	            String searchType = paraMap.get("searchType");
+	            String searchWord = paraMap.get("searchWord");
+
+	            String sql = "SELECT o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address " +
+	                         "FROM tbl_order o " +
+	                         "LEFT JOIN tbl_member m ON o.fk_member_seq = m.member_seq " +
+	                         "WHERE m.exist_status = 1 ";
+
+	            if (searchType != null && !searchType.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
+	                sql += " AND " + searchType + " LIKE ? ";
+	            }
+
+	            pstmt = conn.prepareStatement(sql);
+
+	            if (searchType != null && !searchType.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
+	                pstmt.setString(1, "%" + searchWord + "%");
+	            }
+
+	            rs = pstmt.executeQuery();
+
+	            while (rs.next()) {
+	            	OrderVO ovo = new OrderVO();
+	            	ovo.setOrder_seq(rs.getInt("order_seq"));
+	            	ovo.setId(rs.getString("id"));
+	            	ovo.setName(rs.getString("name"));
+	            	ovo.setAddress(rs.getString("address"));
+	            	ovo.setDeliverystatus(rs.getInt("delivery_status"));
+
+	                OrderList.add(ovo);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        }
+
+	        return OrderList;
+	    }
+
+	    @Override
+	    public int getTotalMemberCount(Map<String, String> paraMap) throws Exception {
+	        int totalMemberCount = 0;
+	        Connection conn = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+	        
+	        try {
+	            conn = ds.getConnection();
+	            
+	            String sql = "SELECT COUNT(*) " +
+	                         "FROM tbl_member " +
+	                         "WHERE id != 'admin' ";
+
+	            String colname = paraMap.get("searchType");
+	            String searchWord = paraMap.get("searchWord");
+	            
+	            if (colname != null && !colname.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
+	                sql += " AND " + colname + " LIKE ? ";
+	            }
+	            
+	            pstmt = conn.prepareStatement(sql);
+	            
+	            if (colname != null && !colname.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
+	                pstmt.setString(1, "%" + searchWord + "%");
+	            }
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            if (rs.next()) {
+	                totalMemberCount = rs.getInt(1);
+	            }
+	            
+	        } finally {
+	            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        }
+	        
+	        return totalMemberCount;
+	    }
+	    
+	    
+	    
+	    //답변 작성하는거 05-26 추가 
+	      @Override
+	      public int answerWrite(AnswerVO ansewer) throws Exception {
+	         
+	         int result = 0;
+	         try {
+	            conn = ds.getConnection();
+	            String sql = "INSERT INTO tbl_answer (answer_seq , fk_question_seq , title , content ) VALUES ( answer_seq.nextval , ? , ? , ?) ";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, ansewer.getFk_question_seq());
+	            pstmt.setString(2, ansewer.getTitle());
+	            pstmt.setString(3, ansewer.getContent());
+	            
+	            //오류확인용 시작//
+	            System.out.println("SQL: " + sql);
+	            //오류확인용 끝//
+	            
+	            result = pstmt.executeUpdate();
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new Exception("Database error: " + e.getMessage(), e);
+	         } finally {
+	            close();
+	         }
+	         return result; 
+	      }
+	      //작성한 답변 보여주는거 05-26추가
+	      @Override
+	      public AnswerVO selectAnswer(String question_seq) throws Exception {
+	         AnswerVO answerView = null;
+	            
+	            try {
+	               conn = ds.getConnection();
+	               
+	               String sql =  " select title , content , answer_seq , fk_question_seq"
+	                        +  " from tbl_answer "
+	                        +  " where fk_question_seq = ? ";
+	                           
+	               pstmt = conn.prepareStatement(sql);
+	               
+	               pstmt.setString(1, question_seq);
+	               
+	               rs = pstmt.executeQuery();
+	               
+	               if(rs.next()) {
+	                  answerView = new AnswerVO();
+	                  
+	                  answerView.setTitle(rs.getString("title"));
+	                  answerView.setContent(rs.getString("content"));
+	                  answerView.setAnswer_seq(rs.getInt("answer_seq"));
+	                  answerView.setFk_question_seq(rs.getInt("fk_question_seq"));
+	               } // end of if(rs.next())-------------------
+	               
+	            } finally {
+	               close();
+	            }
+	            
+	            return answerView;
+	       
+	       
+	       
+	   }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	}
+	
+	
