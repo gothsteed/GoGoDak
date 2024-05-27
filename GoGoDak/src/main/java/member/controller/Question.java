@@ -71,8 +71,8 @@ public class Question extends AbstractController {
 					pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 				} else {
 
-					pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question + "&page="
-							+ pageNo + "'>" + pageNo + "</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='question.dk?type=" + question
+							+ "&page=" + pageNo + "'>" + pageNo + "</a></li>";
 				}
 
 				loop++;

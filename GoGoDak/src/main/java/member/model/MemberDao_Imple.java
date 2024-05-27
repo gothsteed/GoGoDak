@@ -970,7 +970,33 @@ public class MemberDao_Imple implements MemberDao {
 	}
 
 
-
+	//1:1 문의사항 삭제하기 05-26 추가
+	   @Override
+	   public int questionDelete(QuestionVO questionDelete) throws SQLException {
+	      int result = 0;
+	      try {
+	         conn = ds.getConnection();
+	         String sql = " DELETE FROM tbl_question WHERE question_seq = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setInt(1, questionDelete.getQuestion_seq());
+	         
+	         //오류확인용 시작//
+	         System.out.println("SQL: " + sql);
+	         System.out.println("question_seq: " + questionDelete.getQuestion_seq() );
+	         
+	         //오류확인용 끝//
+	         
+	         result = pstmt.executeUpdate();
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      return result;
+	      
+	   }
 
 
 
