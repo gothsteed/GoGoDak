@@ -20,8 +20,8 @@ public class ProductVO {
     
     
     
-    
-    
+    //tbl_product_list select 용 필드
+    private int quantity;
    
 
 	private MaufacturerVO madto;
@@ -137,6 +137,14 @@ public class ProductVO {
 		}
 
 		return base_price  - discount_amount;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 
