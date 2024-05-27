@@ -248,6 +248,7 @@ String ctxPath = request.getContextPath();
         const address = $("input#address").val().trim();
         const detailAddress = $("input#detailAddress").val().trim();
         const extraAddress = $("input#extraAddress").val().trim();
+        const delivery_message = $("input#delivery_message").val().trim();
     	
     	
         /* console.log(`~~ 확인용 userid : ${userid }, coinmoney : ${totalAmount}원`); */
@@ -258,7 +259,8 @@ String ctxPath = request.getContextPath();
                     "postcode" : postcode,
                     "address" : address,
                     "address_detail" : detailAddress,
-                    "address_extra" : extraAddress}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
+                    "address_extra" : extraAddress,
+                    "delivery_message":delivery_message}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
             
             type : "post",  // type 을 생략하면 type : "get" 이다.
 
@@ -344,6 +346,12 @@ String ctxPath = request.getContextPath();
                         <label for="extraAddress">참고사항</label>
                         <input type="text" id="extraAddress" name="address_extra" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address_extra}">
                     </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="delivery_message">배송 메시지</label>
+                        <input type="text" id="delivery_message" name="delivery_message">
+                    </div>
                 </form>
             </div>
             <div class="text-position">
@@ -365,7 +373,7 @@ String ctxPath = request.getContextPath();
             </div>
             <div class="total">
                 <p>총 가격: <span id="totalCost"></span></p>
-                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다</p>
+                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다 (*단, 포인트 사용시 적립X*)</p>
             </div>
             <button type="submit" onclick="goPurchase()">구매하기</button>
         </form>

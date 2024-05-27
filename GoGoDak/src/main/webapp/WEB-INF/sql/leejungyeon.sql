@@ -10,18 +10,18 @@ nocache;
 desc tbl_member;
 
 CREATE TABLE tbl_member (
-	member_seq Number NOT NULL, /* À¯Àú°íÀ¯¹øÈ£ */
-	email VARCHAR2(200) NOT NULL, /* ÀÌ¸ÞÀÏ */
-	id VARCHAR2(40) NOT NULL, /* ¾ÆÀÌµð */
-	password VARCHAR2(200) NOT NULL, /* ºñ¹Ð¹øÈ£ */
-	name VARCHAR2(30) NOT NULL, /* ÀÌ¸§ */
-	tel varchar2(200)  NOT NULL, /* ÇÚµåÆù¹øÈ£ */
-	jubun VARCHAR2(7) NOT NULL, /* ÁÖ¹Îµî·Ï¹øÈ£ */
-	point Number default 0 NOT NULL, /* Æ÷ÀÎÆ® */
-	register_date DATE NOT NULL, /* °¡ÀÔ³¯Â¥ */
-	exist_status NUMBER(1) DEFAULT 1 NOT NULL, /* È¸¿øÅ»ÅðÀ¯¹« */
-	active_status NUMBER(1) DEFAULT 1 NOT NULL, /* ÈÞ¸ÕÀ¯¹« */
-	last_password_change DATE DEFAULT sysdate NOT NULL /* ¸¶Áö¸· ºñ¹Ð¹øÈ£ º¯°æÀÏ */
+	member_seq Number NOT NULL, /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	email VARCHAR2(200) NOT NULL, /* ï¿½Ì¸ï¿½ï¿½ï¿½ */
+	id VARCHAR2(40) NOT NULL, /* ï¿½ï¿½ï¿½Ìµï¿½ */
+	password VARCHAR2(200) NOT NULL, /* ï¿½ï¿½Ð¹ï¿½È£ */
+	name VARCHAR2(30) NOT NULL, /* ï¿½Ì¸ï¿½ */
+	tel varchar2(200)  NOT NULL, /* ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	jubun VARCHAR2(7) NOT NULL, /* ï¿½Ö¹Îµï¿½Ï¹ï¿½È£ */
+	point Number default 0 NOT NULL, /* ï¿½ï¿½ï¿½ï¿½Æ® */
+	register_date DATE NOT NULL, /* ï¿½ï¿½ï¿½Ô³ï¿½Â¥ */
+	exist_status NUMBER(1) DEFAULT 1 NOT NULL, /* È¸ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	active_status NUMBER(1) DEFAULT 1 NOT NULL, /* ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	last_password_change DATE DEFAULT sysdate NOT NULL /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 );
 
 ALTER TABLE tbl_member
@@ -42,7 +42,7 @@ ALTER TABLE tbl_member
         
         
 insert into tbl_member(member_seq, email, id, password, name, tel, jubun ,point, exist_status, active_status, last_password_change, postcode,address,address_detail,address_extra,registerday)
-values(member_seq.nextval, 'Fm3kaU93VWbmQq2wh984EeBMZreWLwAxeQpgkazuLzU=','admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','ÀÌÁ¤¿¬' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'¼­¿ï½Ã','¸¶Æ÷±¸','¼­±³µ¿','2024-02-01' );
+values(member_seq.nextval, 'Fm3kaU93VWbmQq2wh984EeBMZreWLwAxeQpgkazuLzU=','admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'ï¿½ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½','2024-02-01' );
 commit;        
 
 
@@ -72,16 +72,16 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
-/* Á¦Ç° */
+/* ï¿½ï¿½Ç° */
 CREATE TABLE tbl_product (
-	product_seq number NOT NULL, /* Á¦Ç°°íÀ¯¹øÈ£ */
-	fk_maufacturer_seq Number, /* Á¦Á¶¾÷Ã¼°íÀ¯¹øÈ£ */
-	product_name VARCHAR2(200) NOT NULL, /* Á¦Ç°ÀÌ¸§ */
-	description VARCHAR2(1000) NOT NULL, /* Á¦Ç°¼³¸í */
-	price FLOAT NOT NULL, /* °¡°Ý */
-	stock NUMBER NOT NULL, /* Àç°í */
-	main_pic VARCHAR2(400), /* ¸ÞÀÎ»çÁø */
-	discription_pic VARCHAR2(400) /* »ó¼¼ »çÁø */
+	product_seq number NOT NULL, /* ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	fk_maufacturer_seq Number, /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	product_name VARCHAR2(200) NOT NULL, /* ï¿½ï¿½Ç°ï¿½Ì¸ï¿½ */
+	description VARCHAR2(1000) NOT NULL, /* ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ */
+	price FLOAT NOT NULL, /* ï¿½ï¿½ï¿½ï¿½ */
+	stock NUMBER NOT NULL, /* ï¿½ï¿½ï¿½ */
+	main_pic VARCHAR2(400), /* ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ */
+	discription_pic VARCHAR2(400) /* ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ */
 );
 
 ALTER TABLE tbl_product RENAME COLUMN fk_maufacturer_seq TO fk_manufacturer_seq;
@@ -149,8 +149,8 @@ REFERENCES tbl_discount(discount_seq);
 
 drop table tbl_discount_event;
 CREATE TABLE tbl_discount_event (
-	discount_event_seq NUMBER NOT NULL, /* ÇÒÀÎ°íÀ¯¹øÈ£ */
-	discount_name VARCHAR2(200) NOT NULL, /* ÇÒÀÎÅ¸ÀÔ */
+	discount_event_seq NUMBER NOT NULL, /* ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	discount_name VARCHAR2(200) NOT NULL, /* ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ */
     pic VARCHAR2(200) 
 );
 
@@ -183,10 +183,10 @@ drop table tbl_manufacturer;
         
         
 CREATE TABLE tbl_manufacturer (
-	manufacturer_seq number NOT NULL, /* Á¦Á¶¾÷Ã¼°íÀ¯¹øÈ£ */
-	manufacturer_name VARCHAR(200) not null, /* Á¦Á¶¾÷Ã¼ÀÌ¸§ */
-	manufacturer_tel VARCHAR(200), /* Á¦Á¶¾÷Ã¼¹øÈ£ */
-	location VARCHAR(300) /* Á¦Á¶¾÷Ã¼À§Ä¡ */
+	manufacturer_seq number NOT NULL, /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ */
+	manufacturer_name VARCHAR(200) not null, /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½Ì¸ï¿½ */
+	manufacturer_tel VARCHAR(200), /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½È£ */
+	location VARCHAR(300) /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½Ä¡ */
 );
 
 ALTER TABLE tbl_manufacturer
@@ -232,6 +232,7 @@ desc tbl_product;
 desc tbl_order;
 desc tbl_discount_event;
 desc tbl_product_list;
+desc tbl_review;
 
 
 select rownum as rno
@@ -290,4 +291,37 @@ FOREIGN KEY (fk_discount_event_seq)
 REFERENCES tbl_discount_event (discount_event_seq)
 ON DELETE SET NULL;
 commit;
+
+SELECT 
+    o.order_seq,
+    o.fk_member_seq,
+    o.postcode,
+    o.address,
+    o.address_detail,
+    o.address_extra,
+    o.total_pay,
+    p.fk_product_seq,
+    p.product_name,
+    p.quantity
+FROM 
+    tbl_order o
+JOIN 
+    tbl_product_list p
+ON 
+    o.order_seq = p.FK_ORDER_SEQ;
+
+select *
+from tbl_order;
+ALTER TABLE tbl_order
+DROP COLUMN delivery_status;
+
+ALTER TABLE tbl_order
+ADD delivery_status NUMBER DEFAULT 0;
+ALTER TABLE tbl_order
+ADD delivery_message VARCHAR2(255);
+
+
+
+
+
 

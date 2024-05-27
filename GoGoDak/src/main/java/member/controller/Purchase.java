@@ -27,7 +27,7 @@ public class Purchase extends AbstractController {
 		request.setAttribute("loc", loc);
 
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/msg.jsp");
+		super.setViewPage("/WEB-INF/view/msg.jsp");
 		return;
 	}
 	
@@ -48,7 +48,7 @@ public class Purchase extends AbstractController {
 
 		if (!super.checkLogin(request)) {
 			// 로그인을 안했으면
-			String message = "코인충전 결제를 하기 위해서는 먼저 로그인을 하세요!!";
+			String message = "결제를 하기 위해서는 먼저 로그인을 하세요!!";
 			String loc = request.getContextPath() + "/login/login.dk";
 
 			sendError(request, message, loc);
@@ -98,16 +98,27 @@ public class Purchase extends AbstractController {
 		Map<ProductVO, Integer> cart =  (Map<ProductVO, Integer>) session.getAttribute("cart");
 		int totalAmount = getFlooredTotalAmount(cart);
 		request.setAttribute("totalAmount", totalAmount - point);
-		int result =memberDao.updatePoint(loginuser.getPoint() - point, loginuser.getMember_seq());
+		
+		System.out.println("using point : " + point);
+		int result = 0;
+		if(point == 0) {
+			result =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05));
+		}
+		else {
+			result = memberDao.updatePoint(loginuser.getPoint() + - point , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() - point );
+		}
+		
+
 		
 		
 		if(result != 1) {
 			String message = "포인트 사용 실패";
 			String loc = request.getContextPath() + "";
-			sendError(request, getViewPage(), getViewPage());
+			sendError(request, message, loc);
 			return;
 		}
-		loginuser.setPoint(loginuser.getPoint() - point);
 		
 		
 		

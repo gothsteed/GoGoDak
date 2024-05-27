@@ -21,8 +21,8 @@ FROM (
     FROM (
         SELECT id, name, email,
             CASE 
-                WHEN SUBSTR(jubun, 7, 1) IN ('1', '3') THEN '³²'
-                ELSE '¿©'
+                WHEN SUBSTR(jubun, 7, 1) IN ('1', '3') THEN 'ï¿½ï¿½'
+                ELSE 'ï¿½ï¿½'
             END AS gender
         FROM tbl_member
         WHERE id != 'admin'
