@@ -119,6 +119,44 @@
     function goBack() {
         window.history.back();
     }
+    
+    
+    function changeToShipped() {
+    	
+    	const order_seq = $("input#order_seq").val();
+    	console.log(order_seq)
+    	
+/*  		$("#shipButton").hide()
+		$("#deliverystatus").text("출고 완료");
+ */
+					
+    	
+    	 $.ajax({
+             url: '<%=ctxPath%>/admin/ship.dk',
+             type: 'post',
+             dataType: 'json',
+             data: {"order_seq": order_seq},
+             success: function(response) {
+                 if (response.success) {
+					alert("!!출고 완료!!")
+					$("#shipButton").hide()
+					$("#deliverystatus").text("출고 완료");
+
+			
+                 } else {
+                 	console.log(response.message)
+                     alert('변경 실패: ' + response.message);
+                 }
+             },
+             error: function(xhr, status, error) {
+             	console.log(error)
+                 alert('변경 실패: ' + error);
+             }
+         });
+    	
+    	
+    	
+    }
 </script>
 
 <div class="container">
@@ -193,6 +231,20 @@
             <th>주문자 정보</th>
             <td><c:out value="${order.mdto.name}" /></td>
         </tr>
+        <tr>
+            <th>배송 상태</th>
+            <td id="deliverystatus">
+            
+            	<c:if test="${order.deliverystatus== 0}">
+            		미출고
+            	</c:if>
+                <c:if test="${order.deliverystatus!= 0}">
+            		출고완료
+            	</c:if>
+            	
+            
+            </td>
+        </tr>
     </table>
 
     <h3>결제 정보</h3>
@@ -231,8 +283,14 @@
             </table>
         </div>
     </div>
+    
+    <input  id="order_seq" type="hidden" value="${order.order_seq}">
 
     <div class="btn-container">
-        <button class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
+        <c:if test="${order.deliverystatus== 0}">
+      		<button id="shipButton" type="button" class="btn btn-danger" onclick="changeToShipped()">출고 완료하기</button>
+      	</c:if>
+        <button type="button"class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
+        
     </div>
 </div>

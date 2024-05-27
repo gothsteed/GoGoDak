@@ -20,6 +20,7 @@ import com.oracle.wls.shaded.org.apache.regexp.recompile;
 import domain.MemberVO;
 import domain.OrderVO;
 import domain.ProductVO;
+import oracle.net.aso.c;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -146,6 +147,7 @@ public class OrderDao_imple implements OrderDao {
 		order.setAddress_extra(rs.getString("address_extra"));
 		order.setTotal_pay(rs.getInt("total_pay"));
 		order.setDelivery_message(rs.getString("delivery_message"));
+		order.setDeliverystatus(rs.getInt("DELIVERY_STATUS"));
 		
 		MemberVO member = createMember(rs);
 		order.setMdto(member);
@@ -397,6 +399,32 @@ public class OrderDao_imple implements OrderDao {
 		
 		
 		return productList;
+	}
+
+	@Override
+	public int updateDelivery_status(int order_seq) throws SQLException {
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " UPDATE TBL_ORDER "
+					+ " SET DELIVERY_STATUS = 1 "
+					+ " where order_seq = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, order_seq);
+			result = pstmt.executeUpdate();
+		
+			
+			
+		} finally {
+			close();
+		}
+		
+		return result;
 	}
 
 
