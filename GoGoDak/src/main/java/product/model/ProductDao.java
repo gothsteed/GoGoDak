@@ -39,6 +39,8 @@ public interface ProductDao {
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize)throws SQLException;
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
 
+	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
+
 
 
 

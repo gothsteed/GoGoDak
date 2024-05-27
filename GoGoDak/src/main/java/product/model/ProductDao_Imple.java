@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.Context;
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
 import domain.Discount_eventVO;
+import domain.ManufacturerVO;
 import domain.ProductVO;
 import domain.Product_listVO;
 import util.security.AES256;
@@ -510,6 +512,63 @@ public class ProductDao_Imple implements ProductDao {
 		}
 
 		return productList;
+	}
+
+	@Override
+	public List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException {
+		
+		List<ProductVO> brandProductList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " SELECT manufacturer_name, product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number "
+					   + " FROM "
+					   + " ( "
+					   + "    select manufacturer_seq, manufacturer_name "
+					   + "    from tbl_manufacturer "
+					   + "    where manufacturer_seq = ? "
+					   + " ) M "
+					   + " JOIN tbl_product P "
+					   + " ON P.fk_manufacturer_seq = M.manufacturer_seq ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(manufacturer_seq));
+			
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				brandProductList = null;
+			}
+			
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
+				ManufacturerVO mvo = new ManufacturerVO();
+				
+				mvo.setManufacturer_name("manufacturer_name");
+				pvo.setMadto(mvo);
+				
+				pvo.setProduct_seq(rs.getInt("product_seq"));
+				pvo.setFk_manufacturer_seq(rs.getInt("fk_manufacturer_seq"));
+				pvo.setProduct_name(rs.getString("product_name"));
+				pvo.setDescription(rs.getString("description"));
+				pvo.setBase_price(rs.getFloat("base_price"));
+				pvo.setStock(rs.getInt("stock"));
+				pvo.setMain_pic(rs.getString("main_pic"));
+				pvo.setDescription_pic(rs.getString("discription_pic"));
+				pvo.setDiscount_type(rs.getString("product_type"));
+				pvo.setDiscount_type(rs.getString("discount_type"));
+				pvo.setDiscount_amount(rs.getFloat("discount_number"));
+				
+				brandProductList.add(pvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return brandProductList;
 	}
 
 
