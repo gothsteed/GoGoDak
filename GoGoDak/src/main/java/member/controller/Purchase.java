@@ -27,7 +27,7 @@ public class Purchase extends AbstractController {
 		request.setAttribute("loc", loc);
 
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/msg.jsp");
+		super.setViewPage("/WEB-INF/view/msg.jsp");
 		return;
 	}
 	
@@ -99,12 +99,15 @@ public class Purchase extends AbstractController {
 		int totalAmount = getFlooredTotalAmount(cart);
 		request.setAttribute("totalAmount", totalAmount - point);
 		
+		System.out.println("using point : " + point);
 		int result = 0;
 		if(point == 0) {
 			result =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05));
 		}
 		else {
 			result = memberDao.updatePoint(loginuser.getPoint() + - point , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() - point );
 		}
 		
 
@@ -116,7 +119,6 @@ public class Purchase extends AbstractController {
 			sendError(request, message, loc);
 			return;
 		}
-		loginuser.setPoint(loginuser.getPoint() - point);
 		
 		
 		
