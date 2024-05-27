@@ -48,7 +48,7 @@ public class ProductFind extends AbstractController {
 		}
 		else {
 			request.setAttribute("productList", productList);
-			request.setAttribute("title", "🔎 검색어 >> " + searchWord);
+			request.setAttribute("title", "🔎 검색어 >> " + searchWord + " 🔎");
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/product/product_category.jsp");
