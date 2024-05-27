@@ -64,7 +64,12 @@ select PRODUCT_NAME, DESCRIPTION, BASE_PRICE, STOCK, MAIN_PIC, DISCRIPTION_PIC
 from tbl_product
 where product_name like '%' || '닭' || '%';
 
+-----------------------------------------------------------------------
 
+select *
+from tbl_board
+order by board_seq desc;
 
-
-
+select title, content, pic,board_seq
+from tbl_board 
+where board_seq = 39 
