@@ -307,3 +307,34 @@ from tbl_member
 
 desc tbl_product
 
+
+
+
+ SELECT  pl.*, p.*
+					FROM 
+					   tbl_product_list pl 
+				JOIN 
+				  tbl_product p 
+				ON 
+					    pl.fk_product_seq = p.product_seq  
+					WHERE tbl_member
+                    
+                    
+                    
+                    
+                    
+                    select fk_member_seq, total_pay, postcode, address, address_detail, address_extra, delivery_status, registerday
+                    from tbl_order
+                    where fk_member_seq = 6 ;
+
+select *
+from tbl_order;
+
+select *
+from tbl_product
+
+select *
+from tbl_member;
+
+
+desc tbl_product_list;

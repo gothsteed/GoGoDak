@@ -35,8 +35,10 @@ public class Admin_Order_Detail extends AbstractController {
 
 	    if (loginuser != null && "admin".equals(loginuser.getId())) {
 	        String method = request.getMethod();
+	        
 	        if ("POST".equalsIgnoreCase(method)) {
 	            int order_seq;
+	            
 	            try {
 	            	order_seq = Integer.parseInt(request.getParameter("order_seq"));
 	            }catch (NumberFormatException e) {
