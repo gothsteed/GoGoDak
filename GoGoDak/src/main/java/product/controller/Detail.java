@@ -26,8 +26,6 @@ public class Detail extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		super.goBackURL(request);
-		
 		String product_seq_String = request.getParameter("product_seq");
 		
 		int product_seq = -1;

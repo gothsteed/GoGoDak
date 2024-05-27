@@ -1,6 +1,5 @@
 package common.controller;
 
-
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +26,7 @@ public abstract class AbstractController implements InterCommand {
 	
 	private boolean isRedirect = false;
 	private String viewPage;
+	
 	public boolean isRedirect() {
 		return isRedirect;
 	}
@@ -58,7 +58,6 @@ public abstract class AbstractController implements InterCommand {
 		if(memberVo != null) {
 			
 			return true;
-			
 		}
 		
 		return false;
@@ -69,6 +68,7 @@ public abstract class AbstractController implements InterCommand {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("goBackURL", MyUtil.getCurrentURL(request));
+//		System.out.println("gobak:" + MyUtil.getCurrentURL(request));
 		
 	} // end of public void goBackURL(HttpServletRequest request) ----------
 

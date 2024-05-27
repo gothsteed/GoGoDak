@@ -320,9 +320,9 @@
 								<li class="nav-item">
 									<ul>
 										<li><a class="dropdown-item text-warning" href="#"><span class="h6 font-weight-bold">브랜드몰</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/delistick.dk"><span style="font-size:12px;">딜리스틱</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/zeroHour.dk"><span style="font-size:12px;">제로아워</span></a></li>
-										<li><a class="dropdown-item" href="<%= ctxPath%>/brand/drLiv.dk"><span style="font-size:12px;">닥터리브</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/brand.dk?manufacturer_seq=1"><span style="font-size:12px;">딜리스틱</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/brand.dk?manufacturer_seq=2"><span style="font-size:12px;">닥터리브</span></a></li>
+										<li><a class="dropdown-item" href="<%= ctxPath%>/product/brand.dk?manufacturer_seq=3"><span style="font-size:12px;">제로아워</span></a></li>
 									</ul>
 								</li>
 							</ul>

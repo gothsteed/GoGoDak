@@ -10,16 +10,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import member.model.MemberDao;
 import member.model.MemberDao_Imple;
+import my.util.MyUtil;
 
 public class Login extends AbstractController {
 	
 	private MemberDao memberDao;
-
 	
 	public Login() {
 		this.memberDao = new MemberDao_Imple();
 	}
-
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,6 +26,12 @@ public class Login extends AbstractController {
 		String method = request.getMethod();
 		
 		if(method.equalsIgnoreCase("get")) {
+			String referer = request.getHeader("Referer");
+//			System.out.println("referer:" + referer);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("goBackURL", referer);
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
 		}
@@ -72,6 +77,7 @@ public class Login extends AbstractController {
 				request.setAttribute("message", errormsg);
 				request.setAttribute("loc", loc);
 
+//				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/view/msg.jsp");
 				
 				return; 
@@ -88,7 +94,7 @@ public class Login extends AbstractController {
 				request.setAttribute("message", errormsg);
 				request.setAttribute("loc", loc);
 				
-				super.setRedirect(false);
+//				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/view/msg.jsp");
 				
 				return; 
@@ -101,8 +107,8 @@ public class Login extends AbstractController {
 				
 				if(goBackURL != null) {
 					session.removeAttribute("goBackURL");
-					super.setRedirect(false);
-					super.setViewPage(request.getContextPath() + goBackURL);
+					super.setRedirect(true);
+					super.setViewPage(goBackURL);
 				}
 				else { 
 					super.setViewPage(request.getContextPath() + "/index.dk");
