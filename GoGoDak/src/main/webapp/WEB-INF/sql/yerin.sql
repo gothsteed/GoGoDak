@@ -66,9 +66,20 @@ where product_name like '%' || '닭' || '%';
 
 -----------------------------------------------------------------------
 
+<<<<<<< HEAD
+select *
+from tbl_board
+order by board_seq desc;
+=======
 desc tbl_member;
 desc tbl_login_history;
+>>>>>>> branch 'main' of https://github.com/gothsteed/GoGoDak.git
 
+<<<<<<< HEAD
+select title, content, pic,board_seq
+from tbl_board 
+where board_seq = 39 
+=======
 select *
 from tbl_member
 order by member_seq desc;
@@ -83,3 +94,4 @@ where exist_status = 1 and id = 'qwerwqer' and password = '86fdff24aec78a01391e4
 commit;
 -- 커밋 완료.
 
+>>>>>>> branch 'main' of https://github.com/gothsteed/GoGoDak.git
