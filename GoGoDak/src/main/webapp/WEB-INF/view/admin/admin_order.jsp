@@ -72,10 +72,10 @@
         });
         
         $("table#memberTbl tr.memberInfo").click( e => {
-            const id = $(e.target).parent().children(".id").text(); 
+            const order_seq = $(e.target).parent().children(".order_seq").text(); 
             
             const frm = document.memberOneDetail_frm;
-            frm.id.value = id;
+            frm.order_seq.value = order_seq;
             frm.action = "${pageContext.request.contextPath}/member/member_orderdetail.dk";
             frm.method = "post";
             frm.submit();
@@ -148,7 +148,7 @@
                         <fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
                         <fmt:parseNumber var="sizePerPage" value="${requestScope.sizePerPage}" />
                         
-                        <td>${ordervo.order_seq}</td>    
+                        <td class="order_seq">${ordervo.order_seq}</td>    
                         <td class="id">${ordervo.id}</td>
                         <td>${ordervo.name}</td>
                         <td>${ordervo.address}</td>
@@ -180,7 +180,7 @@
 </div>
 
 <form name="memberOneDetail_frm">
-    <input type="hidden" name="id" />
+    <input type="hidden" name="order_seq" />
     <input type="hidden" name="goBackURL" value="${requestScope.currentURL}" />
 </form>
 

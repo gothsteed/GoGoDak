@@ -14,6 +14,7 @@ public class OrderVO {
 	private String name;
 	private String tel;
 	private int deliverystatus;
+	private String delivery_message;
 	
 	
 	private MemberVO mdto = new MemberVO();
@@ -21,6 +22,14 @@ public class OrderVO {
 	
 	
 	
+	public String getDelivery_message() {
+		return delivery_message;
+	}
+
+	public void setDelivery_message(String delivery_message) {
+		this.delivery_message = delivery_message;
+	}
+
 	/**
 	 * @return the id
 	 */

@@ -145,6 +145,7 @@ public class OrderDao_imple implements OrderDao {
 		order.setAddress_detail(rs.getString("address_detail"));
 		order.setAddress_extra(rs.getString("address_extra"));
 		order.setTotal_pay(rs.getInt("total_pay"));
+		order.setDelivery_message(rs.getString("delivery_message"));
 		
 		MemberVO member = createMember(rs);
 		order.setMdto(member);
@@ -198,7 +199,7 @@ public class OrderDao_imple implements OrderDao {
 	
 
 	@Override
-	public int insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra,
+	public int insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra, String  delivery_message,
 			int totalAmount, Map<ProductVO, Integer> cart) throws SQLException {
 		int result = 0;
 
@@ -207,8 +208,8 @@ public class OrderDao_imple implements OrderDao {
 			conn.setAutoCommit(false);
 
 			String sql = " insert into "
-					+ " tbl_order(ORDER_SEQ, TOTAL_PAY, POSTCODE, ADDRESS, ADDRESS_DETAIL, ADDRESS_EXTRA, REGISTERDAY, DELIVERY_STATUS, FK_MEMBER_SEQ) "
-					   + " values(order_seq.nextval, ?, ?, ?, ?, ? , sysdate, 0, ?) ";
+					+ " tbl_order(ORDER_SEQ, TOTAL_PAY, POSTCODE, ADDRESS, ADDRESS_DETAIL, ADDRESS_EXTRA, REGISTERDAY, DELIVERY_STATUS, FK_MEMBER_SEQ, delivery_message) "
+					   + " values(order_seq.nextval, ?, ?, ?, ?, ? , sysdate, 0, ?, ?) ";
 
 			pstmt = conn.prepareStatement(sql, new String[] {"order_seq"});
 
@@ -218,6 +219,7 @@ public class OrderDao_imple implements OrderDao {
 			pstmt.setString(4, address_detail);
 			pstmt.setString(5, address_extra);
 			pstmt.setInt(6, member_seq);
+			pstmt.setString(7, delivery_message);
 
 			
 			System.out.println("inserting order");
@@ -329,24 +331,7 @@ public class OrderDao_imple implements OrderDao {
 			conn = ds.getConnection();
 			
 			String sql = "SELECT  "
-					+ "    m.member_seq,  "
-					+ "    m.email,  "
-					+ "    m.id,  "
-					+ "    m.password,  "
-					+ "    m.name,  "
-					+ "    m.tel,  "
-					+ "    m.jubun,  "
-					+ "    m.point,  "
-					+ "    m.register_date,  "
-					+ "    m.exist_status,  "
-					+ "    m.active_status,  "
-					+ "    m.last_password_change, "
-					+ "    o.order_seq,  "
-					+ "    o.postcode ,  "
-					+ "    o.address,  "
-					+ "    o.address_detail,  "
-					+ "    o.address_extra,  "
-					+ "    o.total_pay "
+					+ "  m.*, o.*  "
 					+ " FROM  "
 					+ "    tbl_member m "
 					+ " JOIN  "
@@ -385,31 +370,19 @@ public class OrderDao_imple implements OrderDao {
 			conn = ds.getConnection();
 			
 			String sql = " SELECT "
-					+ "    pl.order_seq, "
-					+ "    pl.product_seq, "
-					+ "    pl.quantity, "
-					+ "    p.product_seq, "
-					+ "    p.fk_maufacturer_seq, "
-					+ "    p.product_name, "
-					+ "    p.description, "
-					+ "    p.base_prive, "
-					+ "    p.stock, "
-					+ "    p.main_pic, "
-					+ "    p.discription_pic, "
-					+ "    p.fk_discount_event_seq, "
-					+ "    p.discount_type, "
-					+ "    p.discount_number "
+					+ " pl.*, p.* "
 					+ "FROM  "
-					+ "    product_list pl "
+					+ "    tbl_product_list pl "
 					+ "JOIN  "
 					+ "    tbl_product p "
 					+ "ON  "
-					+ "    pl.product_seq = p.product_seq  "
-					+ " WHERE order_seq = ? ";
+					+ "    pl.fk_product_seq = p.product_seq  "
+					+ " WHERE fk_order_seq = ? ";
 			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, order_seq);
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				productList.add(createProduct(rs));

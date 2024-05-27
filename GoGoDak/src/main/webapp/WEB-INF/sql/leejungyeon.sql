@@ -317,6 +317,9 @@ DROP COLUMN delivery_status;
 
 ALTER TABLE tbl_order
 ADD delivery_status NUMBER DEFAULT 0;
+ALTER TABLE tbl_order
+ADD delivery_message VARCHAR2(255);
+
 
 
 

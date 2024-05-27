@@ -248,6 +248,7 @@ String ctxPath = request.getContextPath();
         const address = $("input#address").val().trim();
         const detailAddress = $("input#detailAddress").val().trim();
         const extraAddress = $("input#extraAddress").val().trim();
+        const delivery_message = $("input#delivery_message").val().trim();
     	
     	
         /* console.log(`~~ 확인용 userid : ${userid }, coinmoney : ${totalAmount}원`); */
@@ -258,7 +259,8 @@ String ctxPath = request.getContextPath();
                     "postcode" : postcode,
                     "address" : address,
                     "address_detail" : detailAddress,
-                    "address_extra" : extraAddress}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
+                    "address_extra" : extraAddress,
+                    "delivery_message":delivery_message}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
             
             type : "post",  // type 을 생략하면 type : "get" 이다.
 
@@ -343,6 +345,12 @@ String ctxPath = request.getContextPath();
                     <div class="form-group">
                         <label for="extraAddress">참고사항</label>
                         <input type="text" id="extraAddress" name="address_extra" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address_extra}">
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="delivery_message">배송 메시지</label>
+                        <input type="text" id="delivery_message" name="delivery_message">
                     </div>
                 </form>
             </div>
