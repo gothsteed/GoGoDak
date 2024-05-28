@@ -13,15 +13,15 @@ CREATE TABLE tbl_member (
 	member_seq Number NOT NULL, /* ����������ȣ */
 	email VARCHAR2(200) NOT NULL, /* �̸��� */
 	id VARCHAR2(40) NOT NULL, /* ���̵� */
-	password VARCHAR2(200) NOT NULL, /* ��й�ȣ */
+	password VARCHAR2(200) NOT NULL, /* ��й��? */
 	name VARCHAR2(30) NOT NULL, /* �̸� */
 	tel varchar2(200)  NOT NULL, /* �ڵ�����ȣ */
-	jubun VARCHAR2(7) NOT NULL, /* �ֹε�Ϲ�ȣ */
+	jubun VARCHAR2(7) NOT NULL, /* �ֹε�Ϲ��? */
 	point Number default 0 NOT NULL, /* ����Ʈ */
 	register_date DATE NOT NULL, /* ���Գ�¥ */
 	exist_status NUMBER(1) DEFAULT 1 NOT NULL, /* ȸ��Ż������ */
 	active_status NUMBER(1) DEFAULT 1 NOT NULL, /* �޸����� */
-	last_password_change DATE DEFAULT sysdate NOT NULL /* ������ ��й�ȣ ������ */
+	last_password_change DATE DEFAULT sysdate NOT NULL /* ������ ��й��? ������ */
 );
 
 ALTER TABLE tbl_member
@@ -42,7 +42,7 @@ ALTER TABLE tbl_member
         
         
 insert into tbl_member(member_seq, email, id, password, name, tel, jubun ,point, exist_status, active_status, last_password_change, postcode,address,address_detail,address_extra,registerday)
-values(member_seq.nextval, 'Fm3kaU93VWbmQq2wh984EeBMZreWLwAxeQpgkazuLzU=','admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','������' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'�����','������','������','2024-02-01' );
+values(member_seq.nextval, 'Fm3kaU93VWbmQq2wh984EeBMZreWLwAxeQpgkazuLzU=','admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','������' ,'k6AvvKD9cZaeKhlunBk9ew==', 9701011,10,1,1,'2024-05-15',04001,'�����?','������','������','2024-02-01' );
 commit;        
 
 
@@ -79,7 +79,7 @@ CREATE TABLE tbl_product (
 	product_name VARCHAR2(200) NOT NULL, /* ��ǰ�̸� */
 	description VARCHAR2(1000) NOT NULL, /* ��ǰ���� */
 	price FLOAT NOT NULL, /* ���� */
-	stock NUMBER NOT NULL, /* ��� */
+	stock NUMBER NOT NULL, /* ���? */
 	main_pic VARCHAR2(400), /* ���λ��� */
 	discription_pic VARCHAR2(400) /* �� ���� */
 );
@@ -322,6 +322,12 @@ ADD delivery_message VARCHAR2(255);
 
 
 
+UPDATE tbl_product
+SET fk_manufacturer_seq = 5
+WHERE product_seq = 1;
 
+rollback;
 
+select *
+from tbl_manufacturer;
 

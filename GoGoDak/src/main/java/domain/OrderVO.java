@@ -22,7 +22,8 @@ public class OrderVO {
     private Date registerday;
     
     private List<Product_listVO> productList;
-	private MemberVO setMdto;
+	private MemberVO mdto;
+	
     public List<Product_listVO> getProductList() {
         return productList;
     }
@@ -168,10 +169,10 @@ public class OrderVO {
     }
 
     public MemberVO getMdto() {
-        return getMdto();
+        return mdto;
     }
 
     public void setMdto(MemberVO mdto) {
-        this.setMdto = mdto;
+        this.mdto = mdto;
     }
 }
