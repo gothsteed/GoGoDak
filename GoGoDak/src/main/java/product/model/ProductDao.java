@@ -29,8 +29,17 @@ public interface ProductDao {
 
 	
 	//상품등록
-	int productregister(ProductVO pvo) throws SQLException;
+	int productregister(ProductVO pvo) throws Exception;
 
+	
+	//상품 수정 
+	int updateProduct(ProductVO pvo) throws SQLException;
+	
+	//상품 selectseq
+	int productSelectBySeq(int product_seq) throws Exception;
+
+	//상품 삭제 
+	int deletedProduct(ProductVO productDelete) throws Exception;
 
 	Product_listVO memberOrderDetail(String id)throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException;
 
@@ -38,6 +47,8 @@ public interface ProductDao {
 
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize)throws SQLException;
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
+
+	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
 
 
 

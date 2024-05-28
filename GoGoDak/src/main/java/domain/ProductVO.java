@@ -24,7 +24,7 @@ public class ProductVO {
     private int quantity;
    
 
-	private MaufacturerVO madto;
+	private ManufacturerVO madto;
     //todo 할인 정보 dto 추가
     private Discount_eventVO discountVO;
     
@@ -120,10 +120,10 @@ public class ProductVO {
 	}
 	
 	
-	public MaufacturerVO getMadto() {
+	public ManufacturerVO getMadto() {
 		return madto;
 	}
-	public void setMadto(MaufacturerVO madto) {
+	public void setMadto(ManufacturerVO madto) {
 		this.madto = madto;
 	}
 	public float getDiscountPrice() {
