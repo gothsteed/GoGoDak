@@ -26,6 +26,7 @@ public class Order extends AbstractController {
 		
 	}
 
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -80,6 +81,8 @@ public class Order extends AbstractController {
 	        setViewPage("/WEB-INF/jsonview.jsp");
 			return;
 		}
+		
+		session.removeAttribute("cart");
 		
 	    JSONObject jsonResponse = new JSONObject();
 	    jsonResponse.put("success", true);
