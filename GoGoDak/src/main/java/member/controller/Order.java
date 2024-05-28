@@ -81,6 +81,8 @@ public class Order extends AbstractController {
 			return;
 		}
 		
+		session.removeAttribute("cart");
+		
 	    JSONObject jsonResponse = new JSONObject();
 	    jsonResponse.put("success", true);
 	    jsonResponse.put("message", "주문성공!");
