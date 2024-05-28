@@ -55,7 +55,7 @@
 	    }
 		
 	    $.ajax({
-			  url:"${pageContext.request.contextPath}/member/smsSend.up",
+			  url:"${pageContext.request.contextPath}/member/smsSend.dk",
 			  type:"get",
 			  data:dataObj,
 			  dataType:"json",
