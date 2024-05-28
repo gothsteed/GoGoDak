@@ -30,8 +30,6 @@ public class Brand extends AbstractController {
 		
 		String manufacturer_seq = request.getParameter("manufacturer_seq");
 		
-		System.out.println("확인용 =>"+ manufacturer_seq);
-		
 		List<ProductVO> brandProductList = pdao.getBrandProductList(manufacturer_seq);
 		
 		if(brandProductList.isEmpty()) {
@@ -48,13 +46,13 @@ public class Brand extends AbstractController {
 			request.setAttribute("productList", brandProductList);
 			
 			if(manufacturer_seq.equals("1")) {
-				request.setAttribute("title", ">> 딜리스틱 <<");
+				request.setAttribute("title", "🍦 딜리스틱 🍦");
 			}
 			else if(manufacturer_seq.equals("2")) {
-				request.setAttribute("title", ">> 닥터리브 <<");
+				request.setAttribute("title", "🍤 닥터리브 🍤");
 			}
 			else if(manufacturer_seq.equals("3")){
-				request.setAttribute("title", ">> 제로아워 <<");
+				request.setAttribute("title", "🍉 제로아워 🍉");
 			}
 			
 			super.setRedirect(false);

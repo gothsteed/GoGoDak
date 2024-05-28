@@ -12,7 +12,7 @@
       
          <div class="container">
             <div class="heading_container heading_center">
-               <h2 style="font-family: 'Arial', sans-serif; font-weight: normal;">
+               <h2 style="font-weight: normal;">
                    <span>${requestScope.title}</span>
                </h2>
             </div>
@@ -86,9 +86,8 @@
       <!-- <script src="js/custom.js"></script> -->
 
       <style>
-		body {
+		h2 {
             font-family: Arial, sans-serif;
-
         }
       
       	.event-container {

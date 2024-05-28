@@ -17,7 +17,7 @@ String contextPath = request.getContextPath();
 
 <style>
 h2 {
-	font-family: 'Noto Sans KR', 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+	font-family: Arial, sans-serif;
 	display: block;
 	margin: 8px 0 0px;
 	color: #1a1a1a;

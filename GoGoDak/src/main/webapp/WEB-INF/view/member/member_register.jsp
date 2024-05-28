@@ -151,10 +151,8 @@ small.error{
                         <div class="form-group">
                             <label for="postcode">우편번호</label>
                             <div class="input-group">
-                                <input type="text" name="postcode" id="postcode" class="form-control" size="6" maxlength="5">
-                                <div class="input-group-append">
-                                    <img src="<%=ctxPath %>/images/register/b_zipcode.gif" id="zipcodeSearch" alt="Zipcode Search">
-                                </div>
+                                <input type="text" name="postcode" id="postcode" class="form-control" size="6" maxlength="5">&nbsp;
+                                <img src="<%=ctxPath %>/images/register/b_zipcode.gif" id="zipcodeSearch" alt="Zipcode Search" width="120px" />
                             </div>
                             <small class="form-text text-danger error">우편번호 형식에 맞지 않습니다.</small>
                         </div>
@@ -185,8 +183,8 @@ small.error{
                         </div>
 
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="agree">
-                            <label class="form-check-label" for="agree">이용약관에 동의합니다</label>
+                            <input type="checkbox" class="form-check-input" id="agree" style="width: 3%;">
+                            <label class="form-check-label pl-2" for="agree">이용약관에 동의합니다.</label>
                         </div>
 
                         <div class="form-group">

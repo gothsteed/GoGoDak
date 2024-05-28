@@ -134,7 +134,7 @@ function goReset() {
 
 
 
-<div class="container">
+<div class="mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -191,15 +191,14 @@ function goReset() {
                             <label>할인 종류 <span class="text-danger">*</span></label>
                             <div class="row mx-0">
                                 <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" checked>
+                                    <div class="form-check" style="position: relative;">
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" checked style="position: absolute; left: -190px;">
                                         <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
-                                      
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount">
+                                    <div class="form-check" style="position: relative;">
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" style="position: absolute; left: -190px;">
                                         <label class="form-check-label" for="amountDiscount">금액 할인</label>
                                     </div>
                                 </div>

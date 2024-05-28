@@ -36,7 +36,7 @@ public class ProductFind extends AbstractController {
 		
 		List<ProductVO> productList = pdao.getProductList(searchWord);
 	
-		if(productList == null) {
+		if(productList.isEmpty()) {
 			String message = "검색하신 상품이 존재하지 않습니다.";
 	        String loc = "javascript:history.back()";
 	         

@@ -86,9 +86,8 @@
       <!-- <script src="js/custom.js"></script> -->
 
       <style>
-		body {
+		h2 {
             font-family: Arial, sans-serif;
-
         }
       
       	.event-container {

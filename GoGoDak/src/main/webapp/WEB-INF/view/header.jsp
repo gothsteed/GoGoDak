@@ -28,6 +28,9 @@
 
 <%-- 직접 만든 CSS --%>
 <style type="text/css">
+	h1,h2,h3,h4,h5,h6{
+		font-family: Arial, sans-serif !important;
+	}
 	/* autocomplete */
 	.search_form{
 		position: relative;
@@ -182,6 +185,9 @@
 	}
 	.tooltipbottom:hover .tooltiptext {
   		opacity: 1;
+	}
+	input{
+		text-transform: none !important;
 	}
 </style>
 

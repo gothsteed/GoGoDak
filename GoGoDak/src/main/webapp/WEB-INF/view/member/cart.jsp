@@ -297,7 +297,7 @@ String ctxPath = request.getContextPath();
 
 <section class="why_section layout_padding">
     <div class="cart">
-        <h2>장바구니 목록</h2>
+        <h1 style="text-align: center;">장바구니 목록</h1>
         <br>
         <form action="">
             <div class="cart-list">
@@ -330,31 +330,31 @@ String ctxPath = request.getContextPath();
                 <br>
                 <form method="POST">
                     <div class="form-group">
-                        <label for="postcode">우편번호</label>
+                        <label for="postcode" class="h5">우편번호</label>
                         <input type="text" id="postcode" name="postcode" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.postcode}">
                         <button type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
                     </div>
                     <div class="form-group">
-                        <label for="address">주소</label>
-                        <input type="text" id="address" name="address" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address}">
+                        <label for="address" class="h5">주소</label>
+                        <input type="text" id="address" name="address" placeholder="주소를 입력하세요" value="${sessionScope.loginuser.address}">
                     </div>
                     <div class="form-group">
-                        <label for="detailAddress">상세주소</label>
+                        <label for="detailAddress" class="h5">상세주소</label>
                         <input type="text" id="detailAddress" name="address_detail" placeholder="상세주소를 입력하세요" value="${sessionScope.loginuser.address_detail}">
                     </div>
                     <div class="form-group">
-                        <label for="extraAddress">참고사항</label>
-                        <input type="text" id="extraAddress" name="address_extra" placeholder="우편번호를 입력하세요" value="${sessionScope.loginuser.address_extra}">
+                        <label for="extraAddress" class="h5">참고사항</label>
+                        <input type="text" id="extraAddress" name="address_extra" placeholder="참고사항을 입력하세요" value="${sessionScope.loginuser.address_extra}">
                     </div>
                     
                     
                     <div class="form-group">
-                        <label for="delivery_message">배송 메시지</label>
+                        <label for="delivery_message" class="h5">배송 메시지</label>
                         <input type="text" id="delivery_message" name="delivery_message">
                     </div>
                 </form>
             </div>
-            <div class="text-position">
+            <div class="text-position container">
                 <div class="points-use">
                     <c:if test="${empty sessionScope.loginuser}">
                         <label for="points">포인트 사용(최대: <span id="availablePointsSpan">0</span>):
@@ -371,18 +371,21 @@ String ctxPath = request.getContextPath();
 
                 </div>
             </div>
-            <div class="total">
+            <div class="total container">
                 <p>총 가격: <span id="totalCost"></span></p>
                 <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다 (*단, 포인트 사용시 적립X*)</p>
+                <button type="submit" onclick="goPurchase()">구매하기</button>
             </div>
-            <button type="submit" onclick="goPurchase()">구매하기</button>
         </form>
     </div>
 </section>
 
 
 <style>
- .cart {
+h1, h2 {
+	font-family: Arial, sans-serif;
+}
+.cart {
     max-width: 80%;
     margin: auto;
 }
@@ -424,7 +427,6 @@ String ctxPath = request.getContextPath();
     font-size: 16px;
 }
 button {
-    margin-top: 20px;
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
