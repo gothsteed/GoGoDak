@@ -102,7 +102,35 @@ FROM
 (
     select manufacturer_seq, manufacturer_name
     from tbl_manufacturer 
-    where manufacturer_seq = '1'
+    where manufacturer_seq = '2'
 ) M
 JOIN tbl_product P
 ON P.fk_manufacturer_seq = M.manufacturer_seq
+
+-----------------------------------------------------------------------
+
+desc tbl_product;
+
+select *
+from tbl_product;
+
+update tbl_product set FK_MANUFACTURER_SEQ = 3
+where PRODUCT_NAME = '닭가슴살 곤약볶음밥 퀴노아 잡채볶음밥';
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
