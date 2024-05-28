@@ -227,6 +227,32 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 	color: #ffa500;
 }
 </style>
+<script>
+
+
+
+
+function goEdit() {
+	const frm = document.productRegisterEdit;
+	frm.action = "<%=contextPath%>/admin/productRegisterEdit.dk";
+    frm.method = "post";
+    frm.submit();
+
+}
+
+
+function goDelete() {
+    if (confirm("정말로 이 상품을 삭제하시겠습니까?")) {
+        const frm = document.productRegisterEdit;
+        frm.action = "<%=contextPath%>/admin/productRegisterEditDelete.dk";
+        frm.method = "post";
+        frm.submit();
+		}
+    }
+
+
+
+</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -239,6 +265,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 	<section class="why_section layout_padding">
 		<div class="container">
 			<div class="row">
+			
 				<div class="col-md-6">
 					<div class="product_image">
 						<img
@@ -246,6 +273,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 							alt="Product Name" style="width: 100%;">
 					</div>
 				</div>
+			
 				<div class="col-md-6">
 					<div class="product_detail">
 						<h2>
@@ -262,7 +290,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
                                           <span style="color: red">
                                           	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
                                           </span>
-
+											
 										</c:when>
 										<c:when test="${product.discount_type == 'amount'}">
                             			  <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
@@ -329,7 +357,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 							</div>
 
 
-
+	
 							<button class="btn btn-dark"
 								onclick="goToCart(${requestScope.product.product_seq})">바로
 								구매하기</button>
@@ -338,6 +366,16 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 							<button class="btn btn-secondary"
 								onclick="addToCart(${requestScope.product.product_seq})">장바구니
 								넣기</button>
+								  
+							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
+							  <button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
+							</c:if>
+							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
+								<button type="button" class="btn btn-light" onclick="goDelete()">삭제</button>
+								
+							</c:if>
+						
+					
 						</div>
 					</div>
 				</div>
@@ -439,13 +477,37 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 									<button type="button" class="btn btn-primary"
 										onclick="submitReview()">등록</button>
 								</div>
+							
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</section>
+	<form name="productRegisterEdit" method="post" enctype="multipart/form-data">
+       <input type="hidden" name="fk_manufacturer_seq" value="${requestScope.product.fk_manufacturer_seq}">
+        <input type="hidden" name="product_seq" value="${requestScope.product.product_seq}">
+        <input type="hidden" name="product_name" value="${requestScope.product.product_name}">
+        <%--int로 형변환 과정 --%>
+        <c:set var="basePrice" value="${requestScope.product.base_price}" />
+		<fmt:formatNumber value="${basePrice}" type="number" var="formattedBasePrice" /> 
+		<input type="hidden" name="base_price" value="${formattedBasePrice}" /> 
+        <%--int로 형변환 과정 --%>
+        <c:set var="discountAmount" value="${requestScope.product.discount_amount}" />
+		<fmt:formatNumber value="${discountAmount}" type="number" var="formattedDiscountAmount" />
+        <input type="hidden" name="discount_amount" value="${formattedDiscountAmount}" />
+        
+        <input type="hidden" name="stock" value="${requestScope.product.stock}">
+        <input type="hidden" name="description" value="${requestScope.product.description}">
+        <input type="hidden" name="discount_type" value="${requestScope.product.discount_type}">
+        <input type="hidden" name="discount_amount" value="${requestScope.product.discount_amount}">
+        <input type="hidden" name="product_type" value="${requestScope.product_type}">
+    </form>
+	
+	
+ 		
 	<!-- end why section -->
 
 	<!-- footer section -->
@@ -547,6 +609,7 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
             }
         });
     }
+
 
 
 

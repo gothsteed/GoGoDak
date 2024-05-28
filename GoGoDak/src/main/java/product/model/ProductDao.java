@@ -23,7 +23,16 @@ public interface ProductDao {
 
 	
 	//상품등록
-	int productregister(ProductVO pvo) throws SQLException;
+	int productregister(ProductVO pvo) throws Exception;
 
+	
+	//상품 수정 
+	int updateProduct(ProductVO pvo) throws SQLException;
+	
+	//상품 selectseq
+	int productSelectBySeq(int product_seq) throws Exception;
+
+	//상품 삭제 
+	int deletedProduct(ProductVO productDelete) throws Exception;
 
 }
