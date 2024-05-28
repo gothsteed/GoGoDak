@@ -30,9 +30,11 @@ public class Brand extends AbstractController {
 		
 		String manufacturer_seq = request.getParameter("manufacturer_seq");
 		
+		System.out.println("확인용 =>"+ manufacturer_seq);
+		
 		List<ProductVO> brandProductList = pdao.getBrandProductList(manufacturer_seq);
 		
-		if(brandProductList == null) {
+		if(brandProductList.isEmpty()) {
 			String message = "해당 브랜드의 상품이 존재하지 않습니다.";
 	        String loc = "javascript:history.back()";
 	         
@@ -45,8 +47,14 @@ public class Brand extends AbstractController {
 		else {
 			request.setAttribute("productList", brandProductList);
 			
-			if(manufacturer_seq == "1") {
-				request.setAttribute("title", "딜리스틱");
+			if(manufacturer_seq.equals("1")) {
+				request.setAttribute("title", ">> 딜리스틱 <<");
+			}
+			else if(manufacturer_seq.equals("2")) {
+				request.setAttribute("title", ">> 닥터리브 <<");
+			}
+			else if(manufacturer_seq.equals("3")){
+				request.setAttribute("title", ">> 제로아워 <<");
 			}
 			
 			super.setRedirect(false);

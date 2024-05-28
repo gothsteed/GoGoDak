@@ -539,10 +539,6 @@ public class ProductDao_Imple implements ProductDao {
 			
 			rs = pstmt.executeQuery();
 			
-			if(!rs.next()) {
-				brandProductList = null;
-			}
-			
 			while(rs.next()) {
 				ProductVO pvo = new ProductVO();
 				ManufacturerVO mvo = new ManufacturerVO();
