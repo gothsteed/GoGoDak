@@ -69,9 +69,9 @@ public interface MemberDao {
 	// 입력받은 id 를 가지고 한명의 회원정보를 리턴시켜주는 메소드
 	MemberVO selectOneMember(String id) throws SQLException;
 	//1:1문의 페이징처리
-	List<QuestionVO> getQuestionBoard(int currentPage, int blockSize)throws SQLException;
+	List<QuestionVO> getQuestionBoard(Map<String, String> paraMap)throws SQLException;
 	//1:1문의 총 페이지수 알아오기  혜선
-	int getQuestionTotalPage(int blockSize)throws SQLException;
+	int getQuestionTotalPage(Map<String, String> paraMap)throws SQLException; //수정
 	//1:1문의사항 작성하기
 	int questionWrite(QuestionVO question)throws SQLException;
 	//1:1문의사항 디테일보기
@@ -83,6 +83,19 @@ public interface MemberDao {
     int questionDelete(QuestionVO questionDelete)throws SQLException;
     //답변확인
 	boolean isAnswer(int question)throws SQLException;
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	int getTotalQuestionCount(Map<String, String> paraMap)throws SQLException;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 

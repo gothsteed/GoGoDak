@@ -71,7 +71,6 @@ div#pageBar>nav {
  }
  
 
-
 </style>
 
 
@@ -100,7 +99,24 @@ $(document).ready(function() {
 
 });//end of ------------------------
 
-
+function goSearch(){
+	
+	
+	const searchType = $("select[name='searchType']").val();
+	
+	if(searchType == ""){
+		alert("검색대상을 선택하세요!!");
+		return;//종료
+	}
+	
+	const frm = document.member_search_frm; //회원을 찾는 폼
+	// frm.action = "memberList.up";
+	// form 태그에 action 이 명기되지 않았으면 현재보이는 URL 경로로 submit 되어진다.
+	// frm.method = "get";
+	// form 태그에 method 를 명기하지 않으면 "get" 방식이다.
+	frm.submit();
+	
+}//end of function goSearch()-----------------	
 
 
 
@@ -138,15 +154,19 @@ $(document).ready(function() {
       </thead>
 
          <tbody>
-            <c:if test="${not empty requestScope.questionList}">
-               <c:forEach var="question" items="${requestScope.questionList}" >
-                  <c:if test="${sessionScope.loginuser.id == question.id || sessionScope.loginuser.id == 'admin'}">
-                     <tr class="questioninfo">
-                        <td class="question_seq">${question.question_seq}</td>  <%--번호--%>    
-                        <td>${question.title}</td>                          		<%--제목 --%>
-                        <td>${question.ragisterdate}</td>                   		<%--작성일 --%>
-                        <td>${question.id}</td>                        				<%--작성자 --%>
-                       <td>
+            <c:if test="${not empty requestScope.questionList}" >
+               <c:forEach var="question" items="${requestScope.questionList}" varStatus="status">
+                  <c:if test="${sessionScope.loginuser.id == question.id || sessionScope.loginuser.id == 'admin'}" >
+                     <tr class="questioninfo" >
+                     	<fmt:parseNumber var="currentPage" value="${requestScope.currentPage}"/>
+          				<fmt:parseNumber var="blockSize" value="${requestScope.blockSize}"/>
+          				
+          				<td>${(requestScope.totalQuestionCount) -( currentPage - 1 ) * blockSize-(status.index)}</td>
+                        <td class="question_seq" style="display:none;">${question.question_seq}</td>  <%--번호--%>    
+                        <td>${question.title}</td>                          						  <%--제목 --%>
+                        <td>${question.ragisterdate}</td>                   		                  <%--작성일 --%>
+                        <td>${question.id}</td>                        				                  <%--작성자 --%>
+                        <td>
                            <c:choose>
                                <c:when test="${question.hasAnswer}">
                                    답변완료
@@ -155,7 +175,7 @@ $(document).ready(function() {
                                    미답변
                                </c:otherwise>
                            </c:choose>
-                       </td>
+                        </td>
                      </tr>
                   </c:if>
                </c:forEach>
@@ -170,31 +190,27 @@ $(document).ready(function() {
    </table>
 
    &nbsp;
-   <%--
+   <c:if test="${sessionScope.loginuser.id == 'admin'}">
    <form class="text-center mb-5 " name="member_search_frm" style="align-items: baseline;">
-
-
       <select name="searchType1" style="height: 41px;">
          <option value="">전체</option>
-         <option value="name">미답변</option>
-         <option value="userid">답변완료</option>
+         <option value="noAnswer">미답변</option>
+         <option value="yesAnswer">답변완료</option>
       </select> &nbsp;
 
       <select name="searchType2" style="height: 41px;">
-         <option value="">제목</option>
-         <option value="name">내용</option>
-         <option value="userid">아이디</option>
-         <option value="email">이메일</option>
+         
+         <option value="">전체</option>
+         <option value="id">아이디</option>
       </select> &nbsp; 
       
-      <input type="text" name="searchWord" style="height: 40px;" />
+      <input type="text" name="searchWord" style="height: 40px; text-transform: none !important;"  />
       <input type="text"style="display: none;" />
          
 
       <button type="button" class="btn btn-secondary" onclick="goSearch()">찾기</button>
-
    </form>
- --%>
+	</c:if>
 
 
    <div id="pageBar">

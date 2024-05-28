@@ -825,77 +825,126 @@ public class MemberDao_Imple implements MemberDao {
 	
 	//1:1문의 페이징처리
 	@Override
-	public List<QuestionVO> getQuestionBoard(int currentPage, int blockSize) throws SQLException {
-		List<QuestionVO> questionList = new ArrayList<>();
+	public List<QuestionVO> getQuestionBoard(Map<String, String> paraMap) throws SQLException {
+		   List<QuestionVO> questionList = new ArrayList<>();
 
-		try {
-			conn = ds.getConnection();
+	        try {
+	            conn = ds.getConnection();
 
-			String sql = "SELECT * "
-					   + "From( "
-					   + "    select rownum as rno, question_seq ,id , title ,  registerday as ragisterdate "
-					   + "    from tbl_question"
-					   + "	  ORDER BY question_seq desc) "
-					   + "WHERE rno between ? and ? ";
-					
+	            String sql = "SELECT * "
+	                       + "FROM ( "
+	                       + "    SELECT rownum as rno, question_seq, id, title, registerday as ragisterdate "
+	                       + "    FROM ( "
+	                       + "        SELECT A.question_seq, A.id, A.title, A.registerday "
+	                       + "        FROM tbl_question A ";
 
+	            String colname1 = paraMap.get("searchType1");
+	            String colname2 = paraMap.get("searchType2");
+	            String searchWord = paraMap.get("searchWord");
 
-			pstmt = conn.prepareStatement(sql);
+	            if ("yesAnswer".equals(colname1)) { // 답변 완료인 경우
+	                sql += "INNER JOIN tbl_answer B ON A.question_seq = B.fk_question_seq ";
+	            } else if ("noAnswer".equals(colname1)) { // 미답변인 경우
+	                sql += "LEFT JOIN tbl_answer B ON A.question_seq = B.fk_question_seq WHERE B.fk_question_seq IS NULL ";
+	            }
 
-	
-			pstmt.setLong(1, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
-			pstmt.setLong(2, (currentPage * blockSize));
+	            if (colname2 != null && searchWord != null && !searchWord.trim().isEmpty()) {
+	                if ("yesAnswer".equals(colname1) || "noAnswer".equals(colname1)) {
+	                    sql += "AND " + colname2 + " LIKE '%' || ? || '%' ";
+	                } else {
+	                    sql += "WHERE " + colname2 + " LIKE '%' || ? || '%' ";
+	                }
+	            }
 
+	            sql += "ORDER BY A.registerday DESC "
+	                 + "    ) V "
+	                 + "    ) T "
+	                 + "WHERE T.rno BETWEEN ? AND ?";
 
-			rs = pstmt.executeQuery();
+	            pstmt = conn.prepareStatement(sql);
 
-			while (rs.next()) {
+	            int currentPage = Integer.parseInt(paraMap.get("currentPage"));
+	            int blockSize = Integer.parseInt(paraMap.get("blockSize"));
 
-				QuestionVO qvo = new QuestionVO();
-				qvo.setQuestion_seq(rs.getInt("question_seq"));
-				qvo.setTitle(rs.getString("title"));
-				qvo.setRagisterdate(rs.getDate("ragisterdate"));
-				qvo.setId(rs.getString("id"));
-				
-		
-				questionList.add(qvo);
-			} // end of while(rs.next())---------------------
+	            int startRow = (currentPage - 1) * blockSize + 1;
+	            int endRow = currentPage * blockSize;
 
-		} finally {
-			close();
-		}
+	            int paramIndex = 1;
+	            if (colname2 != null && searchWord != null && !searchWord.trim().isEmpty()) {
+	                pstmt.setString(paramIndex++, searchWord);
+	            }
+	            pstmt.setInt(paramIndex++, startRow);
+	            pstmt.setInt(paramIndex++, endRow);
 
-		return questionList;
+	            rs = pstmt.executeQuery();
+
+	            while (rs.next()) {
+	                QuestionVO qvo = new QuestionVO();
+	                qvo.setQuestion_seq(rs.getInt("question_seq"));
+	                qvo.setTitle(rs.getString("title"));
+	                qvo.setRagisterdate(rs.getDate("ragisterdate"));
+	                qvo.setId(rs.getString("id"));
+
+	                questionList.add(qvo);
+	            }
+
+	        } finally {
+	            close();
+	        }
+
+	        return questionList;
 	}
 
 	@Override
-	public int getQuestionTotalPage(int blockSize)throws SQLException {
+	public int getQuestionTotalPage(Map<String, String> paraMap)throws SQLException {
 
 		int getQuestionTotalPage = 0;
 
-		try {
-			conn = ds.getConnection();
-
-			String sql = " select ceil(count(*)/?) as pgn "
-					   + " from tbl_question ";
-					   
 
 
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, blockSize);
-			
-			rs = pstmt.executeQuery();
+	    try {
+	        conn = ds.getConnection();
 
-			if (rs.next()) {
-				getQuestionTotalPage = rs.getInt(1);
-				
-			} // end of while(rs.next())---------------------
+	        String sql = "SELECT ceil(count(*)/?) as pgn FROM tbl_question A ";
+	        
+	        String colname1 = paraMap.get("searchType1");
+	        String colname2 = paraMap.get("searchType2");
+	        String searchWord = paraMap.get("searchWord");
 
-		} finally {
-			close();
-		}
+	        if ("yesAnswer".equals(colname1)) { // 답변 완료인 경우
+	            sql += " JOIN tbl_answer B ON A.question_seq = B.fk_question_seq ";
+	        } else if ("noAnswer".equals(colname1)) { // 미답변인 경우
+	            sql += " LEFT JOIN tbl_answer B ON A.question_seq = B.fk_question_seq WHERE B.fk_question_seq IS NULL ";
+	        }
 
-		return getQuestionTotalPage;
+	        // 검색어가 있는 경우 처리
+	        if (colname2 != null && searchWord != null && !searchWord.trim().isEmpty()) {
+	            if ("yesAnswer".equals(colname1) || "noAnswer".equals(colname1)) {
+	                sql += "AND " + colname2 + " LIKE '%' || ? || '%' ";
+	            } else {
+	                sql += "WHERE " + colname2 + " LIKE '%' || ? || '%' ";
+	            }
+	        }
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, Integer.parseInt(paraMap.get("blockSize")));
+
+	        // 검색어가 있는 경우 파라미터 설정
+	        if (colname2 != null && searchWord != null && !searchWord.trim().isEmpty()) {
+	            pstmt.setString(2, searchWord);
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            getQuestionTotalPage = rs.getInt(1);
+	        }
+
+	    } finally {
+	        close();
+	    }
+
+	    return getQuestionTotalPage;
 	}
 
 	
@@ -1030,7 +1079,53 @@ public class MemberDao_Imple implements MemberDao {
 		
 		return result;
 	}
-
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	@Override
+	public int getTotalQuestionCount(Map<String, String> paraMap) throws SQLException {
+		int totalMemberCount = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	          
+	         String sql = " Select count(*)  "
+		         		+ " From tbl_question ";
+		         	
+		         		
+		         		
+	         String colname1 = paraMap.get("searchType1");
+	         String colname2 = paraMap.get("searchType2");
+	         String searchWord = paraMap.get("searchWord");
+	         
+	        
+	         if( (colname1 != null && !colname1.trim().isEmpty() ) &&
+	        	 (colname2 != null && !colname2.trim().isEmpty() ) && 
+	        	 (searchWord != null && !searchWord.trim().isEmpty()) ){
+	        	 
+		         sql += " where " + colname2 + " like '%'|| ? ||'%' ";
+		         // 컬럼명과 테이블명은 위치홀더(?)로 사용하면 꽝!!! 이다.
+	             // 위치홀더(?)로 들어오는 것은 컬럼명과 테이블명이 아닌 오로지 데이터값만 들어온다.!!!!
+	         }
+	         
+	         pstmt = conn.prepareStatement(sql); 
+	         
+	         if( (colname1 != null && !colname1.trim().isEmpty() ) &&
+	        	 (colname2 != null && !colname2.trim().isEmpty() ) && 
+	        	 (searchWord != null && !searchWord.trim().isEmpty()) ){ //검색이 있을때 
+	        	 pstmt.setString(1, searchWord);
+	         }
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalMemberCount = rs.getInt(1); //값이 몇개인지 리턴되어지는 것 ->totalMemberCount 로 담아줌
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalMemberCount;
+	}
 
 
 	
