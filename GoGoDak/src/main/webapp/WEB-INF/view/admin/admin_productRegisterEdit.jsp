@@ -110,7 +110,7 @@ function validateForm() {
 
 
 
-
+//수정하기
 function goeditend() {
 	
 	const frm = document.boardFrm;
@@ -121,14 +121,31 @@ function goeditend() {
 }
 
 
-
+//취소하기
 function goReset() {
     history.back(); // 이전 페이지로 이동
   }
 
 
+//할인없음 나오게 이벤트
+document.addEventListener('DOMContentLoaded', function() {
+    var discountAmountInput = document.getElementById('discountAmount');
+    var discountTypeNoDiscount = document.getElementById('discountTypeNoDiscount');
 
+    function checkDiscountAmount() {
+        if (parseInt(discountAmountInput.value.trim()) === 0) {
+            discountTypeNoDiscount.style.display = 'block';
+        } else {
+            discountTypeNoDiscount.style.display = 'none';
+        }
+    }
 
+    // 페이지 로드 시 확인
+    checkDiscountAmount();
+
+    // 입력이 변경될 때마다 확인
+    discountAmountInput.addEventListener('input', checkDiscountAmount);
+});
 </script>
 
 
@@ -205,7 +222,7 @@ function goReset() {
                         <div class="form-group">
 						    <label for="discountValue">할인 금액 또는 퍼센트 <span class="text-danger">*</span></label>
 						    <input type="number" name="discount_amount" id="discountValue" class="form-control infoData" value="${requestScope.discount_amount}">
-						    <span class="error">필수입력</span>
+						    <span id="discountTypeNoDiscount" class="text-danger" style="display: none;">할인 없음</span>
 						</div>
                      
                 
@@ -214,10 +231,10 @@ function goReset() {
 				    <label for="category">상품타입 <span class="text-danger">*</span></label>
 				    <select name="product_type" class="form-control infoData">
 				        <option value="">:::선택하세요:::</option>
-				        <option value="1" ${requestScope.produce_type == "1" ? 'selected' : ''}>1.🍗닭가슴살🍗</option>
-				        <option value="2" ${requestScope.product_type == "2" ? 'selected' : ''}>2.🍱볶음밥🍱</option>
-				        <option value="3" ${requestScope.product_type == "3" ? 'selected' : ''}>3.🥯빵🥯</option>
-				        <option value="4" ${requestScope.product_type == "4" ? 'selected' : ''}>4.🧁디저트🧁</option>
+				        <option value="1" ${requestScope.produce_type == "1" ? 'selected' : true}>1.🍗닭가슴살🍗</option>
+				        <option value="2" ${requestScope.product_type == "2" ? 'selected' : true}>2.🍱볶음밥🍱</option>
+				        <option value="3" ${requestScope.product_type == "3" ? 'selected' : true}>3.🥯빵🥯</option>
+				        <option value="4" ${requestScope.product_type == "4" ? 'selected' : true}>4.🧁디저트🧁</option>
 				    </select>
 				    <span class="error">필수입력</span>
 				</div>
@@ -258,7 +275,7 @@ function goReset() {
                   
                         <div class="form-group text-center">
                             <button type="button" class="btn btn-success btn-submit mr-3" onclick="goeditend()">수정</button>
-                            <button type="reset" class="btn btn-secondary btn-submit"  onclick="goReset()">초기화</button>
+                            <button type="reset" class="btn btn-secondary btn-submit"  onclick="goReset()">취소</button>
                         </div>
 
 

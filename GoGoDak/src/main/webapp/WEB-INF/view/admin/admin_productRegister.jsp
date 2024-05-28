@@ -75,7 +75,17 @@ function validateField(field) {
         } else if (field.attr("id") === "stock") {
             errorMsg = "재고는 양수만 가능합니다.";
         } else if (field.attr("id") === "discountValue") {
-            errorMsg = "할인 금액 또는 퍼센트는 양수만 가능합니다.";
+            if ($("input[name='discount_type']:checked").val() === "percent") {
+                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) > 100) {
+                    errorMsg = "퍼센트 할인은 1부터 100까지만 가능합니다.";
+                    isValid = false;
+                }
+            } else if ($("input[name='discount_type']:checked").val() === "amount") {
+                if (parseFloat(field.val()) >= parseFloat($("#price").val())) {
+                    errorMsg = "할인 금액은 상품 가격보다 작아야 합니다.";
+                    isValid = false;
+                }
+            }
         }
     }
 
@@ -101,7 +111,7 @@ function validateForm() {
     $("#price, #stock, #discountValue").each(function() {
         if (!validateField($(this))) {
             isValid = false;
-            return false;  // 루프 종료
+            return false; // 루프 종료
         }
     });
 
@@ -190,17 +200,22 @@ function goReset() {
                         <div class="form-group">
                             <label>할인 종류 <span class="text-danger">*</span></label>
                             <div class="row mx-0">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" checked>
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" style="margin-left: 35px;" checked>
                                         <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
-                                      
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount">
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" style="margin-left: 35px;">
                                         <label class="form-check-label" for="amountDiscount">금액 할인</label>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" style="margin-left: 35px;">
+                                        <label class="form-check-label" for="amountDiscount">할인없음</label>
                                     </div>
                                 </div>
                             </div>

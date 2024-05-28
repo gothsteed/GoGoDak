@@ -108,7 +108,7 @@ public class ProductRegister extends AbstractController {
 
         if (result == 1) {
             String message = "상품이 등록 되었습니다.";
-            String loc = request.getContextPath() + "/product/event.dk";
+            String loc = request.getContextPath() + "/index.dk";
 
             request.setAttribute("message", message);
             request.setAttribute("loc", loc);
