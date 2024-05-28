@@ -26,9 +26,6 @@ public class Question extends AbstractController {
 		if (super.checkLogin(request)) {
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			String id = loginuser.getId();
-			System.out.println("id" + id);
-
-			String question = request.getParameter("question_seq");
 
 			int blockSize = 8; // 한번에 보여주는 페이지 수
 			int currentPage;
@@ -45,17 +42,23 @@ public class Question extends AbstractController {
 			}
 
 			List<QuestionVO> questionList = mdao.getQuestionBoard(currentPage, blockSize);
-
+			
+			 for (QuestionVO q : questionList) {
+	                boolean isAnswer = mdao.isAnswer(q.getQuestion_seq());
+	                q.setHasAnswer(isAnswer);
+	            }
+			
+			
+			
 			// pageBar
 
 			int loop = 1;
 			int pageNo = ((currentPage - 1) / blockSize) * blockSize + 1;
 
-			String pageBar = "<li class='page-item'><a class='page-link' href='notice.dk?seq=" + question
-					+ "&page=1'>[맨처음]</a></li>";
+			String pageBar = "<li class='page-item'><a class='page-link' href='question.dk?seq=page=1'>[맨처음]</a></li>";
 
 			if (pageNo != 1) {
-				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+				pageBar += "<li class='page-item'><a class='page-link' href='question.dk?page="
 						+ (pageNo - 1) + "'>[이전]</a></li>";
 			}
 
@@ -72,8 +75,7 @@ public class Question extends AbstractController {
 					pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 				} else {
 
-					pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
-							+ pageNo + "'>" + pageNo + "</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='question.dk?page=" + pageNo + "'>" + pageNo + "</a></li>";
 				}
 
 				loop++;
@@ -83,14 +85,15 @@ public class Question extends AbstractController {
 				pageNo++;
 
 			}
-			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+			pageBar += "<li class='page-item'><a class='page-link' href='question.dk?page="
 					+ (totalPageNum) + "'>[맨마지막]</a></li>";
 
 			// 다음 마지막 만들기
 			if (pageNo <= totalPageNum) {
-				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + question + "&page="
+				pageBar += "<li class='page-item'><a class='page-link' href='question.dk?page="
 						+ (currentPage + 1) + "'>[다음]</a></li>";
 			}
+			
 			request.setAttribute("id", id);
 			request.setAttribute("questionList", questionList);
 			request.setAttribute("pageBar", pageBar);

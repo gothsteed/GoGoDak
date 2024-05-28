@@ -119,6 +119,44 @@
     function goBack() {
         window.history.back();
     }
+    
+    
+    function changeToShipped() {
+    	
+    	const order_seq = $("input#order_seq").val();
+    	console.log(order_seq)
+    	
+/*  		$("#shipButton").hide()
+		$("#deliverystatus").text("출고 완료");
+ */
+					
+    	
+    	 $.ajax({
+             url: '<%=ctxPath%>/admin/ship.dk',
+             type: 'post',
+             dataType: 'json',
+             data: {"order_seq": order_seq},
+             success: function(response) {
+                 if (response.success) {
+					alert("!!출고 완료!!")
+					$("#shipButton").hide()
+					$("#deliverystatus").text("출고 완료");
+
+			
+                 } else {
+                 	console.log(response.message)
+                     alert('변경 실패: ' + response.message);
+                 }
+             },
+             error: function(xhr, status, error) {
+             	console.log(error)
+                 alert('변경 실패: ' + error);
+             }
+         });
+    	
+    	
+    	
+    }
 </script>
 
 <div class="container">
@@ -128,11 +166,11 @@
     <table>
         <tr>
             <th>아이디</th>
-            <td><c:out value="${pvo.id}" /></td>
+            <td><c:out value="${order.mdto.id}" /></td>
         </tr>
         <tr>
             <th>회원명</th>
-            <td><c:out value="${pvo.name}" /></td>
+            <td><c:out value="${order.mdto.name}" /></td>
         </tr>
     </table>
 
@@ -145,13 +183,25 @@
     	<th>합계</th>
         </tr>
         <tr>
-            <td class="product-info">
-                <c:out value="${pvo.product_name}" />
+<%--             <td class="product-info">
+                <c:out value="${order.product_name}" />
             </td>
-            <td><c:out value="${pvo.stock}" /></td>
-            <td><c:out value="${pvo.base_price}" />원</td>
+            <td><c:out value="${order.stock}" /></td>
+            <td><c:out value="${order.base_price}" />원</td>
 
-            <td><c:out value="${pvo.discount_amount}" />원</td>
+            <td><c:out value="${order.discount_amount}" />원</td> --%>
+            
+            <c:forEach var="product" items="${requestScope.productList}">
+		        <tr>
+		  			<td class="product-info">
+		                <c:out value="${product.product_name}" />
+		            </td>
+		            <td><c:out value="${product.stock}" /></td>
+		            <td><fmt:formatNumber value="${product.discountPrice}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
+		
+		            <td><c:out value="${product.quantity}" />개</td> 
+		        </tr>
+            </c:forEach>
         </tr>
     </table>
 
@@ -163,23 +213,37 @@
         </tr>
         <tr>
             <th>수령인</th>
-            <td><c:out value="${pvo.name}" /></td>
+            <td><c:out value="${order.mdto.name}" /></td>
         </tr>
         <tr>
             <th>배송지 주소</th>
-            <td><c:out value="${pvo.address}" /></td>
+            <td>${order.postcode} ${order.address}  ${order.address_detail} ${order.address_extra} </td>
         </tr>
         <tr>
             <th>연락처</th>
-            <td><c:out value="${pvo.tel}" /></td>
+            <td><c:out value="${order.mdto.tel}" /></td>
         </tr>
         <tr>
             <th>배송 메모</th>
-            <td>부재 시 문 앞에 놔주세요.</td>
+            <td>${order.delivery_message}</td>
         </tr>
         <tr>
             <th>주문자 정보</th>
-            <td><c:out value="${pvo.name}" /></td>
+            <td><c:out value="${order.mdto.name}" /></td>
+        </tr>
+        <tr>
+            <th>배송 상태</th>
+            <td id="deliverystatus">
+            
+            	<c:if test="${order.deliverystatus== 0}">
+            		미출고
+            	</c:if>
+                <c:if test="${order.deliverystatus!= 0}">
+            		출고완료
+            	</c:if>
+            	
+            
+            </td>
         </tr>
     </table>
 
@@ -200,7 +264,7 @@
                 <tr>
                     <th colspan="2">결제 상세 정보</th>
                 </tr>
-                <tr>
+<%--                 <tr>
                     <th>상품금액</th>
                     <td><c:out value="${pvo.total_pay}" />원</td>
                 </tr>
@@ -211,16 +275,22 @@
                 <tr>
                     <th>포인트 사용</th>
                     <td></td>
-                </tr>
+                </tr> --%>
                 <tr>
                     <th>최종 결제금액</th>
-                    <td><c:out value="${pvo.total_pay - pvo.discount_amount}" />원</td>
+                    <td><fmt:formatNumber value="${order.total_pay}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
                 </tr>
             </table>
         </div>
     </div>
+    
+    <input  id="order_seq" type="hidden" value="${order.order_seq}">
 
     <div class="btn-container">
-        <button class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
+        <c:if test="${order.deliverystatus== 0}">
+      		<button id="shipButton" type="button" class="btn btn-danger" onclick="changeToShipped()">출고 완료하기</button>
+      	</c:if>
+        <button type="button"class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
+        
     </div>
 </div>

@@ -1,9 +1,9 @@
 package common.controller;
 
-
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import my.util.MyUtil;
 
 public abstract class AbstractController implements InterCommand {
 	
@@ -26,6 +26,7 @@ public abstract class AbstractController implements InterCommand {
 	
 	private boolean isRedirect = false;
 	private String viewPage;
+	
 	public boolean isRedirect() {
 		return isRedirect;
 	}
@@ -57,10 +58,18 @@ public abstract class AbstractController implements InterCommand {
 		if(memberVo != null) {
 			
 			return true;
-			
 		}
 		
 		return false;
 	}
+	
+	// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것이다.
+	public void goBackURL(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("goBackURL", MyUtil.getCurrentURL(request));
+//		System.out.println("gobak:" + MyUtil.getCurrentURL(request));
+		
+	} // end of public void goBackURL(HttpServletRequest request) ----------
 
 }

@@ -64,7 +64,45 @@ select PRODUCT_NAME, DESCRIPTION, BASE_PRICE, STOCK, MAIN_PIC, DISCRIPTION_PIC
 from tbl_product
 where product_name like '%' || '닭' || '%';
 
+-----------------------------------------------------------------------
 
+select *
+from tbl_board
+order by board_seq desc;
 
+desc tbl_member;
+desc tbl_login_history;
 
+select title, content, pic,board_seq
+from tbl_board 
+where board_seq = 39 
 
+select *
+from tbl_member
+order by member_seq desc;
+
+update tbl_member set exist_status = 0
+where exist_status = 1 and id = 'qwerwqer' and password = '86fdff24aec78a01391e48e30b29bfdc0c47abdbbc6a0b9b833c5bc464a4cdbe';
+-- 1 행 이(가) 업데이트되었습니다.
+
+commit;
+-- 커밋 완료.
+
+-----------------------------------------------------------------------
+
+desc tbl_manufacturer;
+
+desc tbl_product;
+
+select *
+from tbl_manufacturer;
+
+SELECT manufacturer_name, product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number
+FROM
+(
+    select manufacturer_seq, manufacturer_name
+    from tbl_manufacturer 
+    where manufacturer_seq = '1'
+) M
+JOIN tbl_product P
+ON P.fk_manufacturer_seq = M.manufacturer_seq

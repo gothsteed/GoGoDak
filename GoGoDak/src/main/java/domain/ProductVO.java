@@ -20,13 +20,13 @@ public class ProductVO {
     
     
     
-    
-    
+    //tbl_product_list select 용 필드
+    private int quantity;
    
 
-	private MaufacturerVO madto;
+	private ManufacturerVO madto;
     //todo 할인 정보 dto 추가
-    private DiscountVO discountVO;
+    private Discount_eventVO discountVO;
     
     
     
@@ -58,10 +58,10 @@ public class ProductVO {
 		this.discount_amount = discount_amount;
 	}
     
-	public DiscountVO getDiscountVO() {
+	public Discount_eventVO getDiscountVO() {
 		return discountVO;
 	}
-	public void setDiscountVO(DiscountVO discountVO) {
+	public void setDiscountVO(Discount_eventVO discountVO) {
 		this.discountVO = discountVO;
 	}
 	public int getProduct_seq() {
@@ -120,10 +120,10 @@ public class ProductVO {
 	}
 	
 	
-	public MaufacturerVO getMadto() {
+	public ManufacturerVO getMadto() {
 		return madto;
 	}
-	public void setMadto(MaufacturerVO madto) {
+	public void setMadto(ManufacturerVO madto) {
 		this.madto = madto;
 	}
 	public float getDiscountPrice() {
@@ -137,6 +137,14 @@ public class ProductVO {
 		}
 
 		return base_price  - discount_amount;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 

@@ -244,8 +244,8 @@ li a{
     	<div class="icons">
     		<li class="shopMain order">
     			<img src="images/order-icon.png" class="img-fluid" />
-	            <h3><a href="#"><strong style="font-size: 18px;">Order</strong><br><span style="font-size: 16px;">주문내역 조회</span></a></h3>
-	            <p style="font-size: 12px;"><a href="#">고객님께서 주문하신 상품의<br>주문내역을 확인하실 수 있습니다.</a></p>
+	            <h3><a href="<%= ctxPath%>/member/orderList.dk"><strong style="font-size: 18px;">Order</strong><br><span style="font-size: 16px;">주문내역 조회</span></a></h3>
+	            <p style="font-size: 12px;"><a href="<%= ctxPath%>/member/orderList.dk">고객님께서 주문하신 상품의<br>주문내역을 확인하실 수 있습니다.</a></p>
        		</li>
        		<li class="shopMain profile">
        			<img src="images/profile-icon.png" class="img-fluid" />

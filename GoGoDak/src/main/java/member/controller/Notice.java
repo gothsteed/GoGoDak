@@ -24,8 +24,6 @@ public class Notice extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String boardseq = request.getParameter("board_seq");
-		
 		int blockSize = 8;  //한번에 보여주는 페이지 수
 		int currentPage;    
 
@@ -47,12 +45,10 @@ public class Notice extends AbstractController {
 		int loop = 1;
 		int pageNo = ((currentPage - 1) / blockSize) * blockSize + 1;
 
-		String pageBar = "<li class='page-item'><a class='page-link' href='notice.dk?seq=" + boardseq
-				+ "&page=1'>[맨처음]</a></li>";
+		String pageBar = "<li class='page-item'><a class='page-link' href='notice.dk?page=1'>[맨처음]</a></li>";
 
 		if (pageNo != 1) {
-			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq
-					+ "&page=" + (pageNo - 1) + "'>[이전]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?page=" + (pageNo - 1) + "'>[이전]</a></li>";
 		}
 
 		// 맨처음 맨마지막 만들기
@@ -68,8 +64,7 @@ public class Notice extends AbstractController {
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 			} else {
 
-				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq
-						+ "&page=" + pageNo + "'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?page=" + pageNo + "'>" + pageNo + "</a></li>";
 			}
 
 			loop++;
@@ -79,13 +74,12 @@ public class Notice extends AbstractController {
 			pageNo++;
 
 		}
-		pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq + "&page="
+		pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?page="
 				+ (totalPageNum) + "'>[맨마지막]</a></li>";
 		
 		// 다음 마지막 만들기
 		if (pageNo <= totalPageNum) {
-			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?type=" + boardseq
-					+ "&page=" + (currentPage + 1) + "'>[다음]</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?page=" + (currentPage + 1) + "'>[다음]</a></li>";
 		}
 		
 

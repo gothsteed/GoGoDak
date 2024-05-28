@@ -6,14 +6,12 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-
 import common.controller.AbstractController;
 import discountEvent.model.DiscountEventDao;
 import discountEvent.model.DiscountEventDao_imple;
+import domain.Discount_eventVO;
 import domain.MemberVO;
 import domain.ProductVO;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -21,13 +19,13 @@ import jakarta.servlet.http.Part;
 import product.model.ProductDao;
 import product.model.ProductDao_Imple;
 
-public class Event extends AbstractController {
+public class UpdateEvent extends AbstractController {
 	
 	private ProductDao productDao;
 	private DiscountEventDao discountEventDao;
 	
-	public Event() {
-		productDao = new ProductDao_Imple();
+	public UpdateEvent() {
+		this.productDao = new ProductDao_Imple();
 		discountEventDao = new DiscountEventDao_imple();
 	}
 	
@@ -38,48 +36,37 @@ public class Event extends AbstractController {
 	        return -1;
 	    }
 	}
-
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String method = request.getMethod();
+	
+	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		
-		if(loginuser == null || !loginuser.getId().equals("admin")) {
-			String message = "관리자만 접근이 가능합니다.";
-	        String loc = "javascript:history.back()";
-	         
-	        request.setAttribute("message", message);
-	        request.setAttribute("loc", loc);
-	         
-	        super.setRedirect(false);
-	        super.setViewPage("/WEB-INF/view/msg.jsp");
-	        return;
-		}
-		
-		
-		if(method.equalsIgnoreCase("post")) {
-			postMethod(request, response);
+		int  discount_event_seq ;
+		try {
+			discount_event_seq =  Integer.parseInt(request.getParameter("discount_event_seq"));
+		} catch (NumberFormatException e) {
+			String loc = request.getContextPath() + "/product/event.dk";
+			String message = "행사 수정 실패";
+			
+			request.setAttribute("loc", loc);
+			request.setAttribute("message", message);
+			
+			setRedirect(false);
+			setViewPage("/WEB-INF/view/msg.jsp");
 			return;
 		}
 		
-	
-		
-		
-		List<ProductVO> productList = productDao.getAllProduct();
-		
-		request.setAttribute("productList", productList);
-		
-        super.setRedirect(false);
-        super.setViewPage("/WEB-INF/view/admin/admin_eventWrite.jsp");
-
-	}
-
-	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		String name = request.getParameter("name");
-		int[] selectedProducts = Arrays.stream(request.getParameterValues("product")).mapToInt(Event::safeParseInt).filter(val -> val != -1).toArray();
+		int[] selectedProducts = Arrays.stream(request.getParameterValues("product")).mapToInt(UpdateEvent::safeParseInt).filter(val -> val != -1).toArray();
+		if(name == null ) {
+			String loc = request.getContextPath() + "/product/event.dk";
+			String message = "행사 수정 실패";
+			
+			request.setAttribute("loc", loc);
+			request.setAttribute("message", message);
+			
+			setRedirect(false);
+			setViewPage("/WEB-INF/view/msg.jsp");
+			return;
+		}
 		
 		HttpSession session = request.getSession();
 		String savePath = session.getServletContext().getRealPath("/images/special");
@@ -122,25 +109,20 @@ public class Event extends AbstractController {
 			part.delete();
 			
 		}
+	
 		
-		if(name == null || savedFileName == null) {
-			String loc = request.getContextPath() + "/product/event.dk";
-			String message = "행사 등록 실패";
-			
-			request.setAttribute("loc", loc);
-			request.setAttribute("message", message);
-			
-			setRedirect(false);
-			setViewPage("/WEB-INF/view/msg.jsp");
-			return;
+		int result = 0;
+		if(savedFileName == null) {
+			result = discountEventDao.updateDiscountEvent(discount_event_seq , name,selectedProducts);
+		}
+		else {
+			result = discountEventDao.updateDiscountEvent(discount_event_seq, name, savedFileName, selectedProducts);
 		}
 		
 		
-		int result = discountEventDao.insertDiscountEvent(name, savedFileName, selectedProducts);
-		
 		if(result != 1) {
 			String loc = request.getContextPath() + "/product/event.dk";
-			String message = "행사 등록 실패";
+			String message = "행사 수정 실패";
 			
 			request.setAttribute("loc", loc);
 			request.setAttribute("message", message);
@@ -175,6 +157,60 @@ public class Event extends AbstractController {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+		
+		if(loginuser == null || !loginuser.getId().equals("admin")) {
+			String message = "관리자만 접근이 가능합니다.";
+	        String loc = "javascript:history.back()";
+	         
+	        request.setAttribute("message", message);
+	        request.setAttribute("loc", loc);
+	         
+	        super.setRedirect(false);
+	        super.setViewPage("/WEB-INF/msg.jsp");
+	        return;
+		}
+		
+		String method = request.getMethod();
+		
+		
+		if(method.equalsIgnoreCase("post")) {
+			postMethod(request, response);
+			return;
+		}
+		
+		
+		int discount_event_seq;
+		
+		try {
+			discount_event_seq = Integer.parseInt(request.getParameter("discount_event_seq"));
+		} catch (NumberFormatException e) {
+			super.setRedirect(true);
+			super.setViewPage(request.getContextPath() + "/product/event.dk");
+			return;
+		}
+		
+		
+		Discount_eventVO discount_eventVO = discountEventDao.getDiscountEventBySeq(discount_event_seq);
+		List<ProductVO> productList =  productDao.getAllProduct();
+		List<ProductVO> currentEventProductList = productDao.getProductByDiscountEvent(discount_event_seq);
+		
+		request.setAttribute("productList", productList);
+		request.setAttribute("discount_eventVO", discount_eventVO);
+		request.setAttribute("currentEventProductList", currentEventProductList);
+		
+	
+		
+        super.setRedirect(false);
+        super.setViewPage("/WEB-INF/view/admin/admin_eventWrite.jsp");
+		
+		
+
 	}
 
 }

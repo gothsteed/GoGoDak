@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.Context;
@@ -17,7 +18,8 @@ import javax.sql.DataSource;
 
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
-import domain.DiscountVO;
+import domain.Discount_eventVO;
+import domain.ManufacturerVO;
 import domain.ProductVO;
 import domain.Product_listVO;
 import util.security.AES256;
@@ -230,6 +232,10 @@ public class ProductDao_Imple implements ProductDao {
 			
 			rs = pstmt.executeQuery();
 			
+			if(!rs.next()) {
+				productList = null;
+			}
+			
 			while(rs.next()) {
 				ProductVO pvo = new ProductVO();
 				
@@ -284,6 +290,7 @@ public class ProductDao_Imple implements ProductDao {
 
 		return productList;
 	}
+
 
 	
 	//상품등록
@@ -396,6 +403,174 @@ public class ProductDao_Imple implements ProductDao {
 
 	    return pvo;
 	}
+
+	@Override
+	public int getEventProductTotalPage(int discount_event_Seq, int blockSize) throws SQLException {
+		int totalPage = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select ceil(count(*)/?) "
+					+ "            from tbl_product "
+					+ "            where fk_discount_event_seq= ?";
+
+
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, blockSize);
+			pstmt.setInt(2, discount_event_Seq);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				totalPage = rs.getInt(1);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return totalPage;
+	}
+
+	@Override
+	public List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "    SELECT * "
+					+ "    FROM " + "    ( "
+					+ "        SELECT rownum as rno, PRODUCT_SEQ, FK_MANUFACTURER_SEQ,"
+					+ "   PRODUCT_NAME, DESCRIPTION, BASE_PRICE,  STOCK, MAIN_PIC, DISCRIPTION_PIC, PRODUCT_TYPE, FK_DISCOUNT_EVENT_SEQ,  "
+					+ "    DISCOUNT_TYPE,  DISCOUNT_NUMBER "
+					+ "        FROM " + "        ( "
+					+ "            select * "
+					+ "            from tbl_product "
+					+ "            where fk_discount_event_seq = ? ) V ";
+
+
+
+			sql += " )T " + " WHERE T.rno between ? and ? ";
+
+			pstmt = conn.prepareStatement(sql);
+
+	
+			pstmt.setInt(1, discount_event_Seq);
+			pstmt.setLong(2, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
+			pstmt.setLong(3, (currentPage * blockSize));
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
+	@Override
+	public List<ProductVO> getProductByDiscountEvent(int discount_event_Seq) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ "  from tbl_product "
+					+ "  where fk_discount_event_seq = ? ";
+
+
+			pstmt = conn.prepareStatement(sql);
+
+	
+			pstmt.setInt(1, discount_event_Seq);
+
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
+	@Override
+	public List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException {
+		
+		List<ProductVO> brandProductList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " SELECT manufacturer_name, product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number "
+					   + " FROM "
+					   + " ( "
+					   + "    select manufacturer_seq, manufacturer_name "
+					   + "    from tbl_manufacturer "
+					   + "    where manufacturer_seq = ? "
+					   + " ) M "
+					   + " JOIN tbl_product P "
+					   + " ON P.fk_manufacturer_seq = M.manufacturer_seq ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(manufacturer_seq));
+			
+			rs = pstmt.executeQuery();
+			
+			if(!rs.next()) {
+				brandProductList = null;
+			}
+			
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
+				ManufacturerVO mvo = new ManufacturerVO();
+				
+				mvo.setManufacturer_name("manufacturer_name");
+				pvo.setMadto(mvo);
+				
+				pvo.setProduct_seq(rs.getInt("product_seq"));
+				pvo.setFk_manufacturer_seq(rs.getInt("fk_manufacturer_seq"));
+				pvo.setProduct_name(rs.getString("product_name"));
+				pvo.setDescription(rs.getString("description"));
+				pvo.setBase_price(rs.getFloat("base_price"));
+				pvo.setStock(rs.getInt("stock"));
+				pvo.setMain_pic(rs.getString("main_pic"));
+				pvo.setDescription_pic(rs.getString("discription_pic"));
+				pvo.setDiscount_type(rs.getString("product_type"));
+				pvo.setDiscount_type(rs.getString("discount_type"));
+				pvo.setDiscount_amount(rs.getFloat("discount_number"));
+				
+				brandProductList.add(pvo);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return brandProductList;
+	}
+
 
 	
 

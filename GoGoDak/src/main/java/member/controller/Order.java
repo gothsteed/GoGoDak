@@ -34,7 +34,7 @@ public class Order extends AbstractController {
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "잘못된 방식");
-		    jsonResponse.put("loc", request.getContextPath() + "javascript:history.back()");
+		    jsonResponse.put("loc", "javascript:history.back()");
 		    setRedirect(false);
 	        request.setAttribute("json", jsonResponse.toString());
 	        setViewPage("/WEB-INF/jsonview.jsp");
@@ -47,7 +47,7 @@ public class Order extends AbstractController {
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "로그인 하시오");
-		    jsonResponse.put("loc", request.getContextPath() + "javascript:history.back()");
+		    jsonResponse.put("loc", "javascript:history.back()");
 		    setRedirect(false);
 	        request.setAttribute("json", jsonResponse.toString());
 	        setViewPage("/WEB-INF/jsonview.jsp");
@@ -60,20 +60,21 @@ public class Order extends AbstractController {
 		String address = request.getParameter("address");
 		String address_detail = request.getParameter("address_detail");
 		String address_extra = request.getParameter("address_extra");
+		String delivery_message = request.getParameter("delivery_message");
 		
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
 		
-		int result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra, totalAmount, cart );
-		int pointResult = memberDao.updatePoint(loginuser.getPoint() + (int)Math.round(totalAmount * 0.05), loginuser.getMember_seq());
+		int result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra,  delivery_message, totalAmount, cart );
+		//int pointResult = memberDao.updatePoint(loginuser.getPoint() + (int)Math.round(totalAmount * 0.05), loginuser.getMember_seq());
 		
 		if(result != 1) {
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "주문 실패!");
-		    jsonResponse.put("loc", request.getContextPath() + "javascript:history.back()");
+		    jsonResponse.put("loc", "javascript:history.back()");
 		    setRedirect(false);
 	        request.setAttribute("json", jsonResponse.toString());
 	        setViewPage("/WEB-INF/jsonview.jsp");

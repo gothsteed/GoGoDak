@@ -1,8 +1,6 @@
 package admin.model;
 
 import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +14,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import domain.AnswerVO;
 import domain.BoardVO;
-import domain.MemberVO;
 import domain.OrderVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
@@ -324,6 +322,90 @@ public class AdminDAO_imple implements AdminDAO {
 	        
 	        return totalMemberCount;
 	    }
+	    
+	    
+	    
+	    //답변 작성하는거 05-26 추가 
+	      @Override
+	      public int answerWrite(AnswerVO ansewer) throws Exception {
+	         
+	         int result = 0;
+	         try {
+	            conn = ds.getConnection();
+	            String sql = "INSERT INTO tbl_answer (answer_seq , fk_question_seq , title , content ) VALUES ( answer_seq.nextval , ? , ? , ?) ";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, ansewer.getFk_question_seq());
+	            pstmt.setString(2, ansewer.getTitle());
+	            pstmt.setString(3, ansewer.getContent());
+	            
+	            //오류확인용 시작//
+	            System.out.println("SQL: " + sql);
+	            //오류확인용 끝//
+	            
+	            result = pstmt.executeUpdate();
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new Exception("Database error: " + e.getMessage(), e);
+	         } finally {
+	            close();
+	         }
+	         return result; 
+	      }
+	      //작성한 답변 보여주는거 05-26추가
+	      @Override
+	      public AnswerVO selectAnswer(String question_seq) throws Exception {
+	         AnswerVO answerView = null;
+	            
+	            try {
+	               conn = ds.getConnection();
+	               
+	               String sql =  " select title , content , answer_seq , fk_question_seq"
+	                        +  " from tbl_answer "
+	                        +  " where fk_question_seq = ? ";
+	                           
+	               pstmt = conn.prepareStatement(sql);
+	               
+	               pstmt.setString(1, question_seq);
+	               
+	               rs = pstmt.executeQuery();
+	               
+	               if(rs.next()) {
+	                  answerView = new AnswerVO();
+	                  
+	                  answerView.setTitle(rs.getString("title"));
+	                  answerView.setContent(rs.getString("content"));
+	                  answerView.setAnswer_seq(rs.getInt("answer_seq"));
+	                  answerView.setFk_question_seq(rs.getInt("fk_question_seq"));
+	               } // end of if(rs.next())-------------------
+	               
+	            } finally {
+	               close();
+	            }
+	            
+	            return answerView;
+	       
+	       
+	       
+	   }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 	}
 	
 	

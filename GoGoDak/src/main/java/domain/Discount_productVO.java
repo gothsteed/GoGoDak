@@ -5,7 +5,7 @@ public class Discount_productVO {
 	private int discount_seq;		//할인고유번호
 	
 	private ProductVO pdto = new ProductVO();
-	private DiscountVO didto = new DiscountVO();
+	private Discount_eventVO didto = new Discount_eventVO();
 	
 	
 	public int getProduct_seq() {
@@ -32,11 +32,11 @@ public class Discount_productVO {
 		this.pdto = pdto;
 	}
 
-	public DiscountVO getDidto() {
+	public Discount_eventVO getDidto() {
 		return didto;
 	}
 
-	public void setDidto(DiscountVO didto) {
+	public void setDidto(Discount_eventVO didto) {
 		this.didto = didto;
 	}
 	

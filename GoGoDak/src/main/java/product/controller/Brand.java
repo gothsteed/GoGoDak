@@ -9,11 +9,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import product.model.ProductDao;
 import product.model.ProductDao_Imple;
 
-public class ProductFind extends AbstractController {
+public class Brand extends AbstractController {
 
 	private ProductDao pdao = null;
 	
-	public ProductFind() {
+	public Brand() {
 		pdao = new ProductDao_Imple();
 	}
 	
@@ -28,16 +28,12 @@ public class ProductFind extends AbstractController {
 			return;
 		}
 		
-		String searchWord = request.getParameter("searchWord");
+		String manufacturer_seq = request.getParameter("manufacturer_seq");
 		
-		if(searchWord == null || searchWord != null && searchWord.trim().isEmpty()) {
-			searchWord = "";
-		}
+		List<ProductVO> brandProductList = pdao.getBrandProductList(manufacturer_seq);
 		
-		List<ProductVO> productList = pdao.getProductList(searchWord);
-	
-		if(productList == null) {
-			String message = "검색하신 상품이 존재하지 않습니다.";
+		if(brandProductList == null) {
+			String message = "해당 브랜드의 상품이 존재하지 않습니다.";
 	        String loc = "javascript:history.back()";
 	         
 	        request.setAttribute("message", message);
@@ -47,13 +43,16 @@ public class ProductFind extends AbstractController {
 	        super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
 		else {
-			request.setAttribute("productList", productList);
-			request.setAttribute("title", "🔎 검색어 >> " + searchWord + " 🔎");
+			request.setAttribute("productList", brandProductList);
+			
+			if(manufacturer_seq == "1") {
+				request.setAttribute("title", "딜리스틱");
+			}
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/product/product_category.jsp");
 		}
-		
+
 	}
 
 }
