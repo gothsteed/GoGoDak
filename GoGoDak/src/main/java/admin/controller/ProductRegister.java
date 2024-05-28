@@ -80,10 +80,11 @@ public class ProductRegister extends AbstractController {
         }
 
         // 파일 업로드 완료 후, 상품 등록 처리
+        String fk_manufacturer_seq =request.getParameter("fk_maunfactuer_seq");
         String product_name = request.getParameter("product_name");
         String description = request.getParameter("description");
         String base_price = request.getParameter("base_price");
-        System.out.println("base_price " +base_price); 
+        //System.out.println("base_price " +base_price); 
         
         String stock = request.getParameter("stock");
         String product_type = request.getParameter("product_type");
@@ -91,6 +92,7 @@ public class ProductRegister extends AbstractController {
         String discount_amount = request.getParameter("discount_amount");
 
         ProductVO pvo = new ProductVO();
+        pvo.setFk_manufacturer_seq(Integer.parseInt(fk_manufacturer_seq));
         pvo.setProduct_name(product_name);
         pvo.setDescription(description);
         pvo.setBase_price(Integer.parseInt(base_price));

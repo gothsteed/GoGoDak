@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
@@ -111,10 +110,11 @@ function validateForm() {
 
 
 
-function goRegister() {
+
+function goeditend() {
 	
 	const frm = document.boardFrm;
-    frm.action = "<%=ctxPath%>/admin/productRegister.dk";
+    frm.action = "<%=ctxPath%>/admin/productRegisterEditEnd.dk";
     frm.method = "post";
     frm.submit();
     console.log("goRegister 함수 호출됨");
@@ -139,17 +139,16 @@ function goReset() {
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center mb-0">상품 등록</h3>
+                    <h3 class="text-center mb-0">상품 수정</h3>
                 </div>
-<form name="boardFrm" enctype="multipart/form-data"  enctype="multipart/form-data"> 
+<form name="boardFrm" enctype="multipart/form-data"  method="post" > 
                
              <div class="card-body">
-                  
+    
                         <div class="form-group">
                             <label for="category">제조회사 <span class="text-danger">*</span></label>
-                            <select name="fk_maunfactuer_seq" class="form-control infoData">
+                            <select name="fk_manufacturer_seq" class="form-control infoData">
                                 <option value="">:::선택하세요:::</option>
-
 			                    <option value="1">1.☆딜리스틱☆</option>
 			                    <option value="2">2.★제로아워★</option>
 			                    <option value="3">3.●닥터리브●</option>
@@ -158,12 +157,11 @@ function goReset() {
                             <span class="error">필수입력</span>
                  		 </div>
                        
-                       
-                        
                         <div class="form-group">
                             <label for="product">상품명 <span class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input type="text" name="product_name" id="product" class="form-control infoData" placeholder="상품명을 입력하세요">
+                                <input type="text" name="product_name" id="product" class="form-control infoData" placeholder="상품명을 입력하세요"  value="${requestScope.product_name}">
+                                <input type="hidden" name="product_seq" value="${requestScope.product_seq}">
                                 <div class="input-group-append">
                                 <span class="error">필수입력</span>   
                                    
@@ -172,82 +170,80 @@ function goReset() {
                         </div>
                         <div class="form-group">
                             <label for="product">상품가격 <span class="text-danger">*</span></label>
-                            <input type="text" name="base_price" id="price" class="form-control infoData" >
+                            <input type="text" name="base_price" id="price" class="form-control infoData" value="${requestScope.base_price}" >
                             <span class="error">필수입력</span>
                         </div>
                         
                         <div class="form-group">
                             <label for="product">제품설명 <span class="text-danger">*</span></label>
-                            <input type="text" name="description" id="discription" class="form-control infoData">
+                            <input type="text" name="description" id="discription" class="form-control infoData" value="${requestScope.description}">
                             <span class="error">필수입력</span>
                         </div>
                          <div class="form-group">
                       <label for="stock">재고 <span class="text-danger">*</span></label>
-                      <input type="number" name="stock" id="stock" class="form-control infoData">
+                      <input type="number" name="stock" id="stock" class="form-control infoData" value="${requestScope.stock}">
                       <span class="error">필수입력</span>
                   </div>
                       
-                        <div class="form-group">
-                            <label>할인 종류 <span class="text-danger">*</span></label>
-                            <div class="row mx-0">
-                                <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" checked>
-                                        <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
-                                      
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount">
-                                        <label class="form-check-label" for="amountDiscount">금액 할인</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="discountValue">할인 금액 또는 퍼센트 <span class="text-danger">*</span></label>
-                            <input type="number" name="discount_amount" id="discountValue" class="form-control infoData" >
-                             <span class="error">필수입력</span>
-                        </div>
-                       <%--
                        <div class="form-group">
-                      <label for="expectedPrice">예상 금액(1개당)</label>
-                      <input type="text" name="expectedPrice" id="expectedPrice" class="form-control" readonly>
-                  </div>
-                   --%>
+						 <label>할인 종류 <span class="text-danger">*</span></label>
+						 <div class="row mx-0">
+						     <div class="col-sm-6">
+						         <div class="form-check">
+						             <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" ${requestScope.discount_type == 'percent' ? 'checked' : ''}>
+						             <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
+						         </div>
+						     </div>
+						     <div class="col-sm-6">
+						         <div class="form-check">
+						             <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" ${requestScope.discount_type == 'amount' ? 'checked' : ''}>
+						                <label class="form-check-label" for="amountDiscount">금액 할인</label>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+                        <div class="form-group">
+						    <label for="discountValue">할인 금액 또는 퍼센트 <span class="text-danger">*</span></label>
+						    <input type="number" name="discount_amount" id="discountValue" class="form-control infoData" value="${requestScope.discount_amount}">
+						    <span class="error">필수입력</span>
+						</div>
+                     
+                
                   
-                  <div class="form-group">
-                            <label for="category">상품타입 <span class="text-danger">*</span></label>
-                            <select name="product_type" class="form-control infoData">
-                                <option value="">:::선택하세요:::</option>
-                                   
-                     <option value="1">1.🍗닭가슴살🍗</option>
-                     <option value="2">2.🍱볶음밥🍱</option>
-                     <option value="3">3.🥯빵🥯</option>
-                     <option value="4">4.🧁디저트🧁</option>
-                               
-                       
-                            </select>
-                            <span class="error">필수입력</span>
-                  </div>
+                <div class="form-group">
+				    <label for="category">상품타입 <span class="text-danger">*</span></label>
+				    <select name="product_type" class="form-control infoData">
+				        <option value="">:::선택하세요:::</option>
+				        <option value="1" ${requestScope.produce_type == "1" ? 'selected' : ''}>1.🍗닭가슴살🍗</option>
+				        <option value="2" ${requestScope.product_type == "2" ? 'selected' : ''}>2.🍱볶음밥🍱</option>
+				        <option value="3" ${requestScope.product_type == "3" ? 'selected' : ''}>3.🥯빵🥯</option>
+				        <option value="4" ${requestScope.product_type == "4" ? 'selected' : ''}>4.🧁디저트🧁</option>
+				    </select>
+				    <span class="error">필수입력</span>
+				</div>
+				
+
+                 <!-- 제품 이미지 -->
+				<div class="form-group">
+				    <label for="main_pic">제품 이미지</label>
+				    <div class="row">
+				        <div class="col">
+				            <!-- 기존 이미지 파일명 출력 -->
+				            <p>${requestScope.product.main_pic}</p>
+				            <!-- 파일 업로드 -->
+				            <input type="file" name="main_pic" accept="image/*">
+				            <span class="error"></span>
+				        </div>
+				    </div>
+				</div>
                   
                   
-                  <!--제품 이미지 -->
-                  <div class="form-group">
-                     <label for="discountImage">제품 이미지</label>
-                     <div class="row">
-                        <div class="col">
-                           <input type="file" name="main_pic" class="infoData img_file" accept='image/*' /><span class="error"></span>
-                        </div>
-                     </div>
-                  </div>
                   <!--상세 이미지 -->
                   <div class="form-group">
                      <label for="discountImage">상세 이미지</label>
                      <div class="row">
                         <div class="col">
-                           <input type="file" name="description_pic" class="infoData img_file" accept='image/*'/><span class="error"></span>
+                           <input type="file" name="description_pic" class="infoData img_file" accept='image/*' value="${requestScope.discription_pic}"/><span class="error"></span>
                         </div>   
                      </div>
                   </div>
@@ -261,7 +257,7 @@ function goReset() {
 
                   
                         <div class="form-group text-center">
-                            <button type="button" class="btn btn-success btn-submit mr-3" onclick="goRegister()">상품등록</button>
+                            <button type="button" class="btn btn-success btn-submit mr-3" onclick="goeditend()">수정</button>
                             <button type="reset" class="btn btn-secondary btn-submit"  onclick="goReset()">초기화</button>
                         </div>
 

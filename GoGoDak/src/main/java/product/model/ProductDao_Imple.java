@@ -295,28 +295,29 @@ public class ProductDao_Imple implements ProductDao {
 	
 	//상품등록
 	@Override
-	public int productregister(ProductVO pvo) throws SQLException {
+	public int productregister(ProductVO pvo) throws Exception {
 		
 		int result = 0;
          
          try {
             conn = ds.getConnection();
             
-            String sql = " insert into tbl_product(product_seq , product_name , description ,base_price , stock , main_pic , discription_pic , product_type , discount_type , discount_number ) "
-                     + " values(product_seq.nextval,?,?,?,?,?,?,?,?,?) " ;
+            String sql = " insert into tbl_product(product_seq ,FK_MANUFACTURER_SEQ, product_name , description ,base_price , stock , main_pic , discription_pic , product_type , discount_type , discount_number ) "
+                     + " values(product_seq.nextval,?,?,?,?,?,?,?,?,?,?) " ;
             
             pstmt = conn.prepareStatement(sql);
             
             //pstmt.setInt(1, pvo.getFk_manufacturer_seq());
-            pstmt.setString(1, pvo.getProduct_name());
-            pstmt.setString(2, pvo.getDescription());
-            pstmt.setFloat(3, pvo.getBase_price());    
-            pstmt.setInt(4, pvo.getStock()); 
-            pstmt.setString(5, pvo.getMain_pic());    
-            pstmt.setString(6, pvo.getDescription_pic()); 
-            pstmt.setInt(7, pvo.getProduct_type());
-            pstmt.setString(8, pvo.getDiscount_type());
-            pstmt.setFloat(9, pvo.getDiscount_amount());
+            pstmt.setInt(1, pvo.getFk_manufacturer_seq());
+            pstmt.setString(2, pvo.getProduct_name());
+            pstmt.setString(3, pvo.getDescription());
+            pstmt.setFloat(4, pvo.getBase_price());    
+            pstmt.setInt(5, pvo.getStock()); 
+            pstmt.setString(6, pvo.getMain_pic());    
+            pstmt.setString(7, pvo.getDescription_pic()); 
+            pstmt.setInt(8, pvo.getProduct_type());
+            pstmt.setString(9, pvo.getDiscount_type());
+            pstmt.setFloat(10, pvo.getDiscount_amount());
            
             result = pstmt.executeUpdate();
          }catch (SQLException e) {
@@ -572,6 +573,115 @@ public class ProductDao_Imple implements ProductDao {
 	}
 
 
+	
+	@Override
+	public int updateProduct(ProductVO pvo) throws SQLException {
+	    int result = 0;
+	    
+	    try {
+	        conn = ds.getConnection();
+	        
+	        String sql = " update tbl_product set product_name = ?, description = ?, base_price = ?, stock = ?, main_pic = ?, discription_pic = ?, product_type = ?, discount_type = ?, discount_number = ? , FK_MANUFACTURER_SEQ=? "
+	        		   + " where product_seq = ? " ;
+	                
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        pstmt.setString(1, pvo.getProduct_name());
+            pstmt.setString(2, pvo.getDescription());
+            pstmt.setFloat(3, pvo.getBase_price());    
+            pstmt.setInt(4, pvo.getStock()); 
+            pstmt.setString(5, pvo.getMain_pic());    
+            pstmt.setString(6, pvo.getDescription_pic()); 
+            pstmt.setInt(7, pvo.getProduct_type());
+            pstmt.setString(8, pvo.getDiscount_type());
+            pstmt.setFloat(9, pvo.getDiscount_amount());
+            pstmt.setInt(10, pvo.getFk_manufacturer_seq());
+	        pstmt.setInt(11, pvo.getProduct_seq());
+	        
+	        
+	        System.out.println("sql :" + sql);
+	        System.out.println("product_name :" +  pvo.getProduct_name());
+	        System.out.println("getDescription :" + pvo.getDescription());
+	        System.out.println("getBase_price :" + pvo.getBase_price());
+	        System.out.println("getStock :" + pvo.getStock());
+	        System.out.println("getMain_pic :" + pvo.getMain_pic());
+	        System.out.println("getDescription_pic :" +  pvo.getDescription_pic());
+	        System.out.println("getProduct_type :" + pvo.getProduct_type());
+	        System.out.println("getDiscount_amount :" + pvo.getDiscount_amount());
+	        System.out.println("getProduct_seq :" + pvo.getProduct_seq());
+	        System.out.println("getFk_manufacturer_seq :" +  pvo.getFk_manufacturer_seq());
+	        result = pstmt.executeUpdate();
+	        
+	    } finally {
+	        close();
+	    }
+	    
+	    return result;      
+	}
+
+	
+	
+	
+//select 
+	@Override
+	public int productSelectBySeq(int product_seq) throws Exception {
+		
+		int productSelectBySeq = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select product_seq "
+					   + " from tbl_product "
+					   + " where product_seq = ? " ;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, product_seq);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				productSelectBySeq = rs.getInt(1);
+				
+			}
+			 
+			
+		} finally {
+			close();
+		}
+		
+		return productSelectBySeq;
+	}
+
+	//상품삭제하기
+	@Override
+	public int deletedProduct(ProductVO productDelete) throws Exception {
+
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " DELETE FROM tbl_product WHERE product_seq = ? " ;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productDelete.getProduct_seq());
+			
+			
+			//오류확인용 시작//
+			System.out.println("SQL: " + sql);
+			System.out.println("Seq: " + productDelete.getProduct_seq());
+			//오류확인용 끝//
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new Exception("Database error: " + e.getMessage(), e);
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
 	
 
 }
