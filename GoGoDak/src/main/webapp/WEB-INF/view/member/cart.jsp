@@ -292,18 +292,14 @@ String ctxPath = request.getContextPath();
         $(".loader").css("display" ,"none");
 
     }
-    
-
 </script>
 
-
-
-<section class="why_section layout_padding">
-    <div class="cart">
-        <h1 style="text-align: center;">장바구니 목록</h1>
-        <br>
-        <form action="">
-            <div class="cart-list">
+<section class="why_section layout_padding inner_page">
+	<div class="cart container">
+    	<h1 style="text-align: center;">장바구니 목록</h1>
+        <br><br>
+        <form action="" class="row">
+        	<div class="cart-list col-6">
            		<%
                     Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
                     if (cart != null) {
@@ -312,24 +308,27 @@ String ctxPath = request.getContextPath();
                             Integer quantity = entry.getValue();
                             System.out.println(product.getDiscountPrice());
                 %>
-                            <div class="cart-item" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
-                                <img src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq() %>">
-                                <p><%= product.getProduct_name()%> - <fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원</p>
-                                <div class="quantity">
+                            <div class="cart-item row" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
+                            	<img class="col-2" src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq()%>">
+                                <div class="col-5">
+                                	<p><%= product.getProduct_name()%></p>
+                                	<fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원
+                                </div>
+                                <div class="quantity col-3">
                                     <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
                                     <input type="text" value="<%= quantity %>" id="quantity-<%= product.getProduct_seq() %>" name="quantity-<%= product.getProduct_seq() %>">
                                     <button type="button" onclick="increaseQuantity(<%= product.getProduct_seq() %>)">+</button>
                                 </div>
-                                <button type="button" class="btn-danger" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
+                                <button type="button" class="btn-danger col-1" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
                             </div>
                 <%
                         }
                     }
                 %>
             </div>
-            <div class="container">
+            <div class="container col-5">
             	<br>
-                <h2 >배송지 정보 입력</h2>
+                <h3>배송지 정보 입력</h3>
                 <br>
                 <form method="POST">
                     <div class="form-group">
@@ -349,46 +348,39 @@ String ctxPath = request.getContextPath();
                         <label for="extraAddress" class="h5">참고사항</label>
                         <input type="text" id="extraAddress" name="address_extra" placeholder="참고사항을 입력하세요" value="${sessionScope.loginuser.address_extra}">
                     </div>
-                    
-                    
                     <div class="form-group">
                         <label for="delivery_message" class="h5">배송 메시지</label>
                         <input type="text" id="delivery_message" name="delivery_message">
                     </div>
                 </form>
-            </div>
-            <div class="text-position container">
-                <div class="points-use">
-                    <c:if test="${empty sessionScope.loginuser}">
-                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">0</span>):
-	                        <input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(0)">
-                        </label>
-
-                    </c:if>
-                    <c:if test="${not empty sessionScope.loginuser}">
-                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">${sessionScope.loginuser.point}</span>):
-                    		<input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(${sessionScope.loginuser.point})">
-                    	</label>
-             
-                    </c:if>
-
-                </div>
-            </div>
-            <div class="total container">
-                <p>총 가격: <span id="totalCost"></span></p>
-                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다 (*단, 포인트 사용시 적립X*)</p>
-                <button type="submit" onclick="goPurchase()">구매하기</button>
+                
+                <div class="text-position">
+	                <div class="points-use h5">
+	                    <c:if test="${empty sessionScope.loginuser}">
+	                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">0</span>):
+		                        <input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(0)" class="mt-2">
+	                        </label>
+	                    </c:if>
+	                    <c:if test="${not empty sessionScope.loginuser}">
+	                        <label for="points">포인트 사용(최대: <span id="availablePointsSpan">${sessionScope.loginuser.point}</span>)
+	                    		<input type="text" id="points" name="points" value="0" placeholder="포인트 사용" oninput="applyPoints(${sessionScope.loginuser.point})" class="mt-2">
+	                    	</label>
+	                    </c:if>
+	                </div>
+	            </div>
+                
+                <div class="total">
+	                <p>총 가격: <span id="totalCost" class="h3"></span></p>
+	                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다.&nbsp;&nbsp;(* 단, 포인트 사용시 적립X *)</p>
+	                <button type="submit" onclick="goPurchase()">구매하기</button>
+	            </div>
             </div>
         </form>
     </div>
     <div class="loader"></div>
 </section>
 
-
 <style>
-h1, h2 {
-	font-family: Arial, sans-serif;
-}
 .cart {
     max-width: 80%;
     margin: auto;
@@ -407,7 +399,6 @@ h1, h2 {
     background: #f5f5f5;
     border-radius: 8px;
 }
-
 .quantity button {
     padding: 5px 10px;
     margin: 0 5px;
@@ -415,7 +406,6 @@ h1, h2 {
     border: none;
     cursor: pointer;
 }
-
 .quantity input[type="text"] {
     width: 40px;
     text-align: center;
@@ -443,7 +433,6 @@ button:hover {
     background-color: black;
     color: #fff;
 }
-
 button {
     background: #fbc02d;
     color: black;
@@ -454,7 +443,6 @@ button {
     font-weight: 600;
     padding: 0 15px;
 }
-
 .loader {
   display: none; /* Hide the loader initially */
   border: 16px solid #f3f3f3;
@@ -465,13 +453,11 @@ button {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
 }
-
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); }
 }
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
