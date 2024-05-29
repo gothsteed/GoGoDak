@@ -26,6 +26,30 @@ public class Login extends AbstractController {
 		String method = request.getMethod();
 		
 		if(method.equalsIgnoreCase("get")) {
+
+			String referer = request.getHeader("Referer");
+			System.out.println("referer:" + referer);
+			
+			HttpSession session = request.getSession();
+			
+			String[] excludeList = {"login", "admin", "member"};
+			
+			boolean exclude = false;
+			
+			if (referer != null) {
+				for (String excludeUrl : excludeList) {
+					if (referer.contains(excludeUrl)) {
+						exclude = true;
+						break;
+					}
+				}
+			}
+			
+			if (!exclude) {
+				session = request.getSession();
+				session.setAttribute("goBackURL", referer);
+			}
+			
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
