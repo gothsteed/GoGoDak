@@ -117,47 +117,40 @@
 
 <script>
     function goBack() {
-        window.history.back();
+        window.history.back ();
     }
     
-    
-    function changeToShipped() {
-    	
-    	const order_seq = $("input#order_seq").val();
-    	console.log(order_seq)
-    	
-/*  		$("#shipButton").hide()
-		$("#deliverystatus").text("출고 완료");
- */
-					
-    	
-    	 $.ajax({
-             url: '<%=ctxPath%>/admin/ship.dk',
-             type: 'post',
-             dataType: 'json',
-             data: {"order_seq": order_seq},
-             success: function(response) {
-                 if (response.success) {
-					alert("!!출고 완료!!")
-					$("#shipButton").hide()
-					$("#deliverystatus").text("출고 완료");
+    function changeDeliveryStatus(status) {
+        const order_seq = $("input#order_seq").val();
+        console.log("Order seq: " + order_seq); // 로그 추가
+        console.log("Delivery status: " + status); // 로그 추가
 
-			
-                 } else {
-                 	console.log(response.message)
-                     alert('변경 실패: ' + response.message);
-                 }
-             },
-             error: function(xhr, status, error) {
-             	console.log(error)
-                 alert('변경 실패: ' + error);
-             }
-         });
-    	
-    	
-    	
+        $.ajax({
+            url: '<%=ctxPath%>/admin/ship.dk',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                "order_seq": order_seq,
+                "deliverystatus": status
+            },
+            success: function(response) {
+                console.log(response); // 응답 로그 추가
+                if (response.success) {
+                    alert("상태 변경 완료");
+                    $("#deliverystatus").text(response.newStatus);
+                } else {
+                    console.log(response.message);
+                    alert('변경 실패: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+                alert('변경 실패: ' + error);
+            }
+        });
     }
 </script>
+
 
 <div class="container">
     <h2>주문배송 조회</h2>
@@ -241,7 +234,6 @@
                 <c:if test="${order.deliverystatus!= 0}">
             		출고완료
             	</c:if>
-            	
             
             </td>
         </tr>
@@ -285,12 +277,15 @@
     </div>
     
     <input  id="order_seq" type="hidden" value="${order.order_seq}">
-
-    <div class="btn-container">
-        <c:if test="${order.deliverystatus== 0}">
-      		<button id="shipButton" type="button" class="btn btn-danger" onclick="changeToShipped()">출고 완료하기</button>
-      	</c:if>
-        <button type="button"class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
-        
+   <div class="btn-container">
+        <button type="button" class="btn btn-dark" onclick="changeDeliveryStatus(0)">미출고</button>
+        <button type="button" class="btn btn-secondary" onclick="changeDeliveryStatus(1)">출고</button>
+        <button  type="button" class="btn btn-success" onclick="changeDeliveryStatus(2)">배송중</button>
+        <button type="button" class="btn btn-warning" onclick="changeDeliveryStatus(3)">배송완료</button>
+        <button type="button" class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
     </div>
+            	
+ 
+  
+</div>
 </div>

@@ -154,9 +154,10 @@
                         <td>${ordervo.address}</td>
                         <td>
                             <c:choose>
-                                <c:when test="${ordervo.deliverystatus == 0}">배송 안 됨</c:when>
-                                <c:when test="${ordervo.deliverystatus == 1}">배송 완료</c:when>
-                                <c:when test="${ordervo.deliverystatus == 2}">배송 중</c:when>
+                                <c:when test="${ordervo.deliverystatus == 0}">미출고</c:when>
+                                <c:when test="${ordervo.deliverystatus == 1}">출고</c:when>
+                                <c:when test="${ordervo.deliverystatus == 2}">배송중</c:when>
+                                <c:when test="${ordervo.deliverystatus == 3}">배송완료</c:when>
                                 <c:otherwise>알 수 없음</c:otherwise>
                             </c:choose>
                         </td>

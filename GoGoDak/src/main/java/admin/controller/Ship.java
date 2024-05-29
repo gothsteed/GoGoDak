@@ -19,10 +19,13 @@ public class Ship extends AbstractController {
 		orderDao = new OrderDao_imple();
 	}
 	
-	private void sendJson(HttpServletRequest request, boolean isSuccess, String message) {
+	private void sendJson(HttpServletRequest request, boolean isSuccess, String message, String newStatus) {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.append("success", isSuccess);
-		jsonObject.append("message", message);
+	//	jsonObject.append("success", isSuccess);
+	//	jsonObject.append("message", message);
+	jsonObject.put("success", isSuccess);
+	jsonObject.put("message", message);
+	jsonObject.put("newStatus", newStatus);
 		
 		String json = jsonObject.toString();
 		
@@ -31,60 +34,67 @@ public class Ship extends AbstractController {
 		super.setViewPage("/WEB-INF/jsonview.jsp");
 		
 	}
-
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
-		
-		if(loginuser == null || !loginuser.getId().equals("admin")) {
-			boolean isSuccess = false;
-			String message = "관리자만 접근이 가능합니다.";
-	         
-	    	sendJson(request, isSuccess, message);
-			return;
-		}
-		
-		String method = request.getMethod();
-		if(!method.equalsIgnoreCase("post")) {
-			boolean isSuccess = false;
-			String message = "잘못된 접근";
-			
-			sendJson(request, isSuccess, message);
-			return;
-		}
-		
-		int order_seq;
-		try {
-			order_seq = Integer.parseInt(request.getParameter("order_seq"));
-		} catch (NumberFormatException e) {
-			boolean isSuccess = false;
-			String message = "잘못된 접근";
-			
-			sendJson(request, isSuccess, message);
-			return;
-		}
-		
-		
-		int result = orderDao.updateDelivery_status(order_seq);
-		
-		if(result != 1) {
-			boolean isSuccess = false;
-			String message = "실패";
-			
-			sendJson(request, isSuccess, message);
-			return;
-			
-		}
-		
-		boolean isSuccess = false;
-		String message = "성공";
-		
-		sendJson(request, isSuccess, message);
-		return;
-		
+	    HttpSession session = request.getSession();
+	    MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 
+	    if (loginuser == null || !loginuser.getId().equals("admin")) {
+	        boolean isSuccess = false;
+	        String message = "관리자만 접근이 가능합니다.";
+	        sendJson(request, isSuccess, message, "");
+	        return;
+	    }
+
+	    String method = request.getMethod();
+	    System.out.println("Request method: " + method);
+
+	    if (!method.equalsIgnoreCase("post")) {
+	        boolean isSuccess = false;
+	        String message = "잘못된 접근";
+	        sendJson(request, isSuccess, message, "");
+	        return;
+	    }
+
+	    int order_seq;
+	    try {
+	        order_seq = Integer.parseInt(request.getParameter("order_seq"));
+	        System.out.println("Order seq: " + order_seq);
+	    } catch (NumberFormatException e) {
+	        boolean isSuccess = false;
+	        String message = "잘못된 접근";
+	        sendJson(request, isSuccess, message, "");
+	        return;
+	    }
+
+	    int status;
+	    try {
+	        status = Integer.parseInt(request.getParameter("deliverystatus"));
+	        System.out.println("Delivery status: " + status);
+	    } catch (NumberFormatException e) {
+	        boolean isSuccess = false;
+	        String message = "잘못된 접근";
+	        sendJson(request, isSuccess, message, "");
+	        return;
+	    }
+
+	    int result = orderDao.updateDelivery_status(order_seq, status);
+	//    System.out.println("Update result: " + result);
+
+	    if (result != 1) {
+	        boolean isSuccess = false;
+	        String message = "실패";
+	        sendJson(request, isSuccess, message, "");
+	        return;
+	    }
+
+	    boolean isSuccess = true;
+	    String message = "성공";
+	    String newStatus = status == 0 ? "미출고" : status == 1 ? "출고" : status == 2 ? "배송중" : "배송완료";
+
+	    sendJson(request, isSuccess, message, newStatus);
 	}
+
+
 
 }

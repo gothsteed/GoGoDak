@@ -501,6 +501,30 @@ public class OrderDao_imple implements OrderDao {
 
 	    return orderList;
 	}
+	@Override
+	public int updateDelivery_status(int order_seq, int status) throws SQLException {
+	    int result = 0;
+
+	    try {
+	        conn = ds.getConnection();
+	        
+	        String sql = " UPDATE tbl_order SET DELIVERY_STATUS = ? WHERE order_seq = ? ";
+	        System.out.println("Executing SQL: " + sql); // 로그 추가
+	        System.out.println("Parameters - status: " + status + ", order_seq: " + order_seq); // 로그 추가
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, status);
+	        pstmt.setInt(2, order_seq);
+	        result = pstmt.executeUpdate();
+	        System.out.println("Update result: " + result); // 로그 추가
+	    } finally {
+	        close();
+	    }
+
+	    return result;
+	}
+
+
 
 	
 }

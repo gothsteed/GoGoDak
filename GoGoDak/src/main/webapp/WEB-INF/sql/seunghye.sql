@@ -302,8 +302,6 @@ SELECT
 	               WHERE m.id =  'jylee'
 
 
-select *
-from tbl_member
 
 desc tbl_product
 
@@ -334,7 +332,111 @@ select *
 from tbl_product
 
 select *
-from tbl_member;
-
+from deliverystatus ;
+ desc deliverystatus ;
 
 desc tbl_product_list;
+
+desc tbl_review
+select *
+from tbl_review
+
+
+select delivery_status
+from  tbl_order
+where delivery_status =1;
+
+
+
+select DELIVERY_STATUS
+from  tbl_order
+
+slec
+desc tbl_order
+
+UPDATE tbl_order SET DELIVERY_STATUS = 0 WHERE order_seq = 1
+
+SELECT 
+    DELIVERY_STATUS,
+    CASE 
+        WHEN DELIVERY_STATUS = 0 THEN '미출고'
+        WHEN DELIVERY_STATUS = 1 THEN '출고'
+        WHEN DELIVERY_STATUS = 2 THEN '배송중'
+        WHEN DELIVERY_STATUS = 3 THEN '배송완료'
+    END AS DELIVERY_STATUS_DESC
+
+FROM tbl_order
+GROUP BY DELIVERY_STATUS
+ORDER BY DELIVERY_STATUS
+
+
+select member_seq, id, name 
+from tbl_member
+select member_seq, id, name 
+from tbl_member
+SELECT 
+   
+   select order_seq
+   from tbl_order
+   
+    CASE 
+        WHEN o.delivery_status = 0 THEN '미출고'
+        WHEN o.delivery_status = 1 THEN '출고'
+        WHEN o.delivery_status = 2 THEN '배송중'
+        WHEN o.delivery_status = 3 THEN '배송완료'
+    END AS DELIVERY_STATUS_DESC,
+ 
+FROM tbl_order o
+JOIN tbl_member m ON o.fk_member_seq = m.member_seq
+ORDER BY o.delivery_status, o.fk_member_seq;
+
+
+
+WITH DeliveryStatusDesc AS (
+    SELECT 
+        DELIVERY_STATUS,
+        CASE 
+            WHEN DELIVERY_STATUS = 0 THEN '미출고'
+            WHEN DELIVERY_STATUS = 1 THEN '출고'
+            WHEN DELIVERY_STATUS = 2 THEN '배송중'
+            WHEN DELIVERY_STATUS = 3 THEN '배송완료'
+        END AS DELIVERY_STATUS_DESC
+    FROM tbl_order
+    GROUP BY DELIVERY_STATUS
+)
+
+-- Main query to join with the filtered result
+SELECT 
+    o.DELIVERY_STATUS,
+    d.DELIVERY_STATUS_DESC
+FROM 
+    tbl_order o
+JOIN 
+    DeliveryStatusDesc d
+ON 
+    o.DELIVERY_STATUS = d.DELIVERY_STATUS
+WHERE 
+    o.DELIVERY_STATUS = 22;
+    
+    update set where
+    
+    desc tbl_order
+    
+    SELECT rownum,o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address 
+	                          FROM tbl_order o
+	                       LEFT JOIN tbl_member m ON o.fk_member_seq = m.member_seq 
+	                        WHERE m.exist_status = 1
+                            
+SELECT rno, order_seq, delivery_status, id, name, tel, address                        
+FROM                            
+(                          
+    SELECT rownum as rno, o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address   
+    FROM   
+    (   
+        select member_seq, id, name, tel, address
+        from tbl_member
+        where exist_status = 1
+    ) M JOIN tbl_order o
+    ON o.fk_member_seq = m.member_seq 
+) T
+WHERE T.rno BETWEEN 1 AND 10
