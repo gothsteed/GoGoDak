@@ -1,8 +1,11 @@
 package admin.controller;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
+
 import common.controller.AbstractController;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +26,9 @@ public class ProductRegisterEdit extends AbstractController {
         productDao = new ProductDao_Imple();
     }
 
+
+    // 상품 타입 목록
+   // private List<String> productTypes = Arrays.asList("1.🍗닭가슴살🍗", "2.🍱볶음밥🍱", "3.🥯빵🥯", "4.🧁디저트🧁");
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
       
@@ -46,7 +52,7 @@ public class ProductRegisterEdit extends AbstractController {
             
 
             
-            
+           // request.setAttribute("productTypes", productTypes);
             request.setAttribute("product_seq", product_seq);
             request.setAttribute("product_name", product_name);
             request.setAttribute("description", description);

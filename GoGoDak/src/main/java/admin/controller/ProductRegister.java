@@ -80,11 +80,10 @@ public class ProductRegister extends AbstractController {
         }
 
         // 파일 업로드 완료 후, 상품 등록 처리
-        String fk_manufacturer_seq =request.getParameter("fk_maunfactuer_seq");
+        String fk_manufacturer_seq = request.getParameter("fk_maunfactuer_seq");
         String product_name = request.getParameter("product_name");
         String description = request.getParameter("description");
         String base_price = request.getParameter("base_price");
-        //System.out.println("base_price " +base_price); 
         
         String stock = request.getParameter("stock");
         String product_type = request.getParameter("product_type");
@@ -101,14 +100,23 @@ public class ProductRegister extends AbstractController {
         pvo.setDescription_pic(descriptionPicFileName);
         pvo.setProduct_type(Integer.parseInt(product_type));
         pvo.setDiscount_type(discount_type);
-        pvo.setDiscount_amount(Integer.parseInt(discount_amount));
+
+        try {
+            if ("none".equals(discount_type)) {
+                pvo.setDiscount_amount(0);
+            } else {
+                pvo.setDiscount_amount(Integer.parseInt(discount_amount));
+            }
+        } catch (NumberFormatException e) {
+            pvo.setDiscount_amount(0); // 기본값 설정 또는 에러 처리
+        }
 
         int result = productDao.productregister(pvo);
         System.out.println("result : " + result);
 
         if (result == 1) {
             String message = "상품이 등록 되었습니다.";
-            String loc = request.getContextPath() + "/product/event.dk";
+            String loc = request.getContextPath() + "/index.dk";
 
             request.setAttribute("message", message);
             request.setAttribute("loc", loc);
