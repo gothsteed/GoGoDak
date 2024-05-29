@@ -11,10 +11,28 @@ public class Logout extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		HttpSession session = request.getSession();
 		String referer = request.getHeader("Referer");
-//		System.out.println("referer:" + referer);
-		session.setAttribute("goBackURL", referer);
+		System.out.println("referer:" + referer);
+		
+		HttpSession session = request.getSession();
+		
+		String[] excludeList = {"login", "admin", "member"};
+		
+		boolean exclude = false;
+		
+		if (referer != null) {
+			for (String excludeUrl : excludeList) {
+				if (referer.contains(excludeUrl)) {
+					exclude = true;
+					break;
+				}
+			}
+		}
+		
+		if (!exclude) {
+			session = request.getSession();
+			session.setAttribute("goBackURL", referer);
+		}
 
 		String goBackURL = (String)session.getAttribute("goBackURL");
 		

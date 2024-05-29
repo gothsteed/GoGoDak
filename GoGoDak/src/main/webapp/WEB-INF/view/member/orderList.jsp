@@ -235,6 +235,48 @@
 </div>
 
 
+<!-- Review update Modal -->
+<div class="modal fade" id="reviewUpdateModal" tabindex="-1" aria-labelledby="reviewUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+        	<form name="reviewUpdateFrm" method="post" enctype="multipart/form-data">
+        		<input type="hidden" name="order_seq" />
+        		<input type="hidden" name="product_seq"/>
+	            <div class="" style="text-align: center; position: relative;">
+	                <h4 class="modal-title" id="reviewUpdateModalLabel" >리뷰 수정</h4>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 5px; top: 3px;"></button>
+	            </div>
+	            
+	            <div class="modal-body">
+	                <h3 class="mt-3" id="product-name"></h3>
+	                <div class="star-rating">
+	                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+	                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+	                    <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+	                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+	                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+	                </div>
+	                <input type="text" placeholder="리뷰를 작성하세요..." class="form-control mt-3" id="content" name="content"/>
+	                
+	               	<div class="board-group">
+							<label for="pic">이미지</label>
+							<div>
+								<input type="file" id="pic" name="pic" accept="image/*" class="form-control">
+								<%-- <img src="images/image.jpg" class="img-fluid" />  --%>
+							</div>
+							<div id="imagePreview"></div>
+					</div>
+	            </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitUpdate()">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </style>
     
 <script type="text/javascript">
