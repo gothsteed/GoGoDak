@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
     String ctxPath = request.getContextPath();
+    //    /GoGoDak
 %>
 <jsp:include page="../header.jsp" />
 
@@ -95,7 +96,7 @@ $(document).ready(function() {
 
 //필드 유효성 검사 함수
 function validateField(field) {
-	$("span.error").show();
+	$("span.error").show(); 
 	let isValid = true;
     let errorMsg = "";
 
@@ -138,7 +139,7 @@ function validateField(field) {
         field.val("");
         field.focus();
     } else {
-        field.closest(".form-group").find("span.error").hide();
+        field.closest(".form-group").find("span.error").remove();
         field.data("errorShown", false);
     }
 
@@ -161,11 +162,11 @@ function validateForm() {
     return isValid;
 }
 
-// 수정하기
-function goeditend() {
+// 등록하기
+function goRegister() {
     
     const frm = document.boardFrm;
-    frm.action = "<%=ctxPath%>/admin/productRegisterEditEnd.dk";
+    frm.action = "<%=ctxPath%>/admin/productRegister.dk";
     frm.method = "post";
     frm.submit();
     console.log("goRegister 함수 호출됨");
@@ -181,14 +182,11 @@ function goReset() {
 
 </script>
 
-<<<<<<< HEAD
 
+ <div class="mt-5 mb-5">
 
-
-<div class="mt-5 mb-5">
-=======
 <div class="container">
->>>>>>> refs/heads/hansol0308
+
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
@@ -312,8 +310,11 @@ function goReset() {
     </div>
 </div>
 
-<jsp:include page="../footer.jsp" />
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<jsp:include page="../footer.jsp" />  
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
