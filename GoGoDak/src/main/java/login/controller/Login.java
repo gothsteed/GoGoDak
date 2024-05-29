@@ -23,16 +23,18 @@ public class Login extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		
 		String method = request.getMethod();
 		
 		if(method.equalsIgnoreCase("get")) {
-
+			HttpSession session = request.getSession();
+			session.removeAttribute("goBackURL");
+			
 			String referer = request.getHeader("Referer");
 			System.out.println("referer:" + referer);
 			
-			HttpSession session = request.getSession();
-			
 			String[] excludeList = {"login", "admin", "member"};
+			String[] allowList = {"cart"};
 			
 			boolean exclude = false;
 			
@@ -40,6 +42,15 @@ public class Login extends AbstractController {
 				for (String excludeUrl : excludeList) {
 					if (referer.contains(excludeUrl)) {
 						exclude = true;
+						break;
+					}
+				}
+			}
+			
+			if (referer != null) {
+				for (String allow : allowList) {
+					if (referer.contains(allow)) {
+						exclude = false;
 						break;
 					}
 				}
