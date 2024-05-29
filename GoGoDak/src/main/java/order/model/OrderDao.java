@@ -18,8 +18,10 @@ public interface OrderDao {
 	OrderVO getOrderWithMember(int order_seq)  throws SQLException;
 
 
-	int updateDelivery_status(int order_seq) throws SQLException;
+	int updateDelivery_status(int order_seq, int status) throws SQLException;
 
 	List<OrderVO> getLoginuserList(int fk_member_seq)throws SQLException;
+
+	int updateDelivery_status(int order_seq) throws SQLException;
 
 }

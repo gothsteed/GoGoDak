@@ -26,16 +26,14 @@ public class Login extends AbstractController {
 		String method = request.getMethod();
 		
 		if(method.equalsIgnoreCase("get")) {
-			String referer = request.getHeader("Referer");
-//			System.out.println("referer:" + referer);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("goBackURL", referer);
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/member/member_Login.jsp");
 		}
 		else {
+			
+			HttpSession session = request.getSession();
+			
 			String clientIp = request.getRemoteAddr();
 			String id = request.getParameter("id");
 			String password = request.getParameter("password");
@@ -49,6 +47,7 @@ public class Login extends AbstractController {
 			paraMap.put("clientIp", clientIp);
 			
 			MemberVO loginUser = memberDao.login(paraMap);
+			session.setAttribute("tempuser", loginUser); //세션에 값을 저장
 			
 			if(loginUser == null) {
 //				System.out.println("!!!!로그인 실패!!!!");
@@ -83,38 +82,40 @@ public class Login extends AbstractController {
 				return; 
 			}
 
-			HttpSession session = request.getSession();
-			session.setAttribute("loginuser", loginUser);
+
 			
 			if(loginUser.isRequirePasswordChange()) {
 				
-				String errormsg = "!!!!비밀번호 변경하세요!!!!";
-				String loc = request.getContextPath() + "";
-
+				
+				String errormsg = "비밀번호를 변경하신지 3개월이 지났습니다.\\n 암호 변경 페이지로 이동합니다";
+				String loc = request.getContextPath() + "/login/loginPasswdChange.dk";
 				request.setAttribute("message", errormsg);
 				request.setAttribute("loc", loc);
 				
-//				super.setRedirect(false);
+				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/view/msg.jsp");
 				
 				return; 
 				
 			}
-			else {
+			
+			
+			session.setAttribute("loginuser", loginUser);
+	
+			super.setRedirect(true);
+			
+			String goBackURL = (String)session.getAttribute("goBackURL");
+			
+			if(goBackURL != null) {
+				session.removeAttribute("goBackURL");
 				super.setRedirect(true);
+				super.setViewPage(goBackURL);
+			}
+			else { 
+				super.setViewPage(request.getContextPath() + "/index.dk");
+			}
 				
-				String goBackURL = (String)session.getAttribute("goBackURL");
-				
-				if(goBackURL != null) {
-					session.removeAttribute("goBackURL");
-					super.setRedirect(true);
-					super.setViewPage(goBackURL);
-				}
-				else { 
-					super.setViewPage(request.getContextPath() + "/index.dk");
-				}
-				
-			}		
+			
 			
 //			System.out.println("login success: " + loginUser.getName());
 			
