@@ -85,6 +85,10 @@ public interface MemberDao {
 	boolean isAnswer(int question)throws SQLException;
 	//페이징처리시 보여주는 순번공식에 사용할 select
 	int getTotalQuestionCount(Map<String, String> paraMap)throws SQLException;
+	//휴면처리된 고객 정보 알아오기
+	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
+
+	int isDormancy(String id)throws SQLException;
 	
 	
 	

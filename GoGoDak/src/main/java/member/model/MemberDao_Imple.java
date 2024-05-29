@@ -1126,6 +1126,64 @@ public class MemberDao_Imple implements MemberDao {
 	      
 	      return totalMemberCount;
 	}
+	
+	
+	//휴면처리된 고객 정보 알아오기
+	@Override
+	public boolean isUserExist(Map<String, String> paraMap) throws SQLException {
+		
+		boolean result = false;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select id "
+					   + " from tbl_member "
+					   + " where active_status = 0 and id = ?  and email = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("id"));
+			pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+
+			rs = pstmt.executeQuery();
+
+			result = rs.next();
+
+		} catch (GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return result;
+	}
+
+	@Override
+	public int isDormancy(String id) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " UPDATE tbl_member "
+					+ " SET active_status = 1 "
+					+ " WHERE id = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			result = pstmt.executeUpdate();
+			
+	
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
 
 
 	

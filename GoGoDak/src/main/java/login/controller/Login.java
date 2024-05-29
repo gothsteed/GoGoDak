@@ -71,13 +71,13 @@ public class Login extends AbstractController {
 			if(loginUser.getActive_status() == 0) {
 //				System.out.println("휴면");
 				
-				String errormsg = "!!!!휴면계정입니다!!!!";
-				String loc = request.getContextPath() + "";
+				String errormsg = "로그인 기록이 1년동안 존재 하지 않아 휴면처리 되셨습니다 \\n 휴면 해제 페이지로 이동합니다";
+				String loc =request.getContextPath()+ "/login/dormancy.dk";
 
 				request.setAttribute("message", errormsg);
 				request.setAttribute("loc", loc);
 
-//				super.setRedirect(false);
+				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/view/msg.jsp");
 				
 				return; 
