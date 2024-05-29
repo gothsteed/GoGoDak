@@ -1,5 +1,8 @@
 package member.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -10,6 +13,7 @@ import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import login.controller.GoogleMail;
 import member.model.MemberDao;
 import member.model.MemberDao_Imple;
 import order.model.OrderDao;
@@ -25,7 +29,6 @@ public class Order extends AbstractController {
 		this.memberDao = new MemberDao_Imple();
 		
 	}
-
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -68,10 +71,10 @@ public class Order extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
 		
-		int result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra,  delivery_message, totalAmount, cart );
+		int[] result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra,  delivery_message, totalAmount, cart );
 		//int pointResult = memberDao.updatePoint(loginuser.getPoint() + (int)Math.round(totalAmount * 0.05), loginuser.getMember_seq());
 		
-		if(result != 1) {
+		if(result[0] != 1) {
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "주문 실패!");
@@ -82,8 +85,25 @@ public class Order extends AbstractController {
 			return;
 		}
 		
-		session.removeAttribute("cart");
+		GoogleMail mail = new GoogleMail();
 		
+		StringBuilder sb = new StringBuilder();
+		sb.append("주문코드번호 : <span style='color: blue; font-weight: bold;'>").append(result[1]).append("</span><br/><br/>");
+		sb.append("<주문상품><br/>");
+
+		for (ProductVO product : cart.keySet()) {
+		    sb.append(product.getProduct_name()).append("    ").append(cart.get(product)).append("개");
+		    sb.append("<img src='http://127.0.0.1:9090").append(request.getContextPath()).append("/images/product/").append(product.getMain_pic()).append("' />");
+		    sb.append("<br>");
+		}
+
+		sb.append("<br> 이용해주셔서 감사합니다");
+
+		
+		mail.sendMailOrderFinish(loginuser.getEmail(), loginuser.getName(), sb.toString());
+		
+		session.removeAttribute("cart");
+
 	    JSONObject jsonResponse = new JSONObject();
 	    jsonResponse.put("success", true);
 	    jsonResponse.put("message", "주문성공!");
