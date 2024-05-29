@@ -97,7 +97,7 @@ $(document).ready(function() {
 
 //필드 유효성 검사 함수
 function validateField(field) {
-	$("span.error").show();
+	$("span.error").show(); 
 	let isValid = true;
     let errorMsg = "";
 
@@ -140,7 +140,7 @@ function validateField(field) {
         field.val("");
         field.focus();
     } else {
-        field.closest(".form-group").find("span.error").hide();
+        field.closest(".form-group").find("span.error").remove();
         field.data("errorShown", false);
     }
 
