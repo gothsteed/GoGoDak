@@ -503,7 +503,7 @@ function goDelete() {
         <input type="hidden" name="description" value="${requestScope.product.description}">
         <input type="hidden" name="discount_type" value="${requestScope.product.discount_type}">
         <input type="hidden" name="discount_amount" value="${requestScope.product.discount_amount}">
-        <input type="hidden" name="product_type" value="${requestScope.product_type}">
+        <input type="hidden" name="product_type" value="${requestScope.product.product_type}">
     </form>
 	
 	
