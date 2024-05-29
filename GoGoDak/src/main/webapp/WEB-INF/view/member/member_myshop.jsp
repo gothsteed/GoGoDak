@@ -220,11 +220,11 @@ li a{
  		<div class="liblock">
 	        <ul class="order flex-col" style="margin-top: 15px; ">
 				<li>
-	                <strong style="font-size: 18px">입금전 <br><br></strong>
+	                <strong style="font-size: 18px">출고전 <br><br></strong>
 	                <a href="#" class="count"><span id="before_count">0</span></a>
 	            </li>
 	            <li>
-	                <strong style="font-size: 18px">배송준비중 <br><br></strong>
+	                <strong style="font-size: 18px">출고완료 <br><br></strong>
 	                <a href="#" class="count"><span id="standby_count">0</span></a>
 	            </li>
 	            <li>
@@ -243,12 +243,12 @@ li a{
     
     	<div class="icons">
     		<li class="shopMain order">
-    			<img src="images/order-icon.png" class="img-fluid" />
+    			<img src="<%= ctxPath%>/images/myshop/order.jpg" class="img-fluid" />
 	            <h3><a href="<%= ctxPath%>/member/orderList.dk"><strong style="font-size: 18px;">Order</strong><br><span style="font-size: 16px;">주문내역 조회</span></a></h3>
 	            <p style="font-size: 12px;"><a href="<%= ctxPath%>/member/orderList.dk">고객님께서 주문하신 상품의<br>주문내역을 확인하실 수 있습니다.</a></p>
        		</li>
        		<li class="shopMain profile">
-       			<img src="images/profile-icon.png" class="img-fluid" />
+       			<img src="<%= ctxPath%>/images/myshop/profile.jpg" class="img-fluid" />
 	            <h3><a href="<%= ctxPath%>/member/memberOneDetail.dk"><strong style="font-size: 18px;">Profile</strong><br><span style="font-size: 16px;">회원 정보</span></a></h3>
 	            <p style="font-size: 12px;"><a href="<%= ctxPath%>/member/memberOneDetail.dk">회원이신 고객님의 개인정보를<br>관리하는 공간입니다.</a></p>
        		</li>

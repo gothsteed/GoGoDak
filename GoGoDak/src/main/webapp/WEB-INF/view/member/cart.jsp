@@ -227,6 +227,7 @@ String ctxPath = request.getContextPath();
     
     
     function goOrder(totalAmount) {
+    	
         var cartItems = document.querySelectorAll('.cart-item');
         var hasVisibleItems = false;
 
@@ -250,7 +251,7 @@ String ctxPath = request.getContextPath();
         const extraAddress = $("input#extraAddress").val().trim();
         const delivery_message = $("input#delivery_message").val().trim();
     	
-    	
+        $(".loader").css("display" ,"block");
         /* console.log(`~~ 확인용 userid : ${userid }, coinmoney : ${totalAmount}원`); */
         $.ajax({
             url : "<%=ctxPath%>/member/order.dk",
@@ -264,7 +265,7 @@ String ctxPath = request.getContextPath();
             
             type : "post",  // type 을 생략하면 type : "get" 이다.
 
-            async : true,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
+            async : false,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
                            // async:false 가 동기 방식이다. 지도를 할때는 반드시 동기방식인 async:false 을 사용해야만 지도가 올바르게 나온다.
             
             dataType : "json",  // Javascript Standard Object Notation.  dataType은 /MyMVC/member/idDuplicateCheck.up 로 부터 실행되어진 결과물을 받아오는 데이터타입을 말한다. 
@@ -287,6 +288,8 @@ String ctxPath = request.getContextPath();
             }
 
         });
+        
+        $(".loader").css("display" ,"none");
 
     }
     
@@ -378,6 +381,7 @@ String ctxPath = request.getContextPath();
             </div>
         </form>
     </div>
+    <div class="loader"></div>
 </section>
 
 
@@ -451,7 +455,27 @@ button {
     padding: 0 15px;
 }
 
+.loader {
+  display: none; /* Hide the loader initially */
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #fbc02d;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
 
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 
 <jsp:include page="../footer.jsp" />

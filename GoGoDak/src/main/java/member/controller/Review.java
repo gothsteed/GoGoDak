@@ -67,7 +67,7 @@ public class Review extends AbstractController {
 	private String saveFile(HttpServletRequest request) throws IOException, ServletException {
 		
 		HttpSession session = request.getSession();
-		String savePath = session.getServletContext().getRealPath("/images/special");
+		String savePath = session.getServletContext().getRealPath("/images/review");
 		System.out.println("save path : " + savePath);
 		
 		
@@ -128,6 +128,7 @@ public class Review extends AbstractController {
 		}
 		//TODO: view에서 order_seq, product_seq를 받아와야함.
 		
+		
 		int order_seq;
 		try {
 			order_seq = Integer.parseInt(request.getParameter("order_seq"));
@@ -150,6 +151,8 @@ public class Review extends AbstractController {
 	        sendMsg(request, isSuccess, message);
 	        return;
 		}
+		System.out.println("order_seq: " + order_seq);
+		System.out.println("product_seq: " + product_seq);
 		
 	    HttpSession session = request.getSession();
 	    MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -158,7 +161,7 @@ public class Review extends AbstractController {
 		List<ProductVO> productList = orderDao.getProductList(order_seq);
 		
 		
-		if(order.getFk_member_seq() == loginuser.getMember_seq()) {
+		if(order.getFk_member_seq() != loginuser.getMember_seq()) {
 	        boolean isSuccess = false;
 	        String message = "잘못된 접근";
 	        

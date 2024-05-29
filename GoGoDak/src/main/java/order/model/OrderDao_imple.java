@@ -103,6 +103,8 @@ public class OrderDao_imple implements OrderDao {
 		order.setAddress_extra(rs.getString("address_extra"));
 		order.setTotal_pay(rs.getInt("total_pay"));
 		order.setRegisterday(rs.getDate("registerday"));
+		order.setDelivery_message(rs.getString("delivery_message"));
+		order.setDeliverystatus(rs.getInt("DELIVERY_STATUS"));
 		
 		return order;
 	}
@@ -207,9 +209,10 @@ public class OrderDao_imple implements OrderDao {
 	
 
 	@Override
-	public int insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra, String  delivery_message,
+	public int[] insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra, String  delivery_message,
 			int totalAmount, Map<ProductVO, Integer> cart) throws SQLException {
 		int result = 0;
+		int[] resultArr = new int[2];
 
 		try {
 			conn = ds.getConnection();
@@ -235,7 +238,7 @@ public class OrderDao_imple implements OrderDao {
 			
 			if(result != 1) {
 				conn.rollback();
-				return result;
+				return resultArr;
 			}
 			
 			
@@ -271,7 +274,7 @@ public class OrderDao_imple implements OrderDao {
 				
 				if(temp != 1) {
 					conn.rollback();
-					return 0;
+					return resultArr;
 				}
 				
 				total += temp;
@@ -280,10 +283,12 @@ public class OrderDao_imple implements OrderDao {
 			
 			if(total == cart.size()) {
 				result = 1;
+	            resultArr[0] = result;
+	            resultArr[1] = order_seq;
 				conn.commit();
 			}
 			
-            
+
             
 
 		} catch (SQLException e) {
@@ -294,8 +299,9 @@ public class OrderDao_imple implements OrderDao {
 			conn.setAutoCommit(true);
 			close();
 		}
+		
 
-		return result;
+		return resultArr;
 
 	}
 
@@ -448,7 +454,8 @@ public class OrderDao_imple implements OrderDao {
 	        conn = ds.getConnection();
 
 	        // 첫 번째 쿼리: 주문 정보 가져오기
-	        String orderSql = "SELECT * FROM tbl_order WHERE fk_member_seq = ?";
+	        String orderSql = "SELECT * FROM tbl_order WHERE fk_member_seq = ? "
+	        		+ " order by REGISTERDAY desc ";
 	        pstmt = conn.prepareStatement(orderSql);
 	        pstmt.setInt(1, fk_member_seq);
 	        rs = pstmt.executeQuery();
@@ -471,7 +478,7 @@ public class OrderDao_imple implements OrderDao {
 	            String productSql = "SELECT p.product_seq, p.product_name, p.description, p.base_price, pl.fk_order_seq, pl.fk_product_seq " +
 	                                "FROM tbl_product p " +
 	                                "JOIN tbl_product_list pl ON p.product_seq = pl.fk_product_seq " +
-	                                "WHERE pl.fk_order_seq = ?";
+	                                "WHERE pl.fk_order_seq = ? ";
 	            PreparedStatement pstmt2 = conn.prepareStatement(productSql);
 	            pstmt2.setInt(1, order.getOrder_seq());
 	            ResultSet rs2 = pstmt2.executeQuery();
