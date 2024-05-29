@@ -564,8 +564,31 @@ public class MemberDao_Imple implements MemberDao {
 		return result;
 	}
 	
+	// 리뷰 삭제하기
+	@Override
+	public int reviewDelete(String review_seq) throws SQLException {
 
-	
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_review "
+					   + " where review_seq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, review_seq);
+	        
+	        result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
 	
 	
 	
@@ -1184,6 +1207,7 @@ public class MemberDao_Imple implements MemberDao {
 		
 		return result;
 	}
+
 
 
 	

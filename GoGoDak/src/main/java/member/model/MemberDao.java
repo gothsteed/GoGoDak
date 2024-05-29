@@ -32,7 +32,7 @@ public interface MemberDao {
 	
 	int deleteMember(MemberVO member) throws SQLException;
 	
-	
+	int reviewDelete(String review_seq) throws SQLException;
 	
 	
 	
@@ -89,6 +89,8 @@ public interface MemberDao {
 	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
 
 	int isDormancy(String id)throws SQLException;
+
+	
 	
 	
 	
