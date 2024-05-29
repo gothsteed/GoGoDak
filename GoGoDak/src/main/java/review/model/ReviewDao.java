@@ -12,4 +12,6 @@ public interface ReviewDao {
 	int insertReview(int member_seq, int product_seq, int order_seq, String id, int star, String content,
 			String picName) throws SQLException;
 
+	ReviewVO getReview(int member_seq, int order_seq, int product_seq) throws SQLException;
+
 }

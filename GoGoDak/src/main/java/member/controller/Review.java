@@ -191,7 +191,18 @@ public class Review extends AbstractController {
 			return;
 		}
 		String content = request.getParameter("content");
-		String picName = saveFile(request);
+		
+		String picName;
+		try {
+			picName = saveFile(request);
+		} catch (IOException | ServletException e) {
+	        boolean isSuccess = false;
+	        String message = "파일 저장 실패";
+	        
+	        sendMsg(request, isSuccess, message);
+			return;
+		}
+		
 		
 		int result = reviewDao.insertReview(loginuser.getMember_seq(), product_seq, order_seq, loginuser.getId()
 				,star, content, picName);

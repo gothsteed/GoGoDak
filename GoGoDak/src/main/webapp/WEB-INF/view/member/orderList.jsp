@@ -166,10 +166,10 @@
                                 <c:forEach var="product" items="${orderVO.productList}">
 									<c:choose>
 									    <c:when test="${orderVO.deliverystatus == 3}">
-									        <a class="product-link" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
+									        <a class="product-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
 									    </c:when>
 									    <c:otherwise>
-									        <a class="product-link disabled-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
+									         <a class="product-link disabled-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
 									    </c:otherwise>
 									</c:choose>
 
@@ -244,7 +244,7 @@ $(document).ready(function() {
 	const imageInput = document.getElementById('pic');
 	const imagePreview = document.getElementById('imagePreview');
 	
-    $('#reviewModal').on('show.bs.modal', function (event) {
+/*     $('#reviewModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var productName = button.data('productname'); // Extract info from data-* attributes
         var orderSeq = button.data('orderseq'); // Extract order_seq
@@ -253,7 +253,52 @@ $(document).ready(function() {
         modal.find('#product-name').text(productName);
         modal.find('input[name="order_seq"]').val(orderSeq);
         modal.find('input[name="product_seq"]').val(productSeq);
-    });
+    }); */
+    
+    $(document).on("click", ".product-link", (event) => {
+    	event.preventDefault()
+    	
+    	
+    	var button = $(event.currentTarget); // Button that triggered the modal
+        var productName = button.data('productname'); // Extract info from data-* attributes
+        var orderSeq = button.data('orderseq'); // Extract order_seq
+        var productSeq = button.data('productseq'); // Extract product_seq
+        
+        console.log(button)
+        console.log(orderSeq);
+        console.log(productSeq);
+        
+        $.ajax({
+        	url:"<%=ctxPath%>/member/review/checkWrittenReview.dk",
+        	type:"post",
+        	data:{
+        		"order_seq":orderSeq,
+        		"product_seq":productSeq
+        	},
+        	dataType:"json",
+        	success:function(response) {
+        		if(response.success) {
+        			
+        			$('#reviewModal').find('#product-name').text(productName);
+	                $('#reviewModal').find('input[name="order_seq"]').val(orderSeq);
+	                $('#reviewModal').find('input[name="product_seq"]').val(productSeq);
+	
+	                // Show the modal
+	                $('#reviewModal').modal('show');
+        			
+        		}
+        		else {
+        			alert("이미 리뷰를 작성한 상품입니다.")
+        		}
+        		
+        		
+        	},
+        	error: function(xhr, status, error) {
+                console.error("에러 발생:", error);
+                alert("서버 요청 중 에러가 발생했습니다. 다시 시도해주세요.");
+            }
+        })
+    })
 	
 	
 	imageInput.addEventListener('change', function(event) {

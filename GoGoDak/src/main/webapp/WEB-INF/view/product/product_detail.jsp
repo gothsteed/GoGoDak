@@ -226,6 +226,9 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 .product_review p {
 	color: #ffa500;
 }
+.review-pic {
+	height:200px;
+}
 </style>
 <script>
 
@@ -403,12 +406,7 @@ function goDelete() {
 							style="width: 100%; margin-top: 20px;">
 					</div>
 				</div>
-				<div class="tab-pane fade" id="reviews" role="tabpanel"
-					aria-labelledby="reviews-tab">
-					<button type="button" class="btn btn-warning"
-						data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰
-						등록하기</button>
-					<hr>
+				<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
 					<!-- Customer reviews content -->
 
 					<section class="reviews">
@@ -435,9 +433,10 @@ function goDelete() {
 									평가없음
                             	</c:if>
 								</div>
-								<img src="<%=contextPath %>/images/review/${review.pic}">
+								<img class="review-pic" src="<%=contextPath %>/images/review/${review.pic}">
 								<p class="review-content">${review.content}</p>
 							</div>
+							<hr/>
 						</c:forEach>
 
 						<!-- 추가 리뷰 -->
