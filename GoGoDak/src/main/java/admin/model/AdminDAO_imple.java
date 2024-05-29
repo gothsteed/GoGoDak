@@ -243,8 +243,8 @@ public class AdminDAO_imple implements AdminDAO {
 	            String searchType = paraMap.get("searchType");
 	            String searchWord = paraMap.get("searchWord");
 
-	            String sql = "SELECT o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address " +
-	                         "FROM tbl_order o " +
+	            String sql = " SELECT o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address " +
+	                         " FROM tbl_order o " +
 	                         "LEFT JOIN tbl_member m ON o.fk_member_seq = m.member_seq " +
 	                         "WHERE m.exist_status = 1 "
 	                         + " order by o.REGISTERDAY desc ";
@@ -281,7 +281,8 @@ public class AdminDAO_imple implements AdminDAO {
 
 	        return OrderList;
 	    }
-
+	    
+	    
 	    @Override
 	    public int getTotalMemberCount(Map<String, String> paraMap) throws Exception {
 	        int totalMemberCount = 0;
