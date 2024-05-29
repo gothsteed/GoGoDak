@@ -87,67 +87,49 @@ public class Order extends AbstractController{
 			if(pageNo != 1) {
 				pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 			}
-			while( !(loop > blockSize || pageNo > totalPage) ){
-				
-				if(pageNo == Integer.parseInt(currentShowPageNo)) {
-					pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
-				}
-				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
-				}
-				
-				loop++;
-				
-				pageNo++; 
-						  
-			} // end of while() ----------
-			
-			if(pageNo <= totalPage) { 
-				pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
-			}
-			pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";		
-			
-			String currentURL = MyUtil.getCurrentURL(request);
-			
-			List<OrderVO> orderList = adao.select_Order_paging(paraMap);
-			
-			
-			
-			request.setAttribute("orderList", orderList);
-			
-			if(searchType != null && ("name".equals(searchType) || "id".equals(searchType) || "email".equals(searchType)) ) {
-				request.setAttribute("searchType", searchType);
-			}
-			
-			if(searchWord != null && !searchWord.trim().isEmpty() ) { 
-				request.setAttribute("searchWord", searchWord);
-			}
-			
-			request.setAttribute("sizePerPage", sizePerPage);
-			request.setAttribute("pageBar", pageBar);
-			request.setAttribute("currentURL", currentURL);
-			
-			int totalMemberCount = adao.getTotalMemberCount(paraMap);
-			
-			request.setAttribute("totalMemberCount", totalMemberCount);
-			request.setAttribute("currentShowPageNo", currentShowPageNo);
-			
-		
-		
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/admin/admin_order.jsp");
-		}
-		else { 
-			String message = "관리자만 접근이 가능합니다.";
-	        String loc = "javascript:history.back()";
-	         
-	        request.setAttribute("message", message);
-	        request.setAttribute("loc", loc);
-	         
-			super.setRedirect(false);
-	        super.setViewPage("/WEB-INF/view/msg.jsp");
-	    }
-		
-		}
+			   while (!(loop > blockSize || pageNo > totalPage)) {
 
-}
+	                if (pageNo == Integer.parseInt(currentShowPageNo)) {
+	                    pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
+	                } else {
+	                    pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType=" + searchType + "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + pageNo + "'>" + pageNo + "</a></li>";
+	                }
+
+	                loop++;
+
+	                pageNo++;
+
+	            }
+
+	            if (pageNo <= totalPage) {
+	                pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType=" + searchType + "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + pageNo + "'>[다음]</a></li>";
+	            }
+	            pageBar += "<li class='page-item'><a class='page-link' href='order.dk?searchType=" + searchType + "&searchWord=" + searchWord + "&sizePerPage=" + sizePerPage + "&currentShowPageNo=" + totalPage + "'>[마지막]</a></li>";
+
+	            String currentURL = MyUtil.getCurrentURL(request);
+
+	            List<OrderVO> orderList = adao.select_Order_paging(paraMap);
+
+	            request.setAttribute("orderList", orderList);
+	            request.setAttribute("searchType", searchType);
+	            request.setAttribute("searchWord", searchWord);
+	            request.setAttribute("sizePerPage", sizePerPage);
+	            request.setAttribute("pageBar", pageBar);
+	            request.setAttribute("currentURL", currentURL);
+	            request.setAttribute("totalMemberCount", adao.getTotalMemberCount(paraMap));
+	            request.setAttribute("currentShowPageNo", currentShowPageNo);
+
+	            super.setRedirect(false);
+	            super.setViewPage("/WEB-INF/view/admin/admin_order.jsp");
+	        } else {
+	            String message = "관리자만 접근이 가능합니다.";
+	            String loc = "javascript:history.back()";
+
+	            request.setAttribute("message", message);
+	            request.setAttribute("loc", loc);
+
+	            super.setRedirect(false);
+	            super.setViewPage("/WEB-INF/view/msg.jsp");
+	        }
+	    }
+	}
