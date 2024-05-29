@@ -10,22 +10,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    $(document).ready(function(){
-        $('#reviewModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var productName = button.data('productname'); // Extract info from data-* attributes
-            var modal = $(this);
-            modal.find('#product-name').text(productName);
-        });
-
-        window.submitReview = function() {
-            // 여기에 리뷰 제출 로직을 추가합니다.
-            alert('리뷰가 제출되었습니다!');
-            $('#reviewModal').modal('hide');
-        }
-    });
-</script>
 <style>
     .titleArea {
         text-align: center;
@@ -135,6 +119,12 @@
     	
     	  text-align: center;
     }
+    
+    .disabled-link {
+        color: gray;
+        pointer-events: none;
+        cursor: default;
+    }
  
 </style>
 
@@ -174,15 +164,24 @@
                             <td><fmt:formatDate value="${orderVO.registerday}" pattern="yyyy-MM-dd"/></td>
                             <td>
                                 <c:forEach var="product" items="${orderVO.productList}">
-                                    <a class="product-link" href="#" data-bs-toggle="modal" data-bs-target="#reviewModal" data-productname="${product.product_name}">${product.product_name}</a><br>
+									<c:choose>
+									    <c:when test="${orderVO.deliverystatus == 3}">
+									        <a class="product-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
+									    </c:when>
+									    <c:otherwise>
+									         <a class="product-link disabled-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
+									    </c:otherwise>
+									</c:choose>
+
                                 </c:forEach>
                             </td>
                             <td><fmt:formatNumber value="${orderVO.totalPay}" type="number" pattern="#,###" />원</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${orderVO.deliverystatus == 0}">배송 안 됨</c:when>
-                                    <c:when test="${orderVO.deliverystatus == 1}">배송 완료</c:when>
+                                    <c:when test="${orderVO.deliverystatus == 0}">미출고</c:when>
+                                    <c:when test="${orderVO.deliverystatus == 1}">출고완료</c:when>
                                     <c:when test="${orderVO.deliverystatus == 2}">배송 중</c:when>
+                                    <c:when test="${orderVO.deliverystatus == 3}">배송 완료</c:when>
                                     <c:otherwise>알 수 없음</c:otherwise>
                                 </c:choose>
                             </td>
@@ -198,27 +197,179 @@
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="" style="text-align: center; position: relative;">
-                <h4 class="modal-title" id="reviewModalLabel" >리뷰 작성</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 5px; top: 3px;"></button>
-            </div>
-            
-            <div class="modal-body">
-                <h3 class="mt-3" id="product-name"></h3>
-                <div class="star-rating">
-                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
-                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
-                    <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
-                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
-                </div>
-                <textarea placeholder="리뷰를 작성하세요..." class="form-control mt-3"></textarea>
-            </div>
+        
+        	<form name="reviewFrm" method="post" enctype="multipart/form-data">
+        		<input type="hidden" name="order_seq" />
+        		<input type="hidden" name="product_seq"/>
+	            <div class="" style="text-align: center; position: relative;">
+	                <h4 class="modal-title" id="reviewModalLabel" >리뷰 작성</h4>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 5px; top: 3px;"></button>
+	            </div>
+	            
+	            <div class="modal-body">
+	                <h3 class="mt-3" id="product-name"></h3>
+	                <div class="star-rating">
+	                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+	                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+	                    <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+	                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+	                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+	                </div>
+	                <input type="text" placeholder="리뷰를 작성하세요..." class="form-control mt-3" id="content" name="content"/>
+	                
+	               	<div class="board-group">
+							<label for="pic">이미지</label>
+							<div>
+								<input type="file" id="pic" name="pic" accept="image/*" class="form-control">
+								<%-- <img src="images/image.jpg" class="img-fluid" />  --%>
+							</div>
+							<div id="imagePreview"></div>
+					</div>
+	            </div>
+            </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="submitReview()">등록</button>
             </div>
         </div>
     </div>
 </div>
+
+
+</style>
+    
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	const imageInput = document.getElementById('pic');
+	const imagePreview = document.getElementById('imagePreview');
+	
+/*     $('#reviewModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var productName = button.data('productname'); // Extract info from data-* attributes
+        var orderSeq = button.data('orderseq'); // Extract order_seq
+        var productSeq = button.data('productseq'); // Extract product_seq
+        var modal = $(this);
+        modal.find('#product-name').text(productName);
+        modal.find('input[name="order_seq"]').val(orderSeq);
+        modal.find('input[name="product_seq"]').val(productSeq);
+    }); */
+    
+    $(document).on("click", ".product-link", (event) => {
+    	event.preventDefault()
+    	
+    	
+    	var button = $(event.currentTarget); // Button that triggered the modal
+        var productName = button.data('productname'); // Extract info from data-* attributes
+        var orderSeq = button.data('orderseq'); // Extract order_seq
+        var productSeq = button.data('productseq'); // Extract product_seq
+        
+        console.log(button)
+        console.log(orderSeq);
+        console.log(productSeq);
+        
+        $.ajax({
+        	url:"<%=ctxPath%>/member/review/checkWrittenReview.dk",
+        	type:"post",
+        	data:{
+        		"order_seq":orderSeq,
+        		"product_seq":productSeq
+        	},
+        	dataType:"json",
+        	success:function(response) {
+        		if(response.success) {
+        			
+        			$('#reviewModal').find('#product-name').text(productName);
+	                $('#reviewModal').find('input[name="order_seq"]').val(orderSeq);
+	                $('#reviewModal').find('input[name="product_seq"]').val(productSeq);
+	
+	                // Show the modal
+	                $('#reviewModal').modal('show');
+        			
+        		}
+        		else {
+        			alert("이미 리뷰를 작성한 상품입니다.")
+        		}
+        		
+        		
+        	},
+        	error: function(xhr, status, error) {
+                console.error("에러 발생:", error);
+                alert("서버 요청 중 에러가 발생했습니다. 다시 시도해주세요.");
+            }
+        })
+    })
+	
+	
+	imageInput.addEventListener('change', function(event) {
+	    const file = event.target.files[0];
+	    if (file) {
+	        const reader = new FileReader();
+	        reader.onload = function() {
+	            const imageUrl = reader.result;
+	            const imageElement = document.createElement('img');
+	            imageElement.src = imageUrl;
+	            imageElement.style.maxWidth = '500px'; // 이미지의 최대 너비 지정
+	            imageElement.style.maxHeight = '500px'; // 이미지의 최대 높이 지정
+	            imagePreview.innerHTML = ''; // 이미지를 교체하므로 이전 이미지를 삭제
+	            imagePreview.appendChild(imageElement);
+	        };
+	        reader.readAsDataURL(file);
+	    }
+	    console.log("확인용1");
+	});
+});
+
+
+function submitReview() {
+    const frm = document.reviewFrm;
+    const content = frm.content.value.trim();
+    const star =frm.rating.value;
+    const pic = frm.pic.files[0];
+    console.log(star)
+    // Validate that name is not empty
+    if (content == "") {
+        alert("내용을 입력해주세요.");
+        frm.content.focus();
+        return false;
+    }
+    
+    if(star == null) {
+        alert("별점을 입력해주세요.");
+        return false;
+    }
+    
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("star", star);
+    formData.append("pic", pic);
+    formData.append("order_seq", frm.order_seq.value);
+    formData.append("product_seq", frm.product_seq.value);
+
+    
+    $.ajax({
+        url: "<%=ctxPath%>/member/review.dk",
+        type: "POST",
+        data: formData,
+        processData: false, // 데이터를 처리하지 않음
+        contentType: false, // contentType을 설정하지 않음
+        success: function(response) {
+            // 성공적으로 제출된 후 처리 로직
+            alert("리뷰가 제출되었습니다!");
+            $('#reviewModal').modal('hide');
+        },
+        error: function(xhr, status, error) {
+            // 에러 발생 시 처리 로직
+            console.error("리뷰 제출 중 에러 발생:", error);
+            alert("리뷰 제출 중 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+    });
+
+    console.log("submitReview function called");
+    
+}
+
+
+</script>
 
 <jsp:include page="../footer.jsp" />

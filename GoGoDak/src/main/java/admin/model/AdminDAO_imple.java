@@ -246,7 +246,8 @@ public class AdminDAO_imple implements AdminDAO {
 	            String sql = "SELECT o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address " +
 	                         "FROM tbl_order o " +
 	                         "LEFT JOIN tbl_member m ON o.fk_member_seq = m.member_seq " +
-	                         "WHERE m.exist_status = 1 ";
+	                         "WHERE m.exist_status = 1 "
+	                         + " order by o.REGISTERDAY desc ";
 
 	            if (searchType != null && !searchType.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
 	                sql += " AND " + searchType + " LIKE ? ";

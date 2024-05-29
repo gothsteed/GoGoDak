@@ -9,7 +9,7 @@ import domain.ProductVO;
 
 public interface OrderDao {
 
-	int insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra,
+	int[] insertOrder(int member_seq, String postcode, String address, String address_detail, String address_extra,
 			 String  delivery_message, int totalAmount, Map<ProductVO, Integer> cart) throws SQLException;
 
 	OrderVO getOrderBySeq(int order_seq) throws SQLException;

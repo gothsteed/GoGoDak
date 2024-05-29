@@ -145,4 +145,36 @@ public class ReviewDao_imple implements ReviewDao {
 		return result;
 	}
 
+	@Override
+	public ReviewVO getReview(int member_seq, int order_seq, int product_seq) throws SQLException {
+		ReviewVO review = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			
+			String sql = " select * "
+					+ " from tbl_review "
+					+ " where fk_member_seq =? and fk_order_seq=? and FK_PRODUCT_SEQ =? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, order_seq);
+			pstmt.setInt(3, product_seq);
+			
+			rs = pstmt.executeQuery();
+			
+			while(!rs.next()) {
+				return null;
+			}
+			
+			review = createReviewVO(rs);
+		
+		} finally {
+			close();
+		}
+		
+		return review;
+	}
+
 }

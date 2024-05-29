@@ -226,6 +226,9 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 .product_review p {
 	color: #ffa500;
 }
+.review-pic {
+	height:200px;
+}
 </style>
 <script>
 
@@ -330,20 +333,20 @@ function goDelete() {
 							<div class="product_review">
 
 								<p>
-
+									${equestScope.scoreAvg}
 									<c:if test="${not empty requestScope.scoreAvg}">
-										<c:forEach var="i" begin="0" end="${requestScope.scoreAvg-1}">
+										<c:forEach var="i" begin="1" end="${requestScope.scoreAvg}">
 									    ★
-									</c:forEach>
-										<c:forEach var="i" begin="0"
-											end="${5 - requestScope.scoreAvg - 1}">
+										</c:forEach>
+										
+										<c:forEach var="i" begin="${requestScope.scoreAvg+ 1}" end="5">
 									    ☆
-									</c:forEach>
+										</c:forEach>
 									</c:if>
 
 									<c:if test="${empty requestScope.scoreAvg}">
 									평가없음
-                            	</c:if>
+                            		</c:if>
 
 								</p>
 							</div>
@@ -403,12 +406,7 @@ function goDelete() {
 							style="width: 100%; margin-top: 20px;">
 					</div>
 				</div>
-				<div class="tab-pane fade" id="reviews" role="tabpanel"
-					aria-labelledby="reviews-tab">
-					<button type="button" class="btn btn-warning"
-						data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰
-						등록하기</button>
-					<hr>
+				<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
 					<!-- Customer reviews content -->
 
 					<section class="reviews">
@@ -417,17 +415,16 @@ function goDelete() {
 						<c:forEach var="review" items="${requestScope.reviewList}">
 							<div class="review">
 								<div class="review-header">
-									<h2>${review.id}</h2>
+									<div style="font-weight: bold">${review.id}</div>
 									<span class="review-date">${review.ragisterdate}</span>
 								</div>
-								<p class="review-content">${review.content}</p>
 								<div class="review-rating">
 
 									<c:if test="${not empty review.star}">
-										<c:forEach var="i" begin="0" end="${review.star-1}">
+									<c:forEach var="i" begin="1" end="${review.star}">
 									    ★
 									</c:forEach>
-										<c:forEach var="i" begin="0" end="${5 - review.star - 1}">
+										<c:forEach var="i" begin="${review.star + 1}" end="5">
 									    ☆
 									</c:forEach>
 									</c:if>
@@ -436,51 +433,15 @@ function goDelete() {
 									평가없음
                             	</c:if>
 								</div>
+								<img class="review-pic" src="<%=contextPath %>/images/review/${review.pic}">
+								<p class="review-content">${review.content}</p>
 							</div>
+							<hr/>
 						</c:forEach>
 
 						<!-- 추가 리뷰 -->
 					</section>
 
-
-
-
-
-
-					<!-- Modal -->
-					<div class="modal fade" id="reviewModal" tabindex="-1"
-						aria-labelledby="reviewModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"
-										aria-label="Close"></button>
-								</div>
-								<div class="modal-body">
-									<img src="/mnt/data/image.png" alt="Product Image"
-										class="img-fluid mt-3">
-									<h3 class="mt-3">[버닭X강강술래] 소스품은 닭가슴살 2종 세트 4/8/12</h3>
-									<div class="star-rating">
-										<input type="radio" id="star5" name="rating" value="5">
-										<label for="star5">★</label> <input type="radio" id="star4"
-											name="rating" value="4"> <label for="star4">★</label>
-										<input type="radio" id="star3" name="rating" value="3">
-										<label for="star3">★</label> <input type="radio" id="star2"
-											name="rating" value="2"> <label for="star2">★</label>
-										<input type="radio" id="star1" name="rating" value="1">
-										<label for="star1">★</label>
-									</div>
-									<textarea placeholder="리뷰를 작성하세요..." class="form-control mt-3"></textarea>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary"
-										onclick="submitReview()">등록</button>
-								</div>
-							
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

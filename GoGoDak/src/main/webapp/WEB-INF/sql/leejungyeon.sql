@@ -322,9 +322,10 @@ ADD delivery_message VARCHAR2(255);
 
 
 
-UPDATE tbl_product
-SET fk_manufacturer_seq = 5
-WHERE product_seq = 1;
+UPDATE tbl_order
+SET DELIVERY_STATUS = 3
+WHERE order_Seq = 12;
+commit;
 
 rollback;
 
