@@ -119,17 +119,49 @@ where PRODUCT_NAME = '닭가슴살 곤약볶음밥 퀴노아 잡채볶음밥';
 
 commit;
 
+-----------------------------------------------------------------------
 
+desc tbl_member
 
+desc tbl_login_history
+desc tbl_question
+desc tbl_order
+desc tbl_review
 
+select * from user_constraints where constraint_type = 'R';
+select * from user_constraints where constraint_type = 'P';
 
+ALTER TABLE tbl_order
+DROP CONSTRAINT FK_TBL_ORDER_FK_MEMBER_SEQ;
 
+ALTER TABLE tbl_order
+ADD CONSTRAINT FK_TBL_ORDER_FK_MEMBER_SEQ
+FOREIGN KEY (FK_MEMBER_SEQ)
+REFERENCES tbl_member(MEMBER_SEQ)
+ON DELETE CASCADE
 
+select *
+from tbl_member
+where id = 'hansol';
 
+delete from tbl_member
+where id = 'hansol';
+-- 1 행 이(가) 삭제되었습니다.
 
+commit;
+-- 커밋 완료.
 
+-----------------------------------------------------------------------
 
+select *
+from tbl_member
 
+update tbl_member set name = '박보검'
+where id = 'bot123';
+
+commit;
+
+-----------------------------------------------------------------------
 
 
 
