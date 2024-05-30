@@ -315,6 +315,21 @@ public class ProductDao_Imple implements ProductDao {
             pstmt.setString(9, pvo.getDiscount_type());
             pstmt.setFloat(10, pvo.getDiscount_amount());
            
+            
+            System.out.println("sql :" + sql);
+	        System.out.println("product_name :" +  pvo.getProduct_name());
+	        System.out.println("getDescription :" + pvo.getDescription());
+	        System.out.println("getBase_price :" + pvo.getBase_price());
+	        System.out.println("getStock :" + pvo.getStock());
+	        System.out.println("getMain_pic :" + pvo.getMain_pic());
+	        System.out.println("getDescription_pic :" +  pvo.getDescription_pic());
+	        System.out.println("getProduct_type :" + pvo.getProduct_type());
+	        System.out.println("getDiscount_amount :" + pvo.getDiscount_amount());
+	        System.out.println("getProduct_seq :" + pvo.getProduct_seq());
+	        System.out.println("getFk_manufacturer_seq :" +  pvo.getFk_manufacturer_seq());
+	        System.out.println("getDiscount_type :" + pvo.getDiscount_type()); 
+	       
+           
             result = pstmt.executeUpdate();
          }catch (SQLException e) {
     			e.printStackTrace();
@@ -565,7 +580,7 @@ public class ProductDao_Imple implements ProductDao {
 	}
 
 
-	
+	//상품수정하기
 	@Override
 	public int updateProduct(ProductVO pvo) throws SQLException {
 	    int result = 0;

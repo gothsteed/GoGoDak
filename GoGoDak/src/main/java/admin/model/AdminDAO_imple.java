@@ -202,14 +202,16 @@ public class AdminDAO_imple implements AdminDAO {
 	    @Override
 	    public int getTotalPage(Map<String, String> paraMap) throws SQLException {
 	        int totalPage = 0;
-	        Connection conn = null;
-	        PreparedStatement pstmt = null;
-	        ResultSet rs = null;
+	       
 
 	        try {
 	            conn = ds.getConnection();
 
-	            String sql = "SELECT CEIL(COUNT(*) / ?) FROM tbl_order";
+	            String sql = "SELECT CEIL(COUNT(*) / ? ) FROM tbl_order";
+	            
+	            
+	            String colname = paraMap.get("searchType");
+	            String searchWord = paraMap.get("searchWord");
 	            
 	            pstmt = conn.prepareStatement(sql);
 	            pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")));
@@ -230,53 +232,65 @@ public class AdminDAO_imple implements AdminDAO {
 	    }
 
 	    // 주문한 회원 조회 메서드
-	    @Override
-	    public List<OrderVO> select_Order_paging(Map<String, String> paraMap) {
+	    public List<OrderVO> select_Order_paging(Map<String, String> paraMap) throws SQLException  {
 	        List<OrderVO> OrderList = new ArrayList<>();
-	        Connection conn = null;
-	        PreparedStatement pstmt = null;
-	        ResultSet rs = null;
 
 	        try {
 	            conn = ds.getConnection();
 
+	            String sql = "SELECT rno, order_seq, delivery_status, id, name, tel, address "
+	                       + "FROM "
+	                       + "( "
+	                       + "    SELECT rownum as rno, o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address "
+	                       + "    FROM "
+	                       + "    ( "
+	                       + "        SELECT order_seq, delivery_status, fk_member_seq "
+	                       + "        FROM tbl_order "
+	                       + "        ORDER BY order_seq DESC "
+	                       + "    ) o "
+	                       + "    JOIN tbl_member m ON o.fk_member_seq = m.member_seq "
+	                       + ") T "
+	                       + "WHERE T.rno BETWEEN ? AND ?";
+
 	            String searchType = paraMap.get("searchType");
 	            String searchWord = paraMap.get("searchWord");
 
-	            String sql = " SELECT o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address " +
-	                         " FROM tbl_order o " +
-	                         "LEFT JOIN tbl_member m ON o.fk_member_seq = m.member_seq " +
-	                         "WHERE m.exist_status = 1 "
-	                         + " order by o.REGISTERDAY desc ";
-
 	            if (searchType != null && !searchType.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
-	                sql += " AND " + searchType + " LIKE ? ";
+	                sql = sql.replace("WHERE", "WHERE " + searchType + " LIKE ? AND");
 	            }
 
 	            pstmt = conn.prepareStatement(sql);
 
+	            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+	            int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+	            int startRno = (currentShowPageNo - 1) * sizePerPage + 1;
+	            int endRno = currentShowPageNo * sizePerPage;
+
 	            if (searchType != null && !searchType.trim().isEmpty() && searchWord != null && !searchWord.trim().isEmpty()) {
 	                pstmt.setString(1, "%" + searchWord + "%");
+	                pstmt.setInt(2, startRno);
+	                pstmt.setInt(3, endRno);
+	            } else {
+	                pstmt.setInt(1, startRno);
+	                pstmt.setInt(2, endRno);
 	            }
 
 	            rs = pstmt.executeQuery();
 
 	            while (rs.next()) {
-	            	OrderVO ovo = new OrderVO();
-	            	ovo.setOrder_seq(rs.getInt("order_seq"));
-	            	ovo.setId(rs.getString("id"));
-	            	ovo.setName(rs.getString("name"));
-	            	ovo.setAddress(rs.getString("address"));
-	            	ovo.setDeliverystatus(rs.getInt("delivery_status"));
+	                OrderVO ovo = new OrderVO();
+	                ovo.setOrder_seq(rs.getInt("order_seq"));
+	                ovo.setId(rs.getString("id"));
+	                ovo.setName(rs.getString("name"));
+	                ovo.setAddress(rs.getString("address"));
+	                ovo.setDeliverystatus(rs.getInt("delivery_status"));
 
 	                OrderList.add(ovo);
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        } finally {
-	            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-	            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-	            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+	            close();
 	        }
 
 	        return OrderList;
@@ -285,10 +299,9 @@ public class AdminDAO_imple implements AdminDAO {
 	    
 	    @Override
 	    public int getTotalMemberCount(Map<String, String> paraMap) throws Exception {
-	        int totalMemberCount = 0;
-	        Connection conn = null;
-	        PreparedStatement pstmt = null;
-	        ResultSet rs = null;
+	       
+	    	int totalMemberCount = 0;
+	    
 	        
 	        try {
 	            conn = ds.getConnection();

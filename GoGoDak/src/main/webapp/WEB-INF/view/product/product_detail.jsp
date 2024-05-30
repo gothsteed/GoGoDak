@@ -452,19 +452,19 @@ function goDelete() {
         <input type="hidden" name="product_seq" value="${requestScope.product.product_seq}">
         <input type="hidden" name="product_name" value="${requestScope.product.product_name}">
         <%--int로 형변환 과정 --%>
-        <c:set var="basePrice" value="${requestScope.product.base_price}" />
-		<fmt:formatNumber value="${basePrice}" type="number" var="formattedBasePrice" /> 
+		<c:set var="basePrice" value="${requestScope.product.base_price}" />
+		<fmt:formatNumber value="${basePrice}" pattern="########0" var="formattedBasePrice" /> 
 		<input type="hidden" name="base_price" value="${formattedBasePrice}" /> 
-        <%--int로 형변환 과정 --%>
-        <c:set var="discountAmount" value="${requestScope.product.discount_amount}" />
-		<fmt:formatNumber value="${discountAmount}" type="number" var="formattedDiscountAmount" />
-        <input type="hidden" name="discount_amount" value="${formattedDiscountAmount}" />
+		<%--int로 형변환 과정 --%>
+		<c:set var="discountAmount" value="${requestScope.product.discount_amount}" />
+		<fmt:formatNumber value="${discountAmount}" pattern="########0" var="formattedDiscountAmount" />
+		<input type="hidden" name="discount_amount" value="${formattedDiscountAmount}" />
         
         <input type="hidden" name="stock" value="${requestScope.product.stock}">
         <input type="hidden" name="description" value="${requestScope.product.description}">
         <input type="hidden" name="discount_type" value="${requestScope.product.discount_type}">
         <input type="hidden" name="discount_amount" value="${requestScope.product.discount_amount}">
-        <input type="hidden" name="product_type" value="${requestScope.product_type}">
+        <input type="hidden" name="product_type" value="${requestScope.product.product_type}">
     </form>
 	
 	
