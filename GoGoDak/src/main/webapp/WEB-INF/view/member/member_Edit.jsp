@@ -98,7 +98,7 @@ let b_email_change = false;
 $(document).ready(function(){
 
 	$("span.error").hide();
-	$("input#name").focus();
+	$("input#password").focus();
 	
 	$("input#name").blur( (e) => {
 		
@@ -403,6 +403,34 @@ function goEdit(){
 
 
 
+
+function goReset() {
+    history.back(); // 이전 페이지로 이동
+}
+
+function goWithdrawal(){
+	
+	console.log("gowitgaskfjsdklfj")
+	
+	const checkbox_checked_length = $("input:checkbox[name='withdrawalInput']:checked").length;
+    if(checkbox_checked_length == 0){
+        alert("회원탈퇴에 대해 동의하여 주시기 바랍니다.");
+        return; 
+    }
+	
+	if(confirm("${sessionScope.loginuser.name}님, 정말로 탈퇴하시겠습니까?")){
+		const frm = document.editFrm;
+		frm.action = "memberWithdrawal.dk";
+		frm.method = "post";
+		frm.submit();
+	}
+}
+
+$("button.my_close").on("click", function(){
+	$("form.my_form").reset();
+	});
+
+
 </script>
 
 
@@ -484,7 +512,7 @@ function goEdit(){
 				</table>
 			</form>
       		<button type="button" class="btn btn-outline-warning" value="수정하기" onclick="goEdit()" >수정하기</button>
-      		  <input type="reset" class="btn btn-outline-danger" value="취소하기" onclick="self.close()" />
+      		<input type="reset" class="btn btn-outline-danger" value="취소하기" onclick="goReset()" />
       		<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#memberWithdrawal" data-dismiss="modal" data-backdrop="static">회원탈퇴</button>
       		
       		<div class="modal fade" id="memberWithdrawal" data-backdrop="static">

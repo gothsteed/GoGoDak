@@ -24,12 +24,11 @@ public class MemberWithdrawal extends AbstractController {
 		
 		if("POST".equalsIgnoreCase(method)) {
 			String id = request.getParameter("id");	
-			String pwd = request.getParameter("pwd");
+			String pwd = request.getParameter("password");
 			
 			MemberVO member = new MemberVO();
 			member.setId(id);
 			member.setPassword(pwd);
-			
 			String message = "";
 			String loc = "";
 			   
@@ -38,7 +37,11 @@ public class MemberWithdrawal extends AbstractController {
 				
 				if(n == 1) {
 					message = "회원탈퇴가 완료되었습니다. 그동안 고고닭을 이용해주셔서 감사합니다:)";
-					loc = request.getContextPath() + "/login/logout.dk"; 
+					loc = request.getContextPath() + "/login/logout.dk";
+				}
+				else {
+					message = "회원탈퇴가 실패홤 다시시도하셈:)";
+					loc = request.getContextPath() + "/login/logout.dk";
 				}
 			} catch(SQLException e) {
 				message = "SQL구문에 오류가 발생하였습니다.";
@@ -49,7 +52,6 @@ public class MemberWithdrawal extends AbstractController {
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
-			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
