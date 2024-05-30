@@ -249,7 +249,7 @@ li a{
        		</li>
        		<li class="shopMain profile">
        			<img src="<%= ctxPath%>/images/myshop/profile.jpg" class="img-fluid" />
-	            <h3><a href="<%= ctxPath%>/member/memberOneDetail.dk"><strong style="font-size: 18px;">Profile</strong><br><span style="font-size: 16px;">회원 정보</span></a></h3>
+	            <h3><a href="<%= ctxPath%>/member/memberEdit.dk"><strong style="font-size: 18px;">Profile</strong><br><span style="font-size: 16px;">회원 정보</span></a></h3>
 	            <p style="font-size: 12px;"><a href="<%= ctxPath%>/member/memberEdit.dk">회원이신 고객님의 개인정보를<br>수정하는 공간입니다.</a></p>
        		</li>
     	</div>
