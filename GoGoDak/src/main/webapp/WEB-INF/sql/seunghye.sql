@@ -440,3 +440,22 @@ FROM
     ON o.fk_member_seq = m.member_seq 
 ) T
 WHERE T.rno BETWEEN 1 AND 10
+
+
+
+SELECT rno, order_seq, delivery_status, id, name, tel, address   
+FROM
+(
+SELECT rownum as rno, o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address, m.member_seq
+FROM
+(
+select order_seq, delivery_status, fk_member_seq
+from tbl_order
+order by order_seq desc 
+) O JOIN tbl_member M
+ON o.fk_member_seq = m.member_seq 
+) T
+WHERE T.rno BETWEEN 1 AND 10 
+
+
+SELECT CEIL(COUNT(*) / 3) FROM tbl_order
