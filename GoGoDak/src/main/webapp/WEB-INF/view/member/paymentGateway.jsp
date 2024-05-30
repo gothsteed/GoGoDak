@@ -61,7 +61,7 @@ $(document).ready(function() {
 		//	opener.location.href = "javascript:goCoinUpdate('${idx}','${coinmoney}');";
 		//	팝업을 어디서 불러왔는지
 			console.log("calling goOrder")
-			window.opener.goOrder(${requestScope.totalAmount}, ${requestScope.point}, "${requestScope.postcode}", "${requestScope.address}", "${requestScope.address_detail}", "${requestScope.address_extra}");
+			goOrder(${requestScope.totalAmount}, ${requestScope.point}, "${requestScope.postcode}", "${requestScope.address}", "${requestScope.address_detail}", "${requestScope.address_extra}");
 		//  $(opener.location).attr("href", "javascript:goCoinUpdate( '${idx}','${coinmoney}');");
 			
 		    self.close();
@@ -110,7 +110,7 @@ function goOrder(totalAmount, point, postcode, address, address_detail, address_
         dataType : "json",
         success : function(json){
             alert(json.message);
-            location.href = json.loc;
+            window.opener.location.href = json.loc;
         },
         error: function(request, status, error){
             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
