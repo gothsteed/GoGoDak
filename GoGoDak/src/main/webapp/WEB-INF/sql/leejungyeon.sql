@@ -125,6 +125,7 @@ FROM tab;
 select *
 from TBL_LOGIN_HISTORY;
 
+commit;
 
 ALTER TABLE tbl_product
 	ADD
