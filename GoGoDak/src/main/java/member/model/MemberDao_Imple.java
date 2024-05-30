@@ -413,7 +413,9 @@ public class MemberDao_Imple implements MemberDao {
 					   + "        select id, name, email,"
 					   + "               case when substr(jubun, 7, 1) in('1', '3') then '남' else '여' end AS GENDER "
 					   + "        from tbl_member "
-					   + "        where id != 'admin' ";
+					   + "        where id != 'admin' "
+					   + " and exist_status = 1 "
+					   + "  and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");

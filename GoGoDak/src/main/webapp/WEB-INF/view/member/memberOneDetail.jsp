@@ -94,7 +94,7 @@
 	   
 	   <c:set var="tel" value="${requestScope.mvo.tel}" />   
 	      
-	   <p class="h3 text-center mt-5 mb-4">::: ${requestScope.mvo.name} 님의 회원 상세정보 :::</p>    
+	   <p class="h3 text-center mt-5 mb-4" style="font-famliy: bold;">	🐔🐔 ${requestScope.mvo.name} 님의 회원 상세정보 🐔🐔</p>    
 	   
 	   <table class="table table-bordered" style="width: 60%; margin: 0 auto;">
 		   <tr>
@@ -178,7 +178,7 @@
 	
 	<div class="text-center mb-5">
 		<button type="button" class="btn btn-outline-warning" onclick="javascript:history.back()">회원목록</button>
-       <button type="button" class="btn btn-outline-dark" onclick="javascript:location.href='${pageContext.request.contextPath}${requestScope.goBackURL}'">회원목록[검색된결과]</button>
+ 
     </div>   
 
 </div>
