@@ -369,8 +369,8 @@ $(document).ready(function() {
 	            const imageUrl = reader.result;
 	            const imageElement = document.createElement('img');
 	            imageElement.src = imageUrl;
-	            imageElement.style.maxWidth = '500px'; // 이미지의 최대 너비 지정
-	            imageElement.style.maxHeight = '500px'; // 이미지의 최대 높이 지정
+	            imageElement.style.maxWidth = '300px'; // 이미지의 최대 너비 지정
+	            imageElement.style.maxHeight = '300px'; // 이미지의 최대 높이 지정
 	            imagePreview.innerHTML = ''; // 이미지를 교체하므로 이전 이미지를 삭제
 	            imagePreview.appendChild(imageElement);
 	        };
@@ -521,7 +521,7 @@ function deleteReview() {
             if(response.success) {
             	alert("리뷰가 삭제되었습니다!");
             	$('#reviewUpdateModal').modal('hide');
-            	//remove 
+            	//remove the 
             	
             }
             else {
