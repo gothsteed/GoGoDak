@@ -57,7 +57,7 @@ public class Member extends AbstractController{
 			paraMap.put("sizePerPage", sizePerPage);
 			
 			int totalPage = mdao.getTotalPage(paraMap);
-
+			
 			try {
 				if(Integer.parseInt(currentShowPageNo) > totalPage || Integer.parseInt(currentShowPageNo) <= 0 ) {
 					currentShowPageNo = "1";
@@ -81,6 +81,7 @@ public class Member extends AbstractController{
 			if(pageNo != 1) {
 				pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 			}
+			
 			while( !(loop > blockSize || pageNo > totalPage) ){
 				
 				if(pageNo == Integer.parseInt(currentShowPageNo)) {
