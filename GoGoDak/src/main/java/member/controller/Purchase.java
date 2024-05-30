@@ -54,6 +54,7 @@ public class Purchase extends AbstractController {
 			sendError(request, message, loc);
 			return;
 		}
+		
 
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
@@ -64,11 +65,7 @@ public class Purchase extends AbstractController {
 			point = Integer.parseInt(request.getParameter("point"));
 
 		} catch (NumberFormatException e) {
-			String message = "올바르지 않는 포인트 값입니다";
-			String loc = request.getContextPath() + "";
-
-			sendError(request, message, loc);
-			return;
+			point = 0;
 		}
 		
 		if(point > loginuser.getPoint()) {
@@ -94,32 +91,44 @@ public class Purchase extends AbstractController {
 		 * request.setAttribute("userid", userId);
 		 */
 		
-		
 		Map<ProductVO, Integer> cart =  (Map<ProductVO, Integer>) session.getAttribute("cart");
 		int totalAmount = getFlooredTotalAmount(cart);
 		request.setAttribute("totalAmount", totalAmount - point);
 		
 		System.out.println("using point : " + point);
-		int result = 0;
-		if(point == 0) {
-			result =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());
-			loginuser.setPoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05));
-		}
-		else {
-			result = memberDao.updatePoint(loginuser.getPoint() + - point , loginuser.getMember_seq());
-			loginuser.setPoint(loginuser.getPoint() - point );
-		}
+		String postcode = request.getParameter("postcode");
+		String  address =  request.getParameter("address");
+		String address_detail = request.getParameter("address_detail");
+		String address_extra =  request.getParameter("address_extra");
 		
+		
+//		int result = 0;
+//		if(point == 0) {
+//			result =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());
+//			loginuser.setPoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05));
+//		}
+//		else {
+//			result = memberDao.updatePoint(loginuser.getPoint() + - point , loginuser.getMember_seq());
+//			loginuser.setPoint(loginuser.getPoint() - point );
+//		}
+//		
 
+//		
+//		
+//		if(result != 1) {
+//			String message = "포인트 사용 실패";
+//			String loc = request.getContextPath() + "";
+//			sendError(request, message, loc);
+//			return;
+//		}
 		
 		
-		if(result != 1) {
-			String message = "포인트 사용 실패";
-			String loc = request.getContextPath() + "";
-			sendError(request, message, loc);
-			return;
-		}
 		
+		request.setAttribute("point", point);
+		request.setAttribute("postcode", postcode);
+		request.setAttribute("address", address);
+		request.setAttribute("address_detail", address_detail);
+		request.setAttribute("address_extra", address_extra);
 		
 		
 		super.setRedirect(false);

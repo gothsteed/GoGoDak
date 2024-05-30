@@ -60,7 +60,8 @@ $(document).ready(function() {
 		*/
 		//	opener.location.href = "javascript:goCoinUpdate('${idx}','${coinmoney}');";
 		//	팝업을 어디서 불러왔는지
-			window.opener.goOrder(${requestScope.totalAmount});
+			console.log("calling goOrder")
+			window.opener.goOrder(${requestScope.totalAmount}, ${requestScope.point}, "${requestScope.postcode}", "${requestScope.address}", "${requestScope.address_detail}", "${requestScope.address_extra}");
 		//  $(opener.location).attr("href", "javascript:goCoinUpdate( '${idx}','${coinmoney}');");
 			
 		    self.close();
@@ -73,6 +74,53 @@ $(document).ready(function() {
    }); // end of IMP.request_pay()----------------------------
 
 }); // end of $(document).ready()-----------------------------
+
+function goOrder(totalAmount, point, postcode, address, address_detail, address_extra) {
+    var cartItems = window.opener.document.querySelectorAll('.cart-item');
+    var hasVisibleItems = false;
+
+    cartItems.forEach(function(item) {
+        if (item.style.display !== 'none') {
+            console.log("something is visable")
+            hasVisibleItems = true;
+        }
+    });
+
+    if (!hasVisibleItems) {
+        alert('장바구니에 상품이 없습니다.');
+        return;
+    }
+
+    const delivery_message = window.opener.document.querySelector("input#delivery_message").value.trim();
+    $(".loader").css("display" ,"block");
+
+    $.ajax({
+        url : "<%=ctxPath%>/member/order.dk",
+        data : {
+            "point": point,
+            "totalAmount": totalAmount,
+            "postcode": postcode,
+            "address": address,
+            "address_detail": address_detail,
+            "address_extra": address_extra,
+            "delivery_message": delivery_message
+        },
+        type : "post",
+        async : false,
+        dataType : "json",
+        success : function(json){
+            alert(json.message);
+            location.href = json.loc;
+        },
+        error: function(request, status, error){
+            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+        }
+    });
+
+    $(".loader").css("display" ,"none");
+}
+
+
 
 </script>
 </head>	
