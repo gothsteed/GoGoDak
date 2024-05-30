@@ -89,6 +89,12 @@ public interface MemberDao {
 	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
 
 	int isDormancy(String id)throws SQLException;
+	//회원정보 수정 시 이메일 중복 체크 하기
+	boolean emailDuplicateCheck2(Map<String, String> paraMap)throws SQLException;
+	//회원정보 수정 시 현재 사용중인 비밀번인지 확인하기
+	boolean duplicatePwdCheck(Map<String, String> paraMap)throws SQLException;
+	//회원정보 수정
+	int updateMember(MemberVO member)throws SQLException;
 	
 	
 	

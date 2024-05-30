@@ -1184,9 +1184,113 @@ public class MemberDao_Imple implements MemberDao {
 		
 		return result;
 	}
-
-
 	
+	
+	
+	
+	
+	//회원정보 수정 시 이메일 중복 체크 하기
+	@Override
+	public boolean emailDuplicateCheck2(Map<String, String> paraMap)throws SQLException {
+		 boolean isExists = false;
+	      
+	      try {
+	    	  conn = ds.getConnection();
+	         
+	         String sql = " select email "
+	                  + " from tbl_member "
+	                  + " where id != ? and email = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql); 
+	         pstmt.setString(1, paraMap.get("id"));
+	         pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); // 행이 있으면(중복된 email) true,
+	                               // 행이 없으면(사용가능한 email) false
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return isExists;      
+	}
+	
+	
+	//회원정보 수정 시 현재 사용중인 비밀번인지 확인하기
+	@Override
+	public boolean duplicatePwdCheck(Map<String, String> paraMap) throws SQLException {
+		 boolean isExists = false;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select password "
+	                  + " from tbl_member "
+	                  + " where id = ? and password = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql); 
+	         pstmt.setString(1, paraMap.get("id"));
+	         pstmt.setString(2, Sha256.encrypt(paraMap.get("new_pwd")));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); // 행이 있으면(현재 사용중인 비밀번호) true,
+	                               // 행이 없으면(새로운 비밀번호) false
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return isExists;         
+	}
+	//회원정보 수정
+	@Override
+	public int updateMember(MemberVO member) throws SQLException {
+		int result = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_member set name = ? "
+	                  + "                     , password = ? "
+	                  + "                     , email = ? "
+	                  + "                     , tel = ? "
+	                  + "                     , postcode = ? " 
+	                  + "                     , address = ? "
+	                  + "                     , address_detail = ? "
+	                  + "                     , address_extra = ? "
+	                  + "                     , last_password_change = sysdate "
+	                  + " where id = ? ";
+	                  
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, member.getName());
+	         pstmt.setString(2, Sha256.encrypt(member.getPassword()) ); // 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.
+	         pstmt.setString(3, aes.encrypt(member.getEmail()) );  // 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다. 
+	         pstmt.setString(4, aes.encrypt(member.getTel()) ); // 휴대폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다. 
+	         pstmt.setString(5, member.getPostcode());
+	         pstmt.setString(6, member.getAddress());
+	         pstmt.setString(7, member.getAddress_detail());
+	         pstmt.setString(8, member.getAddress_extra());
+	         pstmt.setString(9, member.getId());
+	                  
+	         result = pstmt.executeUpdate();
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      }
+	       finally {
+	         close();
+	      }
+	      
+	      return result;      
+	}
+
+
 	
 	
 	
