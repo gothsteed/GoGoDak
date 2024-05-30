@@ -443,7 +443,11 @@ function goDelete() {
 									평가없음
                             	</c:if>
 								</div>
-								<img class="review-pic" src="<%=contextPath %>/images/review/${review.pic}">
+								<c:if test="${not empty review.pic}">
+									<img class="review-pic" src="<%=contextPath %>/images/review/${review.pic}">
+								</c:if>
+								
+								
 								<p class="review-content">${review.content}</p>
 							</div>
 							<hr/>

@@ -287,7 +287,7 @@ String ctxPath = request.getContextPath();
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
 
-        });
+        }); 
         
         $(".loader").css("display" ,"none");
 
