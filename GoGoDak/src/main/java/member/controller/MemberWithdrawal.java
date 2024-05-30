@@ -21,16 +21,16 @@ public class MemberWithdrawal extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String method = request.getMethod();
+		String message = "";
+		String loc = "";
 		
 		if("POST".equalsIgnoreCase(method)) {
 			String id = request.getParameter("id");	
-			String pwd = request.getParameter("password");
+			String pwd = request.getParameter("pwd");
 			
 			MemberVO member = new MemberVO();
 			member.setId(id);
 			member.setPassword(pwd);
-			String message = "";
-			String loc = "";
 			   
 			try {
 				int n = mdao.deleteMember(member);
@@ -40,7 +40,7 @@ public class MemberWithdrawal extends AbstractController {
 					loc = request.getContextPath() + "/login/logout.dk";
 				}
 				else {
-					message = "회원탈퇴가 실패홤 다시시도하셈:)";
+					message = "회원탈퇴가 실패하였습니다. 다시 시도해주세요.";
 					loc = request.getContextPath() + "/login/logout.dk";
 				}
 			} catch(SQLException e) {
@@ -52,6 +52,7 @@ public class MemberWithdrawal extends AbstractController {
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
