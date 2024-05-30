@@ -14,6 +14,21 @@
   	 font-weight: bold;
   	 text-align: right;
   }
+/*    body > div.container > div {
+ 
+   padding: 60px 50px 50px 20px;
+  } */
+ 
+body > div.container > div > p {
+       display: block;
+        text-align: center;
+        font-size: 2em;
+        margin-top: 0.67em;
+        margin-bottom: 0.67em;
+        margin-left: 0;
+        margin-right: 0;
+        font-weight: bold;
+        }
 
 </style>
 
@@ -84,104 +99,105 @@
   
 </script>
 
-<div class="container">
-
-	<c:if test="${empty requestScope.mvo}">
-	      존재하지 않는 회원입니다.<br>
-	</c:if>
-	
-	<c:if test="${not empty requestScope.mvo}">
-	   
-	   <c:set var="tel" value="${requestScope.mvo.tel}" />   
-	      
-	   <p class="h3 text-center mt-5 mb-4" style="font-famliy: bold;">	🐔🐔 ${requestScope.mvo.name} 님의 회원 상세정보 🐔🐔</p>    
-	   
-	   <table class="table table-bordered" style="width: 60%; margin: 0 auto;">
-		   <tr>
-		      <td>아이디&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.id}</td>
-		   </tr>
-		   <tr>
-		      <td>회원명&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.name}</td>
-		   </tr>
-		   <tr>
-		      <td>이메일&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.email}</td>
-		   </tr>
-		   <tr>
-		      <td>휴대폰&nbsp;:&nbsp;</td>
-		      <td>${fn:substring(tel, 0, 3)}-${fn:substring(tel, 3, 7)}-${fn:substring(tel, 7, 11)}</td> 
-		   </tr>
-		   <tr>
-		      <td>우편번호&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.postcode}</td>
-		   </tr>
-		   <tr>
-		      <td>주소&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.address}&nbsp;
-		          ${requestScope.mvo.address_detail}&nbsp;
-		          ${requestScope.mvo.address_extra}
-		      </td>
-		   </tr>
-		   <tr>
-		      <td>성별&nbsp;:&nbsp;</td>
-		      <td>
-		         <c:choose>
-		            <c:when test="${fn:substring(requestScope.mvo.jubun, 7, 1) == '1' || fn:substring(requestScope.mvo.jubun, 7, 1) == '3'  }">남</c:when> 
-		            <c:otherwise>여</c:otherwise>
-		         </c:choose>
-		      </td>
-		   </tr>
-		   <tr>
-		      <td>생년월일&nbsp;:&nbsp;</td>
-		      <td>${fn:substring(requestScope.mvo.jubun, 0, 6)}</td>
-		   </tr>
-		   <tr>
-		      <td>만나이&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.age}&nbsp;세</td>
-		   </tr>
-		  <tr>
-		      <td>포인트&nbsp;:&nbsp;</td>
-		      <td>
-		         <fmt:formatNumber value="${requestScope.mvo.point}" pattern="###,###" />&nbsp;POINT 
-		      </td>
-		   </tr>
-		   <tr>
-		      <td>가입일자&nbsp;:&nbsp;</td>
-		      <td>${requestScope.mvo.registerDate}</td>
-		   </tr>
-	    </table>
-	    
-	    <%-- ==== 휴대폰 SMS(문자) 보내기 ==== --%>
-		<div class="border my-5 text-center" style="width: 60%; margin: 0 auto;">
-		  	<p class="h5 bg-info text-white">
-		  	  &gt;&gt;&nbsp;&nbsp;휴대폰 SMS(문자) 보내기 내용 입력란&nbsp;&nbsp;&lt;&lt;
-		  	</p>
-		  	<div class="mt-4 mb-3">
-		  		<span class="bg-danger text-white" style="font-size: 14pt;">문자발송 예약일자</span>
-		  		<input type="date" id="reservedate" class="mx-2" />
-		  		<input type="time" id="reservetime" />
-		  	</div>
-		  	<div style="display: flex;">
-		  	   <div style="border: solid 0px red; width: 81%; margin: auto;">
-		  	      <textarea rows="4" id="smsContent" style="width: 100%;"></textarea>
-		  	   </div>
-		  	   <div style="border: solid 0px blue; width: 19%; margin: auto;">
-		  	      <button id="btnSend" class="btn btn-secondary">문자전송</button>
-		  	   </div>
-		  	</div>
-		  	<div id="smsResult" class="p-3"></div>
-		</div>	   
-	      
-	</c:if>
-	
-	<div class="text-center mb-5">
-		<button type="button" class="btn btn-outline-warning" onclick="javascript:history.back()">회원목록</button>
- 
+		<div class="container">
+			<div class="member">
+			<c:if test="${empty requestScope.mvo}">
+			      존재하지 않는 회원입니다.<br>
+			</c:if>
+			
+			<c:if test="${not empty requestScope.mvo}">
+			   
+			   <c:set var="tel" value="${requestScope.mvo.tel}" />   
+		
+			   <p class="h3 text-center mt-5 mb-4" style="font-famliy: bold;">	🐔🐔 ${requestScope.mvo.name} 님의 회원 상세정보 🐔🐔</p>    
+			   
+			   <table class="table table-bordered" style="width: 60%; margin: 0 auto;">
+				   <tr>
+				      <td>아이디&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.id}</td>
+				   </tr>
+				   <tr>
+				      <td>회원명&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.name}</td>
+				   </tr>
+				   <tr>
+				      <td>이메일&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.email}</td>
+				   </tr>
+				   <tr>
+				      <td>휴대폰&nbsp;:&nbsp;</td>
+				      <td>${fn:substring(tel, 0, 3)}-${fn:substring(tel, 3, 7)}-${fn:substring(tel, 7, 11)}</td> 
+				   </tr>
+				   <tr>
+				      <td>우편번호&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.postcode}</td>
+				   </tr>
+				   <tr>
+				      <td>주소&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.address}&nbsp;
+				          ${requestScope.mvo.address_detail}&nbsp;
+				          ${requestScope.mvo.address_extra}
+				      </td>
+				   </tr>
+				   <tr>
+				      <td>성별&nbsp;:&nbsp;</td>
+				      <td>
+				         <c:choose>
+				            <c:when test="${fn:substring(requestScope.mvo.jubun, 7, 1) == '1' || fn:substring(requestScope.mvo.jubun, 7, 1) == '3'  }">남</c:when> 
+				            <c:otherwise>여</c:otherwise>
+				         </c:choose>
+				      </td>
+				   </tr>
+				   <tr>
+				      <td>생년월일&nbsp;:&nbsp;</td>
+				      <td>${fn:substring(requestScope.mvo.jubun, 0, 6)}</td>
+				   </tr>
+				   <tr>
+				      <td>만나이&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.age}&nbsp;세</td>
+				   </tr>
+				  <tr>
+				      <td>포인트&nbsp;:&nbsp;</td>
+				      <td>
+				         <fmt:formatNumber value="${requestScope.mvo.point}" pattern="###,###" />&nbsp;POINT 
+				      </td>
+				   </tr>
+				   <tr>
+				      <td>가입일자&nbsp;:&nbsp;</td>
+				      <td>${requestScope.mvo.registerDate}</td>
+				   </tr>
+				   
+			    </table>
+			    
+			    <%-- ==== 휴대폰 SMS(문자) 보내기 ==== --%>
+				<div class="border my-5 text-center" style="width: 60%; margin: 0 auto;">
+				  	<p class="h5 bg-secondary text-white">
+				  	&nbsp;&nbsp;휴대폰 SMS(문자) 보내기&nbsp;&nbsp;
+				  	</p>
+				  	<div class="mt-4 mb-3">
+				  		<span class="text-warning" style="font-size: 14pt;">문자발송 예약일자</span>
+				  		<input type="date" id="reservedate" class="mx-2" />
+				  		<input type="time" id="reservetime" />
+				  	</div>
+				  	<div style="display: flex;">
+				  	   <div style="border: solid 0px red; width: 81%; margin: auto;">
+				  	      <textarea rows="4" id="smsContent" style="width: 100%;"></textarea>
+				  	   </div>
+				  	   <div style="border: solid 0px blue; width: 19%; margin: auto;">
+				  	      <button id="btnSend" class="btn btn-secondary">문자전송</button>
+				  	   </div>
+				  	</div>
+				  	<div id="smsResult" class="p-3"></div>
+				</div>	   
+			      
+			</c:if>
+			
+			<div class="text-center mb-5">
+				<button type="button" class="btn btn-outline-warning" onclick="javascript:history.back()">돌아가기</button>
+		</div>
     </div>   
-
 </div>
+
 
 
 <jsp:include page="../footer.jsp" />
