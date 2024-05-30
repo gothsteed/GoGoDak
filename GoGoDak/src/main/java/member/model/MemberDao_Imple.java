@@ -359,7 +359,9 @@ public class MemberDao_Imple implements MemberDao {
 			
 			String sql = " select ceil(count(*)/?) "
 					   + " from tbl_member "
-					   + " where id != 'admin' ";
+					   + " where id != 'admin'"
+					   + " and exist_status = 1 "
+					   + " and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
@@ -480,7 +482,9 @@ public class MemberDao_Imple implements MemberDao {
 			
 			String sql = " select count(*) "
 					   + " from tbl_member "
-					   + " where id != 'admin' ";
+					   + " where id != 'admin' "
+					   + "  and exist_status = 1 "
+					   + " and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
