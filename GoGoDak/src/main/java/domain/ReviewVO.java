@@ -2,6 +2,8 @@ package domain;
 
 import java.sql.Date;
 
+import org.json.JSONObject;
+
 public class ReviewVO {
 	private int review_seq;		  //리뷰고유번호
 	private int fk_member_seq;	  //유저고유번호
@@ -94,7 +96,19 @@ public class ReviewVO {
 		this.odto = odto;
 	}
 	
-	
+	public JSONObject toJSONObject() {
+		JSONObject json = new JSONObject();
+		json.put("review_seq", this.review_seq);
+		json.put("fk_member_seq", this.fk_member_seq);
+		json.put("fk_product_seq", this.fk_product_seq);
+		json.put("fk_order_seq", this.fk_order_seq);
+		json.put("id", this.id);
+		json.put("star", this.star);
+		json.put("ragisterdate", this.ragisterdate.toString());
+		json.put("content", this.content);
+		json.put("pic", this.pic);
+		return json;
+	}
 	
 	
 }

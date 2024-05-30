@@ -177,4 +177,36 @@ public class ReviewDao_imple implements ReviewDao {
 		return review;
 	}
 
+	@Override
+	public int updateReview(int review_seq, int star, String content, String picName) throws SQLException {
+		
+		int result = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " UPDATE TBL_REVIEW  "
+					+ " SET STAR = ?,  "
+					+ "    CONTENT = ?,  "
+					+ "    PIC = ?,  "
+					+ "    REGISTERDAY = sysdate  "
+					+ " WHERE REVIEW_SEQ = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, star);
+			pstmt.setString(2, content);
+			pstmt.setString(3, picName);
+			pstmt.setInt(4, review_seq);
+
+			
+			result = pstmt.executeUpdate();
+
+		} finally {
+			close();
+		}
+
+		return result;
+	}
+
 }
