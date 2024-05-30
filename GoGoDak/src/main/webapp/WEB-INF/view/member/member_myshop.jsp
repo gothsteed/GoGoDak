@@ -22,17 +22,17 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.2-dist/css/bootstrap.min.css" > 
 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/coinPurchaseTypeChoice.css" />
+<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/coinPurchaseTypeChoice.css" /> --%>
 
 <%-- Optional JavaScript --%>
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.2-dist/js/bootstrap.bundle.min.js" ></script> 
 
 <%-- 직접 만든 JS --%>
-<script type="text/javascript" src="<%= ctxPath%>/js/member/coinPurchaseTypeChoice.js"></script>
+<%-- <script type="text/javascript" src="<%= ctxPath%>/js/member/coinPurchaseTypeChoice.js"></script> --%>
 
 
-
+<jsp:include page="../header.jsp" />
 
 
 <style type="text/css">
@@ -163,7 +163,7 @@ li a{
 
 
 </head>
-<jsp:include page="../header.jsp" />
+
 
 	<div class="container" >
 		<h2 class="text-center ">마이 쇼핑</h2>
@@ -253,21 +253,25 @@ li a{
 	            <p style="font-size: 12px;"><a href="<%= ctxPath%>/member/memberEdit.dk">회원이신 고객님의 개인정보를<br>수정하는 공간입니다.</a></p>
        		</li>
     	</div>
-    
-    
-    
-    
-    
-    
-    
+
     </div>
 	
-	
-	
-	
-	
-
-</html>
+	<%-- 회원탈퇴하기 --%>
+	<div class="container my-5" align="right">
+		<form name="deleteFrm">
+			<input type="hidden" name="id" value="${sessionScope.loginuser.id}" />
+   			<button type="button" class="btn btn-outline-secondary" onclick="goDel()">회원탈퇴</button>
+		</form>
+   	</div>
+   	
+   	<script type="text/javascript">
+   		function goDel() {
+   			const frm = document.deleteFrm;
+			frm.action = "<%= ctxPath%>/member/memberWithdrawal.dk";
+			frm.method = "post";
+			frm.submit();
+		}
+   	</script>
 
 <jsp:include page="../footer.jsp" />
 
