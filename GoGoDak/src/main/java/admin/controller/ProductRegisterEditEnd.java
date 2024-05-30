@@ -39,7 +39,7 @@ public class ProductRegisterEditEnd extends AbstractController {
             String discount_type = request.getParameter("discount_type");
             String discount_amount = request.getParameter("discount_amount");
             String fk_manufacturer_seq = request.getParameter("fk_manufacturer_seq");
-            
+            System.out.println("product_seq" + product_seq);
             // 원래 이미지 파일 가져오기
             ProductVO originalProduct = productDao.getProductBySeq(parseInteger(product_seq));
             String originalMainPic = originalProduct.getMain_pic();

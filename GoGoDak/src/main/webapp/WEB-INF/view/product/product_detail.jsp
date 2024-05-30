@@ -229,6 +229,16 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 .review-pic {
 	height:200px;
 }
+
+
+.productPic{
+	border:solid 0px red;
+	max-width: 60%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+
+}
 </style>
 <script>
 
@@ -399,7 +409,7 @@ function goDelete() {
 					aria-labelledby="details-tab">
 					<!-- Detailed information about the product -->
 					<p>${requestScope.product.description}</p>
-					<div>
+					<div class = "productPic">
 						<!-- Inserted Image -->
 						<img
 							src="<%= contextPath %>/images/product/${requestScope.product.description_pic}"
