@@ -93,6 +93,34 @@ String ctxPath = request.getContextPath();
         var points = parseInt(document.getElementById('points').value) || 0;
         totalCost -= points;
         document.getElementById('totalCost').innerText = totalCost.toLocaleString() + '원';
+        
+        
+        let cartJson = collectCartData();
+        
+        
+        let point = parseInt(document.getElementById('points').value) || 0;
+        $.ajax({
+            url: '<%=ctxPath%>/member/cart.dk',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',   
+            data: cartJson,
+            async:false,
+            success: function(response) {
+            	if(response.success) {
+					console.log("카드 담기 성공")
+                    
+                } else {
+                	console.log(response.message)
+  
+                }
+            },
+            error: function(xhr, status, error) {
+            	console.log(error)
+            }
+        });
+        
+        
     }
 
     function checkPoints(availablePoints) {
@@ -188,6 +216,60 @@ String ctxPath = request.getContextPath();
                 if (response.success) {
 <%--                     alert('카트에 담김');
                     window.location.href = '<%=ctxPath%>/member/cart.dk'; --%>
+                    
+                    // Create a form element
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = "<%=ctxPath%>/member/purchase.dk";
+
+                    // Set the form target to open in a new window
+                    form.target = "cartPurchase";
+
+                    // Create and append input fields to the form
+                    const inputPoint = document.createElement('input');
+                    inputPoint.type = 'hidden';
+                    inputPoint.name = 'point';
+                    inputPoint.value = point;
+                    form.appendChild(inputPoint);
+
+                    const inputPostcode = document.createElement('input');
+                    inputPostcode.type = 'hidden';
+                    inputPostcode.name = 'postcode';
+                    inputPostcode.value = postcode;
+                    form.appendChild(inputPostcode);
+
+                    const inputAddress = document.createElement('input');
+                    inputAddress.type = 'hidden';
+                    inputAddress.name = 'address';
+                    inputAddress.value = address;
+                    form.appendChild(inputAddress);
+
+                    const inputDetailAddress = document.createElement('input');
+                    inputDetailAddress.type = 'hidden';
+                    inputDetailAddress.name = 'address_detail';
+                    inputDetailAddress.value = detailAddress;
+                    form.appendChild(inputDetailAddress);
+
+                    const inputExtraAddress = document.createElement('input');
+                    inputExtraAddress.type = 'hidden';
+                    inputExtraAddress.name = 'address_extra';
+                    inputExtraAddress.value = extraAddress;
+                    form.appendChild(inputExtraAddress);
+
+                    // Append the form to the document body and submit it
+                    document.body.appendChild(form);
+                    const width = 1000;
+                    const height = 600;
+                    const left = Math.ceil((window.screen.width - width) / 2);
+                    const top = Math.ceil((window.screen.height - height) / 2);
+
+                    window.open('', "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}, resizable=yes, scrollbars=yes`);
+                    form.submit();
+
+                    // Remove the form from the document after submission
+                    document.body.removeChild(form);
+
+                <%--     
                     const width = 1000;
                     const height = 600;
                     //todo: !!!purchase url 추가!!!!!
@@ -197,7 +279,7 @@ String ctxPath = request.getContextPath();
                     const top = Math.ceil((window.screen.height - height)/2);
 
                     window.open(url, "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}`);
-                    
+                     --%>
                 } else {
                 	console.log(response.message)
                     alert('카트 담기 실패: ' + response.message);
@@ -226,7 +308,7 @@ String ctxPath = request.getContextPath();
     
     
     
-    function goOrder(totalAmount) {
+    function goOrder(totalAmount, point, postcode, address, address_detail, address_extra) {
     	
         var cartItems = document.querySelectorAll('.cart-item');
         var hasVisibleItems = false;
@@ -245,10 +327,10 @@ String ctxPath = request.getContextPath();
     	
     	
     	
-        const postcode = $("input#postcode").val().trim();
+/*         const postcode = $("input#postcode").val().trim();
         const address = $("input#address").val().trim();
         const detailAddress = $("input#detailAddress").val().trim();
-        const extraAddress = $("input#extraAddress").val().trim();
+        const extraAddress = $("input#extraAddress").val().trim(); */
         const delivery_message = $("input#delivery_message").val().trim();
     	
         $(".loader").css("display" ,"block");
@@ -256,11 +338,12 @@ String ctxPath = request.getContextPath();
         $.ajax({
             url : "<%=ctxPath%>/member/order.dk",
             data : {
+            		"point":point,
                     "totalAmount": totalAmount,
                     "postcode" : postcode,
                     "address" : address,
-                    "address_detail" : detailAddress,
-                    "address_extra" : extraAddress,
+                    "address_detail" : address_detail,
+                    "address_extra" : address_extra,
                     "delivery_message":delivery_message}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
             
             type : "post",  // type 을 생략하면 type : "get" 이다.
@@ -369,10 +452,10 @@ String ctxPath = request.getContextPath();
 	                </div>
 	            </div>
                 
-                <div class="total">
+                <div class="total container">
 	                <p>총 가격: <span id="totalCost" class="h3"></span></p>
 	                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다.&nbsp;&nbsp;(* 단, 포인트 사용시 적립X *)</p>
-	                <button type="submit" onclick="goPurchase()">구매하기</button>
+	                <button type="button" onclick="goPurchase()">구매하기</button>
 	            </div>
             </div>
         </form>

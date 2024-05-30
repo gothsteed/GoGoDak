@@ -32,9 +32,12 @@ public class Order extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Adsfasfasdf");
+		
 		
 		String method = request.getMethod();
 		if(method.equalsIgnoreCase("get")) {
+			System.out.println("get으로 들어옴");
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "잘못된 방식");
@@ -48,6 +51,7 @@ public class Order extends AbstractController {
 		
 		
 		if(!super.checkLogin(request)) {
+			System.out.println("로그인 안됨");
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "로그인 하시오");
@@ -57,7 +61,15 @@ public class Order extends AbstractController {
 	        setViewPage("/WEB-INF/jsonview.jsp");
 			return;
 		}
-		
+
+		int point;
+
+		try {
+			point = Integer.parseInt(request.getParameter("point"));
+
+		} catch (NumberFormatException e) {
+			point = 0;
+		}
 		
 		int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
 		String postcode = request.getParameter("postcode");
@@ -72,9 +84,23 @@ public class Order extends AbstractController {
 		Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
 		
 		int[] result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra,  delivery_message, totalAmount, cart );
+		
+		int pointResult = 0;
+		if(point == 0) {
+			pointResult =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05));
+		}
+		else {
+			pointResult = memberDao.updatePoint(loginuser.getPoint() + - point , loginuser.getMember_seq());
+			loginuser.setPoint(loginuser.getPoint() - point );
+		}
+		System.out.println(pointResult);
+		
+		
 		//int pointResult = memberDao.updatePoint(loginuser.getPoint() + (int)Math.round(totalAmount * 0.05), loginuser.getMember_seq());
 		
-		if(result[0] != 1) {
+		if(result[0] * pointResult != 1) {
+			System.out.println("!!!주문 실패!!!");
 		    JSONObject jsonResponse = new JSONObject();
 		    jsonResponse.put("success", false);
 		    jsonResponse.put("message", "주문 실패!");
