@@ -123,7 +123,7 @@ public class ProductDao_Imple implements ProductDao {
 					+ "        FROM " + "        ( "
 					+ "            select * "
 					+ "            from tbl_product "
-					+ "            where product_type = ? ) V ";
+					+ "            where product_type = ? and exist_status = 1) V ";
 
 
 
@@ -162,7 +162,7 @@ public class ProductDao_Imple implements ProductDao {
 
 			String sql = " select ceil(count(*)/?) "
 					+ "            from tbl_product "
-					+ "            where product_type= ?";
+					+ "            where product_type= ? and exist_status = 1";
 
 
 
@@ -314,21 +314,12 @@ public class ProductDao_Imple implements ProductDao {
             pstmt.setString(7, pvo.getDescription_pic()); 
             pstmt.setInt(8, pvo.getProduct_type());
             pstmt.setString(9, pvo.getDiscount_type());
-            pstmt.setFloat(10, pvo.getDiscount_amount());
+            if(pvo.getFk_manufacturer_seq() == 0) {
+            	pstmt.setNull(10, java.sql.Types.INTEGER );
+            }else {
+            	pstmt.setNull(10, pvo.getFk_manufacturer_seq());
+            }
            
-            
-            System.out.println("sql :" + sql);
-	        System.out.println("product_name :" +  pvo.getProduct_name());
-	        System.out.println("getDescription :" + pvo.getDescription());
-	        System.out.println("getBase_price :" + pvo.getBase_price());
-	        System.out.println("getStock :" + pvo.getStock());
-	        System.out.println("getMain_pic :" + pvo.getMain_pic());
-	        System.out.println("getDescription_pic :" +  pvo.getDescription_pic());
-	        System.out.println("getProduct_type :" + pvo.getProduct_type());
-	        System.out.println("getDiscount_amount :" + pvo.getDiscount_amount());
-	        System.out.println("getProduct_seq :" + pvo.getProduct_seq());
-	        System.out.println("getFk_manufacturer_seq :" +  pvo.getFk_manufacturer_seq());
-	        System.out.println("getDiscount_type :" + pvo.getDiscount_type()); 
 	       
            
             result = pstmt.executeUpdate();
@@ -426,7 +417,7 @@ public class ProductDao_Imple implements ProductDao {
 
 			String sql = " select ceil(count(*)/?) "
 					+ "            from tbl_product "
-					+ "            where fk_discount_event_seq= ?";
+					+ "            where fk_discount_event_seq= ? and exist_status = 1";
 
 
 
@@ -463,7 +454,7 @@ public class ProductDao_Imple implements ProductDao {
 					+ "        FROM " + "        ( "
 					+ "            select * "
 					+ "            from tbl_product "
-					+ "            where fk_discount_event_seq = ? ) V ";
+					+ "            where fk_discount_event_seq = ? and exist_status = 1 ) V ";
 
 
 
@@ -502,7 +493,7 @@ public class ProductDao_Imple implements ProductDao {
 
 			String sql = " select * "
 					+ "  from tbl_product "
-					+ "  where fk_discount_event_seq = ? ";
+					+ "  where fk_discount_event_seq = ? and exist_status = 1 ";
 
 
 			pstmt = conn.prepareStatement(sql);
@@ -543,7 +534,8 @@ public class ProductDao_Imple implements ProductDao {
 					   + "    where manufacturer_seq = ? "
 					   + " ) M "
 					   + " JOIN tbl_product P "
-					   + " ON P.fk_manufacturer_seq = M.manufacturer_seq ";
+					   + " ON P.fk_manufacturer_seq = M.manufacturer_seq"
+					   + " where exist_status = 1 ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -613,18 +605,6 @@ public class ProductDao_Imple implements ProductDao {
 	        pstmt.setInt(11, pvo.getProduct_seq());
 
 	        
-	        
-	        System.out.println("sql :" + sql);
-	        System.out.println("product_name :" +  pvo.getProduct_name());
-	        System.out.println("getDescription :" + pvo.getDescription());
-	        System.out.println("getBase_price :" + pvo.getBase_price());
-	        System.out.println("getStock :" + pvo.getStock());
-	        System.out.println("getMain_pic :" + pvo.getMain_pic());
-	        System.out.println("getDescription_pic :" +  pvo.getDescription_pic());
-	        System.out.println("getProduct_type :" + pvo.getProduct_type());
-	        System.out.println("getDiscount_amount :" + pvo.getDiscount_amount());
-	        System.out.println("getProduct_seq :" + pvo.getProduct_seq());
-	        System.out.println("getFk_manufacturer_seq :" +  pvo.getFk_manufacturer_seq());
 	        result = pstmt.executeUpdate();
 	        
 	    } finally {
@@ -648,7 +628,7 @@ public class ProductDao_Imple implements ProductDao {
 			
 			String sql = " select product_seq "
 					   + " from tbl_product "
-					   + " where product_seq = ? " ;
+					   + " where product_seq = ? and exist_status = 1 " ;
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -677,7 +657,9 @@ public class ProductDao_Imple implements ProductDao {
 		int result = 0;
 		try {
 			conn = ds.getConnection();
-			String sql = " DELETE FROM tbl_product WHERE product_seq = ? " ;
+			String sql = " UPDATE tbl_PRODUCT "
+					+ "SET exist_status = 0 "
+					+ "WHERE product_seq = ?" ;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, productDelete.getProduct_seq());
 			
@@ -773,6 +755,35 @@ public class ProductDao_Imple implements ProductDao {
 		         return storeMapList;   
 
 	}//public List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException-------------
+
+	@Override
+	public List<ProductVO> getDiscountProduct() throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ " from tbl_product"
+					+ " where discount_type is not null and exist_status = 1 ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
 
 	
 	

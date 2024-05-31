@@ -91,7 +91,7 @@ public class ProductRegister extends AbstractController {
         String discount_amount = request.getParameter("discount_amount");
 
         ProductVO pvo = new ProductVO();
-        pvo.setFk_manufacturer_seq(Integer.parseInt(fk_manufacturer_seq));
+        pvo.setFk_manufacturer_seq(fk_manufacturer_seq != null && !fk_manufacturer_seq.isEmpty() ? Integer.parseInt(fk_manufacturer_seq) : 0);
         pvo.setProduct_name(product_name);
         pvo.setDescription(description);
         pvo.setBase_price(Integer.parseInt(base_price));

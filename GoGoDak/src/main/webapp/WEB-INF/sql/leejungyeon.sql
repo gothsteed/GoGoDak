@@ -472,3 +472,16 @@ ORDER BY product_type;
 
 
 
+select DELIVERY_STATUS, count(*) 
+from tbl_order
+ where fk_member_seq = 6
+ group by DELIVERY_STATUS;
+ 
+ desc tbl_discount_event;
+
+ALTER TABLE tbl_PRODUCT
+ADD exist_status NUMBER(1) DEFAULT 1;
+
+commit;
+
+

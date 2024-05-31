@@ -55,6 +55,8 @@ public interface ProductDao {
 	List<Map<String, String>> selectStoreMap() throws SQLException;
 
 	List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException;
+
+	List<ProductVO> getDiscountProduct() throws SQLException;
 	
 	
 

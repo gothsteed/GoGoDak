@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="../header.jsp" />
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%
 String contextPath = request.getContextPath();
 %>
 
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
 h2 {
@@ -115,7 +111,7 @@ h2 {
 }
 
 .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked 
-	~ label {
+	 ~ label {
 	color: gold;
 }
 
@@ -226,18 +222,17 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 .product_review p {
 	color: #ffa500;
 }
+
 .review-pic {
-	height:200px;
+	height: 200px;
 }
 
-
-.productPic{
-	border:solid 0px red;
+.productPic {
+	border: solid 0px red;
 	max-width: 60%;
 	margin: 0 auto;
 	display: flex;
 	justify-content: center;
-
 }
 </style>
 <script>
@@ -278,15 +273,13 @@ function goDelete() {
 	<section class="why_section layout_padding">
 		<div class="container">
 			<div class="row">
-			
+
 				<div class="col-md-6">
 					<div class="product_image">
-						<img
-							src="<%= contextPath %>/images/product/${requestScope.product.main_pic}"
-							alt="Product Name" style="width: 100%;">
+						<img src="<%= contextPath %>/images/product/${requestScope.product.main_pic}" alt="Product Name" style="width: 100%;">
 					</div>
 				</div>
-			
+
 				<div class="col-md-6">
 					<div class="product_detail">
 						<h2>
@@ -299,43 +292,34 @@ function goDelete() {
 								<c:when test="${not empty product.discount_type}">
 									<c:choose>
 										<c:when test="${product.discount_type == 'percent'}">
-                                          <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
-                                          <span style="color: red">
-                                          	 <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
-                                          </span>
-											
+											<span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+											<span style="color: red"> <fmt:formatNumber value="${product.base_price - (product.base_price * product.discount_amount / 100)}" type="currency" currencySymbol="" groupingUsed="true" />원
+											</span>
+
 										</c:when>
 										<c:when test="${product.discount_type == 'amount'}">
-                            			  <span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
-                                          <span style="color: red">
-                                          	<fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
-                
-                                          </span>
+											<span style="text-decoration: line-through;"><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</span>
+											<span style="color: red"> <fmt:formatNumber value="${product.base_price - product.discount_amount}" type="currency" currencySymbol="" groupingUsed="true" />원
+
+											</span>
 										</c:when>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-	                                  <fmt:formatNumber value="${product.base_price }" type="currency" currencySymbol="" groupingUsed="true" />원
+									<fmt:formatNumber value="${product.base_price }" type="currency" currencySymbol="" groupingUsed="true" />원
 	                              </c:otherwise>
 							</c:choose>
 						</p>
 
 						<div class="detail">
 
-							<td class="m_item"><span
-								style="font-size: 13px; color: #555555; font-weight: bold;">
-									<span class="delv_price_B"> <input
-										id="delivery_cost_prepaid" name="delivery_cost_prepaid"
-										value="P" type="hidden"> <strong>전상품 배송비 무료</strong>
+							<td class="m_item"><span style="font-size: 13px; color: #555555; font-weight: bold;"> <span class="delv_price_B"> <input id="delivery_cost_prepaid" name="delivery_cost_prepaid" value="P" type="hidden"> <strong>전상품 배송비 무료</strong>
 								</span>
 							</span></td> <br> <br>
 							<tr rel="상품 설명" class=" xans-record-">
-								<th scope="row"><span
-									style="font-size: 18px; color: #555555;">상품 설명: </span></th>
+								<th scope="row"><span style="font-size: 18px; color: #555555;">상품 설명: </span></th>
 								<br>
-								<td class="m_item"><span
-									style="font-size: 18px; color: #555555;"><font
-										color="#1c95fd">${product.description}</font><br>
+								<td class="m_item"><span style="font-size: 18px; color: #555555;"><font color="#1c95fd">${product.description}</font><br>
 							</tr>
 							<br>
 
@@ -348,7 +332,7 @@ function goDelete() {
 										<c:forEach var="i" begin="1" end="${requestScope.scoreAvg}">
 									    ★
 										</c:forEach>
-										
+
 										<c:forEach var="i" begin="${requestScope.scoreAvg+ 1}" end="5">
 									    ☆
 										</c:forEach>
@@ -370,25 +354,21 @@ function goDelete() {
 							</div>
 
 
-	
-							<button class="btn btn-dark"
-								onclick="goToCart(${requestScope.product.product_seq})">바로
-								구매하기</button>
+
+							<button class="btn btn-dark" onclick="goToCart(${requestScope.product.product_seq})">바로 구매하기</button>
 
 
-							<button class="btn btn-secondary"
-								onclick="addToCart(${requestScope.product.product_seq})">장바구니
-								넣기</button>
-								  
-							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
-							  <button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
+							<button class="btn btn-secondary" onclick="addToCart(${requestScope.product.product_seq})">장바구니 넣기</button>
+
+							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">
+								<button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
 							</c:if>
-							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">	
+							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">
 								<button type="button" class="btn btn-light" onclick="goDelete()">삭제</button>
-								
+
 							</c:if>
-						
-					
+
+
 						</div>
 					</div>
 				</div>
@@ -397,23 +377,16 @@ function goDelete() {
 
 		<div class="product_tabs">
 			<ul class="nav nav-tabs" id="productTab" role="tablist">
-				<li class="nav-item"><a class="nav-link active"
-					id="details-tab" data-toggle="tab" href="#details" role="tab"
-					aria-controls="details" aria-selected="true">Product Details</a></li>
-				<li class="nav-item"><a class="nav-link" id="reviews-tab"
-					data-toggle="tab" href="#reviews" role="tab"
-					aria-controls="reviews" aria-selected="false">Reviews</a></li>
+				<li class="nav-item"><a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">Product Details</a></li>
+				<li class="nav-item"><a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a></li>
 			</ul>
 			<div class="tab-content" id="productTabContent">
 				<div class="tab-pane fade show active" id="details" role="tabpanel">
-					aria-labelledby="details-tab">
 					<!-- Detailed information about the product -->
 					<p>${requestScope.product.description}</p>
-					<div class = "productPic">
+					<div class="productPic">
 						<!-- Inserted Image -->
-						<img
-							src="<%= contextPath %>/images/product/${requestScope.product.description_pic}"
-							style="width: 100%; margin-top: 20px;">
+						<img src="<%= contextPath %>/images/product/${requestScope.product.description_pic}" style="width: 100%; margin-top: 20px;">
 					</div>
 				</div>
 				<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
@@ -431,7 +404,7 @@ function goDelete() {
 								<div class="review-rating">
 
 									<c:if test="${not empty review.star}">
-									<c:forEach var="i" begin="1" end="${review.star}">
+										<c:forEach var="i" begin="1" end="${review.star}">
 									    ★
 									</c:forEach>
 										<c:forEach var="i" begin="${review.star + 1}" end="5">
@@ -446,11 +419,11 @@ function goDelete() {
 								<c:if test="${not empty review.pic}">
 									<img class="review-pic" src="<%=contextPath %>/images/review/${review.pic}">
 								</c:if>
-								
-								
+
+
 								<p class="review-content">${review.content}</p>
 							</div>
-							<hr/>
+							<hr />
 						</c:forEach>
 
 						<!-- 추가 리뷰 -->
@@ -462,27 +435,19 @@ function goDelete() {
 
 	</section>
 	<form name="productRegisterEdit" method="post" enctype="multipart/form-data">
-       <input type="hidden" name="fk_manufacturer_seq" value="${requestScope.product.fk_manufacturer_seq}">
-        <input type="hidden" name="product_seq" value="${requestScope.product.product_seq}">
-        <input type="hidden" name="product_name" value="${requestScope.product.product_name}">
-        <%--int로 형변환 과정 --%>
+		<input type="hidden" name="fk_manufacturer_seq" value="${requestScope.product.fk_manufacturer_seq}"> <input type="hidden" name="product_seq" value="${requestScope.product.product_seq}"> <input type="hidden" name="product_name" value="${requestScope.product.product_name}">
+		<%--int로 형변환 과정 --%>
 		<c:set var="basePrice" value="${requestScope.product.base_price}" />
-		<fmt:formatNumber value="${basePrice}" pattern="########0" var="formattedBasePrice" /> 
-		<input type="hidden" name="base_price" value="${formattedBasePrice}" /> 
+		<fmt:formatNumber value="${basePrice}" pattern="########0" var="formattedBasePrice" />
+		<input type="hidden" name="base_price" value="${formattedBasePrice}" />
 		<%--int로 형변환 과정 --%>
 		<c:set var="discountAmount" value="${requestScope.product.discount_amount}" />
 		<fmt:formatNumber value="${discountAmount}" pattern="########0" var="formattedDiscountAmount" />
-		<input type="hidden" name="discount_amount" value="${formattedDiscountAmount}" />
-        
-        <input type="hidden" name="stock" value="${requestScope.product.stock}">
-        <input type="hidden" name="description" value="${requestScope.product.description}">
-        <input type="hidden" name="discount_type" value="${requestScope.product.discount_type}">
-        <input type="hidden" name="discount_amount" value="${requestScope.product.discount_amount}">
-        <input type="hidden" name="product_type" value="${requestScope.product.product_type}">
-    </form>
-	
-	
- 		
+		<input type="hidden" name="discount_amount" value="${formattedDiscountAmount}" /> <input type="hidden" name="stock" value="${requestScope.product.stock}"> <input type="hidden" name="description" value="${requestScope.product.description}"> <input type="hidden" name="discount_type" value="${requestScope.product.discount_type}"> <input type="hidden" name="discount_amount" value="${requestScope.product.discount_amount}"> <input type="hidden" name="product_type" value="${requestScope.product.product_type}">
+	</form>
+
+
+
 	<!-- end why section -->
 
 	<!-- footer section -->
