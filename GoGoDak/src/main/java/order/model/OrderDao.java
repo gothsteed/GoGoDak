@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import domain.MemberPurchaseByMonthChart;
+import domain.MemebrPurchaseChart;
 import domain.OrderVO;
 import domain.ProductVO;
 
@@ -23,5 +25,9 @@ public interface OrderDao {
 	List<OrderVO> getLoginuserList(int fk_member_seq)throws SQLException;
 
 	int updateDelivery_status(int order_seq) throws SQLException;
+
+	List<MemebrPurchaseChart> memberPurchase_byCategory(int member_seq) throws SQLException;
+
+	List<MemberPurchaseByMonthChart> memberPurchase_byMonth_byCategory(int member_seq) throws SQLException;
 
 }

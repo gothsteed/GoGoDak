@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,9 @@ import javax.sql.DataSource;
 
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
+import domain.MemberPurchaseByMonthChart;
 import domain.MemberVO;
+import domain.MemebrPurchaseChart;
 import domain.OrderVO;
 import domain.ProductVO;
 
@@ -529,6 +532,143 @@ public class OrderDao_imple implements OrderDao {
 	    }
 
 	    return result;
+	}
+
+	@Override
+	public List<MemebrPurchaseChart> memberPurchase_byCategory(int member_seq) throws SQLException {
+		List<MemebrPurchaseChart> myPurchaseChart = new ArrayList<>();
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "SELECT  "
+					+ "    P.product_type,  "
+					+ "    COUNT(*) AS product_count, "
+					+ "    round((COUNT(*) * 100.0 / total_count), 1) AS percentage "
+					+ " FROM "
+					+ " ( "
+					+ "    SELECT * "
+					+ "    FROM tbl_order "
+					+ "    WHERE fk_member_seq = ? "
+					+ " ) O "
+					+ " JOIN "
+					+ " ( "
+					+ "    SELECT * "
+					+ "    FROM tbl_product_list "
+					+ " ) L "
+					+ " ON O.order_seq = L.fk_order_seq "
+					+ " JOIN "
+					+ " ( "
+					+ "    SELECT product_seq, product_type "
+					+ "    FROM tbl_product  "
+					+ " ) P "
+					+ " ON P.product_seq = L.fk_product_seq "
+					+ " CROSS JOIN "
+					+ " ( "
+					+ "    SELECT COUNT(*) AS total_count "
+					+ "    FROM tbl_order "
+					+ "    JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq "
+					+ "    JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq "
+					+ "    WHERE tbl_order.fk_member_seq = ? "
+					+ " ) T "
+					+ " GROUP BY P.product_type, T.total_count ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, member_seq);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				myPurchaseChart.add(new MemebrPurchaseChart(rs.getInt("product_type"), rs.getInt("product_count"), rs.getFloat("percentage")));
+			}
+			
+			
+		}
+		finally {
+			close();
+		}
+		
+		
+		return myPurchaseChart;
+		
+	}
+
+	@Override
+	public List<MemberPurchaseByMonthChart> memberPurchase_byMonth_byCategory(int member_seq) throws SQLException {
+		List<MemberPurchaseByMonthChart> myPurchaseChart = new ArrayList<>();
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " SELECT  "
+					+ "    product_type,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '01' THEN 1 ELSE NULL END) AS m_01,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '02' THEN 1 ELSE NULL END) AS m_02,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '03' THEN 1 ELSE NULL END) AS m_03,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '04' THEN 1 ELSE NULL END) AS m_04,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '05' THEN 1 ELSE NULL END) AS m_05,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '06' THEN 1 ELSE NULL END) AS m_06,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '07' THEN 1 ELSE NULL END) AS m_07,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '08' THEN 1 ELSE NULL END) AS m_08,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '09' THEN 1 ELSE NULL END) AS m_09,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '10' THEN 1 ELSE NULL END) AS m_10,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '11' THEN 1 ELSE NULL END) AS m_11,  "
+					+ "    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '12' THEN 1 ELSE NULL END) AS m_12,  "
+					+ "    COUNT(*) AS purchase_count,  "
+					+ "    ROUND((COUNT(*) * 100.0 / total_order_count), 2) AS percent  "
+					+ " FROM (  "
+					+ "    SELECT  "
+					+ "        p.product_type AS product_type,  "
+					+ "        o.REGISTERDAY,  "
+					+ "        (SELECT COUNT(*)  "
+					+ "         FROM tbl_order  "
+					+ "         JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq  "
+					+ "         JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq  "
+					+ "         WHERE fk_member_seq = ?) AS total_order_count  "
+					+ "    FROM tbl_order o  "
+					+ "    JOIN tbl_product_list pl ON o.order_seq = pl.fk_order_seq  "
+					+ "    JOIN tbl_product p ON pl.fk_product_seq = p.product_seq  "
+					+ "    WHERE o.fk_member_seq = ?  "
+					+ " )  "
+					+ " GROUP BY product_type, total_order_count  "
+					+ " ORDER BY product_type  " ;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, member_seq);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				myPurchaseChart.add(new MemberPurchaseByMonthChart(
+							rs.getInt("product_type"),
+							rs.getInt("m_01"),
+							rs.getInt("m_02"),
+							rs.getInt("m_03"),
+							rs.getInt("m_04"),
+							rs.getInt("m_05"),
+							rs.getInt("m_06"),
+							rs.getInt("m_07"),
+							rs.getInt("m_08"),
+							rs.getInt("m_09"),
+							rs.getInt("m_10"),
+							rs.getInt("m_11"),
+							rs.getInt("m_12"),
+							rs.getInt("purchase_count"),
+							rs.getFloat("percent")
+						));
+			}
+			
+			
+		}
+		finally {
+			close();
+		}
+		
+		
+		return myPurchaseChart;
 	}
 
 
