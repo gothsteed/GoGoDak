@@ -20,6 +20,7 @@ import domain.BoardVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import domain.QuestionVO;
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -359,7 +360,9 @@ public class MemberDao_Imple implements MemberDao {
 			
 			String sql = " select ceil(count(*)/?) "
 					   + " from tbl_member "
-					   + " where id != 'admin' ";
+					   + " where id != 'admin'"
+					   + " and exist_status = 1 "
+					   + " and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
@@ -413,7 +416,9 @@ public class MemberDao_Imple implements MemberDao {
 					   + "        select id, name, email,"
 					   + "               case when substr(jubun, 7, 1) in('1', '3') then '남' else '여' end AS GENDER "
 					   + "        from tbl_member "
-					   + "        where id != 'admin' ";
+					   + "        where id != 'admin' "
+					   + " and exist_status = 1 "
+					   + "  and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
@@ -478,7 +483,9 @@ public class MemberDao_Imple implements MemberDao {
 			
 			String sql = " select count(*) "
 					   + " from tbl_member "
-					   + " where id != 'admin' ";
+					   + " where id != 'admin' "
+					   + "  and exist_status = 1 "
+					   + " and active_status = 1 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
@@ -564,8 +571,31 @@ public class MemberDao_Imple implements MemberDao {
 		return result;
 	}
 	
+	// 리뷰 삭제하기
+	@Override
+	public int reviewDelete(String review_seq) throws SQLException {
 
-	
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_review "
+					   + " where review_seq = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, review_seq);
+	        
+	        result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
 	
 	
 	
@@ -625,31 +655,37 @@ public class MemberDao_Imple implements MemberDao {
 	
 	//공지사항 페이징처리 혜선 
 	@Override
-	public List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException  {
+	public List<BoardVO> getBoard(Map<String, String> paraMap)throws SQLException  {
 		List<BoardVO> boardList = new ArrayList<>();
 
 		try {
 			conn = ds.getConnection();
 
 			String sql = " SELECT * "
-					   + "FROM (  "
-					   + "    SELECT rownum as rno, board_Seq , title , content , pic "
-					   + "    FROM(  "
-					   + "        select *  "
-					   + "        from tbl_board"
-					   + "        ORDER BY board_Seq desc) V "
-					   + "        )T WHERE T.rno between ? and ?";
-					   
-					
-
-
+	                  + "FROM (  "
+	                  + "    SELECT rownum as rno, board_Seq , title , content , pic "
+	                  + "    FROM(  "
+	                  + "        select *  "
+	                  + "        from tbl_board"
+	                  + "        ORDER BY boarddate DESC) V "
+	                  + "        )T WHERE T.rno between ? and ?";
+			
 			pstmt = conn.prepareStatement(sql);
+			
+			int currentPage = Integer.parseInt(paraMap.get("currentPage"));
+            int blockSize = Integer.parseInt(paraMap.get("blockSize"));
+
+            int startRow = (currentPage - 1) * blockSize + 1;
+            int endRow = currentPage * blockSize;
+
+            int paramIndex = 1;
+            
+            pstmt.setInt(paramIndex++, startRow);
+            pstmt.setInt(paramIndex++, endRow);
+ 
+
 
 	
-			pstmt.setLong(1, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
-			pstmt.setLong(2, (currentPage * blockSize));
-
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -674,7 +710,7 @@ public class MemberDao_Imple implements MemberDao {
 	
 	//공지사항 총 페이지수 알아오기  혜선
 	@Override
-	public int getBoardTotalPage(int blockSize) throws SQLException {
+	public int getBoardTotalPage(Map<String, String> paraMap) throws SQLException {
 		
 		int boardTotalPage = 0;
 
@@ -687,7 +723,7 @@ public class MemberDao_Imple implements MemberDao {
 
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, blockSize);
+			pstmt.setInt(1,Integer.parseInt(paraMap.get("blockSize")));
 			
 			rs = pstmt.executeQuery();
 
@@ -1184,9 +1220,143 @@ public class MemberDao_Imple implements MemberDao {
 		
 		return result;
 	}
-
-
 	
+	
+	
+	
+	
+	//회원정보 수정 시 이메일 중복 체크 하기
+	@Override
+	public boolean emailDuplicateCheck2(Map<String, String> paraMap)throws SQLException {
+		 boolean isExists = false;
+	      
+	      try {
+	    	  conn = ds.getConnection();
+	         
+	         String sql = " select email "
+	                  + " from tbl_member "
+	                  + " where id != ? and email = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql); 
+	         pstmt.setString(1, paraMap.get("id"));
+	         pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); // 행이 있으면(중복된 email) true,
+	                               // 행이 없으면(사용가능한 email) false
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
+	      
+	      return isExists;      
+	}
+	
+	
+	//회원정보 수정 시 현재 사용중인 비밀번인지 확인하기
+	@Override
+	public boolean duplicatePwdCheck(Map<String, String> paraMap) throws SQLException {
+		 boolean isExists = false;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " select password "
+	                  + " from tbl_member "
+	                  + " where id = ? and password = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql); 
+	         pstmt.setString(1, paraMap.get("id"));
+	         pstmt.setString(2, Sha256.encrypt(paraMap.get("new_pwd")));
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         isExists = rs.next(); // 행이 있으면(현재 사용중인 비밀번호) true,
+	                               // 행이 없으면(새로운 비밀번호) false
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return isExists;         
+	}
+	//회원정보 수정
+	@Override
+	public int updateMember(MemberVO member) throws SQLException {
+		int result = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_member set name = ? "
+	                  + "                     , password = ? "
+	                  + "                     , email = ? "
+	                  + "                     , tel = ? "
+	                  + "                     , postcode = ? " 
+	                  + "                     , address = ? "
+	                  + "                     , address_detail = ? "
+	                  + "                     , address_extra = ? "
+	                  + "                     , last_password_change = sysdate "
+	                  + " where id = ? ";
+	                  
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, member.getName());
+	         pstmt.setString(2, Sha256.encrypt(member.getPassword()) ); // 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.
+	         pstmt.setString(3, aes.encrypt(member.getEmail()) );  // 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다. 
+	         pstmt.setString(4, aes.encrypt(member.getTel()) ); // 휴대폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다. 
+	         pstmt.setString(5, member.getPostcode());
+	         pstmt.setString(6, member.getAddress());
+	         pstmt.setString(7, member.getAddress_detail());
+	         pstmt.setString(8, member.getAddress_extra());
+	         pstmt.setString(9, member.getId());
+	                  
+	         result = pstmt.executeUpdate();
+	         
+	      } catch(GeneralSecurityException | UnsupportedEncodingException e) {
+	         e.printStackTrace();
+	      }
+	       finally {
+	         close();
+	      }
+	      
+	      return result;      
+	}
+	
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	@Override
+	public int getTotalBoardCount(Map<String, String> paraMap) throws SQLException {
+		int totalMemberCount = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	          
+	         String sql = " Select count(*)  "
+		         		+ " From tbl_board ";
+		         	
+		         		
+		    
+	         pstmt = conn.prepareStatement(sql); 
+	         
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalMemberCount = rs.getInt(1); //값이 몇개인지 리턴되어지는 것 ->totalMemberCount 로 담아줌
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalMemberCount;
+	}
+
+
+
 	
 	
 	

@@ -5,7 +5,7 @@
 
 <jsp:include page="../header_admin.jsp" />
 
-<style type="text/css">   
+<style type="text/css">
     table#memberTbl {
         width: 90%;
         margin: 0 auto;
@@ -48,7 +48,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-
         if("${requestScope.searchType}" != "" && "${requestScope.searchWord}" != "" ){ 
             $("select[name='searchType']").val("${requestScope.searchType}");    
             $("input:text[name='searchWord']").val("${requestScope.searchWord}");
@@ -66,7 +65,7 @@
         
         $("select[name='sizePerPage']").bind("change", function(){ 
             const frm = document.member_search_frm;
-            frm.action = "/member/member_orderdetail.dk";
+            frm.action = "order.dk";
             frm.method = "get";
             frm.submit();
         });
@@ -80,12 +79,8 @@
             frm.method = "post";
             frm.submit();
         });
-        
-    }); // end of $(document).ready(function(){}) ----------
-    
-    ///////////////////////////////////////////////////////////////
+    });
 
-    // Function Declaration
     function goSearch(){
         const searchType = $("select[name='searchType']").val();
         
@@ -95,11 +90,10 @@
         }
         
         const frm = document.member_search_frm;
-        frm.action = "/member/member_orderdetail.dk";
+        frm.action = "order.dk";
         frm.method = "get";
         frm.submit();
-        
-    } // end of function goSearch() ----------
+    }
 </script>
 
 <div class="container" style="padding: 3% 0;">
@@ -111,7 +105,6 @@
                 <option value="">검색대상</option>
                 <option value="name">회원명</option>
                 <option value="id">아이디</option>
-                <option value="email">이메일</option>
             </select>
             &nbsp;
             <input type="text" name="searchWord" style="padding: 2px;" /> 
@@ -145,9 +138,6 @@
             <c:if test="${not empty requestScope.orderList}">
                 <c:forEach var="ordervo" items="${requestScope.orderList}" varStatus="status" >
                     <tr class="memberInfo">
-                        <fmt:parseNumber var="currentShowPageNo" value="${requestScope.currentShowPageNo}" />
-                        <fmt:parseNumber var="sizePerPage" value="${requestScope.sizePerPage}" />
-                        
                         <td class="order_seq">${ordervo.order_seq}</td>    
                         <td class="id">${ordervo.id}</td>
                         <td>${ordervo.name}</td>
@@ -185,5 +175,3 @@
     <input type="hidden" name="goBackURL" value="${requestScope.currentURL}" />
 </form>
 
-</body>
-</html> 

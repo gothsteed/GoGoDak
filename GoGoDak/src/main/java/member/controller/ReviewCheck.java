@@ -111,7 +111,9 @@ public class ReviewCheck extends AbstractController {
 		
 		if(myReview != null) {
 			boolean isSuccess = false;
-			String message = "이미 리뷰 작정";
+            JSONObject reviewJson = myReview.toJSONObject();
+         
+			String message = reviewJson.toString();
 			sendMsg(request, isSuccess, message);
 			return;
 		}

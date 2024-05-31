@@ -160,11 +160,12 @@
                 </c:if>
                 <c:if test="${not empty requestScope.orderList}">
                     <c:forEach var="orderVO" items="${requestScope.orderList}">
-                        <tr>
+                        <tr >
                             <td><fmt:formatDate value="${orderVO.registerday}" pattern="yyyy-MM-dd"/></td>
                             <td>
                                 <c:forEach var="product" items="${orderVO.productList}">
-									<c:choose>
+                                
+ 							   	    <c:choose>
 									    <c:when test="${orderVO.deliverystatus == 3}">
 									        <a class="product-link" href="javascript:void(0);" data-productname="${product.product_name}" data-orderseq="${orderVO.order_seq}" data-productseq="${product.product_seq}">${product.product_name}</a><br>
 									    </c:when>
@@ -241,6 +242,7 @@
         <div class="modal-content">
         
         	<form name="reviewUpdateFrm" method="post" enctype="multipart/form-data">
+        		<input type="hidden" name="review_seq" />
         		<input type="hidden" name="order_seq" />
         		<input type="hidden" name="product_seq"/>
 	            <div class="" style="text-align: center; position: relative;">
@@ -270,11 +272,15 @@
 	            </div>
             </form>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="submitUpdate()">수정</button>
+                <button type="button" class="btn btn-primary" onclick="updateReview()">수정</button>
+                <button type="button" class="btn btn-primary" onclick="deleteReview()">리뷰 삭제</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 
 </style>
@@ -330,7 +336,19 @@ $(document).ready(function() {
         			
         		}
         		else {
-        			alert("이미 리뷰를 작성한 상품입니다.")
+        			$('#reviewUpdateModal').find('#product-name').text(productName);
+	                $('#reviewUpdateModal').find('input[name="order_seq"]').val(orderSeq);
+	                $('#reviewUpdateModal').find('input[name="product_seq"]').val(productSeq);
+	                console.log(response.message);
+	                console.log(JSON.parse(response.message));
+	                
+	                const review = JSON.parse(response.message)
+	                $('#reviewUpdateModal').find('input[name="review_seq"]').val(review.review_seq);
+	                $('#reviewUpdateModal').find('input[name="content"]').val(review.content);
+	                $('#reviewUpdateModal').find('input[id="star'+review.star+'"]').prop("checked", true);
+	
+	                // Show the modal
+	                $('#reviewUpdateModal').modal('show');
         		}
         		
         		
@@ -351,8 +369,8 @@ $(document).ready(function() {
 	            const imageUrl = reader.result;
 	            const imageElement = document.createElement('img');
 	            imageElement.src = imageUrl;
-	            imageElement.style.maxWidth = '500px'; // 이미지의 최대 너비 지정
-	            imageElement.style.maxHeight = '500px'; // 이미지의 최대 높이 지정
+	            imageElement.style.maxWidth = '300px'; // 이미지의 최대 너비 지정
+	            imageElement.style.maxHeight = '300px'; // 이미지의 최대 높이 지정
 	            imagePreview.innerHTML = ''; // 이미지를 교체하므로 이전 이미지를 삭제
 	            imagePreview.appendChild(imageElement);
 	        };
@@ -391,14 +409,22 @@ function submitReview() {
     
     $.ajax({
         url: "<%=ctxPath%>/member/review.dk",
-        type: "POST",
+        type: "post",
         data: formData,
-        processData: false, // 데이터를 처리하지 않음
-        contentType: false, // contentType을 설정하지 않음
+        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        dataType: "json", // contentType을 설정하지 않음
         success: function(response) {
             // 성공적으로 제출된 후 처리 로직
-            alert("리뷰가 제출되었습니다!");
-            $('#reviewModal').modal('hide');
+            if(response.success) {
+            	alert("리뷰가 제출되었습니다!");
+            	$('#reviewModal').modal('hide');
+            	
+            }
+            else {
+            	alert("리뷰가 제출 실패되었습니다!" + response.message);
+            }
+
         },
         error: function(xhr, status, error) {
             // 에러 발생 시 처리 로직
@@ -408,6 +434,108 @@ function submitReview() {
     });
 
     console.log("submitReview function called");
+    
+}
+
+
+function updateReview() {
+    const frm = document.reviewUpdateFrm;
+    const content = frm.content.value.trim();
+    const star =frm.rating.value;
+    const pic = frm.pic.files[0];
+    console.log(star)
+    // Validate that name is not empty
+    if (content == "") {
+        alert("내용을 입력해주세요.");
+        frm.content.focus();
+        return false;
+    }
+    
+    if(star == null) {
+        alert("별점을 입력해주세요.");
+        return false;
+    }
+    
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("star", star);
+    formData.append("pic", pic);
+    formData.append("order_seq", frm.order_seq.value);
+    formData.append("product_seq", frm.product_seq.value);
+    formData.append("review_seq", frm.review_seq.value);
+
+    
+    $.ajax({
+        url: "<%=ctxPath%>/member/reviewUpdate.dk",
+        type: "post",
+        data: formData,
+        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        dataType: "json", // contentType을 설정하지 않음
+        success: function(response) {
+            // 성공적으로 제출된 후 처리 로직
+            console.log(response.success);
+            console.log(response.message);
+            
+            if(response.success) {
+            	alert("리뷰가 수정되었습니다!");
+            	$('#reviewUpdateModal').modal('hide');
+            	
+            }
+            else {
+            	alert("리뷰가 수정 실패되었습니다!" + response.message);
+            }
+
+        },
+        error: function(xhr, status, error) {
+            // 에러 발생 시 처리 로직
+            console.error("리뷰 제출 중 에러 발생:", error);
+            alert("리뷰 수정 중 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+    });
+
+    console.log("updateReview function called");
+    
+}
+
+function deleteReview() {
+    const frm = document.reviewUpdateFrm;
+    
+    const formData = new FormData();
+
+    formData.append("review_seq", frm.review_seq.value);
+
+    
+    $.ajax({
+        url: "<%=ctxPath%>/member/reviewDelete.dk",
+        type: "post",
+        data: formData,
+        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        dataType: "json", // contentType을 설정하지 않음
+        success: function(response) {
+            // 성공적으로 제출된 후 처리 로직
+            console.log(response.success);
+            console.log(response.message);
+            
+            if(response.success) {
+            	alert("리뷰가 삭제되었습니다!");
+            	$('#reviewUpdateModal').modal('hide');
+            	//remove the 
+            	
+            }
+            else {
+            	alert("리뷰가 삭제 실패되었습니다!" + response.message);
+            }
+
+        },
+        error: function(xhr, status, error) {
+            // 에러 발생 시 처리 로직
+            console.error("리뷰 삭제 중 에러 발생:", error);
+            alert("리뷰 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
+        }
+    });
+
     
 }
 

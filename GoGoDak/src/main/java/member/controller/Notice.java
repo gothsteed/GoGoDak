@@ -24,27 +24,40 @@ public class Notice extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		int blockSize = 8;  //한번에 보여주는 페이지 수
-		int currentPage;    
+		String blockSize = "8";  //한번에 보여주는 페이지 수
+		String currentPage = request.getParameter("currentPage");
 
 		try {
-			currentPage = Integer.parseInt(request.getParameter("page"));
+			currentPage = request.getParameter("page");
 		} catch (NumberFormatException e) {
-			currentPage = 1;
+			currentPage = "1";
 		}
+		
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("blockSize",blockSize); //한번에 보여주는 페이지 수
+		paraMap.put("currentPage",currentPage);
 
-		int totalPageNum = mdao.getBoardTotalPage(blockSize); //전체페이지수 계산
-		if (currentPage > totalPageNum) {
-			currentPage = 1;
+		int totalPageNum = mdao.getBoardTotalPage(paraMap); //전체페이지수 계산
+		
+		try {
+			if(Integer.parseInt(currentPage) > totalPageNum ||
+			   Integer.parseInt(currentPage) <= 0	) {
+				
+				currentPage ="1";
+				paraMap.put("currentPage",currentPage);
+
+			}
+		}catch (NumberFormatException e) { //장난쳐 온다면 
+			currentPage ="1";
+			paraMap.put("currentPage",currentPage);
 		}
-
-		List<BoardVO> boardList = mdao.getBoard(currentPage, blockSize);
-
+		
+		
 		// pageBar
-
 		int loop = 1;
-		int pageNo = ((currentPage - 1) / blockSize) * blockSize + 1;
-
+		int blockpage = 10;
+		int pageNo  = ( (Integer.parseInt(currentPage) -1)/blockpage ) * blockpage + 1 ;
+	
 		String pageBar = "<li class='page-item'><a class='page-link' href='notice.dk?page=1'>[맨처음]</a></li>";
 
 		if (pageNo != 1) {
@@ -53,13 +66,9 @@ public class Notice extends AbstractController {
 
 		// 맨처음 맨마지막 만들기
 
-		while (!(loop > blockSize || pageNo > totalPageNum)) {
+		while (!(loop > blockpage || pageNo > totalPageNum)) {
 
-			// 1 2 3 4 5 6 7 8 9 10
-			// pageBar += "<li class='page-item'><a class='page-link'
-			// href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
-
-			if (pageNo == currentPage) {
+			if (pageNo == Integer.parseInt(currentPage)) {
 
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>" + pageNo + "</a></li>";
 			} else {
@@ -68,9 +77,6 @@ public class Notice extends AbstractController {
 			}
 
 			loop++;
-
-			// 1 2 3 4 5 6 7 8 9 10
-			// 11 12 13 14 15 16 17 18 19 20
 			pageNo++;
 
 		}
@@ -78,13 +84,22 @@ public class Notice extends AbstractController {
 				+ (totalPageNum) + "'>[맨마지막]</a></li>";
 		
 		// 다음 마지막 만들기
+		
 		if (pageNo <= totalPageNum) {
 			pageBar += "<li class='page-item'><a class='page-link' href='notice.dk?page=" + (currentPage + 1) + "'>[다음]</a></li>";
 		}
-		
-
+		List<BoardVO> boardList = mdao.getBoard(paraMap);
 		request.setAttribute("boardList", boardList);
+
+		
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("blockSize", blockSize);
+		
+		int totalBoardCount = mdao.getTotalBoardCount(paraMap);
+		request.setAttribute("totalBoardCount", totalBoardCount);
+		request.setAttribute("currentPage", currentPage);
+
 
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/member/member_board.jsp");

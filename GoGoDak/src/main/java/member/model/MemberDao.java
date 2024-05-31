@@ -32,7 +32,7 @@ public interface MemberDao {
 	
 	int deleteMember(MemberVO member) throws SQLException;
 	
-	
+	int reviewDelete(String review_seq) throws SQLException;
 	
 	
 	
@@ -52,10 +52,10 @@ public interface MemberDao {
 	
 	
 	//공지사항 페이징처리 혜선 
-	List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException ;
+	List<BoardVO> getBoard(Map<String, String> paraMap)throws SQLException ;
 	
 	//공지사항 총 페이지수 알아오기  혜선
-	int getBoardTotalPage(int blockSize)throws SQLException ;
+	int getBoardTotalPage(Map<String, String> paraMap)throws SQLException ;
 	
 	//공지사항 디테일 페이지 혜선
 	BoardVO selectOneBoard(String board_seq)throws SQLException ;
@@ -89,6 +89,17 @@ public interface MemberDao {
 	boolean isUserExist(Map<String, String> paraMap)throws SQLException;
 
 	int isDormancy(String id)throws SQLException;
+
+	//회원정보 수정 시 이메일 중복 체크 하기
+	boolean emailDuplicateCheck2(Map<String, String> paraMap)throws SQLException;
+	//회원정보 수정 시 현재 사용중인 비밀번인지 확인하기
+	boolean duplicatePwdCheck(Map<String, String> paraMap)throws SQLException;
+	//회원정보 수정
+	int updateMember(MemberVO member)throws SQLException;
+	
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	int getTotalBoardCount(Map<String, String> paraMap)throws SQLException;
+
 	
 	
 	

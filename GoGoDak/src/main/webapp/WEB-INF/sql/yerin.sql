@@ -163,6 +163,28 @@ commit;
 
 -----------------------------------------------------------------------
 
+desc tbl_review;
 
+select *
+from tbl_review;
 
+delete from tbl_review
+where review_seq = 4;
+-- 1 행 이(가) 삭제되었습니다.
 
+commit;
+-- 커밋 완료.
+
+-----------------------------------------------------------------------
+
+desc tbl_member;
+
+select *
+from tbl_member
+where id = 'iyou99';
+
+update tbl_member set exist_status = 1
+where id = 'iyou99';
+
+commit;
+-- 커밋 완료.

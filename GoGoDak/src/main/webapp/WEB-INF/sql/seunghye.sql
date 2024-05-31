@@ -341,13 +341,18 @@ desc tbl_review
 select *
 from tbl_review
 
+desc tbl_member
 
 select delivery_status
 from  tbl_order
 where delivery_status =1;
 
 
+select ACTIVE_STATUS 
+from tbl_member
 
+select *
+from tbl_member
 select DELIVERY_STATUS
 from  tbl_order
 
@@ -440,3 +445,82 @@ FROM
     ON o.fk_member_seq = m.member_seq 
 ) T
 WHERE T.rno BETWEEN 1 AND 10
+
+
+
+SELECT rno, order_seq, delivery_status, id, name, tel, address   
+FROM
+(
+SELECT rownum as rno, o.order_seq, o.delivery_status, m.id, m.name, m.tel, m.address, m.member_seq
+FROM
+(
+select order_seq, delivery_status, fk_member_seq
+from tbl_order
+order by order_seq desc 
+) O JOIN tbl_member M
+ON o.fk_member_seq = m.member_seq 
+) T
+WHERE T.rno BETWEEN 1 AND 10 
+
+
+
+ select count(*) 
+ select *
+					    from tbl_member 
+					    where id != 'admin'
+SELECT CEIL(COUNT(*) / 3) FROM tbl_order
+
+
+
+ SELECT rno, id, name, email, gender 
+					  FROM
+					  ( 
+					 select rownum as rno, id, name, email, gender 
+					 from
+				  ( 
+			       select id, name, email,
+                                   case when substr(jubun, 7, 1) in('1', '3') then '남' else '여' end AS GENDER 
+                            from tbl_member 
+					           where id != 'admin'
+                             and  exist_status = 1; 
+                               
+                               
+                                select count(*) "
+					   + " from tbl_member "
+					   + " where id != 'admin' "
+					   + "  and exist_status = 1 "
+					   + " and active_status = 1
+                               select *from tbl_member
+                               
+                               
+                                SELECT rno, id, name, email, gender 
+					    FROM
+					    ( 
+					     select rownum as rno, id, name, email, gender 
+					     from 
+					       ( 
+					         select id, name, email,
+					        case when substr(jubun, 7, 1) in('1', '3') then '남' else '여' end AS GENDER
+					       from tbl_member 
+					        where id != 'admin'
+					    and exist_status = 1 
+					     and active_status = 1 
+                         order by registerday desc
+			  ) V
+			   ) T
+			    WHERE T.rno BETWEEN  1 AND 10 
+                               
+                               
+                               
+                        select count(*) 
+					    from tbl_member 
+					    where id != 'admin' 
+                        and exist_status = 1 
+					    and active_status = 1;
+                        
+                        commit;
+                        delete from tbl_member where id='djdjdjdjdj'
+                        
+                        select *
+                        from tbl_member
+                        update 

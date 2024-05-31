@@ -48,6 +48,7 @@ String ctxPath = request.getContextPath();
     }
 
     $(document).ready(function () {
+    	
         updateTotal();
 		
         let currentPoint = 
@@ -93,6 +94,34 @@ String ctxPath = request.getContextPath();
         var points = parseInt(document.getElementById('points').value) || 0;
         totalCost -= points;
         document.getElementById('totalCost').innerText = totalCost.toLocaleString() + '원';
+        
+        
+        let cartJson = collectCartData();
+        
+        
+        let point = parseInt(document.getElementById('points').value) || 0;
+        $.ajax({
+            url: '<%=ctxPath%>/member/cart.dk',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',   
+            data: cartJson,
+            async:false,
+            success: function(response) {
+            	if(response.success) {
+					console.log("카드 담기 성공")
+                    
+                } else {
+                	console.log(response.message)
+  
+                }
+            },
+            error: function(xhr, status, error) {
+            	console.log(error)
+            }
+        });
+        
+        
     }
 
     function checkPoints(availablePoints) {
@@ -109,7 +138,7 @@ String ctxPath = request.getContextPath();
     }
 
     function goPurchase() {
-        alert('결제가 완료되었습니다!');
+    	alert('결제가 완료되었습니다!');
     }
 
     function removeItem(itemId) {
@@ -188,6 +217,60 @@ String ctxPath = request.getContextPath();
                 if (response.success) {
 <%--                     alert('카트에 담김');
                     window.location.href = '<%=ctxPath%>/member/cart.dk'; --%>
+                    
+                    // Create a form element
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = "<%=ctxPath%>/member/purchase.dk";
+
+                    // Set the form target to open in a new window
+                    form.target = "cartPurchase";
+
+                    // Create and append input fields to the form
+                    const inputPoint = document.createElement('input');
+                    inputPoint.type = 'hidden';
+                    inputPoint.name = 'point';
+                    inputPoint.value = point;
+                    form.appendChild(inputPoint);
+
+                    const inputPostcode = document.createElement('input');
+                    inputPostcode.type = 'hidden';
+                    inputPostcode.name = 'postcode';
+                    inputPostcode.value = postcode;
+                    form.appendChild(inputPostcode);
+
+                    const inputAddress = document.createElement('input');
+                    inputAddress.type = 'hidden';
+                    inputAddress.name = 'address';
+                    inputAddress.value = address;
+                    form.appendChild(inputAddress);
+
+                    const inputDetailAddress = document.createElement('input');
+                    inputDetailAddress.type = 'hidden';
+                    inputDetailAddress.name = 'address_detail';
+                    inputDetailAddress.value = detailAddress;
+                    form.appendChild(inputDetailAddress);
+
+                    const inputExtraAddress = document.createElement('input');
+                    inputExtraAddress.type = 'hidden';
+                    inputExtraAddress.name = 'address_extra';
+                    inputExtraAddress.value = extraAddress;
+                    form.appendChild(inputExtraAddress);
+
+                    // Append the form to the document body and submit it
+                    document.body.appendChild(form);
+                    const width = 1000;
+                    const height = 600;
+                    const left = Math.ceil((window.screen.width - width) / 2);
+                    const top = Math.ceil((window.screen.height - height) / 2);
+
+                    window.open('', "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}, resizable=yes, scrollbars=yes`);
+                    form.submit();
+
+                    // Remove the form from the document after submission
+                    document.body.removeChild(form);
+
+                <%--     
                     const width = 1000;
                     const height = 600;
                     //todo: !!!purchase url 추가!!!!!
@@ -197,7 +280,7 @@ String ctxPath = request.getContextPath();
                     const top = Math.ceil((window.screen.height - height)/2);
 
                     window.open(url, "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}`);
-                    
+                     --%>
                 } else {
                 	console.log(response.message)
                     alert('카트 담기 실패: ' + response.message);
@@ -208,6 +291,8 @@ String ctxPath = request.getContextPath();
                 alert('카트 담기 실패: ' + error);
             }
         });
+        
+        
 /*         
 		
         // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
@@ -223,75 +308,6 @@ String ctxPath = request.getContextPath();
 
 
      }
-    
-    
-    
-    function goOrder(totalAmount) {
-    	
-        var cartItems = document.querySelectorAll('.cart-item');
-        var hasVisibleItems = false;
-
-        cartItems.forEach(function(item) {
-            if (item.style.display !== 'none') {
-            	console.log("something is visable")
-                hasVisibleItems = true;
-            }
-        });
-
-        if (!hasVisibleItems) {
-            alert('장바구니에 상품이 없습니다.');
-            return;
-        }
-    	
-    	
-    	
-        const postcode = $("input#postcode").val().trim();
-        const address = $("input#address").val().trim();
-        const detailAddress = $("input#detailAddress").val().trim();
-        const extraAddress = $("input#extraAddress").val().trim();
-        const delivery_message = $("input#delivery_message").val().trim();
-    	
-        $(".loader").css("display" ,"block");
-        /* console.log(`~~ 확인용 userid : ${userid }, coinmoney : ${totalAmount}원`); */
-        $.ajax({
-            url : "<%=ctxPath%>/member/order.dk",
-            data : {
-                    "totalAmount": totalAmount,
-                    "postcode" : postcode,
-                    "address" : address,
-                    "address_detail" : detailAddress,
-                    "address_extra" : extraAddress,
-                    "delivery_message":delivery_message}, // data 속성은 http://localhost:9090/MyMVC/member/idDuplicateCheck.up 로 전송해야할 데이터를 말한다.
-            
-            type : "post",  // type 을 생략하면 type : "get" 이다.
-
-            async : false,   // async:true 가 비동기 방식을 말한다. async 을 생략하면 기본값이 비동기 방식인 async:true 이다.
-                           // async:false 가 동기 방식이다. 지도를 할때는 반드시 동기방식인 async:false 을 사용해야만 지도가 올바르게 나온다.
-            
-            dataType : "json",  // Javascript Standard Object Notation.  dataType은 /MyMVC/member/idDuplicateCheck.up 로 부터 실행되어진 결과물을 받아오는 데이터타입을 말한다. 
-                                // 만약에 dataType:"xml" 으로 해주면 /MyMVC/member/idDuplicateCheck.up 로 부터 받아오는 결과물은 xml 형식이어야 한다. 
-                                // 만약에 dataType:"json" 으로 해주면 /MyMVC/member/idDuplicateCheck.up 로 부터 받아오는 결과물은 json 형식이어야 한다.              
-
-            success : function(json){
-
-
-                alert(json.message);
-                location.href = json.loc;
-                
-                //새로고침
-                //location.href = history.go(0);
-                console.log("====json: " + json);
-            },
-            
-            error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-
-        });
-        
-        $(".loader").css("display" ,"none");
-
-    }
 </script>
 
 <section class="why_section layout_padding inner_page">
@@ -369,10 +385,10 @@ String ctxPath = request.getContextPath();
 	                </div>
 	            </div>
                 
-                <div class="total">
+                <div class="total container">
 	                <p>총 가격: <span id="totalCost" class="h3"></span></p>
 	                <p style="color: red; font-weight: bold;">결제금액의 5%를 포인트로 드립니다.&nbsp;&nbsp;(* 단, 포인트 사용시 적립X *)</p>
-	                <button type="submit" onclick="goPurchase()">구매하기</button>
+	                <button type="button" onclick="goPurchase()">구매하기</button>
 	            </div>
             </div>
         </form>
@@ -443,7 +459,7 @@ button {
     font-weight: 600;
     padding: 0 15px;
 }
-.loader {
+div.loader {
   display: none; /* Hide the loader initially */
   border: 16px solid #f3f3f3;
   border-radius: 50%;

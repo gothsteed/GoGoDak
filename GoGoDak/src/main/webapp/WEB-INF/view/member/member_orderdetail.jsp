@@ -213,9 +213,18 @@
             <td>${order.postcode} ${order.address}  ${order.address_detail} ${order.address_extra} </td>
         </tr>
         <tr>
-            <th>연락처</th>
-            <td><c:out value="${order.mdto.tel}" /></td>
-        </tr>
+    <th>연락처</th>
+    <td>
+        <c:choose>
+            <c:when test="${not empty order.mdto.tel and fn:length(order.mdto.tel) == 11}">
+                ${fn:substring(order.mdto.tel, 0, 3)}-${fn:substring(order.mdto.tel, 3, 7)}-${fn:substring(order.mdto.tel, 7, 11)}
+            </c:when>
+            <c:otherwise>
+                <c:out value="${order.mdto.tel}" />
+            </c:otherwise>
+        </c:choose>
+    </td>
+</tr>
         <tr>
             <th>배송 메모</th>
             <td>${order.delivery_message}</td>

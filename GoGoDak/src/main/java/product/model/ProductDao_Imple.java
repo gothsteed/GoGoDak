@@ -611,6 +611,7 @@ public class ProductDao_Imple implements ProductDao {
             }
 	     
 	        pstmt.setInt(11, pvo.getProduct_seq());
+
 	        
 	        
 	        System.out.println("sql :" + sql);
@@ -697,7 +698,7 @@ public class ProductDao_Imple implements ProductDao {
 		return result;
 	}
 
-	
+
 	
 	@Override
 	public List<Map<String, String>> selectStoreMap() throws SQLException {
@@ -775,14 +776,7 @@ public class ProductDao_Imple implements ProductDao {
 
 	
 	
-	
 
-
-
-
-	
-
-	
 	
 
 }
