@@ -116,6 +116,11 @@ div#table_container table {width: 100%}
 				dataType:"json",
 				success:function(json) {
 					
+	              	$("div#chart_container").empty();
+                  	$("div#table_container").empty();
+                  	$("div.highcharts-data-table").empty();
+                  	$("div#table_container").empty();
+					
 					console.log(json)
 /* 					[
 					    {
@@ -205,6 +210,7 @@ div#table_container table {width: 100%}
 	              	$("div#chart_container").empty();
                   	$("div#table_container").empty();
                   	$("div.highcharts-data-table").empty();
+                  	$("div#table_container").empty();
                     
                   	console.log(json);
 
