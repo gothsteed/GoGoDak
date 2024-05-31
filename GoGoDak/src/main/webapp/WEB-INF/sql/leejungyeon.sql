@@ -330,6 +330,145 @@ commit;
 
 rollback;
 
+
+select * from tbl_product;
+
 select *
-from tbl_manufacturer;
+from tbl_review;
+
+desc tbl_product_List;
+
+select L.*, P.*
+from
+(
+    select *
+    from tbl_order
+    where fk_member_seq=6
+) O
+join
+(
+    select *
+    from tbl_product_list
+) L
+on O.order_seq = L.fk_order_seq
+join
+(
+select product_seq, product_type
+from tbl_product 
+)P
+on P.product_seq = L.fk_product_seq;
+
+
+
+SELECT P.product_name, COUNT(*) AS product_count
+FROM
+(
+    SELECT *
+    FROM tbl_order
+    WHERE fk_member_seq = 6
+) O
+JOIN
+(
+    SELECT *
+    FROM tbl_product_list
+) L
+ON O.order_seq = L.fk_order_seq
+JOIN
+(
+    SELECT product_seq, product_name, product_type
+    FROM tbl_product 
+) P
+ON P.product_seq = L.fk_product_seq
+GROUP BY P.product_type;
+
+
+
+SELECT 
+    P.product_type, 
+    COUNT(*) AS product_count,
+    round((COUNT(*) * 100.0 / total_count), 1) AS percentage
+FROM
+(
+    SELECT *
+    FROM tbl_order
+    WHERE fk_member_seq = 6
+) O
+JOIN
+(
+    SELECT *
+    FROM tbl_product_list
+) L
+ON O.order_seq = L.fk_order_seq
+JOIN
+(
+    SELECT product_seq, product_type
+    FROM tbl_product 
+) P
+ON P.product_seq = L.fk_product_seq
+CROSS JOIN
+(
+    SELECT COUNT(*) AS total_count
+    FROM tbl_order
+    JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq
+    JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq
+    WHERE tbl_order.fk_member_seq = 6
+) T
+GROUP BY P.product_type, T.total_count;
+
+
+
+WITH total_orders AS (
+    SELECT COUNT(*) AS total_count
+    FROM tbl_order
+    JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq
+    JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq
+    WHERE tbl_order.fk_member_seq = 6
+)
+SELECT TO_CHAR(tbl_order.REGISTERDAY, 'Month') AS month, 
+       tbl_product.product_type, 
+       COUNT(*) AS purchase_count,
+       ROUND((COUNT(*) * 100.0 / total_orders.total_count), 1) AS percentage
+FROM tbl_order
+JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq
+JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq
+CROSS JOIN total_orders
+WHERE tbl_order.fk_member_seq = 6
+GROUP BY TO_CHAR(tbl_order.REGISTERDAY, 'Month'), tbl_product.product_type, total_orders.total_count
+ORDER BY TO_DATE(TO_CHAR(tbl_order.REGISTERDAY, 'Month'), 'Month');
+
+
+SELECT
+    product_type,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '01' THEN 1 ELSE NULL END) AS m_01,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '02' THEN 1 ELSE NULL END) AS m_02,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '03' THEN 1 ELSE NULL END) AS m_03,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '04' THEN 1 ELSE NULL END) AS m_04,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '05' THEN 1 ELSE NULL END) AS m_05,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '06' THEN 1 ELSE NULL END) AS m_06,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '07' THEN 1 ELSE NULL END) AS m_07,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '08' THEN 1 ELSE NULL END) AS m_08,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '09' THEN 1 ELSE NULL END) AS m_09,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '10' THEN 1 ELSE NULL END) AS m_10,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '11' THEN 1 ELSE NULL END) AS m_11,
+    COUNT(CASE WHEN TO_CHAR(REGISTERDAY, 'MM') = '12' THEN 1 ELSE NULL END) AS m_12,
+    COUNT(*) AS purchase_count,
+    ROUND((COUNT(*) * 100.0 / total_order_count), 2) AS order_pct
+FROM (
+    SELECT
+        p.product_type AS product_type,
+        o.REGISTERDAY,
+        (SELECT COUNT(*)
+         FROM tbl_order
+         JOIN tbl_product_list ON tbl_order.order_seq = tbl_product_list.fk_order_seq
+         JOIN tbl_product ON tbl_product_list.fk_product_seq = tbl_product.product_seq
+         WHERE fk_member_seq = 6) AS total_order_count
+    FROM tbl_order o
+    JOIN tbl_product_list pl ON o.order_seq = pl.fk_order_seq
+    JOIN tbl_product p ON pl.fk_product_seq = p.product_seq
+    WHERE o.fk_member_seq = 6
+)
+GROUP BY product_type, total_order_count
+ORDER BY product_type;
+
+
 

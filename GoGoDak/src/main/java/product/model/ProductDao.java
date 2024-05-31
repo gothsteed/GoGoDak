@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import domain.ProductVO;
 import domain.Product_listVO;
@@ -49,6 +50,7 @@ public interface ProductDao {
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
 
 	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
+
 
 
 
