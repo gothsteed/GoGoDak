@@ -48,6 +48,7 @@ String ctxPath = request.getContextPath();
     }
 
     $(document).ready(function () {
+    	
         updateTotal();
 		
         let currentPoint = 
@@ -137,7 +138,7 @@ String ctxPath = request.getContextPath();
     }
 
     function goPurchase() {
-        alert('결제가 완료되었습니다!');
+    	alert('결제가 완료되었습니다!');
     }
 
     function removeItem(itemId) {
@@ -290,6 +291,8 @@ String ctxPath = request.getContextPath();
                 alert('카트 담기 실패: ' + error);
             }
         });
+        
+        
 /*         
 		
         // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
@@ -305,8 +308,6 @@ String ctxPath = request.getContextPath();
 
 
      }
-    
-    
 </script>
 
 <section class="why_section layout_padding inner_page">
@@ -458,7 +459,7 @@ button {
     font-weight: 600;
     padding: 0 15px;
 }
-.loader {
+div.loader {
   display: none; /* Hide the loader initially */
   border: 16px solid #f3f3f3;
   border-radius: 50%;

@@ -51,6 +51,14 @@ public interface ProductDao {
 
 	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
 
+	//tbl_manufacturer (위,경도) 테이블에 있는 정보 가져오기(select)
+	List<Map<String, String>> selectStoreMap() throws SQLException;
+
+	List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException;
+	
+	
+
+
 
 
 

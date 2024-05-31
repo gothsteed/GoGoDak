@@ -609,8 +609,9 @@ public class ProductDao_Imple implements ProductDao {
             }else {
             	pstmt.setNull(10, pvo.getFk_manufacturer_seq());
             }
-	        
-            pstmt.setInt(11, pvo.getProduct_seq());
+	     
+	        pstmt.setInt(11, pvo.getProduct_seq());
+
 	        
 	        
 	        System.out.println("sql :" + sql);
@@ -696,6 +697,85 @@ public class ProductDao_Imple implements ProductDao {
 		
 		return result;
 	}
+
+
+	
+	@Override
+	public List<Map<String, String>> selectStoreMap() throws SQLException {
+		 List<Map<String, String>> storeMapList = new ArrayList<>();
+		try {
+	            conn = ds.getConnection();
+	            
+	            String sql = " select manufacturer_seq,manufacturer_name,manufacturer_tel,location,manufacturer_url,manufacturer_img,lat,lng "
+	            		+ " from tbl_manufacturer "
+	            		+ " order by manufacturer_seq asc ";
+	            
+	            pstmt = conn.prepareStatement(sql);
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               Map<String, String> map = new HashMap<>();
+	               map.put("manufacturer_seq", rs.getString("manufacturer_seq"));
+	               map.put("manufacturer_name", rs.getString("manufacturer_name"));
+	               map.put("manufacturer_tel", rs.getString("manufacturer_tel"));
+	               map.put("location", rs.getString("location"));
+	               map.put("manufacturer_url", rs.getString("manufacturer_url"));
+	               map.put("manufacturer_img", rs.getString("manufacturer_img"));
+	               map.put("LAT", rs.getString("LAT"));
+	               map.put("LNG", rs.getString("LNG"));
+	            
+	                           
+	               storeMapList.add(map); 
+	            }//end of while -----------------------------
+	            
+	         } finally {
+	            close();
+	         }
+	         
+	         return storeMapList;   
+
+	}//end of public List<Map<String, String>> selectStoreMap() throws SQLException-----------------
+
+	@Override
+	public List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException {
+		 List<Map<String, String>> storeMapList = new ArrayList<>();
+			try {
+		            conn = ds.getConnection();
+		            
+		            String sql = " select manufacturer_seq,manufacturer_name,manufacturer_tel,location,manufacturer_url,manufacturer_img,lat,lng "
+		            		+ " from tbl_manufacturer "
+		            		+ " order by manufacturer_seq asc ";
+		            
+		            pstmt = conn.prepareStatement(sql);
+		            
+		            rs = pstmt.executeQuery();
+		            
+		            while(rs.next()) {
+		               Map<String, String> map = new HashMap<>();
+		               map.put("manufacturer_seq", rs.getString("manufacturer_seq"));
+		               map.put("manufacturer_name", rs.getString("manufacturer_name"));
+		               map.put("manufacturer_tel", rs.getString("manufacturer_tel"));
+		               map.put("location", rs.getString("location"));
+		               map.put("manufacturer_url", rs.getString("manufacturer_url"));
+		               map.put("manufacturer_img", rs.getString("manufacturer_img"));
+		               map.put("LAT", rs.getString("LAT"));
+		               map.put("LNG", rs.getString("LNG"));
+		            
+		                           
+		               storeMapList.add(map); 
+		            }//end of while -----------------------------
+		            
+		         } finally {
+		            close();
+		         }
+		         
+		         return storeMapList;   
+
+	}//public List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException-------------
+
+	
+	
 
 	
 

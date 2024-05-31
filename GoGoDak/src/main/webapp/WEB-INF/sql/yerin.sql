@@ -177,3 +177,14 @@ commit;
 
 -----------------------------------------------------------------------
 
+desc tbl_member;
+
+select *
+from tbl_member
+where id = 'iyou99';
+
+update tbl_member set exist_status = 1
+where id = 'iyou99';
+
+commit;
+-- 커밋 완료.

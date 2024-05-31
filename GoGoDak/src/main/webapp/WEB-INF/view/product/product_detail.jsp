@@ -405,7 +405,7 @@ function goDelete() {
 					aria-controls="reviews" aria-selected="false">Reviews</a></li>
 			</ul>
 			<div class="tab-content" id="productTabContent">
-				<div class="tab-pane fade show active" id="details" role="tabpanel"
+				<div class="tab-pane fade show active" id="details" role="tabpanel">
 					aria-labelledby="details-tab">
 					<!-- Detailed information about the product -->
 					<p>${requestScope.product.description}</p>
