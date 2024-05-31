@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import domain.ProductVO;
 import domain.Product_listVO;
@@ -49,6 +50,14 @@ public interface ProductDao {
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
 
 	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
+
+	//tbl_manufacturer (위,경도) 테이블에 있는 정보 가져오기(select)
+	List<Map<String, String>> selectStoreMap() throws SQLException;
+
+	List<Map<String, String>> selectStoreMapByLocation(String locationParam) throws SQLException;
+	
+	
+
 
 
 
