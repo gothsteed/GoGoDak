@@ -602,8 +602,14 @@ public class ProductDao_Imple implements ProductDao {
             pstmt.setInt(7, pvo.getProduct_type());
             pstmt.setString(8, pvo.getDiscount_type());
             pstmt.setFloat(9, pvo.getDiscount_amount());
-            pstmt.setInt(10, pvo.getFk_manufacturer_seq());
-	        pstmt.setInt(11, pvo.getProduct_seq());
+            
+            if(pvo.getFk_manufacturer_seq() == 0) {
+            	pstmt.setNull(10, java.sql.Types.INTEGER );
+            }else {
+            	pstmt.setNull(10, pvo.getFk_manufacturer_seq());
+            }
+	        
+            pstmt.setInt(11, pvo.getProduct_seq());
 	        
 	        
 	        System.out.println("sql :" + sql);
