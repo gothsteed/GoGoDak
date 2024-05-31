@@ -30,8 +30,6 @@
 
 $(document).ready(function() {
 	
-	$("div.loader").hide();
-	
 	//	여기 링크를 꼭 참고하세용 http://www.iamport.kr/getstarted
    	var IMP = window.IMP;     // 생략가능
    	IMP.init('imp14713247');  // 중요!!  아임포트에 가입시 부여받은 "가맹점 식별코드". 
@@ -83,8 +81,6 @@ $(document).ready(function() {
 		//  $(opener.location).attr("href", "javascript:goCoinUpdate( '${idx}','${coinmoney}');");
 		
 		    self.close();
-		    
-		    $("div.loader").show();
 			
         } else {
             location.href="/GoGoDak";
@@ -144,8 +140,5 @@ function goOrder(totalAmount, point, postcode, address, address_detail, address_
 </head>	
 
 <body>
-	<div style="display: flex; position: absolute; top: 30%; left: 37%; border: solid 0px blue;">
-   		<div class="loader" style="margin: auto"></div>
-	</div>
 </body>
 </html>
