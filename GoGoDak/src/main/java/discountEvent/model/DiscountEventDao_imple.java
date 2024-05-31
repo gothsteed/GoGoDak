@@ -414,5 +414,36 @@ public class DiscountEventDao_imple implements DiscountEventDao {
 	}
 
 
+	@Override
+	public List<Discount_eventVO> getAllDiscountEvent() throws SQLException {
+		List<Discount_eventVO>  discountList = new ArrayList<Discount_eventVO>();
+		
+		
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ "	from tbl_discount_event ";
+
+
+
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Discount_eventVO discount_eventVO = createDiscount_eventVO(rs);
+				
+				discountList.add(discount_eventVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+		
+		return discountList;
+	}
+
+
 
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import domain.MemberOrderStat;
 import domain.MemberPurchaseByMonthChart;
 import domain.MemebrPurchaseChart;
 import domain.OrderVO;
@@ -29,5 +30,7 @@ public interface OrderDao {
 	List<MemebrPurchaseChart> memberPurchase_byCategory(int member_seq) throws SQLException;
 
 	List<MemberPurchaseByMonthChart> memberPurchase_byMonth_byCategory(int member_seq) throws SQLException;
+
+	MemberOrderStat getOrderStat(int member_seq) throws SQLException;
 
 }

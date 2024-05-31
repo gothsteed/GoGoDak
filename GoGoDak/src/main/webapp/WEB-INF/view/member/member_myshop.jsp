@@ -201,7 +201,7 @@ li a{
 			        
 			        <li class="nav-item row">
 			            <strong class="title col-5">총주문</strong>
-			            <strong class="data col-7 text-right"><span id="order_price"> 원</span>(<span id="order_count">&</span>회)</strong>
+			            <strong class="data col-7 text-right"><span id="order_count">${requestScope.orderStat.totalCnt}</span>회</strong>
 			        </li>
 			        
 			    </ul>
@@ -221,19 +221,19 @@ li a{
 	        <ul class="order flex-col" style="margin-top: 15px; ">
 				<li>
 	                <strong style="font-size: 18px">출고전 <br><br></strong>
-	                <a href="#" class="count"><span id="before_count">0</span></a>
+	                <a href="#" class="count"><span id="before_count">${requestScope.orderStat.processingCnt }</span></a>
 	            </li>
 	            <li>
 	                <strong style="font-size: 18px">출고완료 <br><br></strong>
-	                <a href="#" class="count"><span id="standby_count">0</span></a>
+	                <a href="#" class="count"><span id="standby_count">${requestScope.orderStat.shippedOutCnt }</span></a>
 	            </li>
 	            <li>
 	                <strong style="font-size: 18px">배송중 <br><br></strong>
-	                <a href="#" class="count"><span id="begin_count">0</span></a>
+	                <a href="#" class="count"><span id="begin_count">${requestScope.orderStat.inDeliveryCnt }</span></a>
 	            </li>
 	            <li>
 	                <strong style="font-size: 18px">배송완료 <br><br></strong>
-	                <a href="#" class="count"><span id="shppied_complate_count" >0</span></a>
+	                <a href="#" class="count"><span id="shppied_complate_count" >${requestScope.orderStat.inDeliveryCnt }</span></a>
 	            </li>
 	        </ul>
 		</div>

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <%
     String ctxPath = request.getContextPath();
     //    /GoGoDak
@@ -10,16 +14,40 @@
 	<div class="container">
 		<div id="carouselExampleIndicators" class="carousel slide carousel-fade mt-3 mb-5" data-ride="carousel">
 			<ol class="carousel-indicators">
-		    	<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<c:forEach var="event" items="${requestScope.eventList}" varStatus="status">
+					<c:if test="${status.index == 0}">
+						<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}" class="active"></li>
+					</c:if>
+					<c:if test="${status.index != 0}">
+						<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}"></li>
+					</c:if>
+				</c:forEach>
+			
+				
+<!-- 		    	<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
-		    	<li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
+		    	<li data-target="#carouselExampleIndicators" data-slide-to="6"></li> -->
 		  	</ol>
 		  	<div class="carousel-inner">
-		    	<div class="carousel-item active">
+		  		<c:forEach var="event" items="${requestScope.eventList}" varStatus="status">
+					<c:if test="${status.index == 0}">
+						<div class="carousel-item active">
+				      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/special/${event.pic}" alt="...">
+				    	</div>   
+					</c:if>
+					<c:if test="${status.index != 0}">
+						<div class="carousel-item">                                    
+				      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/special/${event.pic}" alt="...">  	      
+				    	</div>  
+					</c:if>
+				</c:forEach>
+		  	
+		  	
+<%-- 		    	<div class="carousel-item active">
 		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_1.jpg" alt="...">
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
@@ -39,7 +67,7 @@
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
 		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_7.jpg" alt="...">	      
-		    	</div>
+		    	</div> --%>
 		  	</div>
 		  	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 		    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>

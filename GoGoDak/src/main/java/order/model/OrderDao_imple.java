@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 
 import com.oracle.wls.shaded.org.apache.regexp.recompile;
 
+import domain.MemberOrderStat;
 import domain.MemberPurchaseByMonthChart;
 import domain.MemberVO;
 import domain.MemebrPurchaseChart;
@@ -669,6 +670,37 @@ public class OrderDao_imple implements OrderDao {
 		
 		
 		return myPurchaseChart;
+	}
+
+	@Override
+	public MemberOrderStat getOrderStat(int member_seq) throws SQLException {
+		MemberOrderStat memberOrderStat = new MemberOrderStat();
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select DELIVERY_STATUS, count(*) count "
+					+ " from tbl_order "
+					+ " where fk_member_seq = ?"
+					+ " group by DELIVERY_STATUS" ;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				memberOrderStat.addCount(rs.getInt("DELIVERY_STATUS"), rs.getInt("count"));
+			}
+			
+			
+		}
+		finally {
+			close();
+		}
+		
+		
+		return memberOrderStat;
 	}
 
 
