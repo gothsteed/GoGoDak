@@ -20,6 +20,7 @@ import domain.BoardVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import domain.QuestionVO;
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -654,31 +655,37 @@ public class MemberDao_Imple implements MemberDao {
 	
 	//공지사항 페이징처리 혜선 
 	@Override
-	public List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException  {
+	public List<BoardVO> getBoard(Map<String, String> paraMap)throws SQLException  {
 		List<BoardVO> boardList = new ArrayList<>();
 
 		try {
 			conn = ds.getConnection();
 
 			String sql = " SELECT * "
-					   + "FROM (  "
-					   + "    SELECT rownum as rno, board_Seq , title , content , pic "
-					   + "    FROM(  "
-					   + "        select *  "
-					   + "        from tbl_board"
-					   + "        ORDER BY board_Seq desc) V "
-					   + "        )T WHERE T.rno between ? and ?";
-					   
-					
-
-
+	                  + "FROM (  "
+	                  + "    SELECT rownum as rno, board_Seq , title , content , pic "
+	                  + "    FROM(  "
+	                  + "        select *  "
+	                  + "        from tbl_board"
+	                  + "        ORDER BY boarddate DESC) V "
+	                  + "        )T WHERE T.rno between ? and ?";
+			
 			pstmt = conn.prepareStatement(sql);
+			
+			int currentPage = Integer.parseInt(paraMap.get("currentPage"));
+            int blockSize = Integer.parseInt(paraMap.get("blockSize"));
+
+            int startRow = (currentPage - 1) * blockSize + 1;
+            int endRow = currentPage * blockSize;
+
+            int paramIndex = 1;
+            
+            pstmt.setInt(paramIndex++, startRow);
+            pstmt.setInt(paramIndex++, endRow);
+ 
+
 
 	
-			pstmt.setLong(1, (currentPage * blockSize) - (blockSize - 1)); // 페이징처리 공식
-			pstmt.setLong(2, (currentPage * blockSize));
-
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -703,7 +710,7 @@ public class MemberDao_Imple implements MemberDao {
 	
 	//공지사항 총 페이지수 알아오기  혜선
 	@Override
-	public int getBoardTotalPage(int blockSize) throws SQLException {
+	public int getBoardTotalPage(Map<String, String> paraMap) throws SQLException {
 		
 		int boardTotalPage = 0;
 
@@ -716,7 +723,7 @@ public class MemberDao_Imple implements MemberDao {
 
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, blockSize);
+			pstmt.setInt(1,Integer.parseInt(paraMap.get("blockSize")));
 			
 			rs = pstmt.executeQuery();
 
@@ -1317,6 +1324,35 @@ public class MemberDao_Imple implements MemberDao {
 	      }
 	      
 	      return result;      
+	}
+	
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	@Override
+	public int getTotalBoardCount(Map<String, String> paraMap) throws SQLException {
+		int totalMemberCount = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	          
+	         String sql = " Select count(*)  "
+		         		+ " From tbl_board ";
+		         	
+		         		
+		    
+	         pstmt = conn.prepareStatement(sql); 
+	         
+	         
+	         rs = pstmt.executeQuery();
+	         
+	         rs.next();
+	         
+	         totalMemberCount = rs.getInt(1); //값이 몇개인지 리턴되어지는 것 ->totalMemberCount 로 담아줌
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return totalMemberCount;
 	}
 
 

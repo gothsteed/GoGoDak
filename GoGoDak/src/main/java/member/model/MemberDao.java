@@ -52,10 +52,10 @@ public interface MemberDao {
 	
 	
 	//공지사항 페이징처리 혜선 
-	List<BoardVO> getBoard(int currentPage, int blockSize)throws SQLException ;
+	List<BoardVO> getBoard(Map<String, String> paraMap)throws SQLException ;
 	
 	//공지사항 총 페이지수 알아오기  혜선
-	int getBoardTotalPage(int blockSize)throws SQLException ;
+	int getBoardTotalPage(Map<String, String> paraMap)throws SQLException ;
 	
 	//공지사항 디테일 페이지 혜선
 	BoardVO selectOneBoard(String board_seq)throws SQLException ;
@@ -96,6 +96,9 @@ public interface MemberDao {
 	boolean duplicatePwdCheck(Map<String, String> paraMap)throws SQLException;
 	//회원정보 수정
 	int updateMember(MemberVO member)throws SQLException;
+	
+	//페이징처리시 보여주는 순번공식에 사용할 select
+	int getTotalBoardCount(Map<String, String> paraMap)throws SQLException;
 
 	
 	

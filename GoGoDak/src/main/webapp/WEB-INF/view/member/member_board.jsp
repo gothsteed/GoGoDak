@@ -133,9 +133,13 @@ $(document).ready(function() {
 
 		<tbody>
 			<c:if test="${not empty requestScope.boardList}">
-				<c:forEach var="board" items="${requestScope.boardList}">
+				<c:forEach var="board" items="${requestScope.boardList}"  varStatus="status">
 					<tr class="boardInfo">
-		       			<td class="board_seq">${board.board_seq}</td><%--순서--%>    
+					<fmt:parseNumber var="currentPage" value="${requestScope.currentPage}"/>
+        			<fmt:parseNumber var="blockSize" value="${requestScope.blockSize}"/>
+        			
+        				<td>${(requestScope.totalBoardCount) -( currentPage - 1 ) * blockSize-(status.index)}</td>
+		       			<td class="board_seq" style="display:none;">${board.board_seq}</td><%--순서--%>    
 						<td>${board.title}</td> <%--제목 --%>
 						<td>고고닭</td> <%-- 글쓴이 --%>
 					</tr>
