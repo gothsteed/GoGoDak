@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     String ctxPath = request.getContextPath();
 	//    /GoGoDak
@@ -127,7 +128,12 @@
             <button type="button" class="btn btn-primary btn-block">확인</button>
             
             <div class="my-3 text-center" id="div_findResult">
-			   ${requestScope.name}님의 아이디는 <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">${requestScope.id}</span> 입니다.
+            	<c:if test="${not empty sessionScope.loginuser}">
+            		${requestScope.name}님의 아이디는 <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">${requestScope.id}</span> 입니다.
+            	</c:if>
+			   <c:if test="${empty sessionScope.loginuser}">
+            		입력하신 정보로 가입된 회원 아이디는 <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">${requestScope.id}</span>
+            	</c:if>
 			</div>
         </form>
     </div>

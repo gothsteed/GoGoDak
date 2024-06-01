@@ -81,9 +81,6 @@
             	</div>
         	</div>
 		</div>
-	  	<div>
-			<a href="#top" class="top_button h2 text-warning"><i class="fa-solid fa-circle-chevron-up"></i></a>
-		</div>
 	</footer>
     <%-- end footer section --%>
      
