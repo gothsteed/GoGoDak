@@ -128,9 +128,18 @@ String ctxPath = request.getContextPath();
 
     function checkPoints(availablePoints) {
         var points = parseInt(document.getElementById('points').value) || 0;
-        if (points > availablePoints) {
+        
+        var cartItems = document.querySelectorAll('.cart-item');
+        var totalCost = 0;
+        cartItems.forEach(function(item) {
+            var price = parseFloat(item.getAttribute('data-price'));
+            var quantity = parseInt(item.querySelector('input[type="text"]').value);
+            totalCost += price * quantity;
+        });
+        
+        if (points > availablePoints || points > totalCost) {
             alert('사용 가능한 포인트를 초과했습니다.');
-            document.getElementById('points').value = availablePoints;
+            document.getElementById('points').value = Math.min(availablePoints, totalCost);
         }
         updateTotal();
     }

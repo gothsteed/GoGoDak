@@ -23,6 +23,20 @@ public class MemberController extends AbstractController {
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if(!super.checkLogin(request)) {
+	        String message = "로그인 하시오.";
+	        String loc = "javascript:history.back()";
+
+	        request.setAttribute("message", message);
+	        request.setAttribute("loc", loc);
+
+	        super.setRedirect(false);
+	        super.setViewPage("/WEB-INF/view/msg.jsp");
+	        return;
+			
+		}
+		
+		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		

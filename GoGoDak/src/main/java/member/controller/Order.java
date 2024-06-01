@@ -83,8 +83,19 @@ public class Order extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
 		
+		if(point < 0 || loginuser.getPoint() < point) {
+			System.out.println("!!!주문 실패!!!");
+		    JSONObject jsonResponse = new JSONObject();
+		    jsonResponse.put("success", false);
+		    jsonResponse.put("message", "주문 실패!");
+		    jsonResponse.put("loc", "javascript:history.back()");
+		    setRedirect(false);
+	        request.setAttribute("json", jsonResponse.toString());
+	        setViewPage("/WEB-INF/jsonview.jsp");
+			return;
+		}
 		int[] result = orderDao.insertOrder(loginuser.getMember_seq(), postcode, address, address_detail, address_extra,  delivery_message, totalAmount, cart );
-		
+	
 		int pointResult = 0;
 		if(point == 0) {
 			pointResult =memberDao.updatePoint(loginuser.getPoint() + (int) Math.ceil(totalAmount* 0.05) , loginuser.getMember_seq());

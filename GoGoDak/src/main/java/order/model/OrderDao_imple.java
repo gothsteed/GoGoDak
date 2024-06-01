@@ -83,6 +83,7 @@ public class OrderDao_imple implements OrderDao {
     	prodcut.setProduct_seq(rs.getInt("PRODUCT_SEQ"));
     	prodcut.setFk_manufacturer_seq(rs.getInt("FK_MANUFACTURER_SEQ"));
 		prodcut.setProduct_name(rs.getString("PRODUCT_NAME"));
+		System.out.println("PRODUCT_NAME : " + rs.getString("PRODUCT_NAME"));
 		prodcut.setDescription(rs.getString("DESCRIPTION"));
 		prodcut.setBase_price(rs.getFloat("BASE_PRICE"));
 		prodcut.setStock(rs.getInt("STOCK"));
@@ -387,15 +388,29 @@ public class OrderDao_imple implements OrderDao {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " SELECT "
-					+ " pl.*, p.* "
-					+ "FROM  "
-					+ "    tbl_product_list pl "
-					+ "JOIN  "
-					+ "    tbl_product p "
-					+ "ON  "
-					+ "    pl.fk_product_seq = p.product_seq  "
-					+ " WHERE fk_order_seq = ? ";
+			String sql = " SELECT   "
+					+ "    pl.FK_ORDER_SEQ,   "
+					+ "    pl.quantity,   "
+					+ "    p.product_seq,   "
+					+ "    p.fk_manufacturer_seq,   "
+					+ "    p.product_name,   "
+					+ "    p.description,   "
+					+ "    p.base_price,   "
+					+ "    p.stock,   "
+					+ "    p.main_pic,   "
+					+ "    p.discription_pic,   "
+					+ "    p.fk_discount_event_seq,   "
+					+ "    p.discount_type,   "
+					+ "    p.discount_number,"
+					+ "    p.product_type   "
+					+ "FROM   "
+					+ "    tbl_product_list pl   "
+					+ "JOIN   "
+					+ "    tbl_product p   "
+					+ "ON   "
+					+ "    pl.fk_product_seq = p.product_seq    "
+					+ "WHERE   "
+					+ "    pl.fk_order_seq = ?  ";
 			
 			
 			pstmt = conn.prepareStatement(sql);

@@ -150,9 +150,7 @@ public class Event extends AbstractController {
 			return;
 			
 		}
-		
-		
-		
+	
 		String loc = request.getContextPath() + "/product/event.dk";
 		String message = "행사 등록 성공";
 		

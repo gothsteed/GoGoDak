@@ -9,7 +9,7 @@ public class MemberPurchaseByMonthChart {
 	private float percent;
 	public MemberPurchaseByMonthChart(int product_type, int m_01, int m_02, int m_03, int m_04, int m_05, int m_06, int m_07,
 			int m_08, int m_09, int m_10, int m_11, int m_12, int purchase_count, float percent) {
-		super();
+
 		this.product_type = product_type;
 		this.m_01 = m_01;
 		this.m_02 = m_02;

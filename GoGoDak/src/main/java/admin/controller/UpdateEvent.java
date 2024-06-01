@@ -172,7 +172,7 @@ public class UpdateEvent extends AbstractController {
 	        request.setAttribute("loc", loc);
 	         
 	        super.setRedirect(false);
-	        super.setViewPage("/WEB-INF/msg.jsp");
+	        super.setViewPage("/WEB-INF/view/msg.jsp");
 	        return;
 		}
 		
@@ -203,8 +203,6 @@ public class UpdateEvent extends AbstractController {
 		request.setAttribute("productList", productList);
 		request.setAttribute("discount_eventVO", discount_eventVO);
 		request.setAttribute("currentEventProductList", currentEventProductList);
-		
-	
 		
         super.setRedirect(false);
         super.setViewPage("/WEB-INF/view/admin/admin_eventWrite.jsp");

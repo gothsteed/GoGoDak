@@ -98,14 +98,11 @@ public class EventProduct extends AbstractController {
 			pageBar += "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page="+ (currentPage + 1)+"'>[다음]</a></li>";
 		}
 
-		
-		//TODO: banner here
 		String title = "<div><img src='" + request.getContextPath() + "/images/special/"+discount_eventVO.getPic()+"' height='500px' /></div>";
 		
 		request.setAttribute("title", title);
 		request.setAttribute("productList", productList);
 		request.setAttribute("pageBar", pageBar);
-		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/product/product_category.jsp");
 

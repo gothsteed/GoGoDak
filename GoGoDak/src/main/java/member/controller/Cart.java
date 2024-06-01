@@ -90,15 +90,6 @@ public class Cart extends AbstractController {
 
 			Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
 
-			/*
-			 * if (cart.containsKey(product)) { cart.put(product, cart.get(product) +
-			 * productJson.getInt("quantity")); System.out.println("plus 1 to cart item");
-			 * JSONObject jsonResponse = new JSONObject(); jsonResponse.put("success",
-			 * true); jsonResponse.put("message", "added to cart");
-			 * 
-			 * setRedirect(false); request.setAttribute("json", jsonResponse.toString());
-			 * setViewPage("/WEB-INF/jsonview.jsp"); return; }
-			 */
 
 			if (productJson.getInt("quantity") > 0) {
 				cart.put(product, productJson.getInt("quantity"));
@@ -128,13 +119,6 @@ public class Cart extends AbstractController {
 
 		addToCart(productArr, request);
 
-//	    for(int i=0; i<productArr.length(); i++) {
-//	    	
-//	    	JSONObject product = productArr.getJSONObject(i);
-//	    	
-//	    	addToCart(product, request);
-//	    	
-//	    }
 
 	}
 

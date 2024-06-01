@@ -90,8 +90,6 @@ public class Event extends AbstractController {
 		
 		request.setAttribute("discount_event_list", discount_event_list);
 		request.setAttribute("pageBar", pageBar);
-		
-		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/product/product_special.jsp");
 
