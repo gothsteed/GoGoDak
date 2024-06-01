@@ -1,7 +1,21 @@
+<%@page import="order.model.OrderDao"%>
+<%@page import="domain.OrderVO"%>
+<%@page import="domain.ProductVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
     String ctxPath = request.getContextPath();
+	java.util.List<ProductVO> productList = (java.util.List<ProductVO>) request.getAttribute("productList");
+	int totalBasePrice = 0;
+	if (productList != null) {
+	    for (ProductVO product : productList) {
+	        totalBasePrice += product.getBase_price() * product.getQuantity();
+	    }
+	}
+	OrderVO order = (OrderVO) request.getAttribute("order");
+	
+	float discountedAmount = totalBasePrice - order.getTotal_pay();
+
 %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -171,7 +185,10 @@
     <table>
         <tr>
             <th>상품이름</th>
-            <th>재고</th>
+            <c:if test="${sessionScope.loginuser.id == 'admin' }">
+            	<th>재고</th>
+            </c:if>
+            
             <th>판매가</th>
     	<th>합계</th>
         </tr>
@@ -189,8 +206,11 @@
 		  			<td class="product-info">
 		                <c:out value="${product.product_name}" />
 		            </td>
-		            <td><c:out value="${product.stock}" /></td>
-		            <td><fmt:formatNumber value="${product.discountPrice}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
+		            
+		          	<c:if test="${sessionScope.loginuser.id == 'admin' }">
+		            	<td><c:out value="${product.stock}" /></td>
+		            </c:if>
+		            <td><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
 		
 		            <td><c:out value="${product.quantity}" />개</td> 
 		        </tr>
@@ -250,16 +270,6 @@
 
     <h3>결제 정보</h3>
     <div style="display: flex;">
-        <div class="payment-info-left" style="background-color:#FBFBEF;">
-            <table class="info-table">
-                <tr>
-                    <th colspan="2" style="background-color:#FBFBEF;">결제 정보</th>
-                </tr>
-                <tr>
-                    <td>카카오페이</td>
-                </tr>
-            </table>
-        </div>
         <div class="payment-info-right">
             <table class="info-table">
                 <tr>
@@ -278,8 +288,12 @@
                     <td></td>
                 </tr> --%>
                 <tr>
+                	<th>정가 금액</th>
+                    <td><fmt:formatNumber value="<%=totalBasePrice %>" type="currency" currencySymbol="" groupingUsed="true" />원</td>
+                    <th>할인액</th>
+                    <td style="color:red; font-weight: bold;"><fmt:formatNumber value="<%=discountedAmount %>" type="currency" currencySymbol="" groupingUsed="true" />원</td>
                     <th>최종 결제금액</th>
-                    <td><fmt:formatNumber value="${order.total_pay}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
+                    <td style="font-weight: bold;"><fmt:formatNumber value="${order.total_pay}" type="currency" currencySymbol="" groupingUsed="true" />원</td>
                 </tr>
             </table>
         </div>
@@ -287,10 +301,12 @@
     
     <input  id="order_seq" type="hidden" value="${order.order_seq}">
    <div class="btn-container">
-        <button type="button" class="btn btn-dark" onclick="changeDeliveryStatus(0)">미출고</button>
-        <button type="button" class="btn btn-secondary" onclick="changeDeliveryStatus(1)">출고</button>
-        <button  type="button" class="btn btn-success" onclick="changeDeliveryStatus(2)">배송중</button>
-        <button type="button" class="btn btn-warning" onclick="changeDeliveryStatus(3)">배송완료</button>
+   		<c:if test="${sessionScope.loginuser.id == 'admin' }">
+  		    <button type="button" class="btn btn-dark" onclick="changeDeliveryStatus(0)">미출고</button>
+	        <button type="button" class="btn btn-secondary" onclick="changeDeliveryStatus(1)">출고</button>
+	        <button  type="button" class="btn btn-success" onclick="changeDeliveryStatus(2)">배송중</button>
+	        <button type="button" class="btn btn-warning" onclick="changeDeliveryStatus(3)">배송완료</button>	
+   		</c:if>
         <button type="button" class="btn" onclick="goBack()">이전 페이지로 돌아가기</button>
     </div>
             	

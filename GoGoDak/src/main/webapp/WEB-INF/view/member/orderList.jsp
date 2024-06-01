@@ -160,7 +160,7 @@
                 </c:if>
                 <c:if test="${not empty requestScope.orderList}">
                     <c:forEach var="orderVO" items="${requestScope.orderList}">
-                        <tr >
+                        <tr class="clickable-row" data-orderseq="${orderVO.order_seq}">
                             <td><fmt:formatDate value="${orderVO.registerday}" pattern="yyyy-MM-dd"/></td>
                             <td>
                                 <c:forEach var="product" items="${orderVO.productList}">
@@ -380,6 +380,30 @@ $(document).ready(function() {
 	});
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var rows = document.querySelectorAll(".clickable-row");
+    rows.forEach(function(row) {
+        row.addEventListener("click", function() {
+            if (event.target.tagName.toLowerCase() === 'a') {
+                return; // Prevent the default action if an <a> tag is clicked
+            }
+            var orderSeq = row.dataset.orderseq;
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "<%=ctxPath%>/member/member_orderdetail.dk";
+
+            var hiddenField = document.createElement("input");
+            hiddenField.type = "hidden";
+            hiddenField.name = "order_seq";
+            hiddenField.value = orderSeq;
+
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+});
+
 
 function submitReview() {
     const frm = document.reviewFrm;
@@ -535,6 +559,8 @@ function deleteReview() {
             alert("리뷰 삭제 중 에러가 발생했습니다. 다시 시도해주세요.");
         }
     });
+    
+
 
     
 }

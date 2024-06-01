@@ -33,7 +33,7 @@ public class Admin_Order_Detail extends AbstractController {
 	    HttpSession session = request.getSession();
 	    MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 
-	    if (loginuser != null && "admin".equals(loginuser.getId())) {
+	    if (loginuser != null) {
 	        String method = request.getMethod();
 	        
 	        if ("POST".equalsIgnoreCase(method)) {
@@ -66,7 +66,7 @@ public class Admin_Order_Detail extends AbstractController {
 	            super.setViewPage("/WEB-INF/view/member/member_orderdetail.jsp");
 	        }
 	    } else {
-	        String message = "관리자만 접근 가능한 페이지입니다.";
+	        String message = "로그인 하셔야합니다.";
 	        String loc = "javascript:history.back()";
 
 	        request.setAttribute("message", message);
