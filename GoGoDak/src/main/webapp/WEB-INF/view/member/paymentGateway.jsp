@@ -12,18 +12,24 @@
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 
 <style type="text/css">
-	div.loader {
-    	border: 12px solid #f3f3f3;
-     	border-radius: 50%;
-      	border-top: 12px dotted blue;
-      	border-right: 12px dotted green;
-      	border-bottom: 12px dotted red;
-      	border-left: 12px dotted pink;
-     	width: 120px;
-     	height: 120px;
-     	-webkit-animation: spin 2s linear infinite; /* Safari */
-     	animation: spin 2s linear infinite;
-	}
+    div.loader {
+        border: 12px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 12px dotted blue;
+        border-right: 12px dotted green;
+        border-bottom: 12px dotted red;
+        border-left: 12px dotted pink;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        display: none; /* Hide the loader initially */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -60px; /* Half of the height */
+        margin-left: -60px; /* Half of the width */
+    }
 </style>
 
 <script type="text/javascript">
@@ -76,6 +82,10 @@ $(document).ready(function() {
 		*/
 		//	opener.location.href = "javascript:goCoinUpdate('${idx}','${coinmoney}');";
 		//	팝업을 어디서 불러왔는지
+		
+		
+			$(".loader").css("display", "block");
+
 			console.log("calling goOrder")
 			goOrder(${requestScope.totalAmount}, ${requestScope.point}, "${requestScope.postcode}", "${requestScope.address}", "${requestScope.address_detail}", "${requestScope.address_extra}");
 		//  $(opener.location).attr("href", "javascript:goCoinUpdate( '${idx}','${coinmoney}');");
@@ -108,7 +118,7 @@ function goOrder(totalAmount, point, postcode, address, address_detail, address_
     }
 
     const delivery_message = window.opener.document.querySelector("input#delivery_message").value.trim();
-    $(".loader").css("display" ,"block");
+    
 
     $.ajax({
         url : "<%=ctxPath%>/member/order.dk",
@@ -132,13 +142,15 @@ function goOrder(totalAmount, point, postcode, address, address_detail, address_
             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
         }
     });
-
-    $(".loader").css("display" ,"none");
 }
 
 </script>
 </head>	
 
 <body>
+
+<body>
+    <div class="loader"></div>
+</body>
 </body>
 </html>

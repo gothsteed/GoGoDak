@@ -32,134 +32,130 @@ public class Cart extends AbstractController {
 	public Cart() {
 		productDao = new ProductDao_Imple();
 	}
-	
-    private String getJsonStringFromRequest(HttpServletRequest request) throws IOException {
-        StringBuilder jsonString = new StringBuilder();
-        String line;
-        
-        try (BufferedReader reader = request.getReader()) {
-            while ((line = reader.readLine()) != null) {
-                jsonString.append(line);
-            }
-        }
-        
-        return jsonString.toString();
-    }
-    
-    private void addToCart(JSONObject productJson, HttpServletRequest request) throws SQLException {
-	    int product_seq = -1;
-	    try {
-	        product_seq = productJson.getInt("product_seq");
-	    } catch (NumberFormatException e) {
-	        System.out.println("not a number");
-	        JSONObject jsonResponse = new JSONObject();
-	        jsonResponse.put("success", false);
-	        jsonResponse.put("message", "Invalid product sequence.");
 
-	        System.out.println(jsonResponse.toString());
-	        setRedirect(false);
-	        request.setAttribute("json", jsonResponse.toString());
-	        setViewPage("/WEB-INF/jsonview.jsp");
-	        return;
-	    }
+	private String getJsonStringFromRequest(HttpServletRequest request) throws IOException {
+		StringBuilder jsonString = new StringBuilder();
+		String line;
 
-	    ProductVO product = productDao.getProductBySeq(product_seq);
+		try (BufferedReader reader = request.getReader()) {
+			while ((line = reader.readLine()) != null) {
+				jsonString.append(line);
+			}
+		}
 
-	    if (product == null) {
-	        System.out.println("does not exist");
-	        JSONObject jsonResponse = new JSONObject();
-	        jsonResponse.put("success", false);
-	        jsonResponse.put("message", "Invalid product sequence.");
-	
-	        System.out.println(jsonResponse.toString());
-	        setRedirect(false);
-	        request.setAttribute("json", jsonResponse.toString());
-	        setViewPage("/WEB-INF/jsonview.jsp");
-	        return;
-	    }
-
-	    HttpSession session = request.getSession();
-
-	    if (session.getAttribute("cart") == null) {
-	        session.setAttribute("cart", new HashMap<ProductVO, Integer>());
-	    }
-
-	    Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
-	    
-	    
-	 
-		/*
-		 * if (cart.containsKey(product)) { cart.put(product, cart.get(product) +
-		 * productJson.getInt("quantity")); System.out.println("plus 1 to cart item");
-		 * JSONObject jsonResponse = new JSONObject(); jsonResponse.put("success",
-		 * true); jsonResponse.put("message", "added to cart");
-		 * 
-		 * setRedirect(false); request.setAttribute("json", jsonResponse.toString());
-		 * setViewPage("/WEB-INF/jsonview.jsp"); return; }
-		 */
-	    
-	    if( productJson.getInt("quantity") > 0) {
-	    	cart.put(product, productJson.getInt("quantity"));
-	    }
-	    else {
-	    	cart.remove(product);
-	    }
-	    
-	    
-	    
-	    JSONObject jsonResponse = new JSONObject();
-	    jsonResponse.put("success", true);
-	    jsonResponse.put("message", "added to cart");
-	    setRedirect(false);
-        request.setAttribute("json", jsonResponse.toString());
-        setViewPage("/WEB-INF/jsonview.jsp");
-    }
-	
-	
-	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    System.out.println("====Cart Post====");
-	    String product_json = getJsonStringFromRequest(request);
-	    JSONObject jsonObject = new JSONObject(product_json);
-	    JSONArray productArr = jsonObject.getJSONArray("cart");
-	    
-	    System.out.println(product_json);
-	    
-	    
-	    for(int i=0; i<productArr.length(); i++) {
-	    	
-	    	JSONObject product = productArr.getJSONObject(i);
-	    	
-	    	addToCart(product, request);
-	    	
-	    }
-	    
-	    
+		return jsonString.toString();
 	}
 
+	private void addToCart(JSONArray productArr, HttpServletRequest request) throws SQLException {
+		float totalPay = 0;
+		
+		for (int i = 0; i < productArr.length(); i++) {
+			JSONObject productJson = productArr.getJSONObject(i);
+			int product_seq = -1;
+			try {
+				product_seq = productJson.getInt("product_seq");
+			} catch (NumberFormatException e) {
+				System.out.println("not a number");
+				JSONObject jsonResponse = new JSONObject();
+				jsonResponse.put("success", false);
+				jsonResponse.put("message", "Invalid product sequence.");
 
-	
-	
+				System.out.println(jsonResponse.toString());
+				setRedirect(false);
+				request.setAttribute("json", jsonResponse.toString());
+				setViewPage("/WEB-INF/jsonview.jsp");
+				return;
+			}
+
+			ProductVO product = productDao.getProductBySeq(product_seq);
+
+			if (product == null) {
+				System.out.println("does not exist");
+				JSONObject jsonResponse = new JSONObject();
+				jsonResponse.put("success", false);
+				jsonResponse.put("message", "Invalid product sequence.");
+
+				System.out.println(jsonResponse.toString());
+				setRedirect(false);
+				request.setAttribute("json", jsonResponse.toString());
+				setViewPage("/WEB-INF/jsonview.jsp");
+				return;
+			}
+
+			HttpSession session = request.getSession();
+
+			if (session.getAttribute("cart") == null) {
+				session.setAttribute("cart", new HashMap<ProductVO, Integer>());
+			}
+
+			Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
+
+			/*
+			 * if (cart.containsKey(product)) { cart.put(product, cart.get(product) +
+			 * productJson.getInt("quantity")); System.out.println("plus 1 to cart item");
+			 * JSONObject jsonResponse = new JSONObject(); jsonResponse.put("success",
+			 * true); jsonResponse.put("message", "added to cart");
+			 * 
+			 * setRedirect(false); request.setAttribute("json", jsonResponse.toString());
+			 * setViewPage("/WEB-INF/jsonview.jsp"); return; }
+			 */
+
+			if (productJson.getInt("quantity") > 0) {
+				cart.put(product, productJson.getInt("quantity"));
+				totalPay +=  product.getDiscountPrice() * productJson.getInt("quantity");
+			} else {
+				cart.remove(product);
+			}
+
+		}
+
+		JSONObject jsonResponse = new JSONObject();
+		jsonResponse.put("success", true);
+		jsonResponse.put("message", "added to cart");
+		jsonResponse.put("totalPay", Math.floor(totalPay));
+		setRedirect(false);
+		request.setAttribute("json", jsonResponse.toString());
+		setViewPage("/WEB-INF/jsonview.jsp");
+	}
+
+	private void postMethod(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("====Cart Post====");
+		String product_json = getJsonStringFromRequest(request);
+		JSONObject jsonObject = new JSONObject(product_json);
+		JSONArray productArr = jsonObject.getJSONArray("cart");
+
+		System.out.println(product_json);
+
+		addToCart(productArr, request);
+
+//	    for(int i=0; i<productArr.length(); i++) {
+//	    	
+//	    	JSONObject product = productArr.getJSONObject(i);
+//	    	
+//	    	addToCart(product, request);
+//	    	
+//	    }
+
+	}
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session =request.getSession();
-		
+		HttpSession session = request.getSession();
+
 		String method = request.getMethod();
-		if(method.equalsIgnoreCase("post")) {
+		if (method.equalsIgnoreCase("post")) {
 			postMethod(request, response);
 			return;
 		}
-	
+
 //		MemberVO loginuser =(MemberVO)session.getAttribute("loginuser");
-		
-		
-		
-		if(session.getAttribute("cart") == null) {
+
+		if (session.getAttribute("cart") == null) {
 			session.setAttribute("cart", new HashMap<ProductVO, Integer>());
 		}
-        
-    	super.setRedirect(false);
-		super.setViewPage("/WEB-INF/view/member/cart.jsp");
 
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/view/member/cart.jsp");
 
 	}
 

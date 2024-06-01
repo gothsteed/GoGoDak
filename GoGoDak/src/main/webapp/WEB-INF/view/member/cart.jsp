@@ -11,6 +11,8 @@ String ctxPath = request.getContextPath();
 <jsp:include page="../header.jsp" />
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script>
     function execDaumPostcode() {
         new daum.Postcode({
@@ -137,10 +139,6 @@ String ctxPath = request.getContextPath();
         checkPoints(availablePoints);
     }
 
-    function goPurchase() {
-    	alert('결제가 완료되었습니다!');
-    }
-
     function removeItem(itemId) {
         var itemElement = document.getElementById('cart-item-' + itemId);
         if (itemElement) {
@@ -171,6 +169,48 @@ String ctxPath = request.getContextPath();
         });
 
         return JSON.stringify({"cart": cartData});
+    }
+    
+    
+    function paymentModal(totalAmount, point, postcode, address, address_detail, address_extra) {
+    	
+    	var IMP = window.IMP;     // 생략가능
+       	IMP.init('imp14713247');  // 중요!!  아임포트에 가입시 부여받은 "가맹점 식별코드". 
+    	
+       // 결제요청하기
+       IMP.request_pay({
+           pg : 'html5_inicis', // 결제방식 PG사 구분
+           pay_method : 'card',	// 결제 수단
+           merchant_uid : 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
+           name : "고고닭 장바구니 결제",	 // 코인충전 또는 order 테이블에 들어갈 주문명 혹은 주문 번호. (선택항목)원활한 결제정보 확인을 위해 입력 권장(PG사 마다 차이가 있지만) 16자 이내로 작성하기를 권장
+           amount : 100,//${requestScope.totalAmount},	  // '${coinmoney}'  결제 금액 number 타입. 필수항목. 
+           buyer_email : '${sessionScope.loginuser.email}',  // 구매자 email
+           buyer_name : '${sessionScope.loginuser.name}',	  // 구매자 이름 
+           buyer_tel : '${sessionScope.loginuser.tel}',    // 구매자 전화번호 (필수항목)
+           buyer_addr : '',  
+           buyer_postcode : '',
+           m_redirect_url : ''  // 휴대폰 사용시 결제 완료 후 action : 컨트롤러로 보내서 자체 db에 입력시킬것!
+       }, function(rsp) {
+
+
+    		if ( rsp.success ) { // PC 데스크탑용
+
+    		
+    			$(".loader").css("display", "block");
+
+    			console.log("calling goOrder")
+    			goOrder(totalAmount, point, postcode, address, address_detail, address_extra);
+    		//  $(opener.location).attr("href", "javascript:goCoinUpdate( '${idx}','${coinmoney}');");
+    		
+    			
+            } else {
+                location.href="/GoGoDak";
+                alert("결제에 실패하였습니다.");
+           }
+
+       });
+    	
+    	
     }
     
     
@@ -218,7 +258,9 @@ String ctxPath = request.getContextPath();
 <%--                     alert('카트에 담김');
                     window.location.href = '<%=ctxPath%>/member/cart.dk'; --%>
                     
-                    // Create a form element
+                    paymentModal(Number(response.totalPay) - Number(point) , point, postcode, address, detailAddress, extraAddress)
+                    
+     <%--                // Create a form element
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = "<%=ctxPath%>/member/purchase.dk";
@@ -263,24 +305,14 @@ String ctxPath = request.getContextPath();
                     const height = 600;
                     const left = Math.ceil((window.screen.width - width) / 2);
                     const top = Math.ceil((window.screen.height - height) / 2);
+                    
+                
 
                     window.open('', "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}, resizable=yes, scrollbars=yes`);
                     form.submit();
 
                     // Remove the form from the document after submission
-                    document.body.removeChild(form);
-
-                <%--     
-                    const width = 1000;
-                    const height = 600;
-                    //todo: !!!purchase url 추가!!!!!
-                    const url = "<%=ctxPath%>/member/purchase.dk?point=" + point;
-
-                    const left = Math.ceil((window.screen.width - width)/2);
-                    const top = Math.ceil((window.screen.height - height)/2);
-
-                    window.open(url, "cartPurchase", `left=${left}, top=${top}, width=${width}, height=${height}`);
-                     --%>
+                    document.body.removeChild(form); --%>
                 } else {
                 	console.log(response.message)
                     alert('카트 담기 실패: ' + response.message);
@@ -292,22 +324,47 @@ String ctxPath = request.getContextPath();
             }
         });
         
-        
-/*         
-		
-        // 너비 1000, 높이 600 인 팝업창을 화면 가운데 위치시키기
-        const width = 1000;
-        const height = 600;
-        //todo: !!!purchase url 추가!!!!!
-        const url = ``
-
-        const left = Math.ceil((window.screen.width - width)/2);
-        const top = Math.ceil((window.screen.height - height)/2);
-
-        window.open(url, "coinPurchaseEnd", `left=${left}, top=${top}, width=${width}, height=${height}`); */
 
 
      }
+    
+    
+    function goOrder(totalAmount, point, postcode, address, address_detail, address_extra) {
+        // Show the loader
+        $(".loader").css("display", "block");
+
+        const delivery_message = document.querySelector("input#delivery_message").value.trim();
+        
+
+        $.ajax({
+            url : "<%=ctxPath%>/member/order.dk",
+            data : {
+                "point": point,
+                "totalAmount": totalAmount,
+                "postcode": postcode,
+                "address": address,
+                "address_detail": address_detail,
+                "address_extra": address_extra,
+                "delivery_message": delivery_message
+            },
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(json){
+                // Hide the loader
+                $(".loader").css("display", "none");
+
+                alert(json.message);
+                location.href = json.loc;
+            },
+            error: function(request, status, error){
+                // Hide the loader
+                $(".loader").css("display", "none");
+
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+        });
+    }
 </script>
 
 <section class="why_section layout_padding inner_page">
@@ -459,25 +516,24 @@ button {
     font-weight: 600;
     padding: 0 15px;
 }
-div.loader {
-  display: none; /* Hide the loader initially */
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #fbc02d;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+    div.loader {
+        border: 12px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 12px dotted blue;
+        border-right: 12px dotted green;
+        border-bottom: 12px dotted red;
+        border-left: 12px dotted pink;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        display: none; /* Hide the loader initially */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -60px; /* Half of the height */
+        margin-left: -60px; /* Half of the width */
+    }
 </style>
 
 <jsp:include page="../footer.jsp" />
