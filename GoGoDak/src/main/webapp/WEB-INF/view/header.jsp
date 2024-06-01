@@ -128,14 +128,6 @@
 		opacity: 0.5;
 		transition: 0.5s;
 	}
-	footer{
-		position: relative;
-	}
-	.top_button{
-	    position: absolute;
-	    bottom: 30px;
-	    right: 10%;
-	}
 	/* popup */
 	.popup{
 		position: fixed;
@@ -380,3 +372,7 @@
 		</div>
 	</section>
 	<%-- end inner page section --%>
+	
+	<div class="fixed-bottom" align="right" style="margin: 2%;">
+		<a href="#top" class="top_button h2 text-warning"><i class="fa-solid fa-circle-chevron-up"></i></a>
+	</div>
