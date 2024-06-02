@@ -3,9 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ page import="org.json.JSONObject"%>
-<%@ page import="java.io.PrintWriter"%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     String ctxPath = request.getContextPath();
@@ -402,6 +399,7 @@
 			           		<span class="tooltiptext">장바구니</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
+
 					</c:if>
 				</ul>
 			</nav>

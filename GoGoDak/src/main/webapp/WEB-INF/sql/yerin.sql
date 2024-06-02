@@ -181,10 +181,15 @@ desc tbl_member;
 
 select *
 from tbl_member
-where id = 'iyou99';
+where id = 'admin12123';
 
-update tbl_member set exist_status = 1
-where id = 'iyou99';
+update tbl_member set jubun = '9108231'
+where id = 'qwerwqer';
 
 commit;
 -- 커밋 완료.
+
+-----------------------------------------------------------------------
+
+select *
+from tbl_product;

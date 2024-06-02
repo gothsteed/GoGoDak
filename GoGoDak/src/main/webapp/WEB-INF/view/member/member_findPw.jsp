@@ -174,7 +174,7 @@
             
             <div class="my-3 text-center" id="div_findResult">
 			   <c:if test="${requestScope.isExist == false}">
-				   <span style="color: red;">입력하신 정보로 가입된 회원은 존재하지 않습니다.</span>
+				   <span style="color: #fbc02d; font-size: 16pt; font-weight: bold;">입력하신 정보로 가입된 회원은 존재하지 않습니다.</span>
 			   </c:if>
 			   
 			   <c:if test="${requestScope.isExist == true && requestScope.sendMailSuccess == true}">
