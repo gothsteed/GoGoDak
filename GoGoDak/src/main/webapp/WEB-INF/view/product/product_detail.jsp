@@ -502,6 +502,7 @@ function goDelete() {
             success: function(response) {
                 if (response.success) {
                     alert('카트에 담김');
+                    $("span.bg-danger.text-white.text-center").text(response.size);
                 } else {
                 	console.log(response.message)
                     alert('카트 담기 실패A: ' + response.message);

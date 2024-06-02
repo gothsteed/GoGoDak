@@ -112,6 +112,10 @@ String ctxPath = request.getContextPath();
             success: function(response) {
             	if(response.success) {
 					console.log("카드 담기 성공")
+					console.log(response.size);
+					
+					$("span.bg-danger.text-white.text-center").text(response.size);
+
                     
                 } else {
                 	console.log(response.message)

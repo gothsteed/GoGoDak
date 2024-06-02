@@ -1,9 +1,24 @@
+<%@page import="domain.ProductVO"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="org.json.JSONObject"%>
+<%@ page import="java.io.PrintWriter"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     String ctxPath = request.getContextPath();
     //    /GoGoDak
+    int cartSize = 0;
+    
+    if(session.getAttribute("cart") != null) {
+    	
+    	cartSize = ((Map<ProductVO, Integer>)session.getAttribute("cart")).size();
+    	
+    }
+    
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -127,14 +142,6 @@
 	.insta_img > li:hover{
 		opacity: 0.5;
 		transition: 0.5s;
-	}
-	footer{
-		position: relative;
-	}
-	.top_button{
-	    position: absolute;
-	    bottom: 30px;
-	    right: 10%;
 	}
 	/* popup */
 	.popup{
@@ -358,10 +365,21 @@
 		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
 			           	</li>
 			           	
-			           	<li class="nav-item tooltipbottom">
+<%-- 			           	<c:if test="${empty sessionScope.cart}">
+			           		<li class="nav-item tooltipbottom">
+				           		<span class="tooltiptext">장바구니</span>
+			              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
+				           	</li>
+			           	</c:if> --%>
+
+			           	<li class="nav-item tooltipbottom" style="position: relative;">
+			     
+			       			<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"><%= cartSize%></span>
+			       
 			           		<span class="tooltiptext">장바구니</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
+
 					</c:if>
 					
 					<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id != 'admin'}">				
@@ -370,7 +388,17 @@
 		              		<a class="nav-link" href="<%= ctxPath%>/member.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
 			           	</li>
 			           	
-			           	<li class="nav-item tooltipbottom">
+<%-- 			           	<c:if test="${empty sessionScope.cart}">
+			           		<li class="nav-item tooltipbottom">
+				           		<span class="tooltiptext">장바구니</span>
+			              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
+				           	</li>
+			           	</c:if> --%>
+
+			           	<li class="nav-item tooltipbottom" style="position: relative;">
+			       			
+			       			<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"><%= cartSize%></span>
+			       			
 			           		<span class="tooltiptext">장바구니</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
@@ -380,3 +408,7 @@
 		</div>
 	</section>
 	<%-- end inner page section --%>
+	
+	<div class="fixed-bottom" align="right" style="margin: 2%;">
+		<a href="#top" class="top_button h2 text-warning"><i class="fa-solid fa-circle-chevron-up"></i></a>
+	</div>

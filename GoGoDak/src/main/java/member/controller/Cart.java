@@ -48,6 +48,13 @@ public class Cart extends AbstractController {
 
 	private void addToCart(JSONArray productArr, HttpServletRequest request) throws SQLException {
 		float totalPay = 0;
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("cart") == null) {
+			session.setAttribute("cart", new HashMap<ProductVO, Integer>());
+		}
+
+		Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
 		
 		for (int i = 0; i < productArr.length(); i++) {
 			JSONObject productJson = productArr.getJSONObject(i);
@@ -82,14 +89,6 @@ public class Cart extends AbstractController {
 				return;
 			}
 
-			HttpSession session = request.getSession();
-
-			if (session.getAttribute("cart") == null) {
-				session.setAttribute("cart", new HashMap<ProductVO, Integer>());
-			}
-
-			Map<ProductVO, Integer> cart = (HashMap<ProductVO, Integer>) session.getAttribute("cart");
-
 
 			if (productJson.getInt("quantity") > 0) {
 				cart.put(product, productJson.getInt("quantity"));
@@ -99,11 +98,13 @@ public class Cart extends AbstractController {
 			}
 
 		}
+		
 
 		JSONObject jsonResponse = new JSONObject();
 		jsonResponse.put("success", true);
 		jsonResponse.put("message", "added to cart");
 		jsonResponse.put("totalPay", Math.floor(totalPay));
+		jsonResponse.put("size", cart.size());
 		setRedirect(false);
 		request.setAttribute("json", jsonResponse.toString());
 		setViewPage("/WEB-INF/jsonview.jsp");
