@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-
 <%
 String ctxPath = request.getContextPath();
 //    /GoGoDak
@@ -21,9 +20,7 @@ String ctxPath = request.getContextPath();
 					<li data-target="#carouselExampleIndicators" data-slide-to="${status.index}"></li>
 				</c:if>
 			</c:forEach>
-
-
-			<!-- 		    	<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+		   <!-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 		    	<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
@@ -36,19 +33,15 @@ String ctxPath = request.getContextPath();
 				<c:if test="${status.index == 0}">
 					<div class="carousel-item active">
 						<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/special/${event.pic}" alt="..." onclick="location.href='<%=ctxPath %>/product/event/detail.dk?discount_event_seq=${event.discount_event_seq}'">
-
 					</div>
 				</c:if>
 				<c:if test="${status.index != 0}">
 					<div class="carousel-item">
 						<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/special/${event.pic}" alt="..." onclick="location.href='<%=ctxPath %>/product/event/detail.dk?discount_event_seq=${event.discount_event_seq}'">
-
 					</div>
 				</c:if>
 			</c:forEach>
-
-
-			<%-- 		    	<div class="carousel-item active">
+			<%-- <div class="carousel-item active">
 		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_1.jpg" alt="...">
 		    	</div>                                                         
 		    	<div class="carousel-item">                                    
@@ -70,8 +63,11 @@ String ctxPath = request.getContextPath();
 		      		<img class="d-block img-fluid mx-auto rounded" src="<%= ctxPath%>/images/index/main_img_7.jpg" alt="...">	      
 		    	</div> --%>
 		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
-		</a> <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"> 
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span>
+		</a> 
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"> 
+			<span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span>
 		</a>
 	</div>
 </div>
@@ -102,7 +98,10 @@ String ctxPath = request.getContextPath();
 					<div class="carousel-item active text-center">
 						<div class="col-md-4">
 							<div class="card">
-								<a href="<%=ctxPath%>/product/detail.dk?product_seq=160"><img class="img-fluid card-img-top" src="<%=ctxPath%>/images/index/time_sale_2.jpg" alt="..."></a>
+								<a href="<%=ctxPath%>/product/detail.dk?product_seq=160">
+									<img class="img-fluid card-img-top" src="<%=ctxPath%>/images/index/time_sale_2.jpg" alt="..." />
+							<%--	<div style="border: solid 1px red; font-size: 18pt; background: #fbc02d; color: #1a1a1a; padding: 2% 0;">할인 종료까지<div id="timer" class="font-weight-bold"></div></di0>	--%>
+								</a>
 								<div class="card-body">
 									<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
 									<h5 class="card-text font-weight-bold">닥터리브 곤약젤리 3종</h5>
@@ -233,7 +232,7 @@ String ctxPath = request.getContextPath();
 			    <div class="row col">
 			        <div class="col-4">
 			            <a href="<%=ctxPath%>/product/detail.dk?product_seq=${product.product_seq}">
-			                <img class="rounded" src="<%=ctxPath%>/images/product/${product.main_pic}" width="120" alt="...">
+			            	<img class="rounded" src="<%=ctxPath%>/images/product/${product.main_pic}" width="120" alt="...">
 			            </a>
 			        </div>
 			        <div class="col-7 offset-md-1 mt-1">
@@ -319,5 +318,44 @@ String ctxPath = request.getContextPath();
 	<img class="popup-img" src="<%=ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" /> <img class="popup-btn" src="<%=ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
 </div>
 <%-- end popup section --%>
+
+<script type="text/javascript">
+	let interval_timer;
+	
+	window.onload = function(){
+		const timerDiv = document.querySelector("div#timer");
+	    let time = 600;
+	    
+	    const timer = function(){
+
+	    	let minute = "";
+            let second = "";
+	        
+	    	if(time < 0){ 
+	            clearInterval(interval_timer); 
+	        }
+	        else{
+	            minute = parseInt(time/60); 
+	            if(minute < 10){
+	                minute = "0" + minute;
+	            }
+
+	            second = time%60 
+	            if(second < 10){
+	                second = "0" + second;
+	            }
+
+	            const html = `${minute} : ${second}`;
+	            timerDiv.innerHTML = html;
+
+	            time--;
+	        }
+	    };
+	    
+	    timer();
+	    interval_timer = setInterval(timer, 1000);
+
+	} // end of window.onload = function() ----------
+</script>
 
 <jsp:include page="footer.jsp" />
