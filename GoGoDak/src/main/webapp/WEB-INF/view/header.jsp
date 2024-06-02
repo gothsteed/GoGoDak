@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
     String ctxPath = request.getContextPath();
@@ -349,6 +350,7 @@
 							<span class="tooltiptext">로그인</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
 			           	</li>
+			           	
 			           	<c:if test="${empty sessionScope.cart}">
 			           		<li class="nav-item tooltipbottom">
 				           		<span class="tooltiptext">장바구니</span>
@@ -378,7 +380,7 @@
 			           	</c:if>
 			           	<c:if test="${not empty sessionScope.cart}">
 				           	<li class="nav-item tooltipbottom" style="position: relative;">
-				       			<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"></span>
+			       				<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"></span>
 				           		<span class="tooltiptext">장바구니</span>
 			              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 				           	</li>

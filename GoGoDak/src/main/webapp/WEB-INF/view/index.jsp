@@ -99,7 +99,10 @@ String ctxPath = request.getContextPath();
 							<div class="card">
 								<a href="<%=ctxPath%>/product/detail.dk?product_seq=160">
 									<img class="img-fluid card-img-top" src="<%=ctxPath%>/images/index/time_sale_2.jpg" alt="...">
-									<div class="font-weight-bold text-dark h3" style="border: solid 1px red; padding: 3% 0;">할인 종료까지<div id="timer"></div></div>
+									<%-- 
+									<div class="font-weight-bold text-dark h4" style="padding-top: 4%;">할인 종료까지</div>
+									<div id="timer" style="border: solid 1px red; padding: 5% 0;"></div>
+									--%>
 								</a>
 								<div class="card-body">
 									<h4 class="card-title text-danger font-weight-bold">[ 타임특가 ]</h4>
@@ -149,8 +152,13 @@ String ctxPath = request.getContextPath();
 						</div>
 					</div>
 				</div>
-				<a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev"> <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span> <span class="sr-only">Previous</span>
-				</a> <a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next"> <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span> <span class="sr-only">Next</span>
+				<a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev"> 
+					<span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span> 
+					<span class="sr-only">Previous</span>
+				</a> 
+				<a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next"> 
+					<span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span> 
+					<span class="sr-only">Next</span>
 				</a>
 			</div>
 		</div>
@@ -314,23 +322,24 @@ String ctxPath = request.getContextPath();
 
 <%-- start popup section --%>
 <div class="popup clearfix">
-	<img class="popup-img" src="<%=ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" /> <img class="popup-btn" src="<%=ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
+	<img class="popup-img" src="<%=ctxPath%>/images/footer/pop_coupon.jpg" alt="popup" /><img class="popup-btn" src="<%=ctxPath%>/images/footer/pop_close.png" alt="popup_close" />
 </div>
 <%-- end popup section --%>
 
+<%-- 
 <script type="text/javascript">
 	let interval_timer;
 	
 	$(document).ready(function(){
-		const timerDiv = $("div#timer").val();
+	    const timerDiv = $("div#timer");
 	    let time = 600;
 	    
 	    const timer = function(){
-
-	    	let minute = "";
-            let second = "";
+	
+	        let minute = "";
+	        let second = "";
 	        
-	    	if(time < 0){ 
+	        if(time < 0){ 
 	            clearInterval(interval_timer); 
 	        }
 	        else{
@@ -338,23 +347,24 @@ String ctxPath = request.getContextPath();
 	            if(minute < 10){
 	                minute = "0" + minute;
 	            }
-
+	
 	            second = time%60 
 	            if(second < 10){
 	                second = "0" + second;
 	            }
-
-	            const html = `${minute} : ${second}`;
-	            timerDiv.innerHTML = html;
-
+	
+	          
+	            const text = `${minute} : ${second}`;
+	            timerDiv.text(text);
+	
 	            time--;
 	        }
 	    };
 	    
 	    timer();
 	    interval_timer = setInterval(timer, 1000);
-
-	}); // end of window.onload = function() ----------
+	
+	}); // end of $(document).ready() function ----------
 </script>
-
+--%>
 <jsp:include page="footer.jsp" />

@@ -451,7 +451,7 @@ function goDelete() {
 	<!-- end why section -->
 
 	<!-- footer section -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	
 	<!-- end footer section -->
 
 	<!-- jQuery -->
@@ -556,5 +556,5 @@ function goDelete() {
 
     
 </script>
-</body>
-</html>
+
+<jsp:include page="../footer.jsp"></jsp:include>
