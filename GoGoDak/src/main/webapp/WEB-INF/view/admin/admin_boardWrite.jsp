@@ -4,16 +4,13 @@
     String ctxPath = request.getContextPath();
     //    /GoGoDak
 %>
-<jsp:include page="../header.jsp" />
+<jsp:include page="../header_admin.jsp" />
 
  
 <style type="text/css">
-  
-  
 .boardWrite_container{
 	text-align: center;
 }
-      	
 </style>
     
 <script type="text/javascript">
@@ -57,7 +54,7 @@ function goReset() {
 }
 </script>
 
-<div class="boardWrite_container">
+<div class="boardWrite_container" style="margin: 5% 0;">
 	<div class="row justify-content-center">
 		<div class="col-md-8">
 			<div class="card">
@@ -94,10 +91,10 @@ function goReset() {
 		</div>
 	</div>
 </div>
- 
-<jsp:include page="../footer.jsp" />  
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+   </body>
+</html>
