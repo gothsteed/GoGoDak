@@ -1,4 +1,4 @@
-package common.controller;
+package product.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import common.controller.AbstractController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -35,8 +36,8 @@ public class StoreLocationJSON extends AbstractController {
            
               int manufacturer_seq = Integer.parseInt(storeMap.get("manufacturer_seq"));
               String manufacturer_name = storeMap.get("manufacturer_name");
-              int manufacturer_tel = Integer.parseInt(storeMap.get("manufacturer_tel"));
-              String Location = storeMap.get("Location");
+              String manufacturer_tel =storeMap.get("manufacturer_tel");
+              String location = storeMap.get("location");
               String manufacturer_url = storeMap.get("manufacturer_url");
               String manufacturer_img = storeMap.get("manufacturer_img");
               double lat = Double.parseDouble(storeMap.get("LAT"));
@@ -46,11 +47,21 @@ public class StoreLocationJSON extends AbstractController {
               jsonObj.put("manufacturer_seq", manufacturer_seq);
               jsonObj.put("manufacturer_name", manufacturer_name);
               jsonObj.put("manufacturer_tel", manufacturer_tel);
-              jsonObj.put("Location", Location);
+              jsonObj.put("location", location);
               jsonObj.put("manufacturer_url", manufacturer_url);
               jsonObj.put("manufacturer_img", manufacturer_img);
               jsonObj.put("lat", lat);
               jsonObj.put("lng", lng);
+              
+          
+            
+              System.out.println(manufacturer_seq);
+              System.out.println(manufacturer_name);
+              System.out.println(manufacturer_tel);
+              System.out.println(location);
+              System.out.println(lat);
+              System.out.println(lng);
+           
             
               
               jsonArr.put(jsonObj); // [{},{},{},{},{}]
