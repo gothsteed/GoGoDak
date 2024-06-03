@@ -14,8 +14,6 @@
     	cartSize = ((Map<ProductVO, Integer>)session.getAttribute("cart")).size();
     	
     }
-    
-    
 %>
 <!DOCTYPE html>
 <html>
@@ -193,6 +191,7 @@
 	input{
 		text-transform: none !important;
 	}
+	
 </style>
 
 <%-- Optional JavaScript --%>
@@ -362,22 +361,20 @@
 							<span class="tooltiptext">로그인</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/login/login.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
 			           	</li>
-			           	
-<%-- 			           	<c:if test="${empty sessionScope.cart}">
+			           	<%-- 
+			           	<c:if test="${empty sessionScope.cart}">
 			           		<li class="nav-item tooltipbottom">
 				           		<span class="tooltiptext">장바구니</span>
 			              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 				           	</li>
-			           	</c:if> --%>
-
+			           	</c:if> 
+						--%>
 			           	<li class="nav-item tooltipbottom" style="position: relative;">
-			     
 			       			<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"><%= cartSize%></span>
 			       
 			           		<span class="tooltiptext">장바구니</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
-
 					</c:if>
 					
 					<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id != 'admin'}">				
@@ -385,22 +382,20 @@
 							<span class="tooltiptext">마이 쇼핑</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member.dk"><img src="<%= ctxPath%>/images/index/icon_myshop.png" width="50" alt="..." /></a>
 			           	</li>
-			           	
-<%-- 			           	<c:if test="${empty sessionScope.cart}">
+			           	<%--
+ 			           	<c:if test="${empty sessionScope.cart}">
 			           		<li class="nav-item tooltipbottom">
 				           		<span class="tooltiptext">장바구니</span>
 			              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 				           	</li>
-			           	</c:if> --%>
-
+			           	</c:if> 
+						--%>
 			           	<li class="nav-item tooltipbottom" style="position: relative;">
-			       			
 			       			<span class="bg-danger text-white text-center" style="display: block; width: 30px; height: 30px; border-radius: 50%; padding-top: 3%; position: absolute; right: 10px; top: 3px;"><%= cartSize%></span>
 			       			
 			           		<span class="tooltiptext">장바구니</span>
 		              		<a class="nav-link" href="<%= ctxPath%>/member/cart.dk"><img src="<%= ctxPath%>/images/index/icon_cart.png" width="50" alt="..." /></a>
 			           	</li>
-
 					</c:if>
 				</ul>
 			</nav>
