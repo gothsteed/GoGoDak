@@ -107,7 +107,10 @@ function validateField(field) {
     } else {
         // 필드 별로 유효성 검사
         if (field.attr("id") === "price") {
-            errorMsg = "상품가격은 0 이상의 값이어야 합니다.";
+        	  if (parseFloat(field.val()) === 0) { // 재고가 0인 경우 오류
+        		  errorMsg = "상품가격은 0 이상의 값이어야 합니다.";
+                  isValid = false;
+              }
         } else if (field.attr("id") === "stock") {
             if (parseFloat(field.val()) === 0) { // 재고가 0인 경우 오류
                 errorMsg = "재고는 0 이상의 값이어야 합니다.";
@@ -115,7 +118,7 @@ function validateField(field) {
             }
         } else if (field.attr("id") === "discountValue" && !$("input[name='discount_type'][value='none']").prop("checked")) {
             if ($("input[name='discount_type']:checked").val() === "percent") {
-                if (parseFloat(field.val()) < 0 || parseFloat(field.val()) > 100) {
+                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100 100) {
                     errorMsg = "다시 입력하세요";
                     isValid = false;
                  

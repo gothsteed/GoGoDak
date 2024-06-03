@@ -267,6 +267,7 @@
 	                    	    <li class="nav-item">
 	                           		<a class="nav-link text-secondary" href="<%= ctxPath%>/member/memberRegister.dk">회원가입</a>
 	                        	</li>
+	                        
                     	    </c:if>
                     	    
                     	    <c:if test="${sessionScope.loginuser.id == 'admin'}">
@@ -338,7 +339,7 @@
 							</ul>
 						</div>
 		           	</li>
-					<li class="nav-item">
+					<li class="nav-item">	
 		        		<a class="nav-link text-danger" href="<%= ctxPath%>/product/event.dk">반값도시</a>
 		           	</li>
 		           	<li class="nav-item">

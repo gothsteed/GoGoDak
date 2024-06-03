@@ -86,6 +86,8 @@ $(document).ready(function() {
             document.getElementById("previewImg").src = fileReader.result;
         };
     });
+    
+    
 
     // 다른 할인 유형 라디오 버튼 클릭 시 할인 금액 입력 필드 활성화
     $("input[name='discount_type']").not("#noDiscount").click(function() {
@@ -107,16 +109,19 @@ function validateField(field) {
         isValid = false;
     } else {
         // 필드 별로 유효성 검사
-        if (field.attr("id") === "price") {
-            errorMsg = "상품가격은 0 이상의 값이어야 합니다.";
-        } else if (field.attr("id") === "stock") {
+         if (field.attr("id") === "price") {
+        	  if (parseFloat(field.val()) === 0) { // 재고가 0인 경우 오류
+        		  errorMsg = "상품가격은 0 이상의 값이어야 합니다.";
+                  isValid = false;
+              }
+        }  else if (field.attr("id") === "stock") {
             if (parseFloat(field.val()) === 0) { // 재고가 0인 경우 오류
                 errorMsg = "재고는 0 이상의 값이어야 합니다.";
                 isValid = false;
             }
         } else if (field.attr("id") === "discountValue" && !$("input[name='discount_type'][value='none']").prop("checked")) {
             if ($("input[name='discount_type']:checked").val() === "percent") {
-                if (parseFloat(field.val()) < 0 || parseFloat(field.val()) > 100) {
+                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100 100) {
                     errorMsg = "다시 입력하세요";
                     isValid = false;
                  
@@ -285,11 +290,8 @@ function goReset() {
 				<div class="form-group">
 				    <label for="main_pic">제품 이미지</label>
 				    <div class="row">
-				        <div class="col">
-				            <!-- 기존 이미지 파일명 출력 -->
-				            <p>${requestScope.product.main_pic}</p>
-				            <!-- 파일 업로드 -->
-				            <input type="file" name="main_pic" accept="image/*">
+				        <div class="col">				      
+				            <input type="file" name="main_pic" class="infoData img_file" accept="image/*" value="${requestScope.product.main_pic}">
 				            <span class="error"></span>
 				        </div>
 				    </div>
