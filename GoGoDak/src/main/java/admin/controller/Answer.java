@@ -40,7 +40,7 @@ public class Answer extends AbstractController {
 
          if (result == 1) {
             String message = "답변이 등록 되었습니다.";
-            String loc = "javascript:history.back()";
+            String loc = request.getContextPath() +"/member/question.dk";
 
             request.setAttribute("message", message);
             request.setAttribute("loc", loc);
