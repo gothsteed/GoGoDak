@@ -6,7 +6,7 @@
     String ctxPath = request.getContextPath();
     //    /GoGoDak
 %>
-<jsp:include page="../header.jsp" />
+<jsp:include page="../header_admin.jsp" />
 
 <script>
 
@@ -118,7 +118,7 @@ function validateField(field) {
             }
         } else if (field.attr("id") === "discountValue" && !$("input[name='discount_type'][value='none']").prop("checked")) {
             if ($("input[name='discount_type']:checked").val() === "percent") {
-                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100 100) {
+                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100) {
                     errorMsg = "다시 입력하세요";
                     isValid = false;
                  
@@ -186,7 +186,7 @@ function goReset() {
 </script>
 
 
- <div class="mt-5 mb-5">
+<div class="mt-5 mb-5">
 
 <div class="container">
 
@@ -239,19 +239,19 @@ function goReset() {
                             <div class="row mx-0">
                                 <div class="col-sm-4"> 
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" style="margin-left: 35px;" ${requestScope.discount_type == 'percent' ? 'checked' : ''}>
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="percentageDiscount" value="percent" style="margin-left: -30px;" ${requestScope.discount_type == 'percent' ? 'checked' : ''}>
                                         <label class="form-check-label" for="percentageDiscount">퍼센트 할인</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" style="margin-left: 35px;" ${requestScope.discount_type == 'amount' ? 'checked' : ''}>
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="amountDiscount" value="amount" style="margin-left: -30px;" ${requestScope.discount_type == 'amount' ? 'checked' : ''}>
                                         <label class="form-check-label" for="amountDiscount">금액 할인</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-check">
-                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="noDiscount" value="" style="margin-left: 35px;" ${requestScope.discount_type == '' ? 'checked' : ''}>
+                                        <input class="form-check-input infoData" type="radio" name="discount_type" id="noDiscount" value="" style="margin-left: -30px;" ${requestScope.discount_type == '' ? 'checked' : ''}>
                                         <label class="form-check-label" for="noDiscount">할인 없음</label>
                                     </div>
                         		 </div>	
@@ -312,12 +312,10 @@ function goReset() {
         </div>
     </div>
 </div>
-
-
-
-<jsp:include page="../footer.jsp" />  
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+   </body>
+</html>

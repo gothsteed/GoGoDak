@@ -166,7 +166,7 @@
 </script>
 
 
-<div class="container">
+<div class="container" style="margin-bottom: 2%; margin-top: 3%;">
     <h2>주문배송 조회</h2>
 
     <h3 style="font-weight: bold;">회원 정보</h3>

@@ -4,16 +4,13 @@
     String ctxPath = request.getContextPath();
     //    /GoGoDak
 %>
-<jsp:include page="../header.jsp" />
+<jsp:include page="../header_admin.jsp" />
 
  
 <style type="text/css">
-  
-  
 .boardWrite_container{
 	text-align: center;
 }
-      	
 </style>
     
 <script type="text/javascript">
@@ -57,7 +54,7 @@ function goReset() {
 }
 </script>
 
-<div class="boardWrite_container">
+<div class="boardWrite_container" style="margin: 5% 0;">
 	<div class="row justify-content-center">
 		<div class="col-md-8">
 			<div class="card">
@@ -68,12 +65,12 @@ function goReset() {
 					<form name="boardFrm" method="post" enctype="multipart/form-data">
 		         		<div class="board-group">
 		               		<label for="title">제목</label>
-		               		<input type="text" name="title" id="title" placeholder="제목 입력" />
+		               		<input type="text" name="title" id="title" size="20" maxlength="30" placeholder="제목 입력" />
 		           		</div>
 	         
-			            <div class="board-group">
-				            <label for="content">내용</label>
-				            <textarea name="content" id="content"  placeholder="내용 입력"></textarea>
+			            <div class="board-group mt-3">
+				            <label for="content" style="vertical-align: top">내용</label>
+				            <textarea name="content" id="content" rows="5" cols="50" placeholder="내용 입력"></textarea>
 			            </div>
 						<div class="board-group">
 							<label for="pic">이미지</label>
@@ -94,10 +91,10 @@ function goReset() {
 		</div>
 	</div>
 </div>
- 
-<jsp:include page="../footer.jsp" />  
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+   </body>
+</html>

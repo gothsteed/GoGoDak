@@ -226,7 +226,7 @@ public class ProductDao_Imple implements ProductDao {
 			
 			String sql = " select product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number "
 					   + " from tbl_product "
-					   + " where product_name like '%' || ? || '%' ";
+					   + " where product_name like '%' || ? || '%' and exist_status = 1 ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, searchWord);
@@ -305,6 +305,13 @@ public class ProductDao_Imple implements ProductDao {
             pstmt = conn.prepareStatement(sql);
             
             //pstmt.setInt(1, pvo.getFk_manufacturer_seq());
+            
+            if(pvo.getFk_manufacturer_seq() == 0) {
+            	pstmt.setNull(1, java.sql.Types.INTEGER );
+            }else {
+            	pstmt.setNull(1, pvo.getFk_manufacturer_seq());
+            }
+            
             pstmt.setInt(1, pvo.getFk_manufacturer_seq());
             pstmt.setString(2, pvo.getProduct_name());
             pstmt.setString(3, pvo.getDescription());
@@ -314,11 +321,8 @@ public class ProductDao_Imple implements ProductDao {
             pstmt.setString(7, pvo.getDescription_pic()); 
             pstmt.setInt(8, pvo.getProduct_type());
             pstmt.setString(9, pvo.getDiscount_type());
-            if(pvo.getFk_manufacturer_seq() == 0) {
-            	pstmt.setNull(10, java.sql.Types.INTEGER );
-            }else {
-            	pstmt.setNull(10, pvo.getFk_manufacturer_seq());
-            }
+            pstmt.setFloat(10, pvo.getDiscount_amount());
+
            
 	       
            

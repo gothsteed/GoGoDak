@@ -81,6 +81,9 @@
 		                   	<li class="nav-item">
 		                   		<a class="nav-link text-muted" href="<%= ctxPath%>/login/logout.dk"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;로그아웃</a>
 		                   	</li>
+		                   	<li class="nav-item">
+                           		<a class="nav-link text-muted" href="<%= ctxPath%>/admin.dk">관리자 페이지</a>
+                        	</li>
 		               	</ul>
 					</div>
 				</nav>
