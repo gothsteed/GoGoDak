@@ -121,7 +121,7 @@ function validateField(field) {
             }
         } else if (field.attr("id") === "discountValue" && !$("input[name='discount_type'][value='none']").prop("checked")) {
             if ($("input[name='discount_type']:checked").val() === "percent") {
-                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100 100) {
+                if (parseFloat(field.val()) < 1 || parseFloat(field.val()) >=100) {
                     errorMsg = "다시 입력하세요";
                     isValid = false;
                  
