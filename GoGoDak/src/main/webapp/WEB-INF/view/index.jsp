@@ -181,7 +181,28 @@ String ctxPath = request.getContextPath();
 			<img src="<%=ctxPath%>/images/index/title_icon_present.png" width="50" alt="..." /><span class="h2 ml-3 align-bottom">NEW 이달의 신제품</span>
 		</div>
 		<div class="card-deck mb-5">
-			<div class="card">
+		
+			<c:forEach var="product" items="${requestScope.recentProduct}" varStatus="status">
+				<div class="card">
+					<div class="new_product">
+						<a href="<%=ctxPath%>/product/detail.dk?product_seq=${product.product_seq}"><img class="card-img-top new_product_img" src="<%=ctxPath%>/images/product/${product.main_pic}" alt="..."></a>
+					</div>
+					<div class="card-body">
+						<div class="row justify-content-around">
+							<div class="col-7 h5 text-left font-weight-bold">${product.product_name }</div>
+							<div class="col-5 col-lg-5">
+								<!-- <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star"></span> -->
+							</div>
+						</div>
+						<br>
+						<p class="card-text text-left text-secondary">${product.description }</p>
+					</div>
+				</div>
+			</c:forEach>
+		
+		
+		
+<%-- 			<div class="card">
 				<div class="new_product">
 					<a href="<%=ctxPath%>/product/detail.dk"><img class="card-img-top new_product_img" src="<%=ctxPath%>/images/index/new_product_1.jpg" alt="..."></a>
 				</div>
@@ -189,13 +210,16 @@ String ctxPath = request.getContextPath();
 					<div class="row justify-content-around">
 						<div class="col-7 h5 text-left font-weight-bold">딜리스틱</div>
 						<div class="col-5 col-lg-5">
-							<span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star"></span>
+							<!-- <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star checked text-warning"></span> <span class="fa fa-star"></span> -->
 						</div>
 					</div>
 					<br>
 					<p class="card-text text-left text-secondary">쫄깃한 닭다리살에 소스가 듬뿍!</p>
 				</div>
 			</div>
+			
+			
+			
 			<div class="card">
 				<div class="new_product">
 					<a href="<%=ctxPath%>/product/detail.dk"><img class="card-img-top new_product_img" src="<%=ctxPath%>/images/index/new_product_2.jpg" alt="..."></a>
@@ -225,7 +249,7 @@ String ctxPath = request.getContextPath();
 					<br>
 					<p class="card-text text-secondary">쫄깃한 떡 속에 토핑이 가~득!</p>
 				</div>
-			</div>
+			</div> --%>
 		</div>
 	</div>
 </section>
