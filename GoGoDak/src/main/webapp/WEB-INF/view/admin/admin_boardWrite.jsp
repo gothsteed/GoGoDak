@@ -65,12 +65,12 @@ function goReset() {
 					<form name="boardFrm" method="post" enctype="multipart/form-data">
 		         		<div class="board-group">
 		               		<label for="title">제목</label>
-		               		<input type="text" name="title" id="title" placeholder="제목 입력" />
+		               		<input type="text" name="title" id="title" size="20" maxlength="30" placeholder="제목 입력" />
 		           		</div>
 	         
-			            <div class="board-group">
-				            <label for="content">내용</label>
-				            <textarea name="content" id="content"  placeholder="내용 입력"></textarea>
+			            <div class="board-group mt-3">
+				            <label for="content" style="vertical-align: top">내용</label>
+				            <textarea name="content" id="content" rows="5" cols="50" placeholder="내용 입력"></textarea>
 			            </div>
 						<div class="board-group">
 							<label for="pic">이미지</label>
