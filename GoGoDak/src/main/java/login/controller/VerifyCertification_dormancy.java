@@ -37,7 +37,7 @@ public class VerifyCertification_dormancy extends AbstractController {
 				
 			} else {
 				message = "발급된 인증코드가 아닙니다.\\n인증코드를 다시 발급받으세요!!";
-				loc = request.getContextPath() + "/login/pwdFind.dk";
+				loc = request.getContextPath() + "/login/dormancy.dk";
 			}
 
 			request.setAttribute("message", message);
