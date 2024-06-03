@@ -226,7 +226,7 @@ public class ProductDao_Imple implements ProductDao {
 			
 			String sql = " select product_seq, fk_manufacturer_seq, product_name, description, base_price, stock, main_pic, discription_pic, product_type, discount_type, discount_number "
 					   + " from tbl_product "
-					   + " where product_name like '%' || ? || '%' ";
+					   + " where product_name like '%' || ? || '%' and exist_status = 1 ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, searchWord);
