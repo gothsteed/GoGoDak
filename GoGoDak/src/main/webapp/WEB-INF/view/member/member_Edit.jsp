@@ -97,14 +97,7 @@ span#postcodecheck {
 	
 		$("span.error").hide();
 		
-	}); // end of $(document).ready(function(){}) ----------------------
-
-
-	//Function Declaration
-	//"수정하기" 버튼 클릭시 호출되는 함수 
-	function goEdit(){
-		
-		$("input#name").blur( (e) => {
+$("input#name").blur( (e) => {
 			
 			const name = $(e.target).val().trim();
 			if(name == "") {
@@ -334,6 +327,15 @@ span#postcodecheck {
 			 b_emailcheck_click = false;
 			 b_email_change = true;
 		});	
+		
+	}); // end of $(document).ready(function(){}) ----------------------
+
+
+	//Function Declaration
+	//"수정하기" 버튼 클릭시 호출되는 함수 
+	function goEdit(){
+		
+		
 		
 		
 	  	let b_requiredInfo = false;
