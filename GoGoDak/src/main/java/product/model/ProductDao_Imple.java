@@ -789,6 +789,39 @@ public class ProductDao_Imple implements ProductDao {
 		return productList;
 	}
 
+	@Override
+	public List<ProductVO> getRecentProduct() throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT * "
+					+ "FROM ( "
+					+ "    SELECT * "
+					+ "    FROM tbl_product "
+					+ "    ORDER BY PRODUCT_SEQ DESC "
+					+ ") "
+					+ "WHERE ROWNUM <= 3 and exist_status = 1 ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
 	
 	
 

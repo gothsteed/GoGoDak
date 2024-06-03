@@ -32,6 +32,10 @@ public class IndexController extends AbstractController {
 		request.setAttribute("discountProductList", discountProductList);
 		
 		
+		List<ProductVO> recentProduct = productDao.getRecentProduct();
+		request.setAttribute("recentProduct", recentProduct);
+		
+		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/index.jsp");
 	
