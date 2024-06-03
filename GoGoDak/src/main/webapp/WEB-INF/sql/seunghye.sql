@@ -524,3 +524,19 @@ SELECT CEIL(COUNT(*) / 3) FROM tbl_order
                         select *
                         from tbl_member
                         update 
+                        
+                        
+                        select *
+                        from tbl_product
+                        
+                        
+                      DELETE FROM tbl_product WHERE product_type = 0;
+                
+
+
+
+   UPDATE tbl_product SET product_type = 4
+   where product_type= 0;
+   
+   
+   commit;
