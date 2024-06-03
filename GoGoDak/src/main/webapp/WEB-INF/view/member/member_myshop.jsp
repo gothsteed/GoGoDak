@@ -25,10 +25,10 @@
 	}
 	.text-center{
 	    color: #1a1a1a;
-	    font-size: 32px;
-	    font-weight: 700;
+/* 	    font-size: 32px;
+	    font-weight: 700; */
 	    text-align: left;
-	    line-height: 40px;
+	    /* line-height: 40px; */
 	}
 	li a{
 		color: black;
@@ -166,7 +166,7 @@
 	            </li>
 	            <li>
 	                <strong style="font-size: 18px">배송완료 <br><br></strong>
-	                <a href="#" class="count"><span id="shppied_complate_count" >${requestScope.orderStat.inDeliveryCnt }</span></a>
+	                <a href="#" class="count"><span id="shppied_complate_count" >${requestScope.orderStat.deliveredCnt }</span></a>
 	            </li>
 	        </ul>
 		</div>
