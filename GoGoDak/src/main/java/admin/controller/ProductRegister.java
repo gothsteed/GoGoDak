@@ -110,6 +110,8 @@ public class ProductRegister extends AbstractController {
         } catch (NumberFormatException e) {
             pvo.setDiscount_amount(0); // 기본값 설정 또는 에러 처리
         }
+        
+        System.out.println("dicount amount : " +Integer.parseInt(discount_amount));
 
         int result = productDao.productregister(pvo);
         System.out.println("result : " + result);
