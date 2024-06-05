@@ -3,10 +3,12 @@ package product.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import domain.MemberVO;
 import domain.ProductVO;
 import domain.ReviewVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import product.model.ProductDao;
 import product.model.ProductDao_Imple;
 import review.model.ReviewDao;
@@ -50,10 +52,21 @@ public class Detail extends AbstractController {
 			request.setAttribute("scoreAvg", scoreAvg);
 		}
 		
+		int likeCount = productDao.getLikeCount(product_seq);
+		
+		
 		
 		request.setAttribute("product", product);
 		request.setAttribute("reviewList", reviewList);
+		request.setAttribute("likeCount", likeCount);
 		
+		boolean isLiked = false;
+		HttpSession session = request.getSession();
+		MemberVO loginuser =(MemberVO)session.getAttribute("loginuser");
+		if (loginuser != null && productDao.isLiked(loginuser.getMember_seq(), product_seq)) {
+			isLiked = true;
+		}
+		request.setAttribute("isLiked", isLiked);
 		
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/product/product_detail.jsp");

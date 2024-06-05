@@ -59,6 +59,14 @@ public interface ProductDao {
 	List<ProductVO> getDiscountProduct() throws SQLException;
 
 	List<ProductVO> getRecentProduct() throws SQLException;
+
+	int insertProductLike(int member_seq, int product_seq) throws SQLException;
+
+	int deletedProductLike(int member_seq, int product_seq) throws SQLException;
+
+	int getLikeCount(int product_seq) throws SQLException;
+
+	boolean isLiked(int member_seq, int product_seq) throws SQLException;
 	
 	
 

@@ -234,6 +234,43 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 	display: flex;
 	justify-content: center;
 }
+
+.like-button {
+	display: inline-flex;
+	align-items: center;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.like-button:hover {
+	background-color: #cc0000;
+}
+
+.like-button svg {
+	fill: #fff;
+	width: 20px;
+	height: 20px;
+	margin-right: 8px;
+}
+
+    .like-button.liked {
+        background-color: red;
+    }
+
+    .like-button.not-liked {
+        background-color: gray;
+    }
+
+    .like-button .like-count {
+        margin-left: 5px;
+        font-size: 16px;
+    }
 </style>
 <script>
 
@@ -257,7 +294,67 @@ function goDelete() {
         frm.submit();
 		}
     }
+    
 
+function likePost() {
+    const productSeq = document.querySelector('input[name="product_seq"]').value;
+    //console.log('Product Seq:', productSeq);
+    const likeButton = document.querySelector('.like-button');
+    const likeCount = likeButton.querySelector('.like-count');
+    const isLiked = likeButton.classList.contains('liked');
+    const currentCount = parseInt(likeCount.textContent, 10);
+    
+    if(!isLiked) {
+	    $.ajax({
+	        url: '<%=contextPath%>/product/like.dk',
+	        type: 'post',
+	        data:{"product_seq": productSeq},
+	        dataType: 'json', 
+	        success: function(response) {
+	            if (response.success) {
+	                likeButton.setAttribute('data-liked', 'true');
+	                likeCount.textContent = currentCount + 1;
+	                likeButton.classList.remove('not-liked');
+	                likeButton.classList.add('liked');
+	                
+	            } else {
+					alert(response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	        	console.log(error)
+	            alert('좋아요 실패 ' + error);
+	        }
+	    });
+    }
+    else {
+	    $.ajax({
+	        url: '<%=contextPath%>/product/like.dk',
+	        type: 'post',
+	        data:{"product_seq": productSeq},
+	        dataType: 'json', 
+	        success: function(response) {
+	            if (response.success) {
+	                likeButton.setAttribute('data-liked', 'false');
+	                likeCount.textContent = currentCount - 1;
+	                likeButton.classList.remove('liked');
+	                likeButton.classList.add('not-liked');
+	            } else {
+	            	alert(response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	        	console.log(error)
+	            alert('좋아요 실패 ' + error);
+	        }
+	    });
+    	
+    	
+    }
+    
+
+	
+}
 
 
 </script>
@@ -354,6 +451,22 @@ function goDelete() {
 							</div>
 
 
+					    <c:if test="${requestScope.isLiked}">
+					        <button class="btn like-button liked" onclick="likePost()">
+					            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+					            </svg>
+					            <span class="like-count">${requestScope.likeCount}</span>
+					        </button>
+					    </c:if>
+					    <c:if test="${!requestScope.isLiked}">
+					        <button class="btn like-button not-liked" onclick="likePost()">
+					            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+					            </svg>
+					            <span class="like-count">${requestScope.likeCount}</span>
+					        </button>
+					    </c:if>
 
 							<button class="btn btn-dark" onclick="goToCart(${requestScope.product.product_seq})">바로 구매하기</button>
 
@@ -361,7 +474,7 @@ function goDelete() {
 							<button class="btn btn-secondary" onclick="addToCart(${requestScope.product.product_seq})">장바구니 넣기</button>
 
 							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">
-								<button type="button" class="btn btn-light" onclick="goEdit()">수정</button>
+								<button type="button" class="btn btn-light" onclick="goEdit()" data-liked="false">수정</button>
 							</c:if>
 							<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.id == 'admin'}">
 								<button type="button" class="btn btn-light" onclick="goDelete()">삭제</button>
@@ -451,7 +564,7 @@ function goDelete() {
 	<!-- end why section -->
 
 	<!-- footer section -->
-	
+
 	<!-- end footer section -->
 
 	<!-- jQuery -->
@@ -558,4 +671,4 @@ function goDelete() {
     
 </script>
 
-<jsp:include page="../footer.jsp"></jsp:include>
+	<jsp:include page="../footer.jsp"></jsp:include>

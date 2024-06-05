@@ -822,6 +822,108 @@ public class ProductDao_Imple implements ProductDao {
 		return productList;
 	}
 
+	@Override
+	public int insertProductLike(int member_seq, int product_seq) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " INSERT INTO tbl_product_like (FK_MEMBER_SEQ, FK_PRODUCT_SEQ) "
+					+ "VALUES (?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, product_seq);
+
+			
+			result = pstmt.executeUpdate();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deletedProductLike(int member_seq, int product_seq) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " DELETE FROM tbl_product_like "
+					+ "WHERE FK_MEMBER_SEQ = ? AND FK_PRODUCT_SEQ = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, product_seq);
+
+			
+			result = pstmt.executeUpdate();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int getLikeCount(int product_seq) throws SQLException {
+		int count = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT count(*) "
+					+ " from tbl_product_like"
+					+ " where fk_product_seq = ?  ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, product_seq);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				count = rs.getInt(1);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return count;
+	}
+
+	@Override
+	public boolean isLiked(int member_seq, int product_seq) throws SQLException {
+		
+		int count = 0;
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = "SELECT count(*) "
+					+ " from tbl_product_like"
+					+ " where fk_member_seq = ? and fk_product_seq=? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+			pstmt.setInt(2, product_seq);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				count = rs.getInt(1);
+				
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return count > 0 ? true : false;
+
+	}
+
 	
 	
 
