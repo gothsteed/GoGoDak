@@ -484,4 +484,40 @@ ADD exist_status NUMBER(1) DEFAULT 1;
 
 commit;
 
+select *
+from tbl_order;
+
+desc tbl_product_list;
+
+
+SELECT 
+    pl.*, p.* 
+FROM 
+    tbl_product_list pl 
+JOIN 
+    tbl_product p 
+ON 
+    pl.fk_product_seq = p.product_seq  
+WHERE 
+    fk_order_seq = 23;
+    
+select * from tbl_member where member_seq = 6;
+    
+SELECT DELIVERY_STATUS, COUNT(*) AS count
+FROM tbl_order
+WHERE fk_member_seq = 6
+GROUP BY DELIVERY_STATUS;
+
+desc tbl_product;
+
+select *
+from tbl_member;
+
+SELECT *
+FROM (
+    SELECT *
+    FROM tbl_product
+    ORDER BY PRODUCT_SEQ DESC
+)
+WHERE ROWNUM <= 3 and exist_status = 1;
 
