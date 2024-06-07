@@ -924,6 +924,39 @@ public class ProductDao_Imple implements ProductDao {
 
 	}
 
+	@Override
+	public List<ProductVO> getLikedProduct(int member_seq) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+
+			String sql = " select * "
+					+ " from tbl_product a "
+					+ " join "
+					+ " tbl_product_like b "
+					+ " on a.product_seq = b.fk_product_seq "
+					+ " where b.fk_member_seq = ? and exist_status = 1 ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member_seq);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				ProductVO productVO = createProductVO(rs);
+
+				productList.add(productVO);
+			} // end of while(rs.next())---------------------
+
+		} finally {
+			close();
+		}
+
+		return productList;
+	}
+
 	
 	
 

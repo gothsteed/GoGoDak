@@ -67,6 +67,8 @@ public interface ProductDao {
 	int getLikeCount(int product_seq) throws SQLException;
 
 	boolean isLiked(int member_seq, int product_seq) throws SQLException;
+
+	List<ProductVO> getLikedProduct(int member_seq) throws SQLException;
 	
 	
 

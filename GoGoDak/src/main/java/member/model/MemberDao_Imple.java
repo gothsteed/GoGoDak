@@ -20,7 +20,6 @@ import domain.BoardVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import domain.QuestionVO;
-import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;

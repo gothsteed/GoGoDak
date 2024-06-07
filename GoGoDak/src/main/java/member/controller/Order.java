@@ -32,7 +32,6 @@ public class Order extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Adsfasfasdf");
 		
 		
 		String method = request.getMethod();

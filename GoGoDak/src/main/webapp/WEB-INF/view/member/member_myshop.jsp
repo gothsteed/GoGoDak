@@ -175,7 +175,7 @@
     	<br><br>
     
     	<div class="icons mt-5 row justify-content-around" style="text-align: center;">
-   			<div class="shopMain order border col-3" style="padding: 2% 0; cursor: pointer;">
+   			<div class="shopMain order border col-4" style="padding: 2% 0; cursor: pointer;">
     			<a href="<%= ctxPath%>/member/orderList.dk" class="text-muted">
     				<div class="h-50">
 	   					<img src="<%= ctxPath%>/images/myshop/order.png" class="img-fluid" />
@@ -185,7 +185,7 @@
 		            <p style="font-size: 14px;">고객님께서 주문하신 상품의<br>주문내역을 확인하실 수 있습니다.</p>
 	            </a>
        		</div>
-       		<div class="shopMain profile border col-3" style="padding: 2% 0;">
+       		<div class="shopMain profile border col-4" style="padding: 2% 0;">
        			<a href="<%= ctxPath%>/member/memberEdit.dk" class="text-muted">
        				<div class="h-50">
 	       				<img src="<%= ctxPath%>/images/myshop/profile.png" class="img-fluid" />
@@ -195,7 +195,7 @@
 		            <p style="font-size: 14px;">회원이신 고객님의 개인정보를<br>수정하는 공간입니다.</p>
 	            </a>
        		</div>
-       		<div class="shopMain statistics border col-3" style="padding: 2% 0;">
+       		<div class="shopMain statistics border col-4" style="padding: 2% 0;">
        			<a href="<%= ctxPath%>/member/chart.dk" class="text-muted">
        				<div class="h-50">
 	       				<img src="<%= ctxPath%>/images/myshop/chart.png" class="img-fluid" />
@@ -203,6 +203,17 @@
 		            <h3 style="font-size: 22px; font-weight: bold;" class="text-warning">Chart</h3>
 		            <span style="font-size: 16px; font-weight: bold; display: block; margin: 4% 0">나의 주문 통계</span>
 		            <p style="font-size: 14px;">고객님께서 구매하신 상품별<br>주문 통계를 보여드립니다.</p>
+	            </a>
+       		</div>
+       		
+       		<div class="shopMain like border col-4" style="padding: 2% 0;">
+       			<a href="<%= ctxPath%>/member/like.dk" class="text-muted">
+       				<div class="h-50">
+	       				<img src="<%= ctxPath%>/images/myshop/heart_107804.png" class="img-fluid" />
+	       			</div>
+		            <h3 style="font-size: 22px; font-weight: bold;" class="text-warning">Chart</h3>
+		            <span style="font-size: 16px; font-weight: bold; display: block; margin: 4% 0">좋아요</span>
+		            <p style="font-size: 14px;">고객님께서 좋아요한<br>상품을 보여드립니다.</p>
 	            </a>
        		</div>
     	</div>
