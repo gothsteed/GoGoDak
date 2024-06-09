@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.QuestionVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +18,9 @@ public class Question extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public Question() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public Question(MemberDao mdao ) {
+		this.mdao = mdao;
 	}
 
 	@Override

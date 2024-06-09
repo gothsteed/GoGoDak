@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberPurchaseByMonthChart;
 import domain.MemberVO;
 import domain.MemebrPurchaseChart;
@@ -19,12 +20,11 @@ import product.model.ProductDao_Imple;
 
 public class ChartByMonthByCategoryJSON extends AbstractController {
 	
-	private ProductDao productDao;
 	private OrderDao orderDao;
 
-	public ChartByMonthByCategoryJSON() {
-		this.productDao = new ProductDao_Imple();
-		this.orderDao = new OrderDao_imple();
+	@Autowired
+	public ChartByMonthByCategoryJSON(OrderDao orderDao) {
+		this.orderDao =orderDao;
 	}
 
 	@Override

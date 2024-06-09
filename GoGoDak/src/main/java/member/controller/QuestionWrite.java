@@ -1,6 +1,7 @@
 package member.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.QuestionVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +14,9 @@ public class QuestionWrite extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public QuestionWrite() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public QuestionWrite(MemberDao mdao) {
+		mdao = this.mdao;
 	}
 
 	@Override

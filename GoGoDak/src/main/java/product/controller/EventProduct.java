@@ -3,12 +3,14 @@ package product.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import discountEvent.model.DiscountEventDao;
 import discountEvent.model.DiscountEventDao_imple;
 import domain.Discount_eventVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pager.Pager;
 import product.model.ProductDao;
 import product.model.ProductDao_Imple;
 
@@ -17,9 +19,10 @@ public class EventProduct extends AbstractController {
 	private ProductDao productDao;
 	private DiscountEventDao discountEventDao;
 	
-	public EventProduct() {
-		this.productDao = new ProductDao_Imple();
-		discountEventDao = new DiscountEventDao_imple();
+	@Autowired
+	public EventProduct(ProductDao productDao, DiscountEventDao discountEventDao) {
+		this.productDao = productDao;
+		this.discountEventDao = discountEventDao;
 	}
 
 	@Override
@@ -47,61 +50,15 @@ public class EventProduct extends AbstractController {
 		}
 		
 		
-		int totalPageNum = productDao.getEventProductTotalPage(discount_event_Seq, blockSize);
-		System.out.println("total page num: " + totalPageNum);
-		if(currentPage > totalPageNum) {
-			currentPage = 1;
-		}
 		
+		Pager<ProductVO> productList = productDao.getProductByDiscountEvent(discount_event_Seq, currentPage, blockSize);
 		
-		
-		List<ProductVO> productList = productDao.getProductByDiscountEvent(discount_event_Seq, currentPage, blockSize);
-		
-		int loop = 1;
-		int pageNo = ((currentPage - 1)/blockSize) * blockSize + 1;
-		
-		String pageBar = "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page=1'>[맨처음]</a></li>";
-		
-		if(pageNo != 1) {
-			pageBar += "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page="+ (pageNo - 1) +"'>[이전]</a></li>";
-		}
-		
-		//맨처음 맨마지막 만들기
-		
-		while( !(loop > blockSize || pageNo > totalPageNum) ) {
-			
-			//1 2 3 4 5 6 7  8 9 10
-			//pageBar += "<li class='page-item'><a class='page-link' href='memberList.up?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
-			
-			if(pageNo == currentPage) {
-				
-				pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
-			}
-			else {
-				
-				pageBar += "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page="+ pageNo + "'>"+pageNo+"</a></li>";
-			}
-			
-			
-			loop ++; 
-			
-			
-			// 1 2 3 4 5 6 7  8 9 10
-			// 11 12 13 14 15 16 17 18 19 20
-			pageNo ++;
-			
-		}
-		
-		pageBar += "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page="+ (totalPageNum) +"'>[맨마지막]</a></li>";
-		//다음 마지막 만들기
-		if(pageNo <= totalPageNum) {
-			pageBar += "<li class='page-item'><a class='page-link' href='detail.dk?discount_event_seq=" + discount_event_Seq + "&page="+ (currentPage + 1)+"'>[다음]</a></li>";
-		}
+		String pageBar = productList.makePageBar("detail.dk", "discount_event_seq=" + discount_event_Seq);
 
 		String title = "<div><img src='" + request.getContextPath() + "/images/special/"+discount_eventVO.getPic()+"' height='500px' /></div>";
 		
 		request.setAttribute("title", title);
-		request.setAttribute("productList", productList);
+		request.setAttribute("productList", productList.getContent());
 		request.setAttribute("pageBar", pageBar);
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/view/product/product_category.jsp");

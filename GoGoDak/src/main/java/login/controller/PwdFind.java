@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,8 +17,9 @@ public class PwdFind extends AbstractController {
 	
 	private MemberDao memberDao;
 
-	public PwdFind() {
-		this.memberDao = new MemberDao_Imple();
+	@Autowired
+	public PwdFind(MemberDao memberDao) {
+		this.memberDao = memberDao;
 	}
 
 	@Override

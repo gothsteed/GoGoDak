@@ -3,6 +3,7 @@ package admin.controller;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.AnswerVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,8 +12,9 @@ public class Answer extends AbstractController {
 
    private AdminDAO adao = null;
 
-   public Answer() {
-      adao = new AdminDAO_imple();
+   @Autowired
+   public Answer(AdminDAO adao) {
+      this.adao = adao;
    }
 
    @Override

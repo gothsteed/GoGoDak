@@ -1,6 +1,7 @@
 package admin.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.ProductVO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +21,9 @@ public class ProductRegisterEditEnd extends AbstractController {
 
     private ProductDao productDao = null;
 
-    public ProductRegisterEditEnd() {
-        productDao = new ProductDao_Imple();
+    @Autowired
+    public ProductRegisterEditEnd(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     @Override

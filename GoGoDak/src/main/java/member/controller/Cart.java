@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.Discount_eventVO;
 import domain.MemberVO;
 import domain.ProductVO;
@@ -29,8 +30,9 @@ public class Cart extends AbstractController {
 
 	private ProductDao productDao;
 
-	public Cart() {
-		productDao = new ProductDao_Imple();
+	@Autowired
+	public Cart( ProductDao productDao) {
+		this.productDao =productDao;
 	}
 
 	private String getJsonStringFromRequest(HttpServletRequest request) throws IOException {

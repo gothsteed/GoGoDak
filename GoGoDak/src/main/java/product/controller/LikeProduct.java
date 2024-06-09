@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +18,9 @@ public class LikeProduct extends AbstractController{
 	
 	private ProductDao productDao;
 	
-	public LikeProduct() {
-		productDao = new ProductDao_Imple();
+	@Autowired
+	public LikeProduct(ProductDao productDao) {
+		this.productDao =productDao;
 	}
 
 	@Override

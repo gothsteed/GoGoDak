@@ -1,6 +1,7 @@
 package login.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,8 +12,9 @@ public class VerifyCertification_dormancy extends AbstractController {
 	
 	private MemberDao mdao = null;
 
-	public VerifyCertification_dormancy() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public VerifyCertification_dormancy(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	

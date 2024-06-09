@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,8 +23,9 @@ public class ProductRegisterEdit extends AbstractController {
 
     private ProductDao productDao =null;
 
-    public ProductRegisterEdit() {
-        productDao = new ProductDao_Imple();
+    @Autowired
+    public ProductRegisterEdit(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
 

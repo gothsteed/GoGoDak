@@ -3,6 +3,7 @@ package product.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.ProductVO;
 import domain.ReviewVO;
@@ -19,10 +20,11 @@ public class Detail extends AbstractController {
 	private ProductDao productDao;
 	private ReviewDao reviewDao;
 	
-	public Detail() {
+	@Autowired
+	public Detail(ProductDao productDao, ReviewDao reviewDao) {
 		
-		this.productDao = new ProductDao_Imple();
-		this.reviewDao = new ReviewDao_imple();
+		this.productDao = productDao;
+		this.reviewDao = reviewDao;
 	}
 
 	@Override

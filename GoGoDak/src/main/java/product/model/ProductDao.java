@@ -9,23 +9,23 @@ import java.util.Map;
 
 import domain.ProductVO;
 import domain.Product_listVO;
+import pager.Pager;
 
 public interface ProductDao {
 
-	List<ProductVO> getProductByType(int type, int currentPage, int blockSize) throws SQLException;
+	Pager<ProductVO> getProductByType(int type, int currentPage, int blockSize) throws SQLException;
 
-	int getTotalPage(int productType, int blockSize) throws SQLException;
 
 	ProductVO getProductBySeq(int product_seq) throws SQLException;
 
 
 
-	List<ProductVO> getProductList(String searchWord) throws SQLException;
+	Pager<ProductVO> getProductList(String searchWord, int currentPage, int blockSize) throws SQLException;
 
 
 
 
-	List<ProductVO> getAllProduct()throws SQLException;
+	List<ProductVO> getAllProduct() throws SQLException;
 
 
 	
@@ -42,14 +42,11 @@ public interface ProductDao {
 	//상품 삭제 
 	int deletedProduct(ProductVO productDelete) throws Exception;
 
-	Product_listVO memberOrderDetail(String id)throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException;
 
-	int getEventProductTotalPage(int discount_event_Seq, int blockSize) throws SQLException;
-
-	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize)throws SQLException;
+	Pager<ProductVO> getProductByDiscountEvent(int discount_event_Seq, int currentPage, int blockSize)throws SQLException;
 	List<ProductVO> getProductByDiscountEvent(int discount_event_Seq)throws SQLException;
 
-	List<ProductVO> getBrandProductList(String manufacturer_seq) throws SQLException;
+	Pager<ProductVO> getBrandProductList(String manufacturer_seq, int currentPage, int blockSize) throws SQLException;
 
 	//tbl_manufacturer (위,경도) 테이블에 있는 정보 가져오기(select)
 	List<Map<String, String>> selectStoreMap() throws SQLException;

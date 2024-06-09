@@ -1,6 +1,7 @@
 package member.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberOrderStat;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,12 +14,11 @@ import order.model.OrderDao_imple;
 
 public class MemberController extends AbstractController {
 
-	private MemberDao memberDao = null;
 	private OrderDao orderDao;
 
-	public MemberController() {
-		this.memberDao = new MemberDao_Imple();
-		this.orderDao = new OrderDao_imple();
+	@Autowired
+	public MemberController(OrderDao orderDao) {
+		this.orderDao = orderDao;
 	}
 	
 	@Override

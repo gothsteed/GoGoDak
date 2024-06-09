@@ -7,6 +7,7 @@ import java.util.Collection;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,8 +18,9 @@ public class Notice extends AbstractController {
     
     private AdminDAO adao = null;
 
-    public Notice() {
-        adao = new AdminDAO_imple();
+    @Autowired
+    public Notice(AdminDAO adao) {
+        this.adao = adao;
     }
     
     @Override

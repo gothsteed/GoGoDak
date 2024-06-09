@@ -7,6 +7,7 @@ import javax.mail.Message;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.OrderVO;
 import domain.ProductVO;
@@ -25,10 +26,12 @@ public class ReviewCheck extends AbstractController {
 	private ReviewDao reviewDao;
 	private OrderDao orderDao;
 	
-	public ReviewCheck() {
-		reviewDao = new ReviewDao_imple();
-		orderDao = new OrderDao_imple();
+	@Autowired
+	public ReviewCheck(ReviewDao reviewDao,  OrderDao orderDao) {
+		this.reviewDao =reviewDao;
+		this.orderDao = orderDao;
 	}
+	
 	
 	
 	private void sendMsg(HttpServletRequest request, boolean isSuccess, String message) {

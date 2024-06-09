@@ -3,6 +3,7 @@ package admin.controller;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,17 +16,17 @@ public class Ship extends AbstractController {
 	
 	private OrderDao orderDao;
 	
-	public Ship() {
-		orderDao = new OrderDao_imple();
+	@Autowired
+	public Ship(OrderDao orderDao) {
+		this.orderDao = orderDao;
 	}
 	
 	private void sendJson(HttpServletRequest request, boolean isSuccess, String message, String newStatus) {
 		JSONObject jsonObject = new JSONObject();
-	//	jsonObject.append("success", isSuccess);
-	//	jsonObject.append("message", message);
-	jsonObject.put("success", isSuccess);
-	jsonObject.put("message", message);
-	jsonObject.put("newStatus", newStatus);
+
+		jsonObject.put("success", isSuccess);
+		jsonObject.put("message", message);
+		jsonObject.put("newStatus", newStatus);
 		
 		String json = jsonObject.toString();
 		

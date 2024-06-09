@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,9 +17,10 @@ import my.util.MyUtil;
 public class Notice extends AbstractController {
 
 	private MemberDao mdao = null;
-
-	public Notice() {
-		mdao = new MemberDao_Imple();
+	
+	@Autowired
+	public Notice(MemberDao mdao ) {
+		this.mdao = mdao;
 	}
 
 	@Override

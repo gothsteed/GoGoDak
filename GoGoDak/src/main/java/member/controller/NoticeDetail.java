@@ -1,6 +1,7 @@
 package member.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.BoardVO;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +14,9 @@ public class NoticeDetail extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public NoticeDetail() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public NoticeDetail(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import member.model.MemberDao;
@@ -15,8 +16,9 @@ public class EmailDuplicateCheckEdit extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public EmailDuplicateCheckEdit() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public EmailDuplicateCheckEdit(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package member.controller;
 import java.sql.SQLException;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,8 +16,9 @@ public class MemberRegister extends AbstractController {
 	
 	private MemberDao memberDao = null;
 
-	public MemberRegister() {
-		this.memberDao = new MemberDao_Imple();
+	@Autowired
+	public MemberRegister(MemberDao memberDao) {
+		this.memberDao = memberDao;
 	}
 
 	@Override

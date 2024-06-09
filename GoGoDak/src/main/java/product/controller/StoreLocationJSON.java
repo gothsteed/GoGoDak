@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -18,8 +19,9 @@ public class StoreLocationJSON extends AbstractController {
 
 	private ProductDao pdao = null;
 	
-	public StoreLocationJSON() {
-		pdao = new ProductDao_Imple();
+	@Autowired
+	public StoreLocationJSON(ProductDao pdao) {
+		this.pdao = pdao;
 	}
 	
 	

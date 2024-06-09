@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import discountEvent.model.DiscountEventDao;
 import discountEvent.model.DiscountEventDao_imple;
 import domain.MemberVO;
@@ -26,9 +27,10 @@ public class Event extends AbstractController {
 	private ProductDao productDao;
 	private DiscountEventDao discountEventDao;
 	
-	public Event() {
-		productDao = new ProductDao_Imple();
-		discountEventDao = new DiscountEventDao_imple();
+	@Autowired
+	public Event(ProductDao productDao, DiscountEventDao discountEventDao) {
+		this.productDao = productDao;
+		this.discountEventDao = discountEventDao;
 	}
 	
 	private static int safeParseInt(String str) {

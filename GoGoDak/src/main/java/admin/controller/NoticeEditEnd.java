@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.BoardVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,8 +14,9 @@ public class NoticeEditEnd extends AbstractController {
 
 	private AdminDAO adao = null;
 
-	public NoticeEditEnd() {
-		adao = new AdminDAO_imple();
+	@Autowired
+	public NoticeEditEnd(AdminDAO adao) {
+		this.adao = adao;
 	}
 	
 	@Override

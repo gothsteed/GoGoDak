@@ -14,11 +14,6 @@ import member.model.MemberDao_Imple;
 
 public class Purchase extends AbstractController {
 	
-	private MemberDao memberDao;
-	
-	public Purchase() {
-		this.memberDao = new MemberDao_Imple();
-	}
 	
 	
 	private void sendError(HttpServletRequest request, String message, String loc) {

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import domain.Discount_eventVO;
 import domain.ProductVO;
+import pager.Pager;
 import util.security.AES256;
 import util.security.SecretMyKey;
 
@@ -158,8 +159,9 @@ public class DiscountEventDao_imple implements DiscountEventDao {
 	}
 
 	@Override
-	public List<Discount_eventVO> getAllDiscountEvent(int currentPage, int blockSize) throws SQLException {
+	public Pager<Discount_eventVO> getAllDiscountEvent(int currentPage, int blockSize) throws SQLException {
 		List<Discount_eventVO> discountEventList = new ArrayList<>();
+		int totalPage = 0;
 
 		try {
 			conn = ds.getConnection();
@@ -192,43 +194,30 @@ public class DiscountEventDao_imple implements DiscountEventDao {
 
 				discountEventList.add(discount_eventVO);
 			} // end of while(rs.next())---------------------
-
-		} finally {
-			close();
-		}
-
-		return discountEventList;
-	}
-
-	@Override
-	public int getTotalPage(int blockSize) throws SQLException {
-		int totalPage = 0;
-
-		try {
-			conn = ds.getConnection();
-
-			String sql = " select ceil(count(*)/?) "
+			
+			
+			String totalPageSql = " select count(*) "
 					+ "            from tbl_discount_event ";
 
 
 
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, blockSize);
+			pstmt = conn.prepareStatement(totalPageSql);
 			
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				totalPage = rs.getInt(1);
 				
-			} // end of while(rs.next())---------------------
+				totalPage = rs.getInt(1);
+				System.out.println("totalPage" + totalPage);
+				
+			}
 
 		} finally {
 			close();
 		}
 
-		return totalPage;
+		return new Pager<Discount_eventVO>(discountEventList, currentPage, blockSize, totalPage);
 	}
-
 
 	@Override
 	public Discount_eventVO getDiscountEventBySeq(int discount_event_Seq) throws SQLException {

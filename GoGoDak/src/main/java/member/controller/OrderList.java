@@ -3,6 +3,7 @@ package member.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.OrderVO;
 import domain.ProductVO;
@@ -16,8 +17,9 @@ public class OrderList extends AbstractController {
 
     private OrderDao orderDao;
     
-    public OrderList() {
-        orderDao = new OrderDao_imple();
+    @Autowired
+    public OrderList(OrderDao orderDao) {
+        this.orderDao =orderDao;
     }
 
     @Override

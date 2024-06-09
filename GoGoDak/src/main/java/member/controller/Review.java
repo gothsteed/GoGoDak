@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.AnswerVO;
 import domain.MemberVO;
 import domain.OrderVO;
@@ -32,9 +33,10 @@ public class Review extends AbstractController {
 	private ReviewDao reviewDao;
 	private OrderDao orderDao;
 	
-	public Review() {
-		this.reviewDao = new ReviewDao_imple();
-		this.orderDao = new OrderDao_imple();
+	@Autowired
+	public Review(ReviewDao reviewDao,  OrderDao orderDao) {
+		this.reviewDao =reviewDao;
+		this.orderDao = orderDao;
 	}
 	
 	

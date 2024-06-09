@@ -3,6 +3,7 @@ package member.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +17,9 @@ public class Like extends AbstractController {
 	
 	private ProductDao productDao;
 	
-	public Like() {
-		this.productDao = new ProductDao_Imple();
+	@Autowired
+	public Like(ProductDao productDao) {
+		this.productDao = productDao;
 		
 	}
 

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.ProductVO;
 import jakarta.servlet.ServletContext;
 import product.model.ProductDao;
@@ -21,8 +22,9 @@ public class ProductRegister extends AbstractController {
 
     private ProductDao productDao;
 
-    public ProductRegister() {
-        productDao = new ProductDao_Imple();
+    @Autowired
+    public ProductRegister(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     @Override

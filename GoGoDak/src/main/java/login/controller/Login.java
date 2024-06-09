@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +17,9 @@ public class Login extends AbstractController {
 	
 	private MemberDao memberDao;
 	
-	public Login() {
-		this.memberDao = new MemberDao_Imple();
+	@Autowired
+	public Login(MemberDao memberDao) {
+		this.memberDao = memberDao;
 	}
 
 	@Override

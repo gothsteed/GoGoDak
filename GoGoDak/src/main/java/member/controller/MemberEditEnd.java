@@ -3,6 +3,7 @@ package member.controller;
 import java.sql.SQLException;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,8 +15,9 @@ public class MemberEditEnd extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public MemberEditEnd() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public MemberEditEnd(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 
 	@Override

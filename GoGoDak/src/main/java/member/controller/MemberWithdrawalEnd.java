@@ -3,6 +3,7 @@ package member.controller;
 import java.sql.SQLException;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,8 +14,9 @@ public class MemberWithdrawalEnd extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public MemberWithdrawalEnd() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public MemberWithdrawalEnd(MemberDao mdao ) {
+		this.mdao =mdao;
 	}
 	
 	@Override

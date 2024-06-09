@@ -3,6 +3,7 @@ package member.controller;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.AnswerVO;
 import domain.QuestionVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,10 +14,11 @@ public class QuestionView extends AbstractController {
 
 	private MemberDao mdao = null;
 	private AdminDAO adao = null;
-
-	public QuestionView() {
-		mdao = new MemberDao_Imple();
-		adao = new AdminDAO_imple();
+	
+	@Autowired
+	public QuestionView(MemberDao mdao , AdminDAO adao) {
+		this.mdao = mdao;
+		this.adao = adao;
 	}
 
 	@Override

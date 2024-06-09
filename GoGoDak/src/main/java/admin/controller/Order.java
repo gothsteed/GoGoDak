@@ -7,6 +7,7 @@ import java.util.Map;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.OrderVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +21,9 @@ public class Order extends AbstractController{
 
 	private AdminDAO adao = null;
 	
-	public Order() {
-		adao = new AdminDAO_imple();
+	@Autowired
+	public Order(AdminDAO adao) {
+		this.adao = adao;
 	}
 	
 	

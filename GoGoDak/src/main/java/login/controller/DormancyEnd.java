@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import member.model.MemberDao;
@@ -13,8 +14,9 @@ public class DormancyEnd extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public DormancyEnd() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public DormancyEnd(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	

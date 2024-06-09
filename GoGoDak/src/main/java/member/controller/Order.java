@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,9 +25,10 @@ public class Order extends AbstractController {
 	private MemberDao memberDao;
 	private OrderDao orderDao;
 	
-	public Order() {
-		this.orderDao = new OrderDao_imple();
-		this.memberDao = new MemberDao_Imple();
+	@Autowired
+	public Order( MemberDao memberDao, OrderDao orderDao) {
+		this.orderDao = orderDao;
+		this.memberDao = memberDao;
 		
 	}
 

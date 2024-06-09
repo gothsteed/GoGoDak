@@ -3,6 +3,7 @@ package admin.controller;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.BoardVO;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,11 +13,11 @@ import jakarta.servlet.http.HttpSession;
 public class NoticeEdit extends AbstractController {
 	
 	
-	private AdminDAO adao = null;
-
-	public NoticeEdit() {
-		adao = new AdminDAO_imple();
-	}
+	/*
+	 * private AdminDAO adao = null;
+	 * 
+	 * @Autowired public NoticeEdit(AdminDAO adao) { this.adao = adao; }
+	 */
 	
 	
 	@Override

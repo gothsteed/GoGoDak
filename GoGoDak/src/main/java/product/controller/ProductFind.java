@@ -3,9 +3,11 @@ package product.controller;
 import java.util.List;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.ProductVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pager.Pager;
 import product.model.ProductDao;
 import product.model.ProductDao_Imple;
 
@@ -13,8 +15,9 @@ public class ProductFind extends AbstractController {
 
 	private ProductDao pdao = null;
 	
-	public ProductFind() {
-		pdao = new ProductDao_Imple();
+	@Autowired
+	public ProductFind(ProductDao pdao) {
+		this.pdao = pdao;
 	}
 	
 	@Override
@@ -29,14 +32,23 @@ public class ProductFind extends AbstractController {
 		}
 		
 		String searchWord = request.getParameter("searchWord");
+		int blockSize = 8;
+		int currentPage;
+		
+		try {
+			currentPage = Integer.parseInt(request.getParameter("page"));
+		} catch (NumberFormatException e) {
+			currentPage = 1;
+		}
 		
 		if(searchWord == null || searchWord != null && searchWord.trim().isEmpty()) {
 			searchWord = "";
 		}
 		
-		List<ProductVO> productList = pdao.getProductList(searchWord);
+		Pager<ProductVO> productPage = pdao.getProductList(searchWord, currentPage, blockSize);
+		
 	
-		if(productList.isEmpty()) {
+		if(productPage.getContent().isEmpty()) {
 			String message = "검색하신 상품이 존재하지 않습니다.";
 	        String loc = "javascript:history.back()";
 	         
@@ -47,8 +59,9 @@ public class ProductFind extends AbstractController {
 	        super.setViewPage("/WEB-INF/view/msg.jsp");
 		}
 		else {
-			request.setAttribute("productList", productList);
+			request.setAttribute("productList", productPage.getContent());
 			request.setAttribute("title", "🔎 검색어 >> " + searchWord + " 🔎");
+			request.setAttribute("pageBar", productPage.makePageBar("productFind.dk", "searchWord=" + searchWord));
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/product/product_category.jsp");

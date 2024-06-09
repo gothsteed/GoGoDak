@@ -7,6 +7,7 @@ import java.util.Map;
 import admin.model.AdminDAO;
 import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.OrderVO;
 import domain.ProductVO;
@@ -24,8 +25,9 @@ public class Admin_Order_Detail extends AbstractController {
 	
 	private OrderDao orderDao;
 	
-	public Admin_Order_Detail() {
-		orderDao = new OrderDao_imple();
+	@Autowired
+	public Admin_Order_Detail(OrderDao orderDao) {
+		this.orderDao = orderDao;
 	}
 	
 	@Override

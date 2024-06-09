@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +17,9 @@ public class LoginPasswdChange extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public LoginPasswdChange() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public LoginPasswdChange(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	

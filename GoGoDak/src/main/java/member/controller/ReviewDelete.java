@@ -3,6 +3,7 @@ package member.controller;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,8 +15,9 @@ public class ReviewDelete extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public ReviewDelete() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public ReviewDelete( MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	private void sendMsg(HttpServletRequest request, boolean isSuccess, String message) {

@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import conatainer.DIContainer;
+import conatainer.DIInjector;
+
 @MultipartConfig(
 	    fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
 	    maxFileSize = 1024 * 1024 * 10,      // 10 MB
@@ -30,13 +33,18 @@ import java.util.Properties;
 	      description = "사용자가 웹에서 *.up 을 했을 경우 이 서블릿이 응답을 해주도록 한다.",
 	      urlPatterns = {"*.dk"},
 	      initParams = { 
-	      @WebInitParam(name = "propertyConfig", value = "C:\\git\\GoGoDak\\GoGoDak\\src\\main\\webapp\\WEB-INF\\command.properties", description = "*.dk 에 대한 클래스의 매핑파일") 
+	      @WebInitParam(name = "propertyConfig", value = "C:\\git\\GoGoDak\\GoGoDak\\src\\main\\webapp\\WEB-INF\\command.properties", description = "*.dk 에 대한 클래스의 매핑파일"), 
+	      @WebInitParam(name = "daoConfig", value = "C:\\git\\GoGoDak\\GoGoDak\\src\\main\\webapp\\WEB-INF\\daoConfig.properties", description = "DAO 클래스의 매핑파일")
 	      })
 
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private Map<Object, Object> cmdMap = new HashMap<>();
+	private Map<String, Class<?>> cmdMap = new HashMap<>();
+	
+	
+	private DIContainer disContainer = new DIContainer();
+	private DIInjector diInjector = new DIInjector(disContainer);
 
 	public void init(ServletConfig config) throws ServletException {
 
@@ -48,16 +56,54 @@ public class FrontController extends HttpServlet {
 		 * 잡아주는데 사용된다.
 		 */
 
-		// 확인용
 //		System.out.println("-----확인용: 서블릿 front controller intit  한번만 실행됨");
 
 		FileInputStream fileInputStream = null;
-
+		
+		
 		String properties = config.getInitParameter("propertyConfig");
-//		C:\ncs\workspace_jsp\MyMvc\src\main\webapp\WEB-INF\command.properties
 		System.out.println(properties);
+		
+		
+		String daoConfig = config.getInitParameter("daoConfig");
+
+		System.out.println(daoConfig);
 
 		try {
+			
+			fileInputStream = new FileInputStream(daoConfig);
+			// fileInputStream은 파일을 읽어옴
+
+			Properties daoPr = new Properties();
+			daoPr.load(fileInputStream);
+			
+			Enumeration<Object> daoKeys = daoPr.keys();
+			
+			
+			while(daoKeys.hasMoreElements()) {
+				String key = (String) daoKeys.nextElement();
+				System.out.println("dao key : " + key);
+				
+				String impleClassName = daoPr.getProperty(key).trim();
+				
+				if(impleClassName != null) {
+					
+					Class<?> interfaceClass = Class.forName(key);
+					Class<?> impleClassType = Class.forName(impleClassName);
+					// <?> 은 generic 인데 어떤 클래스 타입인지는 모르지만 하여튼 클래스 타입이 들어온다는 뜻이다.
+					// String 타입으로 되어진 className 을 클래스화 시켜주는 것이다.
+					// 주의할 점은 실제로 String 으로 되어져 있는 문자열이 클래스로 존재해야만 한다는 것이다.
+
+					Constructor<?> constructor = impleClassType.getDeclaredConstructor();
+
+					Object object = constructor.newInstance();
+					
+					disContainer.registerObject(interfaceClass, object);
+					
+				}
+				
+			}
+
 			fileInputStream = new FileInputStream(properties);
 			// fileInputStream은 파일을 읽어옴
 
@@ -69,12 +115,7 @@ public class FrontController extends HttpServlet {
 			// key는 중복을 허락하지 않는다. value 값을 얻어오기 위해서는 key값 만 알면 된다.
 
 			pr.load(fileInputStream);
-			/*
-			 * s pr.load(fis); 은 fis 객체를 사용하여
-			 * C:/NCS/workspace_jsp/MyMVC/src/main/webapp/WEB-INF/Command.properties 파일의 내용을
-			 * 읽어다가 Properties 클래스의 객체인 pr 에 로드시킨다. 그러면 pr 은 읽어온 파일(Command.properties)의
-			 * 내용에서 = 을 기준으로 왼쪽은 key로 보고, 오른쪽은 value 로 인식한다.
-			 */
+
 
 			// 왜 Object???
 			Enumeration<Object> keys = pr.keys();
@@ -100,15 +141,18 @@ public class FrontController extends HttpServlet {
 					// String 타입으로 되어진 className 을 클래스화 시켜주는 것이다.
 					// 주의할 점은 실제로 String 으로 되어져 있는 문자열이 클래스로 존재해야만 한다는 것이다.
 
-					Constructor<?> constructor = classType.getDeclaredConstructor();
 
-					Object object = constructor.newInstance();
+					//Object object = constructor.newInstance();
+					Object object = diInjector.createInjectedObject(classType);
+					disContainer.registerObject(classType, object);
 
-					cmdMap.put(key, object);
+					cmdMap.put(key, classType);
 
 				}
 
 			}
+			
+			
 
 		} catch (NoSuchMethodException e) {
 
@@ -143,7 +187,10 @@ public class FrontController extends HttpServlet {
 
 		String key = uri.substring(request.getContextPath().length());
 
-		AbstractController controller = (AbstractController) cmdMap.get(key);
+		//AbstractController controller = (AbstractController) cmdMap.get(key);
+		
+		Class<?> controllerClazz = cmdMap.get(key);
+		AbstractController controller = (AbstractController) disContainer.getObject(controllerClazz);
 
 		if (controller == null) {
 			System.out.println("no available controller");

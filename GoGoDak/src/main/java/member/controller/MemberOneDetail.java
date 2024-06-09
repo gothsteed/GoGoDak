@@ -1,6 +1,7 @@
 package member.controller;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -14,8 +15,9 @@ public class MemberOneDetail extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public MemberOneDetail() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public MemberOneDetail(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	@Override

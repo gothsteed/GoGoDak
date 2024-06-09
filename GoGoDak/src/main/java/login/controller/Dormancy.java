@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import common.controller.AbstractController;
+import conatainer.annotation.Autowired;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -15,8 +16,9 @@ public class Dormancy extends AbstractController {
 
 	private MemberDao mdao = null;
 
-	public Dormancy() {
-		mdao = new MemberDao_Imple();
+	@Autowired
+	public Dormancy(MemberDao mdao) {
+		this.mdao = mdao;
 	}
 	
 	@Override
