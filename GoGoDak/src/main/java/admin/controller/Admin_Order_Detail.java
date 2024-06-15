@@ -24,10 +24,13 @@ import product.model.ProductDao_Imple;
 public class Admin_Order_Detail extends AbstractController {
 	
 	private OrderDao orderDao;
+	private ProductDao productDao;
+
 	
 	@Autowired
-	public Admin_Order_Detail(OrderDao orderDao) {
+	public Admin_Order_Detail(OrderDao orderDao, ProductDao productDao) {
 		this.orderDao = orderDao;
+		this.productDao = productDao;
 	}
 	
 	@Override
@@ -58,7 +61,7 @@ public class Admin_Order_Detail extends AbstractController {
 	            String goBackURL = request.getParameter("goBackURL");
 
 	            OrderVO order = orderDao.getOrderWithMember(order_seq);
-	            List<ProductVO> productList = orderDao.getProductList(order_seq);
+	            List<ProductVO> productList = productDao.getProductList(order_seq);
 
 	            request.setAttribute("order", order); // 요청 객체에 데이터 설정
 	            request.setAttribute("productList", productList);

@@ -6,16 +6,16 @@ public class Pager<T> {
 	
 	private List<T> content;
 	private int pageNumber;
-	private int blockSize;
+	private int perPageSize;
 	private int totalElementCount;
 	private int totalPage;
 	
-	public Pager(List<T> content, int pageNumber, int blockSize, int totalElementCount) {
+	public Pager(List<T> content, int pageNumber, int perPageSize, int totalElementCount) {
 		this.content = content;
 		this.pageNumber = pageNumber;
-		this.blockSize = blockSize;
+		this.perPageSize = perPageSize;
 		this.totalElementCount = totalElementCount;
-		this.totalPage =  (int) Math.ceil((double)totalElementCount/blockSize);
+		this.totalPage =  (int) Math.ceil((double)totalElementCount/perPageSize);
 	}
 
 	public List<T> getContent() {
@@ -26,8 +26,8 @@ public class Pager<T> {
 		return pageNumber;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
+	public int getPerPageSize() {
+		return perPageSize;
 	}
 
 	public int getTotalElementCount() {
@@ -56,7 +56,7 @@ public class Pager<T> {
 	
 	public String makePageBar(String baseUrl, String... parameters) {
 		
-		
+		int blockSize = 10;
 		int loop = 1;
 		int pageNo = ((pageNumber - 1)/blockSize) * blockSize + 1;
 		String urlWithQuery = makeUrl(baseUrl, parameters);

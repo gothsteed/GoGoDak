@@ -6,6 +6,7 @@ import common.controller.AbstractController;
 import conatainer.annotation.Autowired;
 import domain.MemberVO;
 import domain.ProductVO;
+import domain.Product_detailVO;
 import domain.ReviewVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,6 +44,7 @@ public class Detail extends AbstractController {
 		
 		ProductVO product = productDao.getProductBySeq(product_seq);
 		List<ReviewVO> reviewList = reviewDao.getReviewListByProductSeq(product_seq);
+		List<Product_detailVO> detailList = productDao.getProductDetails(product_seq);
 		
 		int totalScore = 0;
 		for(ReviewVO reviewVO : reviewList) {
@@ -52,6 +54,10 @@ public class Detail extends AbstractController {
 		if(reviewList.size() != 0) {
 			int scoreAvg = totalScore / reviewList.size();
 			request.setAttribute("scoreAvg", scoreAvg);
+		}
+		
+		if(detailList.size() > 0) {
+			request.setAttribute("detailList", detailList);
 		}
 		
 		int likeCount = productDao.getLikeCount(product_seq);

@@ -9,6 +9,7 @@ import java.util.List;
 import common.controller.AbstractController;
 import conatainer.annotation.Autowired;
 import domain.MemberVO;
+import domain.Product_detailVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -52,6 +53,23 @@ public class ProductRegisterEdit extends AbstractController {
             String discription_pic = request.getParameter("discription_pic");
             String fk_manufacturer_seq = request.getParameter("fk_manufacturer_seq");
             
+            int product_seqInt;
+            
+            try {
+				product_seqInt = Integer.parseInt(product_seq);
+			} catch (NumberFormatException e) {
+	            String message = "관리자 외 접근 불가능 합니다.";
+	            String loc = "javascript:history.back()";
+
+	            request.setAttribute("message", message);
+	            request.setAttribute("loc", loc);
+
+	            super.setRedirect(false);
+	            super.setViewPage("/WEB-INF/view/msg.jsp");
+	            return;
+			}
+            
+            List<Product_detailVO>  productDetailList = productDao.getProductDetails(product_seqInt);
 
             
            // request.setAttribute("productTypes", productTypes);
@@ -66,6 +84,7 @@ public class ProductRegisterEdit extends AbstractController {
             request.setAttribute("main_pic", main_pic);
             request.setAttribute("discription_pic", discription_pic);
             request.setAttribute("fk_manufacturer_seq", fk_manufacturer_seq);
+            request.setAttribute("productDetailList", productDetailList);
 
             super.setRedirect(false);
             super.setViewPage("/WEB-INF/view/admin/admin_productRegisterEdit.jsp");

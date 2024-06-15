@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import domain.ProductVO;
+import domain.Product_detailVO;
 import domain.Product_listVO;
 import pager.Pager;
 
@@ -30,11 +31,11 @@ public interface ProductDao {
 
 	
 	//상품등록
-	int productregister(ProductVO pvo) throws Exception;
+	int productregister(ProductVO pvo, String[] product_detail, Integer[] detail_stock) throws Exception;
 
 	
 	//상품 수정 
-	int updateProduct(ProductVO pvo) throws SQLException;
+	int updateProduct(ProductVO pvo, String[] product_detail, Integer[] detail_stock) throws SQLException;
 	
 	//상품 selectseq
 	int productSelectBySeq(int product_seq) throws Exception;
@@ -66,6 +67,14 @@ public interface ProductDao {
 	boolean isLiked(int member_seq, int product_seq) throws SQLException;
 
 	List<ProductVO> getLikedProduct(int member_seq) throws SQLException;
+
+
+	List<Product_detailVO> getProductDetails(int product_seq) throws SQLException;
+
+
+	ProductVO getProductBySeq(int product_seq, int product_detail_seq) throws SQLException;
+	
+	List<ProductVO> getProductList(int order_seq) throws SQLException;
 	
 	
 

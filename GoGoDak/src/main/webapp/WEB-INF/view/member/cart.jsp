@@ -1,3 +1,4 @@
+<%@page import="domain.Product_detailVO"%>
 <%@page import="domain.ProductVO"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -172,13 +173,28 @@ String ctxPath = request.getContextPath();
         let cartData = [];
 
         document.querySelectorAll('.cart-item').forEach(function(cartItem) {
-            let productSeq = cartItem.id.split('-')[2];  // Extract product_seq from the id attribute
+        	let productArr = cartItem.id.split('-');
+            let productSeq = productArr[2];  // Extract product_seq from the id attribute
             let quantity = document.getElementById('quantity-' + productSeq).value;
+            let product_detail_seq = productArr[3];
+            
+            
+            if(product_detail_seq === undefined) {
+	           	cartData.push({
+	                "product_seq": parseInt(productSeq, 10),
+	                "quantity": parseInt(quantity, 10)
+	            });
+            }
+            else {
+	           	cartData.push({
+	                "product_seq": parseInt(productSeq, 10),
+	                "quantity": parseInt(quantity, 10),
+	                "product_detail_seq":parseInt(product_detail_seq, 10)
+	            });
+            	
+            }
 
-            cartData.push({
-                "product_seq": parseInt(productSeq, 10),
-                "quantity": parseInt(quantity, 10)
-            });
+
         });
 
         return JSON.stringify({"cart": cartData});
@@ -385,33 +401,56 @@ String ctxPath = request.getContextPath();
     	<h1 style="text-align: center;">장바구니 목록</h1>
         <br><br>
         <form action="" class="row">
-        	<div class="cart-list col-6">
-           		<%
-                    Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
-                    if (cart != null) {
-                        for (Map.Entry<ProductVO, Integer> entry : cart.entrySet()) {
-                            ProductVO product = entry.getKey();
-                            Integer quantity = entry.getValue();
-                            System.out.println(product.getDiscountPrice());
-                %>
-                            <div class="cart-item row" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
-                            	<img class="col-2" src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq()%>">
-                                <div class="col-5">
-                                	<p><%= product.getProduct_name()%></p>
-                                	<fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원
-                                </div>
-                                <div class="quantity col-3">
-                                    <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
-                                    <input type="text" value="<%= quantity %>" id="quantity-<%= product.getProduct_seq() %>" name="quantity-<%= product.getProduct_seq() %>">
-                                    <button type="button" onclick="increaseQuantity(<%= product.getProduct_seq() %>)">+</button>
-                                </div>
-                                <button type="button" class="btn-danger col-1" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
-                            </div>
-                <%
-                        }
-                    }
-                %>
-            </div>
+<div class="cart-list col-6">
+    <%
+        Map<ProductVO, Integer> cart = (Map<ProductVO, Integer>) session.getAttribute("cart");
+        if (cart != null) {
+            for (Map.Entry<ProductVO, Integer> entry : cart.entrySet()) {
+                ProductVO product = entry.getKey();
+                Integer quantity = entry.getValue();
+                Product_detailVO product_detail = product.getProduct_detailVO();
+
+                if (product_detail == null) {
+                    // Handle case where product_detail is null
+    %>
+                    <div class="cart-item row" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>">
+                        <img class="col-2" src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq()%>">
+                        <div class="col-5">
+                            <p><%= product.getProduct_name()%></p>
+                            <fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원
+                        </div>
+                        <div class="quantity col-3">
+                            <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
+                            <input type="text" value="<%= quantity %>" id="quantity-<%= product.getProduct_seq() %>" name="quantity-<%= product.getProduct_seq() %>">
+                            <button type="button" onclick="increaseQuantity(<%= product.getProduct_seq() %>)">+</button>
+                        </div>
+                        <button type="button" class="btn-danger col-1" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
+                    </div>
+    <%
+                } else {
+                    // Handle case where product_detail is not null
+    %>
+                    <div class="cart-item row" data-price="<%= product.getDiscountPrice() %>" id="cart-item-<%= product.getProduct_seq() %>-<%= product_detail.getProduct_detail_seq() %>">
+                        <img class="col-2" src="<%= ctxPath %>/images/product/<%= product.getMain_pic()%>" alt="<%= product.getProduct_seq()%>">
+                        <div class="col-5">
+                            <p><%= product.getProduct_name()%></p>
+                            <p><%= product_detail.getDetail_name() %></p>
+                            <fmt:formatNumber value="<%= product.getDiscountPrice() %>" type="currency" currencySymbol="" groupingUsed="true" />원
+                        </div>
+                        <div class="quantity col-3">
+                            <button type="button" onclick="decreaseQuantity(<%= product.getProduct_seq()%>)">-</button>
+                            <input type="text" value="<%= quantity %>" id="quantity-<%= product.getProduct_seq() %>" name="quantity-<%= product.getProduct_seq() %>">
+                            <button type="button" onclick="increaseQuantity(<%= product.getProduct_seq() %>)">+</button>
+                        </div>
+                        <button type="button" class="btn-danger col-1" onclick="removeItem(<%= product.getProduct_seq() %>)">삭제</button>
+                    </div>
+    <%
+                }
+            }
+        }
+    %>
+</div>
+
             <div class="container col-5">
             	<br>
                 <h3>배송지 정보 입력</h3>

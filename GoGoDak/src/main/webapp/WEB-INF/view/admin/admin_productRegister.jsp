@@ -13,6 +13,23 @@
 
 
 $(document).ready(function() {
+	$("#addDetail").click(function() {
+        let newDetail = `
+            <div class="form-group">
+                <label for="detailValue">상세 중류 <span class="text-danger">*</span></label>
+                <input type="text" name="detail_value" class="form-control infoData" placeholder="상세 값을 입력하세요">
+                <span class="error"></span>
+            </div>
+            <div class="form-group">
+                <label for="detailValue">재고 <span class="text-danger">*</span></label>
+                <input type="text" name="detail_stock" class="form-control infoData" placeholder="상세 값을 입력하세요">
+                <span class="error"></span>
+            </div>
+
+        `;
+        $("#productDetails").append(newDetail);
+    });
+	
   
    
 
@@ -183,6 +200,7 @@ function goReset() {
 
 
 
+
 </script>
 
 
@@ -297,7 +315,25 @@ function goReset() {
                                 </div>
                             </div>
                         </div>
-                        <!-- 이미지 미리보기 -->
+
+							<div class="card my-3">
+								<div class="card-header">
+									<h4 class="text-center mb-0">상품 상세 종류 추가</h4>
+								</div>
+								<div id="productDetails" class="card-body">
+									<div class="form-group">
+										<label for="detailValue">상세 중류 <span class="text-danger">*</span></label> <input type="text" name="detail_value" class="form-control infoData" placeholder="상세 값을 입력하세요"> <span class="error"></span>
+									</div>
+									<div class="form-group">
+										<label for="detailValue">재고 <span class="text-danger">*</span></label> <input type="text" name="detail_stock" class="form-control infoData" placeholder="상세 값을 입력하세요"> <span class="error"></span>
+									</div>
+								</div>
+								<div class="form-group text-center">
+									<button type="button" id="addDetail" class="btn btn-primary">추가</button>
+								</div>
+							</div>
+
+							<!-- 이미지 미리보기 -->
                         <div class="form-group">
                             <label for="previewImg">이미지 미리보기</label>
                             <img id="previewImg" width="300">

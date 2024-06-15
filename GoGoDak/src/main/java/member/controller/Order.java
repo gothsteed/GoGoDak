@@ -16,9 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import login.controller.GoogleMail;
 import member.model.MemberDao;
-import member.model.MemberDao_Imple;
 import order.model.OrderDao;
-import order.model.OrderDao_imple;
 
 public class Order extends AbstractController {
 	

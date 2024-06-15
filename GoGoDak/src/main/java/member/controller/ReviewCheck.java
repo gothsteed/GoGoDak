@@ -25,11 +25,13 @@ public class ReviewCheck extends AbstractController {
 	
 	private ReviewDao reviewDao;
 	private OrderDao orderDao;
+	private ProductDao productDao;
 	
 	@Autowired
-	public ReviewCheck(ReviewDao reviewDao,  OrderDao orderDao) {
+	public ReviewCheck(ReviewDao reviewDao,  OrderDao orderDao, ProductDao productDao) {
 		this.reviewDao =reviewDao;
 		this.orderDao = orderDao;
+		this.productDao = productDao;
 	}
 	
 	
@@ -94,7 +96,7 @@ public class ReviewCheck extends AbstractController {
 		
 		
 		
-		List<ProductVO> productList =orderDao.getProductList(order_seq);
+		List<ProductVO> productList = productDao.getProductList(order_seq);
 		boolean doExist = false;
 		for(ProductVO product :productList) {
 			if(product.getProduct_seq() == product_seq) {

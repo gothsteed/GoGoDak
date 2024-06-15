@@ -20,6 +20,7 @@ import domain.BoardVO;
 import domain.MemberVO;
 import domain.ProductVO;
 import domain.QuestionVO;
+import pager.Pager;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -399,9 +400,10 @@ public class MemberDao_Imple implements MemberDao {
 
 	// 모든 회원 또는 검색한 회원 목록 보여주기
 	@Override
-	public List<MemberVO> select_Member_paging(Map<String, String> paraMap) throws SQLException {
+	public Pager<MemberVO> select_Member_paging(String searchType, String searchWord, int currentShowPageNo, int sizePerPage) throws SQLException {
 
 		List<MemberVO> memberList = new ArrayList<>();
+		int totalCount = 0;
 		
 		try {
 			conn = ds.getConnection();
@@ -419,15 +421,13 @@ public class MemberDao_Imple implements MemberDao {
 					   + " and exist_status = 1 "
 					   + "  and active_status = 1 ";
 			
-			String colname = paraMap.get("searchType");
-			String searchWord = paraMap.get("searchWord");
 			
-			if("email".equals(colname)) { 
+			if("email".equals(searchType)) { 
 				searchWord = aes.encrypt(searchWord); 
 			}
 			
-			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
-				sql += " and " + colname + " like '%' || ? || '%' ";
+			if( (searchType != null && !searchType.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				sql += " and " + searchType + " like '%' || ? || '%' ";
 			}
 			
 			sql += " order by registerday desc "
@@ -437,10 +437,8 @@ public class MemberDao_Imple implements MemberDao {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+			if( (searchType != null && !searchType.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
 				pstmt.setString(1, searchWord);
 				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1)); 
 				pstmt.setInt(3, (currentShowPageNo * sizePerPage)); 
@@ -462,52 +460,31 @@ public class MemberDao_Imple implements MemberDao {
 				memberList.add(mvo);
 			} // end of while(rs.next()) ----------
 			
-		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
-	    	e.printStackTrace();
-	    } finally {
-			close();
-		}
-		
-		return memberList;
-	}
-
-	// 검색이 있는 또는 검색이 없는 회원의 총개수 알아오기
-	@Override
-	public int getTotalMemberCount(Map<String, String> paraMap) throws SQLException {
-		
-		int totalMemberCount = 0;
-		
-		try {
-			conn = ds.getConnection();
 			
-			String sql = " select count(*) "
+			String countSql = " select count(*) "
 					   + " from tbl_member "
 					   + " where id != 'admin' "
 					   + "  and exist_status = 1 "
 					   + " and active_status = 1 ";
 			
-			String colname = paraMap.get("searchType");
-			String searchWord = paraMap.get("searchWord");
+
 			
-			if("email".equals(colname)) {
-				searchWord = aes.encrypt(searchWord);
+			if( (searchType != null && !searchType.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+				countSql += " and " + searchType + " like '%' || ? || '%' ";
 			}
 			
-			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
-				sql += " and " + colname + " like '%' || ? || '%' ";
-			}
+			pstmt = conn.prepareStatement(countSql);
 			
-			pstmt = conn.prepareStatement(sql);
-			
-			if( (colname != null && !colname.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
+			if( (searchType != null && !searchType.trim().isEmpty()) && (searchWord != null && !searchWord.trim().isEmpty()) ) { 
 				pstmt.setString(1, searchWord);
 			}
 						
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			
-			totalMemberCount = rs.getInt(1); 
+			if(rs.next()) {
+				totalCount = rs.getInt(1); 
+				
+			};
 			
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 	    	e.printStackTrace();
@@ -515,8 +492,9 @@ public class MemberDao_Imple implements MemberDao {
 			close();
 		}
 		
-		return totalMemberCount;
+		return new Pager<MemberVO>(memberList, currentShowPageNo, sizePerPage, totalCount);
 	}
+
 
 	// 비밀번호 변경하기
 	@Override

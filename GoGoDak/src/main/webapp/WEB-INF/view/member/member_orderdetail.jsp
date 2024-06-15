@@ -205,9 +205,21 @@
 		        <tr>
 		  			<td class="product-info">
 		                <c:out value="${product.product_name}" />
+		                
+						<c:if test="${not empty product.product_detailVO}">
+							<c:out value="${product.product_detailVO.detail_name}" />
+						</c:if>
 		            </td>
 		            
 		          	<c:if test="${sessionScope.loginuser.id == 'admin' }">
+		          		<c:if test="${not empty product.product_detailVO}">
+							<c:out value="${product.product_detailVO.stock}" />
+						</c:if>
+						
+						<c:if test="${empty product.product_detailVO}">
+							<c:out value="${product.stock}" />
+						</c:if>
+		          	
 		            	<td><c:out value="${product.stock}" /></td>
 		            </c:if>
 		            <td><fmt:formatNumber value="${product.base_price}" type="currency" currencySymbol="" groupingUsed="true" />원</td>

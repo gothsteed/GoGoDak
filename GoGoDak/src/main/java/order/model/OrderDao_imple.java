@@ -3,9 +3,11 @@ package order.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.Connection;
+import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +28,7 @@ import domain.OrderVO;
 import domain.ProductVO;
 
 import oracle.net.aso.c;
-
+import pager.Pager;
 import domain.Product_listVO;
 
 import util.security.AES256;
@@ -258,8 +260,8 @@ public class OrderDao_imple implements OrderDao {
             
             
 			sql = " insert into "
-					+ " tbl_product_list(FK_ORDER_SEQ, FK_PRODUCT_SEQ, PRODUCT_NAME, QUANTITY ) "
-					   + " values(?, ?, ?, ?) ";
+					+ " tbl_product_list(FK_ORDER_SEQ, FK_PRODUCT_SEQ, PRODUCT_NAME, QUANTITY, FK_PRODUCT_DETAIL_SEQ ) "
+					   + " values(?, ?, ?, ?, ?) ";
 			
 			
 			int total = 0;
@@ -272,6 +274,14 @@ public class OrderDao_imple implements OrderDao {
 				pstmt.setInt(2, product.getProduct_seq());
 				pstmt.setString(3, product.getProduct_name());
 				pstmt.setInt(4, cart.get(product));
+				
+				if(product.getProduct_detailVO() != null) {
+					pstmt.setInt(5, product.getProduct_detailVO().getProduct_detail_seq());
+				}else {
+					
+					pstmt.setNull(5, java.sql.Types.INTEGER);
+
+				}
 
 	
 				System.out.println("inserting product list");
@@ -381,56 +391,7 @@ public class OrderDao_imple implements OrderDao {
 	
 	
 	
-	@Override
-	public List<ProductVO> getProductList(int order_seq) throws SQLException {
-		List<ProductVO> productList = new ArrayList<ProductVO>();
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " SELECT   "
-					+ "    pl.FK_ORDER_SEQ,   "
-					+ "    pl.quantity,   "
-					+ "    p.product_seq,   "
-					+ "    p.fk_manufacturer_seq,   "
-					+ "    p.product_name,   "
-					+ "    p.description,   "
-					+ "    p.base_price,   "
-					+ "    p.stock,   "
-					+ "    p.main_pic,   "
-					+ "    p.discription_pic,   "
-					+ "    p.fk_discount_event_seq,   "
-					+ "    p.discount_type,   "
-					+ "    p.discount_number,"
-					+ "    p.product_type   "
-					+ "FROM   "
-					+ "    tbl_product_list pl   "
-					+ "JOIN   "
-					+ "    tbl_product p   "
-					+ "ON   "
-					+ "    pl.fk_product_seq = p.product_seq    "
-					+ "WHERE   "
-					+ "    pl.fk_order_seq = ?  ";
-			
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, order_seq);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				productList.add(createProduct(rs));
-			}
-			
-			
-		}
-		finally {
-			close();
-		}
-		
-		
-		
-		return productList;
-	}
+
 
 
 	@Override
@@ -466,17 +427,60 @@ public class OrderDao_imple implements OrderDao {
 
 
 	@Override
-	public List<OrderVO> getLoginuserList(int fk_member_seq) throws SQLException {
+	public Pager<OrderVO> getLoginuserList(int fk_member_seq, int currentPage, int blockSize, LocalDate startDate, LocalDate endDate) throws SQLException {
 	    List<OrderVO> orderList = new ArrayList<>();
+	    int totalCount = 0;
 
 	    try {
 	        conn = ds.getConnection();
 
 	        // 첫 번째 쿼리: 주문 정보 가져오기
-	        String orderSql = "SELECT * FROM tbl_order WHERE fk_member_seq = ? "
-	        		+ " order by REGISTERDAY desc ";
+	        String orderSql = " select * "
+	        		+ " from "
+	        		+ " ( "
+	        		+ "    select  "
+	        		+ "        rownum as rno, "
+	        		+ "        ORDER_SEQ, "
+	        		+ "        TOTAL_PAY, "
+	        		+ "        POSTCODE, "
+	        		+ "        ADDRESS, "
+	        		+ "        ADDRESS_DETAIL, "
+	        		+ "        ADDRESS_EXTRA, "
+	        		+ "        REGISTERDAY, "
+	        		+ "        FK_MEMBER_SEQ, "
+	        		+ "        DELIVERY_STATUS, "
+	        		+ "        DELIVERY_MESSAGE "
+	        		+ "    from "
+	        		+ "    ( "
+	        		+ "        SELECT * "
+	        		+ "        FROM tbl_order "
+	        		+ "        WHERE fk_member_seq = ? ";
+	        
+	        if(startDate != null && endDate != null) {
+	        	orderSql += " and REGISTERDAY between ? and ? ";
+	        }
+	        
+	        orderSql+=  "        ORDER BY REGISTERDAY DESC "
+	        		+ "    ) "
+	        		+ " )"
+	        		+ " where rno between ? and ?";
 	        pstmt = conn.prepareStatement(orderSql);
 	        pstmt.setInt(1, fk_member_seq);
+	        
+	        
+	        
+	        if(startDate != null && endDate != null) {
+	        	pstmt.setString(2, startDate.toString());
+	        	pstmt.setString(3, endDate.toString());
+	        	pstmt.setLong(4, (currentPage * blockSize) - (blockSize - 1));
+	        	pstmt.setLong(5, (currentPage * blockSize));
+	        }
+	        else {
+	        	
+	        	pstmt.setLong(2, (currentPage * blockSize) - (blockSize - 1));
+	        	pstmt.setLong(3, (currentPage * blockSize));
+	        }
+
 	        rs = pstmt.executeQuery();
 
 	        while (rs.next()) {
@@ -518,6 +522,26 @@ public class OrderDao_imple implements OrderDao {
 	            order.setProductList(productList);  // 주문에 상품 목록 추가
 	            orderList.add(order);
 	        }
+	        
+	        String countSql = " select count(*) "
+	        		+ " from tbl_order "
+	        		+ " where fk_member_seq = ? ";
+	        
+	        if(startDate != null && endDate != null) {
+	        	countSql += " and REGISTERDAY between ? and ? ";
+	        }
+	        
+	        pstmt = conn.prepareStatement(countSql);
+	        pstmt.setInt(1, fk_member_seq);
+	        if(startDate != null && endDate != null) {
+	        	pstmt.setString(2, startDate.toString());
+	        	pstmt.setString(3, endDate.toString());
+	        }
+	        rs = pstmt.executeQuery();
+	        if(rs.next()) {
+	        	totalCount = rs.getInt(1);
+	        }
+	        
 
 	    } finally {
 	        if (rs != null) rs.close();
@@ -525,7 +549,7 @@ public class OrderDao_imple implements OrderDao {
 	        if (conn != null) conn.close();
 	    }
 
-	    return orderList;
+	    return new Pager<OrderVO>(orderList, currentPage, blockSize, totalCount);
 	}
 	@Override
 	public int updateDelivery_status(int order_seq, int status) throws SQLException {

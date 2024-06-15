@@ -1,3 +1,13 @@
+show user;
+
+-- 이제 부터 오라클 계정생성시 계정명앞에 c## 붙이지 않고 생성하도록 하겠다.
+alter session set "_ORACLE_SCRIPT"=true;
+-- Session이(가) 변경되었습니다.
+
+create user semi_orauser3 identified by gclass default tablespace users;
+grant connect, resource, create view, unlimited tablespace to semi_orauser3;
+
+
 
 create sequence member_seq
 start with 1
@@ -520,4 +530,156 @@ FROM (
     ORDER BY PRODUCT_SEQ DESC
 )
 WHERE ROWNUM <= 3 and exist_status = 1;
+
+show user;
+
+
+----- *** 좋아요, 싫어요 (투표) 테이블 생성하기 *** ----- 
+create table tbl_product_like
+(fk_userid   varchar2(40) not null 
+,fk_pnum     number(8) not null
+,constraint  PK_tbl_product_like primary key(fk_userid,fk_pnum)
+,constraint  FK_tbl_product_like_userid foreign key(fk_userid) references tbl_member(userid)
+,constraint  FK_tbl_product_like_pnum foreign key(fk_pnum) references tbl_product(pnum) on delete cascade
+);
+-- Table TBL_PRODUCT_LIKE이(가) 생성되었습니다.
+
+create table tbl_product_dislike
+(fk_userid   varchar2(40) not null 
+,fk_pnum     number(8) not null
+,constraint  PK_tbl_product_dislike primary key(fk_userid,fk_pnum)
+,constraint  FK_tbl_product_dislike_userid foreign key(fk_userid) references tbl_member(userid)
+,constraint  FK_tbl_product_dislike_pnum foreign key(fk_pnum) references tbl_product(pnum) on delete cascade
+);
+
+desc tbl_member;
+desc tbl_product_like;
+
+create table tbl_product_like
+(fk_member_seq   number
+,fk_product_seq number
+,constraint  PK_tbl_product_like primary key(fk_member_seq,fk_product_seq)
+,constraint  FK_tbl_product_like_userid foreign key(fk_member_seq) references tbl_member(member_seq)
+,constraint  FK_tbl_product_like_pnum foreign key(fk_product_seq) references tbl_product(product_seq) on delete cascade
+);
+
+
+create table tbl_product_dislike
+(fk_member_seq   number
+,fk_product_seq number
+,constraint  PK_tbl_product_dislike primary key(fk_member_seq,fk_product_seq)
+,constraint  FK_tbl_product_dislike_userid foreign key(fk_member_seq) references tbl_member(member_seq)
+,constraint  FK_tbl_product_dislike_pnum foreign key(fk_product_seq) references tbl_product(product_seq) on delete cascade
+);
+
+
+show user;
+
+desc tbl_order;
+select *
+from tbl_order;
+
+
+select *
+from
+(
+    select 
+        rownum as rno,
+        ORDER_SEQ,
+        TOTAL_PAY,
+        POSTCODE,
+        ADDRESS,
+        ADDRESS_DETAIL,
+        ADDRESS_EXTRA,
+        REGISTERDAY,
+        FK_MEMBER_SEQ,
+        DELIVERY_STATUS,
+        DELIVERY_MESSAGE
+    from
+    (
+        SELECT *
+        FROM tbl_order
+        WHERE fk_member_seq = 6
+        ORDER BY REGISTERDAY DESC
+    )
+)
+;
+
+desc tbl_product_detail;
+
+CREATE TABLE tbl_product_detail (
+    PRODUCT_DETAIL_SEQ NUMBER PRIMARY KEY,
+    FK_PRODUCT_SEQ NUMBER NOT NULL,
+    DETAIL_NAME VARCHAR2(200) NOT NULL,
+    DETAIL_VALUE VARCHAR2(1000) NOT NULL,
+    CONSTRAINT fk_product FOREIGN KEY (FK_PRODUCT_SEQ)
+        REFERENCES tbl_product (PRODUCT_SEQ)
+);
+
+
+CREATE TABLE tbl_product_detail (
+    PRODUCT_DETAIL_SEQ NUMBER PRIMARY KEY,
+    FK_PRODUCT_SEQ NUMBER NOT NULL,
+    DETAIL_NAME VARCHAR2(300) NOT NULL,
+    stock number not null,
+    CONSTRAINT fk_product FOREIGN KEY (FK_PRODUCT_SEQ)
+        REFERENCES tbl_product (PRODUCT_SEQ)
+        ON DELETE CASCADE
+);
+
+select *
+from tbl_product_detail;
+create sequence PRODUCT_DETAIL_SEQ
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+
+
+DESC tbl_product_list;
+
+SELECT *
+FROM user_constraints
+WHERE table_name = 'TBL_PRODUCT_LIST';
+
+ALTER TABLE tbl_product_list
+ADD (fk_product_detail_seq NUMBER);
+
+
+ALTER TABLE tbl_product_list
+ADD CONSTRAINT fk_product_detail
+FOREIGN KEY (fk_product_detail_seq)
+REFERENCES tbl_product_detail(product_detail_seq);
+
+desc tbl_product_detail;
+
+SELECT   
+    pl.FK_ORDER_SEQ,   
+    pl.quantity,   
+    p.product_seq,   
+    p.fk_manufacturer_seq,   
+    p.product_name,   
+    p.description,   
+    p.base_price,   
+    p.stock,   
+    p.main_pic,   
+    p.discription_pic,   
+    p.fk_discount_event_seq,   
+    p.discount_type,   
+    p.discount_number,
+    p.product_type,
+    pd.product_detail_seq,
+    pd.detail_name,
+    pd.stock
+FROM   
+    tbl_product_list pl   
+JOIN   
+    tbl_product p  
+ON   
+    pl.fk_product_seq = p.product_seq    
+left join
+    tbl_product_detail pd
+on pl.fk_product_detail_seq = pd.product_detail_seq;
 

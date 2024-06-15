@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import order.model.OrderDao;
 import order.model.OrderDao_imple;
+import product.model.ProductDao;
 import review.model.ReviewDao;
 import review.model.ReviewDao_imple;
 
@@ -32,11 +33,13 @@ public class Review extends AbstractController {
 	
 	private ReviewDao reviewDao;
 	private OrderDao orderDao;
+	private ProductDao productDao;
 	
 	@Autowired
-	public Review(ReviewDao reviewDao,  OrderDao orderDao) {
+	public Review(ReviewDao reviewDao,  OrderDao orderDao, ProductDao productDao) {
 		this.reviewDao =reviewDao;
 		this.orderDao = orderDao;
+		this.productDao = productDao;
 	}
 	
 	
@@ -160,7 +163,7 @@ public class Review extends AbstractController {
 	    MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		OrderVO order = orderDao.getOrderBySeq(order_seq);
-		List<ProductVO> productList = orderDao.getProductList(order_seq);
+		List<ProductVO> productList = productDao.getProductList(order_seq);
 		
 		
 		if(order.getFk_member_seq() != loginuser.getMember_seq()) {

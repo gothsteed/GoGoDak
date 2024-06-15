@@ -18,6 +18,7 @@ import conatainer.annotation.Autowired;
 import domain.Discount_eventVO;
 import domain.MemberVO;
 import domain.ProductVO;
+import domain.Product_detailVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -75,8 +76,32 @@ public class Cart extends AbstractController {
 				setViewPage("/WEB-INF/jsonview.jsp");
 				return;
 			}
+			
+			int product_detail_seq = -1;
+			try {
+				product_detail_seq = productJson.has("product_detail_seq")? productJson.getInt("product_detail_seq") : -1;
+			} catch (NumberFormatException e) {
+				System.out.println("not a number");
+				JSONObject jsonResponse = new JSONObject();
+				jsonResponse.put("success", false);
+				jsonResponse.put("message", "Invalid product sequence.");
 
-			ProductVO product = productDao.getProductBySeq(product_seq);
+				System.out.println(jsonResponse.toString());
+				setRedirect(false);
+				request.setAttribute("json", jsonResponse.toString());
+				setViewPage("/WEB-INF/jsonview.jsp");
+				return;
+			}
+			
+		
+			ProductVO product;
+			if(product_detail_seq != -1) {
+				product = productDao.getProductBySeq(product_seq, product_detail_seq);
+			}
+			else {
+				product = productDao.getProductBySeq(product_seq);
+			}
+			
 
 			if (product == null) {
 				System.out.println("does not exist");

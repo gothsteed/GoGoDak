@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import member.model.MemberDao;
 import member.model.MemberDao_Imple;
 import my.util.MyUtil;
+import pager.Pager;
 
 public class Member extends AbstractController{
 
@@ -34,7 +35,7 @@ public class Member extends AbstractController{
 			String searchType = request.getParameter("searchType");
 			String searchWord = request.getParameter("searchWord");
 			String sizePerPage = request.getParameter("sizePerPage");
-			String currentShowPageNo = request.getParameter("currentShowPageNo");
+			String currentShowPageNo = request.getParameter("page");
 	
 			if(searchType == null || (!"name".equals(searchType) && !"id".equals(searchType) && !"email".equals(searchType)) ) {
 				searchType = "";
@@ -51,6 +52,23 @@ public class Member extends AbstractController{
 			if(currentShowPageNo == null) {
 				currentShowPageNo = "1";
 			}
+			
+			int sizePerPageInt;
+			try {
+				sizePerPageInt = Integer.parseInt(sizePerPage);
+			} catch (NumberFormatException e) {
+				sizePerPageInt = 10;
+			}
+			int currentShowPageNoInt;
+			try {
+				currentShowPageNoInt = Integer.parseInt(currentShowPageNo);
+			} catch (NumberFormatException e) {
+				currentShowPageNoInt = 1;
+			}
+			
+			
+			System.out.println("sizePerPageInt : " + sizePerPageInt);
+			System.out.println("currentShowPageNoInt : " + currentShowPageNoInt);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("searchType", searchType);
@@ -70,66 +88,27 @@ public class Member extends AbstractController{
 				paraMap.put("currentShowPageNo", currentShowPageNo);
 			}
 
-			String pageBar = "";
-			
-			int blockSize = 10; 
-			
-			int loop = 1;
-			
-			int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
-			
-			pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
-			
-			if(pageNo != 1) {
-				pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
-			}
-			
-			while( !(loop > blockSize || pageNo > totalPage) ){
-				
-				if(pageNo == Integer.parseInt(currentShowPageNo)) {
-					pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
-				}
-				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
-				}
-				
-				loop++;
-				
-				pageNo++; 
-						  
-			} // end of while() ----------
-			
-			if(pageNo <= totalPage) { 
-				pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
-			}
-			pageBar += "<li class='page-item'><a class='page-link' href='member.dk?searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";		
 			
 			String currentURL = MyUtil.getCurrentURL(request);
 			
-			List<MemberVO> memberList = mdao.select_Member_paging(paraMap);
+			Pager<MemberVO> memberList = mdao.select_Member_paging(searchType, searchWord, currentShowPageNoInt, sizePerPageInt);
 			
-			request.setAttribute("memberList", memberList);
-			
-			if(searchType != null && ("name".equals(searchType) || "id".equals(searchType) || "email".equals(searchType)) ) {
-				request.setAttribute("searchType", searchType);
-			}
-			
-			if(searchWord != null && !searchWord.trim().isEmpty() ) { 
-				request.setAttribute("searchWord", searchWord);
-			}
+			request.setAttribute("memberList", memberList.getContent());
+
 			
 			request.setAttribute("sizePerPage", sizePerPage);
-			request.setAttribute("pageBar", pageBar);
+			request.setAttribute("pageBar", memberList.makePageBar("member.dk", "searchType="+searchType, "searchWord="+searchWord, "sizePerPage="+sizePerPage));
 			request.setAttribute("currentURL", currentURL);
 			
-			int totalMemberCount = mdao.getTotalMemberCount(paraMap);
+			request.setAttribute("totalMemberCount", memberList.getTotalElementCount());
 			
-			request.setAttribute("totalMemberCount", totalMemberCount);
 			request.setAttribute("currentShowPageNo", currentShowPageNo);
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/view/admin/admin_memberList.jsp");
 		}
+		
+		
 		else { 
 			String message = "관리자만 접근이 가능합니다.";
 	        String loc = "javascript:history.back()";

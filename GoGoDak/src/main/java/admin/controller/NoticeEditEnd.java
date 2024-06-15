@@ -3,7 +3,6 @@ package admin.controller;
 import java.sql.SQLException;
 
 import admin.model.AdminDAO;
-import admin.model.AdminDAO_imple;
 import common.controller.AbstractController;
 import conatainer.annotation.Autowired;
 import domain.BoardVO;

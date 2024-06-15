@@ -7,6 +7,7 @@ import java.util.Map;
 import domain.BoardVO;
 import domain.MemberVO;
 import domain.QuestionVO;
+import pager.Pager;
 
 public interface MemberDao {
 
@@ -24,9 +25,7 @@ public interface MemberDao {
 
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
 
-	List<MemberVO> select_Member_paging(Map<String, String> paraMap) throws SQLException;
-
-	int getTotalMemberCount(Map<String, String> paraMap) throws SQLException;
+	Pager<MemberVO> select_Member_paging(String searchType, String searchWord, int currentShowPageNo, int sizePerPage) throws SQLException;
 
 	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
 	

@@ -1,8 +1,11 @@
 package admin.controller;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Objects;
+
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.Part;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +44,17 @@ public class ProductRegister extends AbstractController {
             super.setRedirect(false);
             super.setViewPage("/WEB-INF/view/admin/admin_productRegister.jsp");
         }
+    }
+    
+    private static Integer parseIntOrNull(String val) {
+    	if(val == null ) {
+    		return null;
+    	}
+    	try {
+			return Integer.parseInt(val);
+		} catch (NumberFormatException e) {
+			return null;
+		}
     }
 
     // 파일 업로드 처리 메서드
@@ -91,6 +105,14 @@ public class ProductRegister extends AbstractController {
         String product_type = request.getParameter("product_type");
         String discount_type = request.getParameter("discount_type");
         String discount_amount = request.getParameter("discount_amount");
+        
+        
+        String[] product_detail =  request.getParameterValues("detail_value");
+        Integer[] detail_stock = Arrays.stream(request.getParameterValues("detail_stock"))
+                .map(ProductRegister::parseIntOrNull)
+                .toArray(Integer[]::new);
+        
+        
 
         ProductVO pvo = new ProductVO();
         pvo.setFk_manufacturer_seq(fk_manufacturer_seq != null && !fk_manufacturer_seq.isEmpty() ? Integer.parseInt(fk_manufacturer_seq) : 0);
@@ -115,7 +137,7 @@ public class ProductRegister extends AbstractController {
         
         System.out.println("dicount amount : " +Integer.parseInt(discount_amount));
 
-        int result = productDao.productregister(pvo);
+        int result = productDao.productregister(pvo, product_detail, detail_stock);
         System.out.println("result : " + result);
 
         if (result == 1) {

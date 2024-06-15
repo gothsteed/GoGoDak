@@ -25,6 +25,17 @@ public class ProductRegisterEditEnd extends AbstractController {
     public ProductRegisterEditEnd(ProductDao productDao) {
         this.productDao = productDao;
     }
+    
+    private static Integer parseIntOrNull(String val) {
+    	if(val == null ) {
+    		return null;
+    	}
+    	try {
+			return Integer.parseInt(val);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -60,6 +71,12 @@ public class ProductRegisterEditEnd extends AbstractController {
                 int discountAmount = parseInteger(discount_amount);
                 int fkManufacturerSeq = fk_manufacturer_seq != null && !fk_manufacturer_seq.isEmpty() ? parseInteger(fk_manufacturer_seq) : originalProduct.getFk_manufacturer_seq();
                 
+                
+                String[] product_detail =  request.getParameterValues("detail_value");
+                Integer[] detail_stock = Arrays.stream(request.getParameterValues("detail_stock"))
+                        .map(ProductRegisterEditEnd::parseIntOrNull)
+                        .toArray(Integer[]::new);
+                
                 ProductVO pvo = new ProductVO();
                 pvo.setProduct_seq(productSeq);
                 pvo.setProduct_name(product_name);
@@ -77,7 +94,7 @@ public class ProductRegisterEditEnd extends AbstractController {
                 String message;
                 String loc;
                 try {
-                    int productEdit = productDao.updateProduct(pvo);
+                    int productEdit = productDao.updateProduct(pvo, product_detail, detail_stock);
                     if (productEdit == 1) {
                         message = "상품 수정 완료";
                         loc = request.getContextPath() + "/index.dk"; // 시작페이지로 이동한다.

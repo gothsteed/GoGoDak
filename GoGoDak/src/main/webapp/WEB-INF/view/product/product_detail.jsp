@@ -259,18 +259,18 @@ body>section.why_section.layout_padding>div.container>div>div:nth-child(2)>div>d
 	margin-right: 8px;
 }
 
-    .like-button.liked {
-        background-color: red;
-    }
+.like-button.liked {
+	background-color: red;
+}
 
-    .like-button.not-liked {
-        background-color: gray;
-    }
+.like-button.not-liked {
+	background-color: gray;
+}
 
-    .like-button .like-count {
-        margin-left: 5px;
-        font-size: 16px;
-    }
+.like-button .like-count {
+	margin-left: 5px;
+	font-size: 16px;
+}
 </style>
 <script>
 
@@ -444,6 +444,18 @@ function likePost() {
 						</div>
 						<br>
 						<div class="purchase_info">
+
+							<c:if test="${not empty requestScope.detailList}">
+								<div class="form-group">
+									<label for="productOptions">Product Options:</label>
+									 <select class="form-control" id="productOptions" name="product_detail_seq">
+										<c:forEach var="option" items="${requestScope.detailList}">
+											<option value="${option.product_detail_seq}">${option.detail_name}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</c:if>
+
 							<div class="quantity">
 								<button type="button" onclick="decreaseQuantity()">-</button>
 								<input type="text" value="1" id="quantity" name="quantity">
@@ -451,22 +463,22 @@ function likePost() {
 							</div>
 
 
-					    <c:if test="${requestScope.isLiked}">
-					        <button class="btn like-button liked" onclick="likePost()">
-					            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+							<c:if test="${requestScope.isLiked}">
+								<button class="btn like-button liked" onclick="likePost()">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 					                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
 					            </svg>
-					            <span class="like-count">${requestScope.likeCount}</span>
-					        </button>
-					    </c:if>
-					    <c:if test="${!requestScope.isLiked}">
-					        <button class="btn like-button not-liked" onclick="likePost()">
-					            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+									<span class="like-count">${requestScope.likeCount}</span>
+								</button>
+							</c:if>
+							<c:if test="${!requestScope.isLiked}">
+								<button class="btn like-button not-liked" onclick="likePost()">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 					                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
 					            </svg>
-					            <span class="like-count">${requestScope.likeCount}</span>
-					        </button>
-					    </c:if>
+									<span class="like-count">${requestScope.likeCount}</span>
+								</button>
+							</c:if>
 
 							<button class="btn btn-dark" onclick="goToCart(${requestScope.product.product_seq})">바로 구매하기</button>
 
@@ -599,18 +611,37 @@ function likePost() {
         var quantityInput = document.getElementById('quantity');
         var currentValue = parseInt(quantityInput.value);
         
+        var selectedOptionElement = document.getElementById('productOptions');
+        
+        let cartJson;
+        if(selectedOptionElement) {
+        	cartJson = {
+                    "cart": [
+                        {
+                            "product_seq": product_seq,
+                            "quantity": currentValue,
+                            "product_detail_seq": selectedOptionElement.value
+                        }
+                    ]
+                }
+        }
+        else {
+        	cartJson = {
+                    "cart": [
+                        {
+                            "product_seq": product_seq,
+                            "quantity": currentValue
+                        }
+                    ]
+                }
+        }
+
+        
         $.ajax({
             url: '<%=contextPath%>/member/cart.dk',
             type: 'post',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({
-                "cart": [
-                    {
-                        "product_seq": product_seq,
-                        "quantity": currentValue
-                    }
-                ]
-            }),
+            data: JSON.stringify(cartJson),
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
@@ -634,20 +665,38 @@ function likePost() {
 
         var quantityInput = document.getElementById('quantity');
         var currentValue = parseInt(quantityInput.value);
+        
+        var selectedOptionElement = document.getElementById('productOptions');
+        
+        let cartJson;
+        if(selectedOptionElement) {
+        	cartJson = {
+                    "cart": [
+                        {
+                            "product_seq": product_seq,
+                            "quantity": currentValue,
+                            "product_detail_seq": selectedOptionElement.value
+                        }
+                    ]
+                }
+        }
+        else {
+        	cartJson = {
+                    "cart": [
+                        {
+                            "product_seq": product_seq,
+                            "quantity": currentValue
+                        }
+                    ]
+                }
+        }
     	
         $.ajax({
             url: '<%=contextPath%>/member/cart.dk',
             type: 'post',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',   
-            data: JSON.stringify({
-                "cart": [
-                    {
-                        "product_seq": product_seq,
-                        "quantity": currentValue
-                    }
-                ]
-            }),
+            data: JSON.stringify(cartJson),
             success: function(response) {
                 if (response.success) {
                     alert('카트에 담김');

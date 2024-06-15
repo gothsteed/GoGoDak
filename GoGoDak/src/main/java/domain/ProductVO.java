@@ -28,19 +28,31 @@ public class ProductVO {
     //todo 할인 정보 dto 추가
     private Discount_eventVO discountVO;
     
+    private Product_detailVO product_detailVO;
     
     
-    @Override
+    
+    public Product_detailVO getProduct_detailVO() {
+		return product_detailVO;
+	}
+
+	public void setProduct_detailVO(Product_detailVO product_detailVO) {
+		this.product_detailVO = product_detailVO;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductVO productVO = (ProductVO) o;
-        return product_seq == productVO.product_seq;
+        return product_seq == productVO.product_seq &&
+               Objects.equals(product_detailVO != null ? product_detailVO.getProduct_detail_seq() : null, 
+                              productVO.product_detailVO != null ? productVO.product_detailVO.getProduct_detail_seq() : null);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(product_seq);
+        return Objects.hash(product_seq, product_detailVO != null ? product_detailVO.getProduct_detail_seq() : null);
     }
     
     
